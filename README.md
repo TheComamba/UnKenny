@@ -14,6 +14,12 @@ Oh, and UnKenny is probably not safe for work. Even with a lot of time and budge
 
 Because UnKenny is not yet incorporated into the Foundry ecosystem, you have to manually copy the src/ folder of this repository to the {userData}/Data/modules/ folder of Foundry, and then rename it to 'unkenny-llm-npc' (the id declared in module.json).
 
+On POSIX compliant operating systems like Linux and Mac you can alternatively use a symbolic link. It can be created via e.g.
+
+```bash
+ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/unkenny-llm-npc
+```
+
 ## License
 
 This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license. In a nutshell this means that all code is made public, and you are free to use it without any charge.
