@@ -1,18 +1,21 @@
 {
- "id": "unkenny-llm-npc-module",
- "title": "UnKenny - NPCs with artificial intelligence",
- "description": "Give your NPCs the ability to speak for themselves by providing them with a large language model!",
- "authors": [
-   {
-     "name": "The Comamba",
-     "email": "thecomamba@jojoheinze.de"
-   },
-   {
-    "name": "KingphilAusti"
-   }
- ],
- "version": "0.1.0",
- "compatibility": {
-   "minimum": "10"
- }
+  "id": "unkenny-llm-npc-module",
+  "title": "UnKenny - NPCs with artificial intelligence",
+  "description": "Give your NPCs the ability to speak for themselves by providing them with a large language model!",
+  "authors": [
+    {
+      "name": "The Comamba",
+      "email": "thecomamba@jojoheinze.de"
+    },
+    {
+      "name": "KingphilAusti"
+    }
+  ],
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "10"
+  },
+  "scripts": [
+    "scripts/main.js"
+  ]
 }
