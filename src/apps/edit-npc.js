@@ -7,4 +7,18 @@ export default class EditNPCApp extends FormApplication {
             width: 720,
         });
     }
+
+    activateListeners(html) {
+        super.activateListeners;
+        html.find("button.cancel").on("click", this._onClickCancelButton.bind(this));
+        html.find("button.save").on("click", this._onClickSaveButton.bind(this));
+    }
+
+    async _onClickCancelButton(event) {
+        console.log("Edit UnKenny NPC cancelled.");
+    }
+
+    async _onClickSaveButton(event) {
+        console.log("Saving UnKenny NPC.");
+    }
 }
