@@ -1,4 +1,4 @@
-export class EditNPCApp extends Application {
+export default class EditNPCApp extends Application {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             id: "edit-npc",
