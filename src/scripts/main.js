@@ -1,4 +1,4 @@
-//import EditNPCApp from "../apps/edit-npc";
+import EditNPCApp from "../apps/edit-npc.js";
 
 Hooks.on("renderSidebarTab", async (app, html) => {
     if (app.options.id == "actors") {
