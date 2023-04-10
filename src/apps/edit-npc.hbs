@@ -10,12 +10,13 @@
         Name
     </h2>
 
-    <textarea id='nameInput' name="Name Input" rows="1">{{this.name}}</textarea>
+    <input type=" text" id='nameInput' name="Name Input" value="{{npc.name}}">
+
     <h2>
         Preamble
     </h2>
 
-    <textarea id="preambleInput" name="Preamble" rows="20">{{this.preamble}}</textarea>
+    <textarea id="preambleInput" name="Preamble" rows="20">{{npc.preamble}}</textarea>
 
     <button type="button" class="save" title="Save" data-action="save">
         Save
