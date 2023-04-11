@@ -22,32 +22,9 @@ export default class EditNPCApp extends FormApplication {
     }
 
     //override
-    _getSubmitData(updateData = {}) {
-        const formData = super._getSubmitData(updateData);
-        console.log(updateData);
-    }
-
-    //override
-    activateListeners(html) {
-        super.activateListeners;
-        html.find("button.cancel").on("click", this._onClickCancelButton.bind(this));
-        html.find("button.save").on("click", this._onClickSaveButton.bind(this));
-    }
-
-    async _onClickCancelButton(event) {
-        console.log("Edit UnKenny NPC cancelled.");
-        console.log(this.npc.name);
-        console.log(this.npc.preamle);
-    }
-
-    async _onClickSaveButton(event) {
-        console.log("Saving UnKenny NPC.");
-        console.log(this.npc.name);
-        console.log(this.npc.preamle);
-    }
-
-    //override
     async _updateObject(event, formData) {
-        console.log("Updating UnKenny NPC form.");
+        this.npc.name = formData.name;
+        this.npc.preamble = formData.preamble;
+        console.log("Updated UnKenny NPC:", this.npc);
     }
 }
