@@ -1,9 +1,11 @@
-export default class UnKennyNPC extends Actor {
+export default class UnKennyNPC {
+    name;
     preamble;
 
     static async create(params) {
-        params["type"] = "character";
-        let actor = await Actor.create(params);
-        return actor;
+        let unKenny = new UnKennyNPC();
+        unKenny.name = params["name"];
+        unKenny.preamble = params["preamble"];
+        return unKenny;
     }
 }
