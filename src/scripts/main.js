@@ -5,11 +5,9 @@ Hooks.on("renderSidebarTab", async (app, html) => {
     if (app.options.id == "actors") {
         let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>")
 
-        let exampleNPC = new UnKennyNPC;
-        exampleNPC.name = "gabi";
-        exampleNPC.preamble = "ken";
-
+        
         button.click(function () {
+            let exampleNPC = UnKennyNPC.create({name: "gabi", preamble: "ken"});
             new EditNPCApp(exampleNPC).render(true);
         });
 
