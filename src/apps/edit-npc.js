@@ -10,6 +10,7 @@ export default class EditNPCApp extends FormApplication {
             title: "Edit UnKenny NPC",
             template: `modules/unkenny-llm-npc/apps/edit-npc.hbs`,
             width: 720,
+            closeOnSubmit: true,
         });
     }
 
@@ -18,6 +19,12 @@ export default class EditNPCApp extends FormApplication {
         return {
             npc: this.npc,
         };
+    }
+
+    //override
+    _getSubmitData(updateData = {}) {
+        const formData = super._getSubmitData(updateData);
+        console.log(updateData);
     }
 
     //override

@@ -1,28 +1,30 @@
-<section>
-    <header class="flex-header">
-        <h1>
-            Edit UnKenny NPC
-        </h1>
-    </header>
-</section>
-<section>
-    <h2>
-        Name
-    </h2>
+<form class="flexcol" autocomplete="off">
+    <section>
+        <header class="flex-header">
+            <h1>
+                Edit UnKenny NPC
+            </h1>
+        </header>
+    </section>
+    <section>
+        <h2>
+            Name
+        </h2>
 
-    <input type=" text" id='nameInput' name="Name Input" value="{{npc.name}}">
+        <input type=" text" id='nameInput' name="Name Input" value="{{npc.name}}">
 
-    <h2>
-        Preamble
-    </h2>
+        <h2>
+            Preamble
+        </h2>
 
-    <textarea id="preambleInput" name="Preamble" rows="20">{{npc.preamble}}</textarea>
+        <textarea id="preambleInput" name="Preamble" rows="20">{{npc.preamble}}</textarea>
 
-    <button type="submit" class="save">
-        <i class="fa fa-check"></i>
-        Save
-    </button>
-    <button type="button" class="cancel" title="Cancel" data-action="cancel">
-        Cancel
-    </button>
-</section>
+        <button type="submit">
+            <i class="fa fa-check"></i>
+            Save
+        </button>
+        <button type="button" class="cancel" title="Cancel" data-action="cancel">
+            Cancel
+        </button>
+    </section>
+</form>
