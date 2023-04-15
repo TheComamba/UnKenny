@@ -15,7 +15,7 @@
   "compatibility": {
     "minimum": "10"
   },
-  "scripts": [
+  "esmodules": [
     "scripts/main.js"
   ]
 }

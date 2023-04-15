@@ -1,9 +1,16 @@
-console.log("Hello World! This code runs immediately when the file is loaded.");
+import EditNPCApp from "../apps/edit-npc.js";
+import UnKennyNPC from "../data/npc.js";
 
-Hooks.on("init", function () {
-    console.log("This code runs once the Foundry VTT software begins its initialization workflow.");
-});
+Hooks.on("renderSidebarTab", async (app, html) => {
+    if (app.options.id == "actors") {
+        let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>")
 
-Hooks.on("ready", function () {
-    console.log("This code runs once core initialization is ready and game data is available.");
-});
+
+        button.click(function () {
+            let exampleNPC = UnKennyNPC.create({ name: "gabi", preamble: "ken" });
+            new EditNPCApp(exampleNPC).render(true);
+        });
+
+        html.find(".directory-footer").append(button);
+    }
+})
