@@ -1,6 +1,6 @@
 export default class UnKennyNPCSheet extends ActorSheet {
     get template() {
-        return `modules/unkenny-llm-npc/apps/${this.isEditable ? "edit" : "view"}-unkenny-npc.hbs`;
+        return `modules/unkenny-npc/apps/${this.isEditable ? "edit" : "view"}-unkenny-npc.hbs`;
     }
 
     async getData(options = {}) {
