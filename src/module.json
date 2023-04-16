@@ -17,5 +17,10 @@
   },
   "esmodules": [
     "scripts/main.js"
-  ]
+  ],
+  "documentTypes": {
+    "Actor": {
+      "UnKennyNPC": {}
+    }
+  }
 }
