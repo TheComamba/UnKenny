@@ -1,6 +1,4 @@
-const SM = {
-	ID: "sidebar-macros",
-};
+import GLOBALS from "./shared.js";
 
 export default class UnKennySidebarDirectory extends SidebarDirectory {
 	constructor(options = {}) {
@@ -24,7 +22,7 @@ export default class UnKennySidebarDirectory extends SidebarDirectory {
 	/** @override */
 	activateListeners(html) {
 		super.activateListeners(html);
-		if (game.settings.get(SM.ID, "clickExecute"))
+		if (game.settings.get(GLOBALS.ID, "clickExecute"))
 			html[0].querySelectorAll(".directory-list .thumbnail, .directory-list .profile").forEach(el => {
 				el.classList.add("sidebar-macros-execute");
 				el.addEventListener("click", this._onClickThumbnail.bind(this));

@@ -1,4 +1,5 @@
 import EditNPCApp from "../apps/edit-npc.js";
+import GLOBALS from "./shared.js";
 import UnKennyNPC from "../data/npc.js";
 import UnKennySidebarDirectory from "./sidebar-directory.js";
 
@@ -17,15 +18,15 @@ function widenSidebar(html) {
 function createUnKennyNpcTab(html) {
     const tab = document.createElement("a");
     tab.classList.add("item");
-    tab.dataset.tab = "unkenny";
-    tab.dataset.tooltip = "UnKenny NPCs";
-    if (!("tooltip" in game)) tab.title = "UnKenny NPCs";
+    tab.dataset.tab = GLOBALS.ID;
+    tab.dataset.tooltip = GLOBALS.NAME;
+    if (!("tooltip" in game)) tab.title = GLOBALS.NAME;
 
     const icon = document.createElement("i");
     icon.setAttribute("class", CONFIG.Macro.sidebarIcon);
     tab.append(icon);
 
-    if (!document.querySelector("#sidebar-tabs > [data-tab='unkenny']")) {
+    if (!document.querySelector(`#sidebar-tabs > [data-tab='${GLOBALS.ID}']`)) {
         document.querySelector("#sidebar-tabs > [data-tab='actors']").after(tab);
     }
 }
@@ -39,7 +40,7 @@ Hooks.on("renderSidebar", (_app, html) => {
 
 Hooks.on("renderSidebarTab", async (app, html) => {
     // if (app.options.id == "unkenny") {
-    if (document.tabName == "unkenny") {
+    if (document.tabName == "actors") {
         let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>")
 
         button.click(function () {

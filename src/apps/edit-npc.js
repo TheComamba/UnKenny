@@ -1,3 +1,5 @@
+import GLOBALS from "../scripts/shared.js";
+
 export default class EditNPCApp extends FormApplication {
     constructor(npc) {
         super();
@@ -7,9 +9,9 @@ export default class EditNPCApp extends FormApplication {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            id: "edit-npc",
+            id: `edit-${GLOBALS.ID}`,
             title: "Edit UnKenny NPC",
-            template: `modules/unkenny-llm-npc/apps/edit-npc.hbs`,
+            template: `modules/${GLOBALS.ID}/apps/edit-npc.hbs`,
             width: 720,
             closeOnSubmit: true,
         });
