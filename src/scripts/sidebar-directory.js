@@ -3,8 +3,8 @@ import GLOBALS from "./shared.js";
 export default class UnKennySidebarDirectory extends SidebarDirectory {
 	constructor(options = {}) {
 		super(options);
-		if (ui.sidebar) ui.sidebar.tabs.macros = this;
-		game.macros.apps.push(this);
+		if (ui.sidebar) ui.sidebar.tabs.unkenny = this;
+		// game.macros.apps.push(this);
 	}
 
 	/** @override */

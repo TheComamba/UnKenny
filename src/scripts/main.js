@@ -31,7 +31,21 @@ function createUnKennyNpcTab(html) {
     }
 }
 
-Hooks.on("init", () => (CONFIG.ui.unkenny = UnKennySidebarDirectory));
+Hooks.on("init", () => {
+    CONFIG.ui.unkenny = UnKennySidebarDirectory;
+
+    game.settings.register(GLOBALS.ID, "clickExecute", {
+        name: `${GLOBALS.ID}.settings.clickExecute.name`,
+        hint: `${GLOBALS.ID}.settings.clickExecute.hint`,
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true,
+        onChange: () => {
+            ui.unkenny.render();
+        },
+    });
+});
 
 Hooks.on("renderSidebar", (_app, html) => {
     widenSidebar(html);
