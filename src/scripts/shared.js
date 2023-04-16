@@ -1,5 +1,5 @@
 const GLOBALS = {
-    ID: "unkenny-llm-npc",
+    ID: "unkenny",
     NAME: "UnKenny NPCs"
 }
 

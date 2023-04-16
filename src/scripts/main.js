@@ -4,6 +4,8 @@ import UnKennyNPC from "../data/npc.js";
 import UnKennySidebarDirectory from "./sidebar-directory.js";
 
 function widenSidebar(html) {
+    ui.unkenny.render(true);
+
     html[0]
         .querySelector("#sidebar-tabs")
         .style.setProperty(
@@ -53,9 +55,10 @@ Hooks.on("renderSidebar", (_app, html) => {
 });
 
 Hooks.on("renderSidebarTab", async (app, html) => {
-    // if (app.options.id == "unkenny") {
-    if (document.tabName == "actors") {
-        let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>")
+    if (app.tabName == GLOBALS.ID) {
+        console.log("\n\nUnKenny Render render render\n\n");
+
+        let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>");
 
         button.click(function () {
             let exampleNPC = UnKennyNPC.create({ name: "gabi", preamble: "ken" });
