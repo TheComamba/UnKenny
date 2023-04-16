@@ -20,7 +20,12 @@
   ],
   "documentTypes": {
     "Actor": {
-      "UnKennyNPC": {}
+      "UnKennyNPC": {
+        "htmlFields": [
+          "name",
+          "preamble"
+        ]
+      }
     }
   }
 }
