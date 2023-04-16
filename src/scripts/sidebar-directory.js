@@ -11,13 +11,9 @@ export default class UnKennySidebarDirectory extends SidebarDirectory {
     static documentName = "Macro";
 
     /** @override */
-    static get entity() {
-        return "Macro";
-    }
-    /** @override */
-    static get collection() {
-        return game.macros;
-    }
+    // static get collection() {
+    //     return game.unkennys;
+    // }
 
     /** @override */
     activateListeners(html) {
