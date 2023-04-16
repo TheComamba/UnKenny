@@ -19,8 +19,8 @@
     "scripts/main.js"
   ],
   "documentTypes": {
-    "Actor": {
-      "UnKennyNPC": {
+    "JournalEntryPage": {
+      "unkenny-npc": {
         "htmlFields": [
           "name",
           "preamble"

@@ -1,4 +1,4 @@
-export default class UnKennyNPCSheet extends ActorSheet {
+export default class UnKennyNPCSheet extends JournalTextPageSheet {
     get template() {
         return `modules/unkenny-llm-npc/apps/${this.isEditable ? "edit" : "view"}-unkenny-npc.hbs`;
     }
