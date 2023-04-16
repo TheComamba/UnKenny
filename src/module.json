@@ -19,7 +19,7 @@
     "scripts/main.js"
   ],
   "documentTypes": {
-    "JournalEntryPage": {
+    "Actor": {
       "unkenny-npc": {
         "htmlFields": [
           "name",
