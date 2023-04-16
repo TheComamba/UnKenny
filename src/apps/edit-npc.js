@@ -4,6 +4,7 @@ export default class EditNPCApp extends FormApplication {
         this.npc = npc;
     }
 
+    /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             id: "edit-npc",
@@ -14,14 +15,14 @@ export default class EditNPCApp extends FormApplication {
         });
     }
 
-    //override
+    /** @override */
     getData() {
         return {
             npc: this.npc,
         };
     }
 
-    //override
+    /** @override */
     async _updateObject(event, formData) {
         this.npc.name = formData.name;
         this.npc.preamble = formData.preamble;

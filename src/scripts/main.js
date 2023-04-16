@@ -1,5 +1,6 @@
 import EditNPCApp from "../apps/edit-npc.js";
 import UnKennyNPC from "../data/npc.js";
+import UnKennySidebarDirectory from "./sidebar-directory.js";
 
 function widenSidebar(html) {
     html[0]
@@ -29,13 +30,16 @@ function createUnKennyNpcTab(html) {
     }
 }
 
+Hooks.on("init", () => (CONFIG.ui.unkenny = UnKennySidebarDirectory));
+
 Hooks.on("renderSidebar", (_app, html) => {
     widenSidebar(html);
     createUnKennyNpcTab(html);
 });
 
 Hooks.on("renderSidebarTab", async (app, html) => {
-    if (app.options.id == "actors") {
+    // if (app.options.id == "unkenny") {
+    if (document.tabName == "unkenny") {
         let button = $("<button class='unkenny-npc-button'>UnKenny NPC</button>")
 
         button.click(function () {
