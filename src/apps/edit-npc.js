@@ -1,5 +1,3 @@
-import GLOBALS from "../scripts/shared.js";
-
 export default class EditNPCApp extends FormApplication {
     constructor(npc) {
         super();
