@@ -1,18 +1,9 @@
-Hooks.on("preCreateActor", (actor, input, moreInput, id) => {
-    console.log(actor);
-    console.log(input);
-    console.log(moreInput);
-    console.log(id);
-});
-
-Hooks.on("createActor", (actor, input,  id) => {
-    console.log(actor);
-    console.log(input);
-    console.log(id);
-});
-
-Hooks.on("renderActorSheet", (sheet, init, properties) => {
-    console.log(sheet);
-    console.log(init);
-    console.log(properties);
+Hooks.on("getActorSheetHeaderButtons", (sheet, buttons) => {
+    console.log("\n\n\nhere");
+    buttons.unshift({
+        label: "Modify UnKennyness",
+        class: "modify-unkennyness",
+        icon: "fas fa-user",
+        onclick: () => {}
+      })
 });
