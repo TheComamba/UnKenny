@@ -17,15 +17,5 @@
   },
   "esmodules": [
     "scripts/main.js"
-  ],
-  "documentTypes": {
-    "Actor": {
-      "unkenny-npc": {
-        "htmlFields": [
-          "name",
-          "preamble"
-        ]
-      }
-    }
-  }
+  ]
 }
