@@ -12,12 +12,12 @@ Oh, and UnKenny is probably not safe for work. Even with a lot of time and budge
 
 ## Installation
 
-Because UnKenny is not yet incorporated into the Foundry ecosystem, you have to manually copy the src/ folder of this repository to the {userData}/Data/modules/ folder of Foundry, and then rename it to 'unkenny-npc' (the id declared in module.json).
+Because UnKenny is not yet incorporated into the Foundry ecosystem, you have to manually copy the src/ folder of this repository to the {userData}/Data/modules/ folder of Foundry, and then rename it to 'unkenny' (the id declared in module.json).
 
 On POSIX compliant operating systems like Linux and Mac you can alternatively use a symbolic link. It can be created via e.g.
 
 ```bash
-ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/unkenny-npc
+ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/unkenny
 ```
 
 ## Thanks

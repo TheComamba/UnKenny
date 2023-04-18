@@ -5,17 +5,17 @@ export default class UnKennySheet extends FormApplication {
     }
 
     get template() {
-        return `modules/unkenny-npc/apps/unkenny-sheet.hbs`;
+        return `modules/unkenny/apps/unkenny-sheet.hbs`;
     }
 
     async getData(options = {}) {
         const context = await super.getData(options);
-        context.preamble = this.actor.getFlag("unkenny-npc", "preamble");
+        context.preamble = this.actor.getFlag("unkenny", "preamble");
         return context;
     }
 
     async _updateObject(_event, formData) {
-        await this.actor.setFlag("unkenny-npc", "preamble", formData.preamble);
+        await this.actor.setFlag("unkenny", "preamble", formData.preamble);
         console.log("Updated flags", this.actor.flags);
     }
 }
