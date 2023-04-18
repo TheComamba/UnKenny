@@ -12,7 +12,11 @@ export default class UnKennySheet extends FormApplication {
         const context = await super.getData(options);
         context.title = "Edit UnKennyness parameters";
         context.object = this.actor;
-        console.log("\n\n\n\n\ngetData ",context);
         return context;
+    }
+
+    async _updateObject(_event, formData) {
+        this.actor.flags.unkenny_preamble = formData.preamble;
+        console.log("Updated flags", this.actor.flags);
     }
 }
