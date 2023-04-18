@@ -10,13 +10,12 @@ export default class UnKennySheet extends FormApplication {
 
     async getData(options = {}) {
         const context = await super.getData(options);
-        context.title = "Edit UnKennyness parameters";
-        context.object = this.actor;
+        context.preamble = this.actor.getFlag("unkenny-npc", "preamble");
         return context;
     }
 
     async _updateObject(_event, formData) {
-        this.actor.flags.unkenny_preamble = formData.preamble;
+        await this.actor.setFlag("unkenny-npc", "preamble", formData.preamble);
         console.log("Updated flags", this.actor.flags);
     }
 }
