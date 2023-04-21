@@ -20,10 +20,6 @@ On POSIX compliant operating systems like Linux and Mac you can alternatively us
 ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/unkenny
 ```
 
-## Thanks
-
-The codebase of the [sidebar-macros](https://github.com/arcanistzed/sidebar-macros) module was of invaluable help in jumpstarting this project. We took the liberty of shamelessly copying several lines.
-
 ## License
 
 This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license. In a nutshell this means that all code is made public, and you are free to use it without any charge.
