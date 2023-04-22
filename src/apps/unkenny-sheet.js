@@ -1,4 +1,4 @@
-export default class UnKennySheet extends FormApplication {
+class UnKennySheet extends FormApplication {
     constructor(actor) {
         super();
         this.actor = actor;
@@ -19,3 +19,5 @@ export default class UnKennySheet extends FormApplication {
         console.log("Updated flags", this.actor.flags);
     }
 }
+
+export {UnKennySheet};
