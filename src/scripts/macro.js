@@ -1,9 +1,11 @@
+import { UnKennyChat } from "../apps/unkenny-chat.js";
 import { isUnkenny } from "./unkenny.js";
-import { respondInChat } from "./chat.js";
 
 function executeUnKennyMacro(macro) {
     let actor = macroToActor(macro);
-    respondInChat(actor, "Some response.");
+    if (actor) {
+        new UnKennyChat(actor).render(true);
+    }
 }
 
 function getMacroParameters(actor) {
