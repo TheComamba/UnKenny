@@ -1,8 +1,14 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny } from "./unkenny.js";
-import { actorToMacro } from "./macro.js";
+import { actorToMacro, executeUnKennyMacro } from "./macro.js";
 
 // CONFIG.debug.hooks = true;
+
+Hooks.on("init", () => {
+  game.modules.get("unkenny").api = {
+    executeUnKennyMacro
+  };
+});
 
 Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   let buttonText = isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";

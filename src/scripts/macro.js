@@ -1,8 +1,14 @@
 import { isUnkenny } from "./unkenny.js";
+import { respondInChat } from "./chat.js";
+
+function executeUnKennyMacro(macro) {
+    let actor = macroToActor(macro);
+    respondInChat(actor, "Some response.");
+}
 
 function getMacroParameters(actor) {
     return {
-        command: "console.log('testikus maximus')",
+        command: "const api = game.modules.get('unkenny').api; api.executeUnKennyMacro(this);",
         img: actor.img,
         name: `Speak with ${actor.name}`,
         type: "script"
@@ -30,4 +36,8 @@ function actorToMacro(actor) {
     return game.macros.find(macro => macro.getFlag("unkenny", "actor_id") == actor.id);
 }
 
-export { actorToMacro, updateMacro };
+function macroToActor(macro) {
+    return game.actors.find(actor => macro.getFlag("unkenny", "actor_id") == actor.id);
+}
+
+export { actorToMacro, executeUnKennyMacro, updateMacro };
