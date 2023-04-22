@@ -36,4 +36,4 @@ function actorToMacro(actor) {
     return game.macros.find(macro => macro.getFlag("unkenny", "actor_id") == actor.id);
 }
 
-export { isUnkenny, updateMacro };
+export { actorToMacro, isUnkenny, updateMacro };

@@ -1,5 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { isUnkenny } from "./unkenny.js";
+import { actorToMacro, isUnkenny } from "./unkenny.js";
+
+// CONFIG.debug.hooks = true;
 
 Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   let buttonText = isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";
@@ -11,4 +13,11 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
       new UnKennySheet(sheet.object).render(true);
     }
   })
+});
+
+Hooks.on("deleteActor", async (actor, _params, actor_id) => {
+  let macro = actorToMacro(actor);
+  if (macro) {
+    await macro.delete();
+  }
 });
