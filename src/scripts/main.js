@@ -1,7 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { generateMacro, isUnkenny } from "./unkenny.js";
 
-Hooks.on("getActorSheetHeaderButtons", (sheet, buttons) => {
+Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   let buttonText = isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";
   buttons.unshift({
     label: buttonText,
