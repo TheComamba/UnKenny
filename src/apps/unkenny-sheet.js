@@ -1,4 +1,4 @@
-import { updateMacro } from "../scripts/unkenny.js";
+import { updateMacro } from "../scripts/macro.js";
 
 class UnKennySheet extends FormApplication {
     constructor(actor) {
