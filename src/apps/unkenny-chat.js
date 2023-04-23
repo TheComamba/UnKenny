@@ -4,11 +4,11 @@ class UnKennyChat extends Dialog {
     constructor(actor) {
         let params = {
             title: `Speak with ${actor.name}`,
-            content: '<textarea name="message" rows="20"></textarea>',
+            content: '<textarea id="message" name="message" rows="20"></textarea>',
             buttons: {
                 speak_button: {
                     label: "Speak!",
-                    callback: () => respondInChat(actor, "Button #1 Clicked!"),
+                    callback: (html) => this.submit(html),
                     icon: `<i class="fas fa-check"></i>`
                 }
             }
@@ -21,6 +21,11 @@ class UnKennyChat extends Dialog {
         const context = await super.getData(options);
         context.name = this.actor.name;
         return context;
+    }
+
+    submit(html) {
+        const message = $(html).find("textarea#message");
+        respondInChat(this.actor, message)
     }
 }
 
