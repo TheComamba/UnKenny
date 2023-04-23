@@ -1,23 +1,26 @@
 import { respondInChat } from "../scripts/chat.js";
 
-class UnKennyChat extends Application {
+class UnKennyChat extends Dialog {
     constructor(actor) {
-        super();
+        let params = {
+            title: `Speak with ${actor.name}`,
+            content: '<textarea name="message" rows="20"></textarea>',
+            buttons: {
+                speak_button: {
+                    label: "Speak!",
+                    callback: () => respondInChat(actor, "Button #1 Clicked!"),
+                    icon: `<i class="fas fa-check"></i>`
+                }
+            }
+        };
+        super(params);
         this.actor = actor;
-    }
-
-    get template() {
-        return `modules/unkenny/apps/unkenny-chat.hbs`;
     }
 
     async getData(options = {}) {
         const context = await super.getData(options);
         context.name = this.actor.name;
         return context;
-    }
-
-    async _updateObject(_event, formData) {
-        respondInChat(this.actor, "Some response.");
     }
 }
 
