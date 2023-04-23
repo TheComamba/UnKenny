@@ -1,4 +1,4 @@
-import { respondInChat } from "../scripts/chat.js";
+import { postInChat } from "../scripts/shared.js";
 
 class UnKennyChat extends Dialog {
     constructor(actor) {
@@ -25,7 +25,7 @@ class UnKennyChat extends Dialog {
 
     send_unkenny_message(html) {
         const message = html.find("textarea#message").val();
-        respondInChat(this.actor, message)
+        postInChat(this.actor, message)
     }
 }
 

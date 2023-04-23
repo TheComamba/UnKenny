@@ -1,5 +1,5 @@
 import { UnKennyChat } from "../apps/unkenny-chat.js";
-import { isUnkenny } from "./unkenny.js";
+import { isUnkenny } from "./shared.js";
 
 function executeUnKennyMacro(macro) {
     let actor = macroToActor(macro);

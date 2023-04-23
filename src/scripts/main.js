@@ -1,5 +1,5 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { isUnkenny } from "./unkenny.js";
+import { isUnkenny } from "./shared.js";
 import { actorToMacro, executeUnKennyMacro } from "./macro.js";
 
 // CONFIG.debug.hooks = true;
