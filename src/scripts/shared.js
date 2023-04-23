@@ -1,8 +1,9 @@
 function postInChat(actor, text) {
     let params = {
-        content: `<p><b>${actor.name}:</b></p><p>${text}</p>`,
-        type: 1,
-        user: actor.id
+        content: text,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        user: actor.id,
+        speaker: actor.id
     }
     ChatMessage.create(params);
 }

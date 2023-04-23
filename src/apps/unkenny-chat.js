@@ -8,7 +8,7 @@ class UnKennyChat extends Dialog {
             buttons: {
                 speak_button: {
                     label: "Speak!",
-                    callback: (html) => this.send_unkenny_message(html),
+                    callback: (html) => this.unkenny_dialog(html),
                     icon: `<i class="fas fa-check"></i>`
                 }
             }
@@ -23,9 +23,10 @@ class UnKennyChat extends Dialog {
         return context;
     }
 
-    send_unkenny_message(html) {
-        const message = html.find("textarea#message").val();
-        postInChat(this.actor, message)
+    unkenny_dialog(html) {
+        const request = html.find("textarea#message").val();
+        postInChat(game.user, request);
+        postInChat(this.actor, "Some response");
     }
 }
 
