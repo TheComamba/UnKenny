@@ -1,9 +1,14 @@
-function postInChat(actor, text) {
+function postInChat(originator, text) {
     let params = {
         content: text,
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-        user: actor.id,
-        speaker: actor.id
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    }
+    if (originator instanceof User) {
+        params["user"] = originator.id;
+    } else if (originator instanceof Actor) {
+        params["speaker"] = { actor: originator.id };
+    } else {
+        ui.notifications.error("Message originator has unkown type.");
     }
     ChatMessage.create(params);
 }
