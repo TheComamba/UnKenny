@@ -1,4 +1,6 @@
-export default class UnKennySheet extends FormApplication {
+import { updateMacro } from "../scripts/macro.js";
+
+class UnKennySheet extends FormApplication {
     constructor(actor) {
         super();
         this.actor = actor;
@@ -16,6 +18,8 @@ export default class UnKennySheet extends FormApplication {
 
     async _updateObject(_event, formData) {
         await this.actor.setFlag("unkenny", "preamble", formData.preamble);
-        console.log("Updated flags", this.actor.flags);
+        await updateMacro(this.actor);
     }
 }
+
+export { UnKennySheet };
