@@ -1,5 +1,5 @@
 import { postInChat } from "../scripts/shared.js";
-import { respondToInput } from "../scripts/llm.js";
+import { generateResponse } from "../scripts/llm.js";
 
 class UnKennyChat extends Dialog {
     constructor(actor) {
@@ -27,7 +27,7 @@ class UnKennyChat extends Dialog {
     unkenny_dialog(html) {
         const request = html.find("textarea#message").val();
         postInChat(game.user, request);
-        const response = respondToInput(request);
+        const response = generateResponse(this.actor, request);
         postInChat(this.actor, response);
     }
 }
