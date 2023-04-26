@@ -5,6 +5,8 @@ function executeUnKennyMacro(macro) {
     let actor = macroToActor(macro);
     if (actor) {
         new UnKennyChat(actor).render(true);
+    } else {
+        ui.notifications.error("Corresponding actor not found.");
     }
 }
 

@@ -15,6 +15,7 @@ function postInChat(originator, text) {
 
 function isUnkenny(actor) {
     if (!actor) {
+        ui.notifications.error("Unkennyness checked for null actor.");
         return false;
     }
     let preamble = actor.getFlag("unkenny", "preamble");
