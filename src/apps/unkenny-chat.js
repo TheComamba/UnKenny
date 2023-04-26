@@ -10,7 +10,7 @@ class UnKennyChat extends Dialog {
                 speak_button: {
                     label: "Speak!",
                     callback: (html) => this.unkenny_dialog(html),
-                    icon: `<i class="fas fa-check"></i>`
+                    icon: `<i class="fas fa-comments"></i>`
                 }
             }
         };

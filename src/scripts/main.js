@@ -15,7 +15,7 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   buttons.unshift({
     label: buttonText,
     class: "modify-unkennyness",
-    icon: "fas fa-user",
+    icon: "fas fa-microchip",
     onclick: () => {
       new UnKennySheet(sheet.object).render(true);
     }
