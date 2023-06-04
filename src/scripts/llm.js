@@ -1,7 +1,7 @@
 const SERVER_URL = "http://127.0.0.1:23308";
 
 function generateResponse(actor, input) {
-    const preamble = "TODO";
+    const preamble = actor.getFlag("unkenny", "preamble");
     postRequest(JSON.stringify({
         preamble: preamble,
         input: input
