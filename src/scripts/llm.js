@@ -1,21 +1,29 @@
+import { StartServerDialog } from "../apps/start_server.js";
+
 const SERVER_URL = "http://127.0.0.1:23308";
 
-function generateResponse(actor, input) {
+async function generateResponse(actor, input) {
     const preamble = actor.getFlag("unkenny", "preamble");
-    postRequest(JSON.stringify({
-        preamble: preamble,
-        input: input
-    })).then(response => {
-        console.log(response);
-    });
-    return "[Some response]";
+    try {
+        await postRequest(JSON.stringify({
+            preamble: preamble,
+            input: input
+        })).then(response => {
+            console.log(response);
+        });
+        return "[Some response]";
+    } catch (error) {
+        new StartServerDialog().render(true);
+        return "[Server unavailable]";
+    }
 }
 
-function postRequest(body) {
-    return fetch(SERVER_URL, {
+async function postRequest(body) {
+    const response = await fetch(SERVER_URL, {
         method: "POST",
         body: body
-    }).then(response => response.json());
+    });
+    return await response.json();
 }
 
 export { generateResponse };
