@@ -20,6 +20,25 @@ On POSIX compliant operating systems like Linux and Mac you can alternatively us
 ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/unkenny
 ```
 
+## Running the server
+
+Sadly running of the server is quite cumbersome yet. You need to install python + necessary dependencies + packages and then start the server manually. This will be improved!
+
+1. Install Python (we use 3.10)
+2. Enter the folder and install the required packages: (Please feel free to do so in your favorite python envirentment to keep everything clean!)
+```
+pip install -r requirements.txt
+```
+3. Run the Script
+```
+python main.py OR   
+python3 main.py
+```
+4. Pray to Aqua that it works!
+
+You can check if the server is running under: http://127.0.0.1:23308/greet
+
+
 ## License
 
 This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license. In a nutshell this means that all code is made public, and you are free to use it without any charge.
