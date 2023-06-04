@@ -31,8 +31,8 @@ pip install -r requirements.txt
 ```
 3. Run the Script
 ```
-python main.py OR   
-python3 main.py
+python main.py --run OR   
+python3 main.py --run
 ```
 4. Pray to Aqua that it works!
 
