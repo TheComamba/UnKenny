@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+notebook = "*"
+farm-haystack = {extras = ["colab"], git = "https://github.com/deepset-ai/haystack.git"}
+flask = "*"
+numpy = "*"
+ai-core-sdk = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

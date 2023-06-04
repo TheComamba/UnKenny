@@ -1,0 +1,4 @@
+GPT-J Model:
+https://devforth.io/blog/gpt-j-is-a-self-hosted-open-source-analog-of-gpt-3-how-to-run-in-docker/
+https://huggingface.co/docs/transformers/model_doc/gptj
+
