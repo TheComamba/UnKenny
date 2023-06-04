@@ -18,7 +18,7 @@ function isUnkenny(actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
         return false;
     }
-    let preamble = actor.getFlag("unkenny", "preamble");
+    const preamble = actor.getFlag("unkenny", "preamble");
     return !!preamble;
 }
 
