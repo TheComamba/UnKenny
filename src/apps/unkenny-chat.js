@@ -9,7 +9,7 @@ class UnKennyChat extends Dialog {
             buttons: {
                 speak_button: {
                     label: "Speak!",
-                    callback: (html) => this.unkenny_dialog(html),
+                    callback: (html) => this.postUnkennyDialog(html),
                     icon: `<i class="fas fa-comments"></i>`
                 }
             }
@@ -24,10 +24,10 @@ class UnKennyChat extends Dialog {
         return context;
     }
 
-    unkenny_dialog(html) {
+    async postUnkennyDialog(html) {
         const request = html.find("textarea#message").val();
         postInChat(game.user, request);
-        const response = generateResponse(this.actor, request);
+        const response = await generateResponse(this.actor, request);
         postInChat(this.actor, response);
     }
 }

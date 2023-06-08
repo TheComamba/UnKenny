@@ -4,22 +4,19 @@ const SERVER_URL = "http://127.0.0.1:23308";
 
 async function generateResponse(actor, input) {
     const preamble = actor.getFlag("unkenny", "preamble");
-    try {
-        await postRequest(JSON.stringify({
-            preamble: preamble,
-            input: input
-        })).then(response => {
-            console.log(response);
-        });
-        return "[Some response]";
-    } catch (error) {
+    return postRequest(JSON.stringify({
+        preamble: preamble,
+        input: input
+    })).then(response => {
+        console.log(response);
+    }).catch(error => {
         new StartServerDialog().render(true);
         return "[Server unavailable]";
-    }
+    });
 }
 
 async function postRequest(body) {
-    const response = await fetch(SERVER_URL, {
+    const response = await fetch(SERVER_URL + "/predict", {
         method: "POST",
         body: body
     });
