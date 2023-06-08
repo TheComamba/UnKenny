@@ -18,6 +18,7 @@ async function generateResponse(actor, input) {
 async function postRequest(body) {
     const response = await fetch(SERVER_URL + "/predict", {
         method: "POST",
+        mode: "no-cors",
         body: body
     });
     return await response.json();
