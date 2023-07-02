@@ -6,7 +6,7 @@ async function generateResponse(actor, input) {
     const preamble = actor.getFlag("unkenny", "preamble");
     return postRequest(JSON.stringify({
         preamble: preamble,
-        input: input
+        Message: input
     })).then(response => {
         console.log(response);
     }).catch(error => {
@@ -18,7 +18,10 @@ async function generateResponse(actor, input) {
 async function postRequest(body) {
     const response = await fetch(SERVER_URL + "/predict", {
         method: "POST",
-        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        mode: "cors",
         body: body
     });
     return await response.json();
