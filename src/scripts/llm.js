@@ -1,4 +1,4 @@
-import { StartServerDialog } from "../apps/start_server.js";
+import { ServerNotRunningDialog } from "../apps/start_server.js";
 
 const SERVER_URL = "http://127.0.0.1:23308";
 
@@ -10,7 +10,7 @@ async function generateResponse(actor, input) {
     })).then(response => {
         console.log(response);
     }).catch(error => {
-        new StartServerDialog().render(true);
+        new ServerNotRunningDialog().render(true);
         return "[Server unavailable]";
     });
 }

@@ -1,16 +1,15 @@
 
-class StartServerDialog extends Dialog {
+class ServerNotRunningDialog extends Dialog {
     constructor() {
         let params = {
-            title: "Start Unkenny Server",
-            content: '<p>Clicking "Start Server" will start the Unkenny server, which will listen for requests from the Unkenny module.</p>',
+            title: "UnKenny Server not running",
+            content: "<p>The UnKenny server is not running. It is not possible to start it from within FoundryVTT. Please run:</p><pre>python3 -m unkenny.server</pre>",
             buttons: {
-                start_button: {
-                    label: "Start Server",
-                    callback: () => this.start_server(),
-                    icon: `<i class="fas fa-play"></i>`
+                ok: {
+                    icon: '<i class="fas fa-check"></i>',
+                    label: "OK"
                 }
-            }
+            },
         };
         super(params);
     }
@@ -20,4 +19,4 @@ class StartServerDialog extends Dialog {
     }
 }
 
-export { StartServerDialog };
+export { ServerNotRunningDialog };
