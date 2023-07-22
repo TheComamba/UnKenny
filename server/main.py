@@ -5,9 +5,11 @@ import numpy as np
 import argparse
 from flask import Flask
 from flask import request as call_request
+from flask_cors import CORS
 
 # Creates Flask serving engine
 app = Flask(__name__)
+CORS(app)
 
 pipe = None
 
