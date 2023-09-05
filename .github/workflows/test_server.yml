@@ -1,35 +1,35 @@
 name: Test Server
-on:
+on: 
   push:
   schedule:
     - cron: "0 0 * * 6" # every saturday at 00:00 UTC
 
 jobs:
-  test:
-    strategy:
-      fail-fast: false
-      matrix:
-        on: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
+    test:
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
+      runs-on: ${{ matrix.os }}
+      steps:
+        - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: |
-          cd server
-          pip install -r requirements.txt
+        - name: Install Dependencies
+          run: |
+            cd server
+            pip install -r requirements.txt
 
-      - name: Test Server (POSIX)
-        if: matrix.os != 'windows-latest'
-        run: |
-          cd server
-          python3 main.py --run &
-          sleep 5
-          killall python3
-      - name: Test Server (Windows)
-        if: matrix.os == 'windows-latest'
-        run: | 
-          cd server
-          python3 main.py --run &
-          sleep 5
-          taskkill /IM python3 /F
+        - name: Test Server (POSIX)
+          if: matrix.os != 'windows-latest'
+          run: |
+            cd server
+            python3 main.py --run &
+            sleep 5
+            killall python3
+        - name: Test Server (Windows)
+          if: matrix.os == 'windows-latest'
+          run: |
+            cd server
+            python3 main.py --run &
+            sleep 5
+            taskkill /IM python3 /F
