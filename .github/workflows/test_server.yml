@@ -36,4 +36,4 @@ jobs:
             cd server
             python main.py --run &
             sleep 5
-            taskkill /IM python3 /F
+            taskkill /IM python /F
