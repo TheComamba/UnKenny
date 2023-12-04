@@ -13,7 +13,7 @@
   ],
   "version": "0.1.0",
   "compatibility": {
-    "minimum": "10"
+    "minimum": "11"
   },
   "esmodules": [
     "scripts/main.js"
