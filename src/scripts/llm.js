@@ -7,10 +7,12 @@ const model_path = 'Felladrin/onnx-bloomz-560m-sft-chat';
 async function generateResponse(actor, input) {
     const model = await AutoModelForCausalLM.from_pretrained(model_path);
     const tokenizer = await AutoTokenizer.from_pretrained(model_path);
-    let { input_ids } = tokenizer('</s>' + input + '<s>');
-    let tokens = await model.generate(input_ids, { max_new_tokens: 128, repetition_penalty: 1.2});
-    let response = tokenizer.decode(tokens[0], { skip_special_tokens: true });
-    response = response.substring(input.length);
+    let preamble = await actor.getFlag("unkenny", "preamble");
+    let prompt = preamble + '</s>' + input + '<s>';
+    let { input_ids } = tokenizer(prompt);
+    let tokens = await model.generate(input_ids, { min_new_tokens: 3, max_new_tokens: 128, repetition_penalty: 1.2});
+    let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
+    response = response.substring(prompt.length);
     return response;
 }
 
