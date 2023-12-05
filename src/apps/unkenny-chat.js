@@ -24,10 +24,10 @@ class UnKennyChat extends Dialog {
         return context;
     }
 
-    unkenny_dialog(html) {
+    async unkenny_dialog(html) {
         const request = html.find("textarea#message").val();
         postInChat(game.user, request);
-        const response = generateResponse(this.actor, request);
+        const response = await generateResponse(this.actor, request);
         postInChat(this.actor, response);
     }
 }
