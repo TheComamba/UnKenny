@@ -17,5 +17,10 @@
   },
   "esmodules": [
     "scripts/main.js"
-  ]
+  ],
+  "url": "https://github.com/TheComamba/UnKenny",
+  "manifest": "https://github.com/TheComamba/UnKenny/tree/main/src/module.json",
+  "download": "https://github.com/TheComamba/UnKenny/archive/refs/heads/main.zip",
+  "bugs": "https://github.com/TheComamba/UnKenny/issues",
+  "readme": "https://github.com/TheComamba/UnKenny/blob/main/README.md"
 }
