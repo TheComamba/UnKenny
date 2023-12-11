@@ -13,6 +13,10 @@ class UnKennySheet extends FormApplication {
     async getData(options = {}) {
         const context = await super.getData(options);
         context.preamble = this.actor.getFlag("unkenny", "preamble");
+        context.models = [
+            "Felladrin/onnx-bloomz-560m-sft-chat",
+            "mkly/TinyStories-1M-ONNX"
+        ];
         return context;
     }
 

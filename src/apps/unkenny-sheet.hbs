@@ -13,6 +13,15 @@
 
         <textarea name="preamble" rows="20">{{preamble}}</textarea>
 
+        <div class='form-field'>
+            <label for='model'>Model</label>
+            <select id='model' class='form-control'>
+                {{#each models}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+
         <button type="submit">
             <i class="fa fa-check"></i>
             Save
