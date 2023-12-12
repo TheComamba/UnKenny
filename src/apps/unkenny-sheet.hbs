@@ -17,7 +17,7 @@
             <label for='model'>Model</label>
             <select id='model' class='form-control'>
                 {{#each models}}
-                <option value="{{this}}">{{this}}</option>
+                <option value="{{this.name}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
