@@ -13,6 +13,35 @@
 
         <textarea name="preamble" rows="20">{{preamble}}</textarea>
 
+        <div class='form-field'>
+            <label>Model</label>
+            <select name='model' class='form-control'>
+                {{#each models}}
+                <option value="{{this.name}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class='form-field'>
+            <label>Minimum number of generated tokens</label>
+            <input name="minNewTokens" type="number" value="{{minNewTokens}}" step="1">
+        </div>
+
+        <div class='form-field'>
+            <label>Maximum number of generated tokens</label>
+            <input name="maxNewTokens" type="number" value="{{maxNewTokens}}" step="1">
+        </div>
+
+        <div class='form-field'>
+            <label>Repetition Penalty</label>
+            <input name="repetitionPenalty" type="number" step="0.01" value="{{repetitionPenalty}}">
+        </div>
+
+        <div class='form-field'>
+            <label>Prefix response with "/talk" macro from "Talking Actors" module</label>
+            <input name="prefixWithTalk" type="checkbox" {{#prefixWithTalk}}checked{{/prefixWithTalk}}>
+        </div>
+
         <button type="submit">
             <i class="fa fa-check"></i>
             Save
