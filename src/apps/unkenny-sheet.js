@@ -12,8 +12,8 @@ class UnKennySheet extends DocumentSheet {
 
     async getData(options = {}) {
         const context = await super.getData(options);
-        
-        context.preamble = this.object.getFlag("unkenny", "preamble");
+
+        context.preamble = this.object.getFlag("unkenny", "preamble") || "";
 
         // Models to choose from: 
         // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&language=en&sort=trending
@@ -29,12 +29,15 @@ class UnKennySheet extends DocumentSheet {
             }
         });
 
+        context.prefixWithTalk = this.object.getFlag("unkenny", "prefixWithTalk") || false;
+
         return context;
     }
 
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
+        await this.object.setFlag("unkenny", "prefixWithTalk", formData.prefixWithTalk);
         await updateMacro(this.object);
     }
 }
