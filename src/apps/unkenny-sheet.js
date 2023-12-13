@@ -29,6 +29,10 @@ class UnKennySheet extends DocumentSheet {
             }
         });
 
+        context.minNewTokens = this.object.getFlag("unkenny", "minNewTokens") || 3;
+        context.maxNewTokens = this.object.getFlag("unkenny", "maxNewTokens") || 128;
+        context.repetitionPenalty = this.object.getFlag("unkenny", "repetitionPenalty") || 1.2;
+
         context.prefixWithTalk = this.object.getFlag("unkenny", "prefixWithTalk") || false;
 
         return context;
@@ -37,6 +41,9 @@ class UnKennySheet extends DocumentSheet {
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
+        await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
+        await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
+        await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);
         await this.object.setFlag("unkenny", "prefixWithTalk", formData.prefixWithTalk);
         await updateMacro(this.object);
     }
