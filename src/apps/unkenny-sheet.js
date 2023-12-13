@@ -12,18 +12,23 @@ class UnKennySheet extends DocumentSheet {
 
     async getData(options = {}) {
         const context = await super.getData(options);
+        
         context.preamble = this.object.getFlag("unkenny", "preamble");
+
+        // Models to choose from: 
+        // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&language=en&sort=trending
         context.models = [
             { name: "" },
             { name: "Felladrin/onnx-bloomz-560m-sft-chat" },
             { name: "mkly/TinyStories-1M-ONNX" }
         ];
-        let model = this.object.getFlag("unkenny", "model") || "";
+        let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
-            if (m.name == model) {
+            if (m.name == currentModel) {
                 m.isSelected = true;
             }
         });
+
         return context;
     }
 

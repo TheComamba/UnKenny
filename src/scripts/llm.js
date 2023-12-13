@@ -1,10 +1,10 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.9.0';
-// There are not many options at the moment:
-// https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&language=en&sort=trending
-const model_path = 'Felladrin/onnx-bloomz-560m-sft-chat';
-//const model_path = 'mkly/TinyStories-1M-ONNX';
 
 async function generateResponse(actor, input) {
+    let model_path = await actor.getFlag("unkenny", "model");
+    if (!model_path) {
+        ui.notifications.error("Please select a model in the actor sheet.");
+    }
     const model = await AutoModelForCausalLM.from_pretrained(model_path);
     const tokenizer = await AutoTokenizer.from_pretrained(model_path);
     let preamble = await actor.getFlag("unkenny", "preamble");
