@@ -8,10 +8,10 @@ async function getModelAndTokenizer(model_path) {
         return { model: modelCache.get(model_path), tokenizer: tokenizerCache.get(model_path) };
     }
 
-    ui.notifications.info("Downloading model and tokenizer '" + model_path + "'. This may take a while.");
+    ui.notifications.info("Preparing model and tokenizer '" + model_path + "'. This may take a while.");
     const model = await AutoModelForCausalLM.from_pretrained(model_path);
     const tokenizer = await AutoTokenizer.from_pretrained(model_path);
-    ui.notifications.info("Finished downloading model and tokenizer '" + model_path + "'.");
+    ui.notifications.info("Finished preparing model and tokenizer '" + model_path + "'.");
 
     modelCache.set(model_path, model);
     tokenizerCache.set(model_path, tokenizer);
