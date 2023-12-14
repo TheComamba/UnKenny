@@ -3,7 +3,12 @@ import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/np
 const modelCache = new Map();
 const tokenizerCache = new Map();
 
-async function getModelAndTokenizer(model_path) {
+async function getModelAndTokenizer(actor) {
+    let model_path = await actor.getFlag("unkenny", "model");
+    if (!model_path) {
+        ui.notifications.error("Please select a model in the actor sheet.");
+        return;
+    }
     if (modelCache.has(model_path) && tokenizerCache.has(model_path)) {
         return { model: modelCache.get(model_path), tokenizer: tokenizerCache.get(model_path) };
     }
@@ -19,20 +24,15 @@ async function getModelAndTokenizer(model_path) {
     return { model, tokenizer };
 }
 
-async function generateResponse(actor, input) {
-    let model_path = await actor.getFlag("unkenny", "model");
-    if (!model_path) {
-        ui.notifications.error("Please select a model in the actor sheet.");
-        return;
-    }
-    const { model, tokenizer } = await getModelAndTokenizer(model_path);
+async function generateResponse(actor, text, modelAndTokenizerPromise) {
+    const { model, tokenizer } = await modelAndTokenizerPromise;
 
     let preamble = await actor.getFlag("unkenny", "preamble");
     if (!preamble) {
         ui.notifications.error("Please set a preamble in the actor sheet.");
         return;
     }
-    let prompt = preamble + '</s>' + input + '<s>';
+    let prompt = preamble + '</s>' + text + '<s>';
     let { input_ids } = tokenizer(prompt);
 
     let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
@@ -62,4 +62,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-export { generateResponse };
+export { generateResponse, getModelAndTokenizer };
