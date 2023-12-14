@@ -27,9 +27,16 @@ class UnKennyChat extends Dialog {
     async unkenny_dialog(html) {
         const request = html.find("textarea#message").val();
         postInChat(game.user, request);
-        const response = await generateResponse(this.actor, request);
+        let response = null;
+        try {
+            response = await generateResponse(this.actor, request);
+        } catch (error) {
+            ui.notifications.error(error);
+        }
         if (response) {
             postInChat(this.actor, response);
+        } else {
+            ui.notifications.error("No response generated.");
         }
     }
 }

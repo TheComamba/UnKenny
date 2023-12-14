@@ -10,17 +10,33 @@ async function generateResponse(actor, input) {
     const tokenizer = await AutoTokenizer.from_pretrained(model_path);
     
     let preamble = await actor.getFlag("unkenny", "preamble");
+    if (!preamble) {
+        ui.notifications.error("Please set a preamble in the actor sheet.");
+        return;
+    }
     let prompt = preamble + '</s>' + input + '<s>';
     let { input_ids } = tokenizer(prompt);
 
     let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
+    if (!minNewTokens) {
+        ui.notifications.error("Please set a minimum number of new tokens in the actor sheet.");
+        return;
+    }
     let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
+    if (!maxNewTokens) {
+        ui.notifications.error("Please set a maximum number of new tokens in the actor sheet.");
+        return;
+    }
     let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
+    if (!repetitionPenalty) {
+        ui.notifications.error("Please set a repetition penalty in the actor sheet.");
+        return;
+    }
     let tokens = await model.generate(input_ids, { min_new_tokens: minNewTokens, max_new_tokens: maxNewTokens, repetition_penalty: repetitionPenalty });
     let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
     response = response.substring(prompt.length);
 
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk");
+    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
     if (prefixWithTalk) {
         response = "/talk " + response;
     }
