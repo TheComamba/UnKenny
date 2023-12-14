@@ -16,11 +16,13 @@ class UnKennySheet extends DocumentSheet {
         context.preamble = this.object.getFlag("unkenny", "preamble") || "";
 
         // Models to choose from: 
-        // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&language=en&sort=trending
+        // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
         context.models = [
             { name: "" },
             { name: "Felladrin/onnx-bloomz-560m-sft-chat" },
-            { name: "mkly/TinyStories-1M-ONNX" }
+            { name: "Felladrin/onnx-gpt2-conversational-retrain" },
+            { name: "Felladrin/onnx-gpt2-large-conversational-retrain" },
+            { name: "Xenova/gpt2-large-conversational" }
         ];
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
