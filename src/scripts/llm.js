@@ -1,4 +1,4 @@
-import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.9.0';
+import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0';
 
 const modelCache = new Map();
 const tokenizerCache = new Map();
