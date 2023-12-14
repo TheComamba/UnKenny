@@ -1,14 +1,32 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.9.0';
 
+const modelCache = new Map();
+const tokenizerCache = new Map();
+
+async function getModelAndTokenizer(model_path) {
+    if (modelCache.has(model_path) && tokenizerCache.has(model_path)) {
+        return { model: modelCache.get(model_path), tokenizer: tokenizerCache.get(model_path) };
+    }
+
+    ui.notifications.info("Downloading model and tokenizer '" + model_path + "'. This may take a while.");
+
+    const model = await AutoModelForCausalLM.from_pretrained(model_path);
+    const tokenizer = await AutoTokenizer.from_pretrained(model_path);
+
+    modelCache.set(model_path, model);
+    tokenizerCache.set(model_path, tokenizer);
+
+    return { model, tokenizer };
+}
+
 async function generateResponse(actor, input) {
     let model_path = await actor.getFlag("unkenny", "model");
     if (!model_path) {
         ui.notifications.error("Please select a model in the actor sheet.");
         return;
     }
-    const model = await AutoModelForCausalLM.from_pretrained(model_path);
-    const tokenizer = await AutoTokenizer.from_pretrained(model_path);
-    
+    const { model, tokenizer } = await getModelAndTokenizer(model_path);
+
     let preamble = await actor.getFlag("unkenny", "preamble");
     if (!preamble) {
         ui.notifications.error("Please set a preamble in the actor sheet.");
