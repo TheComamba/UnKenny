@@ -1,16 +1,20 @@
-function postInChat(originator, text) {
-    let params = {
-        content: text,
+function postInChat(originator, message) {
+    let chatData = {
+        content: message,
         type: CONST.CHAT_MESSAGE_TYPES.OTHER
     }
     if (originator instanceof User) {
-        params["user"] = originator.id;
+        chatData["user"] = originator.id;
     } else if (originator instanceof Actor) {
-        params["speaker"] = { actor: originator.id };
+        chatData["speaker"] = { actor: originator.id };
     } else {
         ui.notifications.error("Message originator has unkown type.");
     }
-    ChatMessage.create(params);
+
+    let wasMessagePosted = !Hooks.call("chatMessage", this, message, chatData)
+    if (!wasMessagePosted) {
+        ChatMessage.create(chatData);
+    }
 }
 
 function isUnkenny(actor) {
