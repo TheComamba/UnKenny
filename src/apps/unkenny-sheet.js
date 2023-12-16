@@ -20,7 +20,8 @@ class UnKennySheet extends DocumentSheet {
         context.models = [
             { name: "" },
             { name: "Felladrin/onnx-bloomz-560m-sft-chat" },
-            { name: "mkly/TinyStories-1M-ONNX" }
+            { name: "mkly/TinyStories-1M-ONNX" },
+            { name: "API: OpenAI" }
         ];
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
@@ -28,6 +29,7 @@ class UnKennySheet extends DocumentSheet {
                 m.isSelected = true;
             }
         });
+        context.llmAPIKey = this.object.getFlag("unkenny", "llmAPIKey") || "";
 
         context.minNewTokens = this.object.getFlag("unkenny", "minNewTokens") || 3;
         context.maxNewTokens = this.object.getFlag("unkenny", "maxNewTokens") || 128;
@@ -41,6 +43,7 @@ class UnKennySheet extends DocumentSheet {
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
+        await this.object.setFlag("unkenny", "llmAPIKey", formData.llmAPIKey);
         await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
         await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);

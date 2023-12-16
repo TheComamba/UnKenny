@@ -1,6 +1,23 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.9.0';
+import { generateResponseApi } from "../scripts/openai-api.js";
 
 async function generateResponse(actor, input) {
+    let response;
+    if ( await isAPI(actor) ) {
+        response = getAPIResponse(actor, input)
+    } else {
+        response = getModelResponse(actor, input);
+    }
+
+    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
+    if (prefixWithTalk) {
+        response = "/talk " + response;
+    }
+
+    return response;
+}
+
+async function getModelResponse(actor, input) {
     let model_path = await actor.getFlag("unkenny", "model");
     if (!model_path) {
         ui.notifications.error("Please select a model in the actor sheet.");
@@ -36,12 +53,17 @@ async function generateResponse(actor, input) {
     let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
     response = response.substring(prompt.length);
 
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-    if (prefixWithTalk) {
-        response = "/talk " + response;
-    }
-
     return response;
+}
+
+async function getAPIResponse(actor, input) {
+   return generateResponseApi(actor, input)
+}
+
+async function isAPI(actor) {
+    let model = await actor.getFlag("unkenny", "model");
+    if (model == "API: OpenAI") return true;
+    return false;
 }
 
 export { generateResponse };
