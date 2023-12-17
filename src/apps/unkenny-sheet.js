@@ -18,16 +18,16 @@ class UnKennySheet extends DocumentSheet {
         // Models to choose from: 
         // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
         context.models = [
-            { text: "" },
-            { text: "Felladrin Bloomz (ca. 3 GB RAM)", path: "Felladrin/onnx-bloomz-560m-sft-chat" },
-            { text: "Felladrin GPT2 (ca. 1 GB RAM)", path: "Felladrin/onnx-gpt2-conversational-retrain" },
-            { text: "Felladrin GPT2 Large (ca. 2 GB RAM)", path: "Felladrin/onnx-gpt2-large-conversational-retrain" },
-            { text: "Xenova GPT2 Large (ca. 2 GB RAM)", path: "Xenova/gpt2-large-conversational" },
-            { text: "OpenAI GPT-3.5-turbo", path: "gpt-3.5-turbo"}
+            { text: "" , value: "{}"},
+            { text: "Felladrin Bloomz (ca. 3 GB RAM)", value: JSON.stringify({path: "Felladrin/onnx-bloomz-560m-sft-chat", type: "local"})},
+            { text: "Felladrin GPT2 (ca. 1 GB RAM)", value: JSON.stringify({path: "Felladrin/onnx-gpt2-conversational-retrain", type: "local"})},
+            { text: "Felladrin GPT2 Large (ca. 2 GB RAM)", value: JSON.stringify({path: "Felladrin/onnx-gpt2-large-conversational-retrain", type: "local"})},
+            { text: "Xenova GPT2 Large (ca. 2 GB RAM)", value: JSON.stringify({path: "Xenova/gpt2-large-conversational", type: "local"})},
+            { text: "OpenAI GPT-3.5-turbo", value: JSON.stringify({path: "gpt-3.5-turbo", type: "api"})}
         ];
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
-            if (m.path == currentModel) {
+            if (JSON.parse(m.value).path == currentModel) {
                 m.isSelected = true;
             }
         });
@@ -44,7 +44,8 @@ class UnKennySheet extends DocumentSheet {
 
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
-        await this.object.setFlag("unkenny", "model", formData.model);
+        await this.object.setFlag("unkenny", "model", JSON.parse(formData.model).path);
+        await this.object.setFlag("unkenny", "llmType", JSON.parse(formData.model).type);
         await this.object.setFlag("unkenny", "llmAPIKey", formData.llmAPIKey);
         await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);

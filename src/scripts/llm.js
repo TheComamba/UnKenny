@@ -26,10 +26,14 @@ async function getModelAndTokenizer(model_path) {
 
 async function generateResponse(actor, input) {
     let response;
-    if ( await isAPI(actor) ) {
+    let llmType = await actor.getFlag("unkenny", "llmType")
+    if ( llmType == 'api' ) {
         response = getAPIResponse(actor, input)
-    } else {
+    } else if (llmType == 'local') {
         response = getModelResponse(actor, input);
+    } else {
+        ui.notifications.error("The selected model has neither the local nor the api property.");
+        return;
     }
 
     let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
@@ -86,12 +90,6 @@ async function getModelResponse(actor, input) {
 
 async function getAPIResponse(actor, input) {
    return generateResponseApi(actor, input)
-}
-
-async function isAPI(actor) {
-    let model = await actor.getFlag("unkenny", "model");
-    if (model == "API: OpenAI") return true;
-    return false;
 }
 
 export { generateResponse };
