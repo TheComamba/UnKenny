@@ -16,15 +16,17 @@ class UnKennySheet extends DocumentSheet {
         context.preamble = this.object.getFlag("unkenny", "preamble") || "";
 
         // Models to choose from: 
-        // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&language=en&sort=trending
+        // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
         context.models = [
-            { name: "" },
-            { name: "Felladrin/onnx-bloomz-560m-sft-chat" },
-            { name: "mkly/TinyStories-1M-ONNX" }
+            { text: "" },
+            { text: "Felladrin Bloomz (ca. 3 GB RAM)", path: "Felladrin/onnx-bloomz-560m-sft-chat" },
+            { text: "Felladrin GPT2 (ca. 1 GB RAM)", path: "Felladrin/onnx-gpt2-conversational-retrain" },
+            { text: "Felladrin GPT2 Large (ca. 2 GB RAM)", path: "Felladrin/onnx-gpt2-large-conversational-retrain" },
+            { text: "Xenova GPT2 Large (ca. 2 GB RAM)", path: "Xenova/gpt2-large-conversational" }
         ];
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
-            if (m.name == currentModel) {
+            if (m.path == currentModel) {
                 m.isSelected = true;
             }
         });

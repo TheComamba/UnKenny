@@ -35,3 +35,4 @@ ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/
 This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license. In a nutshell this means that all code is made public, and you are free to use it without any charge.
 
 The `Felladrin/onnx-bloomz-560m-sft-chat` model is disctributed under the bigscience-bloom-rail-1.0 license.
+The `Felladrin/onnx-gpt2-conversational-retrain` and `Felladrin/onnx-gpt2-large-conversational-retrain` models are distributed under the MIT license.
