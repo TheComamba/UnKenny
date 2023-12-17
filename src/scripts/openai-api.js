@@ -12,6 +12,10 @@ async function generateResponseApi(actor, input) {
         model: 'gpt-3.5-turbo',
         messages: [
             {
+                role: 'system',
+                content: await actor.getFlag("unkenny", "preamble"),
+            },
+            {
                 role: 'user',
                 content: input,
             }
