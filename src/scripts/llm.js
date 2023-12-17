@@ -35,8 +35,6 @@ async function generateResponse(actor, input) {
         ui.notifications.error("Please set a preamble in the actor sheet.");
         return;
     }
-    let prompt = preamble + '</s>' + input + '<s>';
-    let { input_ids } = tokenizer(prompt);
 
     let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
     if (!minNewTokens) {
@@ -56,6 +54,8 @@ async function generateResponse(actor, input) {
 
     const { model, tokenizer } = await getModelAndTokenizer(model_path);
 
+    let prompt = preamble + '</s>' + input + '<s>';
+    let { input_ids } = tokenizer(prompt);
     let info = new UnKennyInfo(`Generating ${actor.name}'s response...`);
     await info.render(true);
     let tokens = await model.generate(input_ids, { min_new_tokens: minNewTokens, max_new_tokens: maxNewTokens, repetition_penalty: repetitionPenalty });
