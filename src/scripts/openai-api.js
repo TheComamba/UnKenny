@@ -2,18 +2,36 @@ import OpenAi from 'https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm'
 
 
 
-async function generateResponseApi(actor, input) {
+async function getResponseAPI(actor, input) {
     const openai = new OpenAi({
         apiKey: await actor.getFlag("unkenny", "llmAPIKey"),
         dangerouslyAllowBrowser: true,
     })
 
+    let modelPath = await actor.getFlag("unkenny", "model");
+    if (!modelPath) {
+        ui.notifications.error("Please select a model in the actor sheet.");
+        return;
+    }
+
+    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
+    if (!maxNewTokens) {
+        ui.notifications.error("Please set a maximum number of new tokens in the actor sheet.");
+        return;
+    }
+
+    let preamble = await actor.getFlag("unkenny", "model");
+    if (!modelPath) {
+        ui.notifications.error("Please select a model in the actor sheet.");
+        return;
+    }
+
     const chatCompletion = await openai.chat.completions.create({
-        model: await actor.getFlag("unkenny", "model"),
+        model: modelPath,
         messages: [
             {
                 role: 'system',
-                content: await actor.getFlag("unkenny", "preamble"),
+                content: preamble,
             },
             {
                 role: 'user',
@@ -21,7 +39,7 @@ async function generateResponseApi(actor, input) {
             }
         ],
         temperature: 0,
-        max_tokens: await actor.getFlag("unkenny", "maxNewTokens"),
+        max_tokens: maxNewTokens,
         top_p: 1.0,
         frequency_penalty: 0.0,
         presence_penalty: 0.0,
@@ -30,4 +48,4 @@ async function generateResponseApi(actor, input) {
     return chatCompletion['choices'][0]['message']['content'];
 }
 
-export { generateResponseApi };
+export { getResponseAPI };

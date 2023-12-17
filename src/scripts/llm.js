@@ -1,5 +1,5 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0';
-import { generateResponseApi } from "../scripts/openai-api.js";
+import { getResponseAPI } from "../scripts/openai-api.js";
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 
 const modelCache = new Map();
@@ -28,9 +28,9 @@ async function generateResponse(actor, input) {
     let response;
     let llmType = await actor.getFlag("unkenny", "llmType")
     if ( llmType == 'api' ) {
-        response = getAPIResponse(actor, input)
+        response = await getResponseAPI(actor, input);
     } else if (llmType == 'local') {
-        response = getModelResponse(actor, input);
+        response = await getResponseLocally(actor, input);
     } else {
         ui.notifications.error("The selected model has neither the local nor the api property.");
         return;
@@ -44,7 +44,7 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-async function getModelResponse(actor, input) {
+async function getResponseLocally(actor, input) {
     let model_path = await actor.getFlag("unkenny", "model");
     if (!model_path) {
         ui.notifications.error("Please select a model in the actor sheet.");
@@ -86,10 +86,6 @@ async function getModelResponse(actor, input) {
     await info.close();
 
     return response;
-}
-
-async function getAPIResponse(actor, input) {
-   return generateResponseApi(actor, input)
 }
 
 export { generateResponse };
