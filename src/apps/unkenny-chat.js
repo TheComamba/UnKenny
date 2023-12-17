@@ -1,5 +1,5 @@
 import { postInChat } from "../scripts/shared.js";
-import { generateResponse, getModelAndTokenizer } from "../scripts/llm.js";
+import { generateResponse } from "../scripts/llm.js";
 
 class UnKennyChat extends Dialog {
     constructor(actor) {
@@ -16,7 +16,6 @@ class UnKennyChat extends Dialog {
         };
         super(params);
         this.actor = actor;
-        this.modelAndTokenizerPromise = getModelAndTokenizer(actor);
     }
 
     async getData(options = {}) {
@@ -30,7 +29,7 @@ class UnKennyChat extends Dialog {
         postInChat(game.user, request);
         let response = null;
         try {
-            response = await generateResponse(this.actor, request, this.modelAndTokenizerPromise);
+            response = await generateResponse(this.actor, request);
         } catch (error) {
             ui.notifications.error(error);
         }
