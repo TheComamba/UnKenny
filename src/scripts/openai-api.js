@@ -20,6 +20,12 @@ async function getResponseAPI(actor, input) {
         return;
     }
 
+    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
+    if (!repetitionPenalty) {
+        ui.notifications.error("Please set a repetition penalty in the actor sheet.");
+        return;
+    }
+
     let preamble = await actor.getFlag("unkenny", "model");
     if (!modelPath) {
         ui.notifications.error("Please select a model in the actor sheet.");
@@ -41,7 +47,7 @@ async function getResponseAPI(actor, input) {
         temperature: 0,
         max_tokens: maxNewTokens,
         top_p: 1.0,
-        frequency_penalty: 0.0,
+        frequency_penalty: repetitionPenalty,
         presence_penalty: 0.0,
     });
 
