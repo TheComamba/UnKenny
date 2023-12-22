@@ -4,17 +4,13 @@
 
 __UnKenny is currently in its beta phase. Whatever that means.__
 
-UnKenny is a module for [Foundry Virtual Table Top](https://foundryvtt.com/). The idea for it arose during our Starfinder game, because we wanted to simulate the interaction with a robotical NPC with limited AI.
-
-Do not expect UnKenny to pass the [Turing test](https://plato.stanford.edu/entries/turing-test/)! The open source [large language model](https://en.wikipedia.org/wiki/Large_language_model) it uses behind the scenes is not as powerful as the ones developed by big tech companies. It is intended to capture the joy of interacting with an uncanny and slightly random AI and incorporate it into role playing.
-
-Oh, and UnKenny is probably not safe for work. Even with a lot of time and budget it is a very daunting task to get language models trained by the internet to behave.
+UnKenny is a module for [Foundry Virtual Tabletop](https://foundryvtt.com/). It allows you to generate a tiny dialogue with a character, by providing them with a limited AI. The idea arose during our Starfinder game, because we wanted to simulate the interaction with a robotical NPC.
 
 ## Usage
 
 After enabling the module for a world, click on the actor of your choice.
 
-Click on "Make UnKenny" and enter a preamble. A preamble is a short description of what the character needs to know about themselves.
+Click on "Make UnKenny" and enter a preamble. This is a short description of what the character needs to know about themselves. You will furthermore need to pick one of the available [large language models](https://en.wikipedia.org/wiki/Large_language_model). Most are free of any charge, but to interact with OpenAI's GPT you will need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/).
 
 As long as the preamble is not empty, the actor is considered "unkenny". The module creates a macro called "Speak with (actor name)", which can be found in the macro directory. Conversely, if you edit the preamble to be empty, the corresponding macro is deleted.
 

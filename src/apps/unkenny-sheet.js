@@ -24,7 +24,7 @@ class UnKennySheet extends DocumentSheet {
             { text: "Felladrin GPT2 Large (ca. 2 GB RAM)", value: JSON.stringify({path: "Felladrin/onnx-gpt2-large-conversational-retrain", type: "local"})},
             { text: "Xenova GPT2 Large (ca. 2 GB RAM)", value: JSON.stringify({path: "Xenova/gpt2-large-conversational", type: "local"})},
             { text: "OpenAI GPT-3.5-turbo", value: JSON.stringify({path: "gpt-3.5-turbo", type: "api"})},
-            { text: "OpenAI gpt-4-preview", value: JSON.stringify({path: "gpt-4-1106-preview", type: "api"})}
+            { text: "OpenAI GPT-4-preview", value: JSON.stringify({path: "gpt-4-1106-preview", type: "api"})}
         ];
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         context.models.forEach(m => {
