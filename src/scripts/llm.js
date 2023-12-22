@@ -1,4 +1,5 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0';
+import { getResponseAPI } from "../scripts/openai-api.js";
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 
 const modelCache = new Map();
@@ -24,6 +25,26 @@ async function getModelAndTokenizer(model_path) {
 }
 
 async function generateResponse(actor, input) {
+    let response;
+    let llmType = await actor.getFlag("unkenny", "llmType")
+    if ( llmType == 'api' ) {
+        response = await getResponseAPI(actor, input);
+    } else if (llmType == 'local') {
+        response = await getResponseLocally(actor, input);
+    } else {
+        ui.notifications.error("The selected model has neither the local nor the api property.");
+        return;
+    }
+
+    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
+    if (prefixWithTalk) {
+        response = "/talk " + response;
+    }
+
+    return response;
+}
+
+async function getResponseLocally(actor, input) {
     let model_path = await actor.getFlag("unkenny", "model");
     if (!model_path) {
         ui.notifications.error("Please select a model in the actor sheet.");
@@ -61,11 +82,6 @@ async function generateResponse(actor, input) {
     let tokens = await model.generate(input_ids, { min_new_tokens: minNewTokens, max_new_tokens: maxNewTokens, repetition_penalty: repetitionPenalty });
     let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
     response = response.substring(prompt.length);
-
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-    if (prefixWithTalk) {
-        response = "/talk " + response;
-    }
 
     await info.close();
 
