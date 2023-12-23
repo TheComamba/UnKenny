@@ -26,7 +26,7 @@ async function getResponseAPI(actor, input) {
         return;
     }
 
-    let preamble = await actor.getFlag("unkenny", "model");
+    let preamble = await actor.getFlag("unkenny", "preamble");
     if (!modelPath) {
         ui.notifications.error("Please select a model in the actor sheet.");
         return;
