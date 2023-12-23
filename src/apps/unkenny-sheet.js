@@ -14,6 +14,7 @@ class UnKennySheet extends DocumentSheet {
     async getData(options = {}) {
         if (Object.keys(this.context).length === 0) {
             this.context = await super.getData(options);
+            this.context.resizable = true;
             this.initContextModels();
             this.initContextWithActorData();
         }
@@ -58,7 +59,11 @@ class UnKennySheet extends DocumentSheet {
             needsReRendering = true;
         }
         if (needsReRendering) {
-            await this.render();
+            await this.render(true);
+            let position = this.position;
+            position.height = "auto";
+            position.width = "auto";
+            setPosition(position);
         }
     }
 
