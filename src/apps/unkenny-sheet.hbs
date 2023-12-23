@@ -17,7 +17,7 @@
             <label>Model</label>
             <select name='model' class='form-control'>
                 {{#each models}}
-                <option value="{{this.value}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
+                <option value="{{this.path}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
                 {{/each}}
             </select>
         </div>
