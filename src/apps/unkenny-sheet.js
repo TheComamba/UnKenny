@@ -63,7 +63,7 @@ class UnKennySheet extends DocumentSheet {
             let position = this.position;
             position.height = "auto";
             position.width = "auto";
-            setPosition(position);
+            this.setPosition(position);
         }
     }
 
