@@ -11,7 +11,7 @@
             Preamble
         </h2>
 
-        <textarea name="preamble" rows="20">{{preamble}}</textarea>
+        <textarea name="preamble" rows="15">{{preamble}}</textarea>
 
         <div class='form-field'>
             <label>Model</label>
@@ -22,10 +22,12 @@
             </select>
         </div>
 
+        {{#if (eq llmType "api")}}
         <div class='form-field'>
             <label>OpenAI API Key</label>
             <input name="llmAPIKey" type="string" value="{{llmAPIKey}}">
         </div>
+        {{/if}}
 
         <div class='form-field'>
             <label>Minimum number of generated tokens</label>

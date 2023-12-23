@@ -66,6 +66,7 @@ class UnKennySheet extends DocumentSheet {
         this.context.models.forEach(m => {
             if (m.path == model) {
                 m.isSelected = true;
+                this.context.llmType = m.type;
             } else {
                 m.isSelected = false;
             }
@@ -75,7 +76,7 @@ class UnKennySheet extends DocumentSheet {
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
-        // await this.object.setFlag("unkenny", "llmType", JSON.parse(formData.model).type);
+        await this.object.setFlag("unkenny", "llmType", this.context.llmType);
         await this.object.setFlag("unkenny", "llmAPIKey", formData.llmAPIKey);
         await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
