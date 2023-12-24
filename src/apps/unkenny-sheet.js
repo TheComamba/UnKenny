@@ -1,4 +1,3 @@
-import { updateMacro } from "../scripts/macro.js";
 
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
@@ -87,7 +86,6 @@ class UnKennySheet extends DocumentSheet {
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
         await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);
         await this.object.setFlag("unkenny", "prefixWithTalk", formData.prefixWithTalk);
-        await updateMacro(this.object);
     }
 }
 
