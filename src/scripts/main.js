@@ -1,6 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny } from "./shared.js";
 import { actorToMacro, executeUnKennyMacro, findAdressedActor } from "./macro.js";
+import { postResponse } from "./llm.js";
 
 // CONFIG.debug.hooks = true;
 
@@ -32,9 +33,6 @@ Hooks.on("deleteActor", async (actor, _params, _actor_id) => {
 Hooks.on("chatMessage", (_chatlog, messageText, _chatData) => {
   let actor = findAdressedActor(messageText);
   if (actor) {
-    let macro = actorToMacro(actor);
-    if (macro) {
-      executeUnKennyMacro(macro);
-    }
+    postResponse(actor, messageText);
   }
 });
