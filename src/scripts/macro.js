@@ -1,10 +1,11 @@
 import { isUnkenny } from "./shared.js";
 
+const OPEN_BRACE = "("
+const CLOSE_BRACE = ")";
+const MARKER = "@" + OPEN_BRACE;
+const BEGINNING_MARKER = "/" + OPEN_BRACE;
+
 function findAdressedActorName(message) {
-    const OPEN_BRACE = "("
-    const CLOSE_BRACE = ")";
-    const MARKER = "@" + OPEN_BRACE;
-    const BEGINNING_MARKER = "/" + OPEN_BRACE;
     let braceDepth = 0;
 
     let startIndex = message.indexOf(BEGINNING_MARKER);
@@ -15,7 +16,11 @@ function findAdressedActorName(message) {
         return null;
     }
 
-    startIndex += BEGINNING_MARKER.length;
+    if (startIndex == 0) {
+        startIndex += BEGINNING_MARKER.length;
+    } else {
+        startIndex += MARKER.length;
+    }
     braceDepth += 1;
 
     let endIndex = startIndex;
@@ -39,6 +44,20 @@ function findAdressedActorName(message) {
     return message.substring(startIndex, endIndex);
 }
 
+function replaceActorNames(message, actorName) {
+    const beginningReplacement = BEGINNING_MARKER + actorName + CLOSE_BRACE;
+    const replacement = MARKER + actorName + CLOSE_BRACE;
+    if (message.indexOf(beginningReplacement) != -1) {
+        message = message.substring(beginningReplacement.length);
+    }
+    let pos = message.indexOf(replacement);
+    while (pos != -1) {
+        message = message.substring(0, pos) + "<b>" + actorName + "</b>" + message.substring(pos + replacement.length);
+        pos = message.indexOf(replacement);
+    }
+    return message;
+}
+
 function findAdressedActor(message) {
     let actorName = findAdressedActorName(message);
     if (!actorName) {
@@ -56,4 +75,4 @@ function findAdressedActor(message) {
     return actor;
 }
 
-export { findAdressedActor };
+export { findAdressedActor, replaceActorNames };

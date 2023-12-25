@@ -1,6 +1,6 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { isUnkenny } from "./shared.js";
-import { findAdressedActor } from "./macro.js";
+import { isUnkenny, postInChat } from "./shared.js";
+import { findAdressedActor, replaceActorNames } from "./macro.js";
 import { postResponse } from "./llm.js";
 
 // CONFIG.debug.hooks = true;
@@ -17,9 +17,14 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   })
 });
 
-Hooks.on("chatMessage", (_chatlog, messageText, _chatData) => {
+Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
   let actor = findAdressedActor(messageText);
   if (actor) {
+    messageText = replaceActorNames(messageText, actor.name);
+    postInChat(chatData.user, messageText);
     postResponse(actor, messageText);
+    return false; //Chat message has been posted by UnKenny.
+  } else {
+    return true; //Chat message needs to be posted by Foudnry.
   }
 });
