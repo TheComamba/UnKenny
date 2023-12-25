@@ -41,12 +41,20 @@ function findAdressedActorName(message) {
         }
     }
     endIndex -= CLOSE_BRACE.length;
-    return message.substring(startIndex, endIndex);
+    let actorName = message.substring(startIndex, endIndex);
+    if (actorName != "") {
+        return actorName;
+    } else {
+        return null;
+    }
 }
 
-function replaceActorNames(message, actorName) {
-    const beginningReplacement = BEGINNING_MARKER + actorName + CLOSE_BRACE;
-    const replacement = MARKER + actorName + CLOSE_BRACE;
+function replaceActorNames(message, alias, actorName) {
+    if (alias == "") {
+        return message;
+    }
+    const beginningReplacement = BEGINNING_MARKER + alias + CLOSE_BRACE;
+    const replacement = MARKER + alias + CLOSE_BRACE;
     if (message.indexOf(beginningReplacement) != -1) {
         message = message.substring(beginningReplacement.length);
     }
@@ -63,7 +71,7 @@ function findAdressedActor(message) {
     if (!actorName) {
         return null
     }
-    let actor = game.actors.find(actor => actor.name == actorName);
+    let actor = game.actors.find(actor => actor.name == actorName || actor.getFlag("unkenny", "alias") == actorName);
     if (!actor) {
         ui.notifications.error(`Actor "${actorName}" not found.`);
         return null;

@@ -36,6 +36,7 @@ class UnKennySheet extends DocumentSheet {
     }
 
     initContextWithActorData() {
+        this.context.alias = this.object.getFlag("unkenny", "alias") || "";
         this.context.preamble = this.object.getFlag("unkenny", "preamble") || "";
         this.context.llmAPIKey = this.object.getFlag("unkenny", "llmAPIKey") || "";
 
@@ -78,6 +79,7 @@ class UnKennySheet extends DocumentSheet {
     }
 
     async _updateObject(_event, formData) {
+        await this.object.setFlag("unkenny", "alias", formData.alias);
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
         await this.object.setFlag("unkenny", "llmType", this.context.llmType);

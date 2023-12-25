@@ -20,7 +20,10 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
 Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
   let actor = findAdressedActor(messageText);
   if (actor) {
-    messageText = replaceActorNames(messageText, actor.name);
+    let name = actor.name;
+    let alias = actor.getFlag("unkenny", "alias");
+    messageText = replaceActorNames(messageText, name, name);
+    messageText = replaceActorNames(messageText, alias, name);
     postInChat(chatData.user, messageText);
     postResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
