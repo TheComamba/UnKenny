@@ -23,7 +23,8 @@ function isUnkenny(actor) {
         return false;
     }
     let preamble = actor.getFlag("unkenny", "preamble");
-    return !!preamble;
+    let alias = actor.getFlag("unkenny", "alias");
+    return !!preamble || !!alias;
 }
 
 export { isUnkenny, postInChat };

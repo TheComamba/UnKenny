@@ -1,4 +1,3 @@
-import { updateMacro } from "../scripts/macro.js";
 
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
@@ -37,6 +36,7 @@ class UnKennySheet extends DocumentSheet {
     }
 
     initContextWithActorData() {
+        this.context.alias = this.object.getFlag("unkenny", "alias") || "";
         this.context.preamble = this.object.getFlag("unkenny", "preamble") || "";
         this.context.llmAPIKey = this.object.getFlag("unkenny", "llmAPIKey") || "";
 
@@ -79,6 +79,7 @@ class UnKennySheet extends DocumentSheet {
     }
 
     async _updateObject(_event, formData) {
+        await this.object.setFlag("unkenny", "alias", formData.alias);
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
         await this.object.setFlag("unkenny", "llmType", this.context.llmType);
@@ -87,7 +88,6 @@ class UnKennySheet extends DocumentSheet {
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
         await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);
         await this.object.setFlag("unkenny", "prefixWithTalk", formData.prefixWithTalk);
-        await updateMacro(this.object);
     }
 }
 

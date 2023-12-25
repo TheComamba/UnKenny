@@ -1,7 +1,5 @@
 import OpenAi from 'https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm'
 
-
-
 async function getResponseAPI(actor, input) {
     const openai = new OpenAi({
         apiKey: await actor.getFlag("unkenny", "llmAPIKey"),

@@ -1,47 +1,101 @@
-import { UnKennyChat } from "../apps/unkenny-chat.js";
 import { isUnkenny } from "./shared.js";
 
-function executeUnKennyMacro(macro) {
-    let actor = macroToActor(macro);
-    if (actor) {
-        new UnKennyChat(actor).render(true);
-    } else {
-        ui.notifications.error("Corresponding actor not found.");
+const OPEN_BRACE = "("
+const CLOSE_BRACE = ")";
+const MARKER = "@" + OPEN_BRACE;
+const BEGINNING_MARKER = "/" + OPEN_BRACE;
+
+function findAdressedActorName(message) {
+    let braceDepth = 0;
+
+    let startIndex = message.indexOf(BEGINNING_MARKER);
+    if (startIndex != 0) {
+        startIndex = message.indexOf(MARKER);
     }
-}
+    if (startIndex == -1) {
+        return null;
+    }
 
-function getMacroParameters(actor) {
-    return {
-        command: "const api = game.modules.get('unkenny').api; api.executeUnKennyMacro(this);",
-        img: actor.img,
-        name: `Speak with ${actor.name}`,
-        type: "script"
-    };
-}
+    if (startIndex == 0) {
+        startIndex += BEGINNING_MARKER.length;
+    } else {
+        startIndex += MARKER.length;
+    }
+    braceDepth += 1;
 
-async function updateMacro(actor) {
-    let macro = actorToMacro(actor)
-    if (isUnkenny(actor)) {
-        let params = getMacroParameters(actor)
-        if (!macro) {
-            macro = await Macro.create(params);
+    let endIndex = startIndex;
+    while (braceDepth > 0) {
+        let nextOpenBrace = message.indexOf(OPEN_BRACE, endIndex);
+        let nextCloseBrace = message.indexOf(CLOSE_BRACE, endIndex);
+        if (nextOpenBrace != -1 && nextOpenBrace < nextCloseBrace) {
+            // The next interesting marker is an opening bracket.
+            braceDepth += 1;
+            endIndex = nextOpenBrace + OPEN_BRACE.length;
+        } else if (nextCloseBrace != -1) {
+            // The next interesting marker is a closing bracket.
+            braceDepth -= 1;
+            endIndex = nextCloseBrace + CLOSE_BRACE.length;
         } else {
-            macro.update(params);
+            ui.notifications.error("It looks like you are trying to talk to an UnKenny actor, but the name delimeter is never closed.");
+            return null;
         }
-        macro.setFlag("unkenny", "actor_id", actor.id);
+    }
+    endIndex -= CLOSE_BRACE.length;
+    let actorName = message.substring(startIndex, endIndex);
+    if (actorName != "") {
+        return actorName;
     } else {
-        if (macro) {
-            macro.delete();
-        }
+        return null;
     }
 }
 
-function actorToMacro(actor) {
-    return game.macros.find(macro => macro.getFlag("unkenny", "actor_id") == actor.id);
+function replaceActorNames(message, alias, actorName) {
+    if (alias == "") {
+        return message;
+    }
+    const beginningReplacement = BEGINNING_MARKER + alias + CLOSE_BRACE;
+    const replacement = MARKER + alias + CLOSE_BRACE;
+    if (message.indexOf(beginningReplacement) != -1) {
+        message = message.substring(beginningReplacement.length);
+    }
+    let pos = message.indexOf(replacement);
+    while (pos != -1) {
+        message = message.substring(0, pos) + "<b>" + actorName + "</b>" + message.substring(pos + replacement.length);
+        pos = message.indexOf(replacement);
+    }
+    return message;
 }
 
-function macroToActor(macro) {
-    return game.actors.find(actor => macro.getFlag("unkenny", "actor_id") == actor.id);
+function findAdressedActor(message) {
+    let actorName = findAdressedActorName(message);
+    if (!actorName) {
+        return null
+    }
+    let actor = game.actors.find(actor => actorHasName(actor, actorName));
+    if (!actor) {
+        ui.notifications.error(`Actor "${actorName}" not found.`);
+        return null;
+    }
+    if (!isUnkenny(actor)) {
+        ui.notifications.error(`Actor "${actorName}" is not UnKenny.`);
+        return null;
+    }
+    return actor;
 }
 
-export { actorToMacro, executeUnKennyMacro, updateMacro };
+function actorHasName(actor, name) {
+    if (!name || name == "") {
+        return false;
+    }
+    name = name.toLowerCase();
+
+    let actorName = actor.name || "";
+    actorName = actorName.toLowerCase();
+
+    let actorAlias = actor.getFlag("unkenny", "alias") || "";
+    actorAlias = actorAlias.toLowerCase();
+
+    return actorName == name || actorAlias == name
+}
+
+export { findAdressedActor, replaceActorNames };
