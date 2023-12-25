@@ -71,7 +71,7 @@ function findAdressedActor(message) {
     if (!actorName) {
         return null
     }
-    let actor = game.actors.find(actor => actor.name == actorName || actor.getFlag("unkenny", "alias") == actorName);
+    let actor = game.actors.find(actor => actorHasName(actor, actorName));
     if (!actor) {
         ui.notifications.error(`Actor "${actorName}" not found.`);
         return null;
@@ -81,6 +81,21 @@ function findAdressedActor(message) {
         return null;
     }
     return actor;
+}
+
+function actorHasName(actor, name) {
+    if (!name || name == "") {
+        return false;
+    }
+    name = name.toLowerCase();
+
+    let actorName = actor.name || "";
+    actorName = actorName.toLowerCase();
+
+    let actorAlias = actor.getFlag("unkenny", "alias") || "";
+    actorAlias = actorAlias.toLowerCase();
+
+    return actorName == name || actorAlias == name
 }
 
 export { findAdressedActor, replaceActorNames };
