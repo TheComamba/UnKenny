@@ -9,7 +9,7 @@
     <section>
         <div class='form-field'>
             <label>Alias</label>
-            <input name="alias" type="string" value="{{alias}}">
+            <input name="alias" type="text" value="{{alias}}">
         </div>
 
         <div class='form-field'>
@@ -29,7 +29,7 @@
         {{#if (eq llmType "api")}}
         <div class='form-field'>
             <label>OpenAI API Key</label>
-            <input name="llmAPIKey" type="string" value="{{llmAPIKey}}">
+            <input name="llmAPIKey" type="text" value="{{llmAPIKey}}">
         </div>
         {{/if}}
 
