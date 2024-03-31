@@ -22,9 +22,8 @@ function isUnkenny(actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
         return false;
     }
-    let preamble = actor.getFlag("unkenny", "preamble");
     let alias = actor.getFlag("unkenny", "alias");
-    return !!preamble || !!alias;
+    return !!alias;
 }
 
 export { isUnkenny, postInChat };
