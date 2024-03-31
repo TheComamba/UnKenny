@@ -10,7 +10,7 @@ UnKenny is a module for [Foundry Virtual Tabletop](https://foundryvtt.com/). It 
 
 After enabling the module for a world, click on the actor of your choice.
 
-Click on "Make UnKenny" and enter somoe of the following data: 
+Click on "Make UnKenny" and enter some of the following data: 
 * **Alias**: A preferably short alias to refer to the actor in chat messages.
 * **Preamble**: This is a short description of what the character needs to know about themselves.
 * **Model**: Pick one of the available [large language models](https://en.wikipedia.org/wiki/Large_language_model).
