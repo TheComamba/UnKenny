@@ -10,16 +10,10 @@ function replaceAlias(message, alias, actorName) {
     if (alias == "") {
         return message;
     }
-    const aliasAtBeginning = "/" + alias;
-    const aliasAnywhere = "@" + alias;
-    if (message.indexOf(aliasAtBeginning) != -1) {
-        message = message.substring(aliasAtBeginning.length);
-    }
-    let pos = message.indexOf(aliasAnywhere);
-    while (pos != -1) {
-        message = message.substring(0, pos) + "<b>" + actorName + "</b>" + message.substring(pos + aliasAnywhere.length);
-        pos = message.indexOf(aliasAnywhere);
-    }
+    const aliasAtBeginning = new RegExp("^/" + alias, "i");
+    const aliasAnywhere = new RegExp("@" + alias, "gi");
+    message = message.replace(aliasAtBeginning, '');
+    message = message.replace(aliasAnywhere, "<b>" + actorName + "</b>");
     return message;
 }
 
