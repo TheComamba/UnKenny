@@ -1,6 +1,7 @@
 import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0';
 import { getResponseAPI } from "../scripts/openai-api.js";
 import { UnKennyInfo } from '../apps/unkenny-info.js';
+import { postInChat } from "../scripts/shared.js";
 
 const modelCache = new Map();
 const tokenizerCache = new Map();
@@ -27,7 +28,7 @@ async function getModelAndTokenizer(model_path) {
 async function generateResponse(actor, input) {
     let response;
     let llmType = await actor.getFlag("unkenny", "llmType")
-    if ( llmType == 'api' ) {
+    if (llmType == 'api') {
         response = await getResponseAPI(actor, input);
     } else if (llmType == 'local') {
         response = await getResponseLocally(actor, input);
@@ -88,4 +89,18 @@ async function getResponseLocally(actor, input) {
     return response;
 }
 
-export { generateResponse };
+async function postResponse(actor, request) {
+    let response = null;
+    try {
+        response = await generateResponse(actor, request);
+    } catch (error) {
+        ui.notifications.error(error);
+    }
+    if (response) {
+        postInChat(actor, response);
+    } else {
+        ui.notifications.error("No response generated.");
+    }
+}
+
+export { postResponse, generateResponse };

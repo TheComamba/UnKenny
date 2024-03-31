@@ -7,11 +7,15 @@
         </header>
     </section>
     <section>
-        <h2>
-            Preamble
-        </h2>
+        <div class='form-field'>
+            <label>Alias</label>
+            <input name="alias" type="text" value="{{alias}}" pattern="\w+">
+        </div>
 
-        <textarea name="preamble" rows="15">{{preamble}}</textarea>
+        <div class='form-field'>
+            <label>Preamble</label>
+            <textarea name="preamble" rows="15">{{preamble}}</textarea>
+        </div>
 
         <div class='form-field'>
             <label>Model</label>
@@ -25,7 +29,7 @@
         {{#if (eq llmType "api")}}
         <div class='form-field'>
             <label>OpenAI API Key</label>
-            <input name="llmAPIKey" type="string" value="{{llmAPIKey}}">
+            <input name="llmAPIKey" type="text" value="{{llmAPIKey}}">
         </div>
         {{/if}}
 
