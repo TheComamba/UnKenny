@@ -1,6 +1,6 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
-import { findAdressedActor, replaceActorNames } from "./macro.js";
+import { findAdressedActor, replaceActorNames } from "./chat-message-parsing.js";
 import { postResponse } from "./llm.js";
 
 // CONFIG.debug.hooks = true;
