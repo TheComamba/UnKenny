@@ -1,6 +1,6 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
-import { findAdressedActor, replaceActorNames } from "./chat-message-parsing.js";
+import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
 import { postResponse } from "./llm.js";
 
 // CONFIG.debug.hooks = true;
@@ -22,8 +22,8 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
   if (actor) {
     let name = actor.name;
     let alias = actor.getFlag("unkenny", "alias");
-    messageText = replaceActorNames(messageText, name, name);
-    messageText = replaceActorNames(messageText, alias, name);
+    messageText = replaceAlias(messageText, name, name);
+    messageText = replaceAlias(messageText, alias, name);
     postInChat(chatData.user, messageText);
     postResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
