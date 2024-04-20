@@ -1,6 +1,18 @@
-import OpenAi from 'https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm'
+let OpenAi;
 
-async function getResponseAPI(actor, input) {
+import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
+    .then(module => {
+        OpenAi = module.default;
+    })
+    .catch(error => {
+        if (process.env.NODE_ENV === 'test') {
+            // Maybe add a mock here
+        } else {
+            console.error("Unable to load module", error);
+        }
+    });
+
+async function getResponseFromOpenAI(actor, input) {
     const openai = new OpenAi({
         apiKey: await actor.getFlag("unkenny", "llmAPIKey"),
         dangerouslyAllowBrowser: true,
@@ -52,4 +64,4 @@ async function getResponseAPI(actor, input) {
     return chatCompletion['choices'][0]['message']['content'];
 }
 
-export { getResponseAPI };
+export { getResponseFromOpenAI };

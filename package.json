@@ -1,0 +1,32 @@
+{
+  "name": "unkenny",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "## FoundryVTT NPCs wit artificial intelligence",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheComamba/UnKenny.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheComamba/UnKenny/issues"
+  },
+  "homepage": "https://github.com/TheComamba/UnKenny#readme",
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ]
+  }
+}
