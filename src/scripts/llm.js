@@ -1,4 +1,15 @@
-import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0';
+let AutoModelForCausalLM, AutoTokenizer;
+
+import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0')
+    .then(module => {
+        AutoModelForCausalLM = module.AutoModelForCausalLM;
+        AutoTokenizer = module.AutoTokenizer;
+    })
+    .catch(error => {
+        console.error("Unable to load module", error);
+        // Handle the error or provide a fallback here
+    });
+
 import { getResponseAPI } from "../scripts/openai-api.js";
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 import { postInChat } from "../scripts/shared.js";

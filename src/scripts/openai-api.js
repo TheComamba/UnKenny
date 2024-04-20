@@ -1,4 +1,13 @@
-import OpenAi from 'https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm'
+let OpenAi;
+
+import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
+    .then(module => {
+        OpenAi = module.default;
+    })
+    .catch(error => {
+        console.error("Unable to load module", error);
+        // Handle the error or provide a fallback here
+    });
 
 async function getResponseAPI(actor, input) {
     const openai = new OpenAi({
