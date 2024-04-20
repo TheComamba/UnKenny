@@ -1,6 +1,6 @@
 let AutoModelForCausalLM, AutoTokenizer;
 
-import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0')
+import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
     .then(module => {
         AutoModelForCausalLM = module.AutoModelForCausalLM;
         AutoTokenizer = module.AutoTokenizer;
