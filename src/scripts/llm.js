@@ -6,8 +6,11 @@ import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
         AutoTokenizer = module.AutoTokenizer;
     })
     .catch(error => {
-        console.error("Unable to load module", error);
-        // Handle the error or provide a fallback here
+        if (process.env.NODE_ENV === 'test') {
+            // Maybe add a mock here
+        } else {
+            console.error("Unable to load module", error);
+        }
     });
 
 import { getResponseAPI } from "../scripts/openai-api.js";
