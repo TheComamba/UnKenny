@@ -12,7 +12,7 @@ import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
         }
     });
 
-async function getResponseAPI(actor, input) {
+async function getResponseFromOpenAI(actor, input) {
     const openai = new OpenAi({
         apiKey: await actor.getFlag("unkenny", "llmAPIKey"),
         dangerouslyAllowBrowser: true,
@@ -64,4 +64,4 @@ async function getResponseAPI(actor, input) {
     return chatCompletion['choices'][0]['message']['content'];
 }
 
-export { getResponseAPI };
+export { getResponseFromOpenAI };
