@@ -14,6 +14,7 @@ function replaceAlias(message, alias, actorName) {
     const aliasAnywhere = new RegExp("@" + alias, "gi");
     message = message.replace(aliasAtBeginning, '');
     message = message.replace(aliasAnywhere, "<b>" + actorName + "</b>");
+    message = message.trim();
     return message;
 }
 
