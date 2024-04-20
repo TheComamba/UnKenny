@@ -5,8 +5,11 @@ import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
         OpenAi = module.default;
     })
     .catch(error => {
-        console.error("Unable to load module", error);
-        // Handle the error or provide a fallback here
+        if (process.env.NODE_ENV === 'test') {
+            // Maybe add a mock here
+        } else {
+            console.error("Unable to load module", error);
+        }
     });
 
 async function getResponseAPI(actor, input) {
