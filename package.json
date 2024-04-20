@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TheComamba/UnKenny#readme",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "rewire": "^7.0.0"
   }
 }
