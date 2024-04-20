@@ -2,7 +2,7 @@
   "name": "unkenny",
   "version": "0.2.0",
   "type": "module",
-  "description": "## FoundryVTT NPCs wit artificial intelligence",
+  "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "index.js",
   "scripts": {
     "test": "jest"
