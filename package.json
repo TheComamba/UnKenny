@@ -1,6 +1,7 @@
 {
   "name": "unkenny",
   "version": "0.2.0",
+  "type": "module",
   "description": "## FoundryVTT NPCs wit artificial intelligence",
   "main": "index.js",
   "scripts": {
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/TheComamba/UnKenny#readme",
   "devDependencies": {
-    "jest": "^29.7.0",
-    "rewire": "^7.0.0"
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }

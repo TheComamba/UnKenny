@@ -49,4 +49,4 @@ function actorHasName(actor, name) {
     return actorName == name || actorAlias == name
 }
 
-export { findAdressedActor, replaceAlias };
+export { findAdressedActor, replaceAlias, findAdressedAlias, actorHasName };
