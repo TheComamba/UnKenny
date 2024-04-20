@@ -9,3 +9,9 @@ if ! command -v npm &> /dev/null; then
     echo "JavaScript package manager npm is not installed. Installing..."
     sudo apt-get install -y npm
 fi
+
+echo "Ensuring dependencies..."
+npm install
+
+echo "Running tests..."
+npm test
