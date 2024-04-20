@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/TheComamba/UnKenny/issues"
   },
-  "homepage": "https://github.com/TheComamba/UnKenny#readme"
+  "homepage": "https://github.com/TheComamba/UnKenny#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
