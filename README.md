@@ -2,22 +2,31 @@
 
 ## About
 
-__UnKenny is currently in its beta phase. Whatever that means.__
-
 UnKenny is a module for [Foundry Virtual Tabletop](https://foundryvtt.com/). It allows you to generate a tiny dialogue with a character, by providing them with a limited AI. The idea arose during our Starfinder game, because we wanted to simulate the interaction with a robotical NPC.
+
+## Security
+
+__Be mindful which modules you enable.__
+
+If you are storing your OpenAI API key in UnKenny, you are entrusting it to us, and by extension, to FoundryVTT. The modularity of Foundry is one of its big selling points, but it is also an invitation to arbitrary code execution. Any module you install could, in principle, inject some code that steals your API key. Foundry takes some countermeasures like scoping of modules, but ultimately it is very hard to defend against attacks from within your application.
+
+For that reason, monitor your API key usage every now and then. If ever you find a module that has stolen your key, please
+* [Revoke your key.](https://help.openai.com/en/articles/4936817-i-see-suspicious-activity-on-my-account-what-do-i-do)
+* [Report it to FoundryVTT.](https://foundryvtt.com/contact-us/)
+* [Contact us.](mailto:thecomamba@jojoheinze.de)
 
 ## Usage
 
 After enabling the module for a world, click on the actor of your choice.
 
 Click on "Make UnKenny" and enter some of the following data: 
-* **Alias**: An UnKenny alias to refer to the actor in chat messages. Only alphanumeric characters and underscores are allowed here.
-* **Preamble**: This is a short description of what the character needs to know about themselves.
-* **Model**: Pick one of the available [large language models](https://en.wikipedia.org/wiki/Large_language_model).
-* **OpenAI API key**: Most models are free of any charge and run in your Foundry instance or web browser, but to interact with OpenAI's GPT you will need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/). This option is only displayed for models that require it.
-* **Min/Max number of generated tokens**: Effectively constrains the length of the generated output.
-* **Repitition penalty**: The higher the number, the more the model tries to avoid repeating itself.
-* **Prefix with /talk**: If this option is checked and the [Talking Actors Module](https://foundryvtt.com/packages/acd-talking-actors) is set up, the model's responses are read out loud by an AI voice.
+* __Alias__: An UnKenny alias to refer to the actor in chat messages. Only alphanumeric characters and underscores are allowed here.
+* __Preamble__: This is a short description of what the character needs to know about themselves.
+* __Model__: Pick one of the available [large language models](https://en.wikipedia.org/wiki/Large_language_model).
+* __OpenAI API key__: Most models are free of any charge and run in your Foundry instance or web browser, but to interact with OpenAI's GPT you will need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/). This option is only displayed for models that require it.
+* __Min/Max number of generated tokens__: Effectively constrains the length of the generated output.
+* __Repitition penalty__: The higher the number, the more the model tries to avoid repeating itself.
+* __Prefix with /talk__: If this option is checked and the [Talking Actors Module](https://foundryvtt.com/packages/acd-talking-actors) is set up, the model's responses are read out loud by an AI voice.
 
 As long as the alias is not empty, the actor is considered *unkenny* and can be adressed. To speak to the actor, begin a chat message with the text macro `/<alias>`, where `<alias>` is the *UnKenny alias* of the actor. Alternatively, mention the actor anywhere in your message using `@<alias>`. In the first case, the macro is removed from your chat message, while in the second case the mention is replaced with the actor's full name.
 
