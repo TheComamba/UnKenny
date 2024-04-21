@@ -14,4 +14,4 @@ echo "Ensuring dependencies..."
 npm install
 
 echo "Running tests..."
-npm test
+npm run test:coverage

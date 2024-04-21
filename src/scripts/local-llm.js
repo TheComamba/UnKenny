@@ -37,42 +37,20 @@ async function getModelAndTokenizer(model_path) {
     return { model, tokenizer };
 }
 
-async function getResponseFromLocalLLM(actor, input) {
-    let model_path = await actor.getFlag("unkenny", "model");
-    if (!model_path) {
-        ui.notifications.error("Please select a model in the actor sheet.");
-        return;
-    }
+async function getResponseFromLocalLLM(parameters, input) {
+    const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
-    let preamble = await actor.getFlag("unkenny", "preamble");
-    if (!preamble) {
-        ui.notifications.error("Please set a preamble in the actor sheet.");
-        return;
-    }
-
-    let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
-    if (!minNewTokens) {
-        ui.notifications.error("Please set a minimum number of new tokens in the actor sheet.");
-        return;
-    }
-    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
-    if (!maxNewTokens) {
-        ui.notifications.error("Please set a maximum number of new tokens in the actor sheet.");
-        return;
-    }
-    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
-    if (!repetitionPenalty) {
-        ui.notifications.error("Please set a repetition penalty in the actor sheet.");
-        return;
-    }
-
-    const { model, tokenizer } = await getModelAndTokenizer(model_path);
-
-    let prompt = preamble + '</s>' + input + '<s>';
+    let prompt = parameters.preamble + '</s>' + input + '<s>';
     let { input_ids } = tokenizer(prompt);
-    let info = new UnKennyInfo(`Generating ${actor.name}'s response...`);
+    let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
-    let tokens = await model.generate(input_ids, { min_new_tokens: minNewTokens, max_new_tokens: maxNewTokens, repetition_penalty: repetitionPenalty });
+
+    const localParameters = {
+        min_new_tokens: parameters.minNewTokens,
+        max_new_tokens: parameters.maxNewTokens,
+        repetition_penalty: parameters.repetitionPenalty
+    };
+    let tokens = await model.generate(input_ids, localParameters);
     let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
     response = response.substring(prompt.length);
 

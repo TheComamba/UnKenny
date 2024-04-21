@@ -12,42 +12,18 @@ import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
         }
     });
 
-async function getResponseFromOpenAI(actor, input) {
+async function getResponseFromOpenAI(parameters, input) {
     const openai = new OpenAi({
-        apiKey: await actor.getFlag("unkenny", "llmAPIKey"),
+        apiKey: parameters.apiKey,
         dangerouslyAllowBrowser: true,
-    })
-
-    let modelPath = await actor.getFlag("unkenny", "model");
-    if (!modelPath) {
-        ui.notifications.error("Please select a model in the actor sheet.");
-        return;
-    }
-
-    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
-    if (!maxNewTokens) {
-        ui.notifications.error("Please set a maximum number of new tokens in the actor sheet.");
-        return;
-    }
-
-    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
-    if (!repetitionPenalty) {
-        ui.notifications.error("Please set a repetition penalty in the actor sheet.");
-        return;
-    }
-
-    let preamble = await actor.getFlag("unkenny", "preamble");
-    if (!modelPath) {
-        ui.notifications.error("Please select a model in the actor sheet.");
-        return;
-    }
+    });
 
     const chatCompletion = await openai.chat.completions.create({
-        model: modelPath,
+        model: parameters.model,
         messages: [
             {
                 role: 'system',
-                content: preamble,
+                content: parameters.preamble,
             },
             {
                 role: 'user',
@@ -55,9 +31,9 @@ async function getResponseFromOpenAI(actor, input) {
             }
         ],
         temperature: 0,
-        max_tokens: maxNewTokens,
+        max_tokens: parameters.maxNewTokens,
         top_p: 1.0,
-        frequency_penalty: repetitionPenalty,
+        frequency_penalty: parameters.repetitionPenalty,
         presence_penalty: 0.0,
     });
 

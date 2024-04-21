@@ -18,36 +18,33 @@ function replaceAlias(message, alias, actorName) {
     return message;
 }
 
+function actorHasAlias(actor, alias) {
+    if (typeof alias !== 'string' || typeof actor !== 'object' || actor === null) {
+        console.error('actorHasAlias called with invalid arguments');
+        return false;
+    }
+
+    if (!alias) {
+        return false;
+    }
+
+    const lowerCaseAlias = alias.toLowerCase();
+    const actorAlias = (actor.getFlag("unkenny", "alias") ?? "").toLowerCase();
+
+    return actorAlias === lowerCaseAlias;
+}
+
 function findAdressedActor(message) {
     let alias = findAdressedAlias(message);
     if (!alias) {
         return null
     }
-    let actor = game.actors.find(actor => actorHasName(actor, alias));
+    let actor = game.actors.find(actor => actorHasAlias(actor, alias));
     if (!actor) {
-        ui.notifications.error(`Actor "${alias}" not found.`);
-        return null;
-    }
-    if (!isUnkenny(actor)) {
-        ui.notifications.error(`Actor "${alias}" is not UnKenny.`);
+        ui.notifications.error(`Actor with alias "${alias}" not found.`);
         return null;
     }
     return actor;
 }
 
-function actorHasName(actor, name) {
-    if (!name || name == "") {
-        return false;
-    }
-    name = name.toLowerCase();
-
-    let actorName = actor.name || "";
-    actorName = actorName.toLowerCase();
-
-    let actorAlias = actor.getFlag("unkenny", "alias") || "";
-    actorAlias = actorAlias.toLowerCase();
-
-    return actorName == name || actorAlias == name
-}
-
-export { findAdressedActor, replaceAlias, findAdressedAlias, actorHasName };
+export { findAdressedActor, replaceAlias, findAdressedAlias, actorHasAlias };

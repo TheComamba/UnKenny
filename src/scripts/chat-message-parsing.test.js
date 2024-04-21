@@ -71,3 +71,105 @@ describe('replaceAlias', () => {
         expect(result).toBe("<b>John</b> <b>John</b> <b>John</b>");
     });
 });
+
+import { actorHasAlias } from './chat-message-parsing';
+
+describe('actorHasAlias', () => {
+    let actor;
+    let consoleSpy;
+
+    beforeEach(() => {
+        actor = new Actor();
+        consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    });
+
+    afterEach(() => {
+        consoleSpy.mockRestore();
+    });
+
+    it('should return false when alias is empty string', () => {
+        expect(actorHasAlias(actor, '')).toBe(false);
+    });
+
+    it('should return false when actor has no alias set', () => {
+        expect(actorHasAlias(actor, 'John Doe')).toBe(false);
+    });
+
+    it('should return true when actor has alias set', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'John Doe')).toBe(true);
+    });
+
+    it('should return true when actor has alias set, regardless of case', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'john doe')).toBe(true);
+        expect(actorHasAlias(actor, 'JOHN DOE')).toBe(true);
+    });
+
+    it('should return false when actor has different alias set', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'Jane Doe')).toBe(false);
+    });
+
+    it('should return false when actor has alias set but queried with empty string', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, '')).toBe(false);
+    });
+
+    it('should log an error when actor is null', () => {
+        actorHasAlias(null, 'John Doe');
+        expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should log an error when alias is not a string', () => {
+        actorHasAlias(actor, 123);
+        expect(consoleSpy).toHaveBeenCalled();
+    });
+});
+
+import { findAdressedActor } from './chat-message-parsing.js';
+
+describe('findAdressedActor', () => {
+    let ui;
+
+    beforeEach(() => {
+        ui = {
+            notifications: {
+                error: jest.fn()
+            }
+        };
+        global.game.reset()
+        global.ui = ui;
+    });
+
+    it('should return null when no alias is addressed', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'alias');
+        global.game.addActor(actor);
+
+        const message = "Kapascardia";
+        const result = findAdressedActor(message);
+        expect(result).toBeNull();
+    });
+
+    it('should return null and display an error when actor with alias is not found', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'other-alias');
+        global.game.addActor(actor);
+
+        const message = "Kapascardia @alias";
+        const result = findAdressedActor(message);
+        expect(result).toBeNull();
+        expect(ui.notifications.error).toHaveBeenCalled();
+    });
+
+    it('should return the actor when alias is addressed', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'alias');
+        global.game.addActor(actor);
+
+        const message = "/alias Kapascardia";
+        const result = findAdressedActor(message);
+        expect(result).toBe(actor);
+    });
+});

@@ -2,13 +2,72 @@ import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { postInChat } from "../scripts/shared.js";
 
+async function getGenerationParameters(actor) {
+    let name = actor.name;
+
+    let model = await actor.getFlag("unkenny", "model");
+    if (!model) {
+        ui.notifications.error("Error: Model parameter is missing.");
+        return null;
+    }
+
+    let apiKey = await actor.getFlag("unkenny", "llmAPIKey") || "";
+
+    let preamble = await actor.getFlag("unkenny", "preamble");
+    if (!preamble) {
+        ui.notifications.error("Error: Preamble parameter is missing.");
+        return null;
+    }
+
+    let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
+    if (!minNewTokens) {
+        ui.notifications.error("Error: MinNewTokens parameter is missing.");
+        return null;
+    }
+
+    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
+    if (!maxNewTokens) {
+        ui.notifications.error("Error: MaxNewTokens parameter is missing.");
+        return null;
+    }
+
+    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
+    if (!repetitionPenalty) {
+        ui.notifications.error("Error: RepetitionPenalty parameter is missing.");
+        return null;
+    }
+
+    let llmType = await actor.getFlag("unkenny", "llmType");
+    if (!llmType) {
+        ui.notifications.error("Error: LLMType parameter is missing.");
+        return null;
+    }
+
+    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
+
+    return {
+        actorName: name,
+        model: model,
+        apiKey: apiKey,
+        preamble: preamble,
+        minNewTokens: minNewTokens,
+        maxNewTokens: maxNewTokens,
+        repetitionPenalty: repetitionPenalty,
+        llmType: llmType,
+        prefixWithTalk: prefixWithTalk
+    };
+}
+
 async function generateResponse(actor, input) {
+    let parameters = await getGenerationParameters(actor);
+    if (!parameters) {
+        return;
+    }
     let response;
-    let llmType = await actor.getFlag("unkenny", "llmType")
-    if (llmType == 'api') {
-        response = await getResponseFromOpenAI(actor, input);
-    } else if (llmType == 'local') {
-        response = await getResponseFromLocalLLM(actor, input);
+    if (parameters.llmType == 'api') {
+        response = await getResponseFromOpenAI(parameters, input);
+    } else if (parameters.llmType == 'local') {
+        response = await getResponseFromLocalLLM(parameters, input);
     } else {
         ui.notifications.error("The selected model has neither the local nor the api property.");
         return;
@@ -36,4 +95,4 @@ async function postResponse(actor, request) {
     }
 }
 
-export { postResponse, generateResponse };
+export { postResponse, generateResponse, getGenerationParameters };
