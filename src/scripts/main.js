@@ -28,6 +28,6 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     postResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
   } else {
-    return true; //Chat message needs to be posted by Foudnry.
+    return true; //Chat message needs to be posted by Foundry.
   }
 });

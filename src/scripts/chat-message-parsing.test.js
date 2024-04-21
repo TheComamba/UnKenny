@@ -71,3 +71,58 @@ describe('replaceAlias', () => {
         expect(result).toBe("<b>John</b> <b>John</b> <b>John</b>");
     });
 });
+
+import { actorHasAlias } from './chat-message-parsing';
+
+describe('actorHasAlias', () => {
+    let actor;
+    let consoleSpy;
+
+    beforeEach(() => {
+        actor = new Actor();
+        consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    });
+
+    afterEach(() => {
+        consoleSpy.mockRestore();
+    });
+
+    it('should return false when alias is empty string', () => {
+        expect(actorHasAlias(actor, '')).toBe(false);
+    });
+
+    it('should return false when actor has no alias set', () => {
+        expect(actorHasAlias(actor, 'John Doe')).toBe(false);
+    });
+
+    it('should return true when actor has alias set', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'John Doe')).toBe(true);
+    });
+
+    it('should return true when actor has alias set, regardless of case', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'john doe')).toBe(true);
+        expect(actorHasAlias(actor, 'JOHN DOE')).toBe(true);
+    });
+
+    it('should return false when actor has different alias set', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, 'Jane Doe')).toBe(false);
+    });
+
+    it('should return false when actor has alias set but queried with empty string', () => {
+        actor.setFlag('unkenny', 'alias', 'John Doe');
+        expect(actorHasAlias(actor, '')).toBe(false);
+    });
+
+    it('should log an error when actor is null', () => {
+        actorHasAlias(null, 'John Doe');
+        expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should log an error when alias is not a string', () => {
+        actorHasAlias(actor, 123);
+        expect(consoleSpy).toHaveBeenCalled();
+    });
+});
