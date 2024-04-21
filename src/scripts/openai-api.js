@@ -19,7 +19,7 @@ async function getResponseFromOpenAI(parameters, input) {
     });
 
     const chatCompletion = await openai.chat.completions.create({
-        model: parameters.modelPath,
+        model: parameters.model,
         messages: [
             {
                 role: 'system',

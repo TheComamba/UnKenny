@@ -38,7 +38,7 @@ async function getModelAndTokenizer(model_path) {
 }
 
 async function getResponseFromLocalLLM(parameters, input) {
-    const { model, tokenizer } = await getModelAndTokenizer(parameters.model_path);
+    const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
     let prompt = parameters.preamble + '</s>' + input + '<s>';
     let { input_ids } = tokenizer(prompt);
