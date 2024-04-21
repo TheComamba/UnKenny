@@ -41,11 +41,7 @@ function findAdressedActor(message) {
     }
     let actor = game.actors.find(actor => actorHasAlias(actor, alias));
     if (!actor) {
-        ui.notifications.error(`Actor "${alias}" not found.`);
-        return null;
-    }
-    if (!isUnkenny(actor)) {
-        ui.notifications.error(`Actor "${alias}" is not UnKenny.`);
+        ui.notifications.error(`Actor with alias "${alias}" not found.`);
         return null;
     }
     return actor;

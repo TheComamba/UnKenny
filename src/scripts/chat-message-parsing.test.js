@@ -126,3 +126,50 @@ describe('actorHasAlias', () => {
         expect(consoleSpy).toHaveBeenCalled();
     });
 });
+
+import { findAdressedActor } from './chat-message-parsing.js';
+
+describe('findAdressedActor', () => {
+    let ui;
+
+    beforeEach(() => {
+        ui = {
+            notifications: {
+                error: jest.fn()
+            }
+        };
+        global.game.reset()
+        global.ui = ui;
+    });
+
+    it('should return null when no alias is addressed', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'alias');
+        global.game.addActor(actor);
+
+        const message = "Kapascardia";
+        const result = findAdressedActor(message);
+        expect(result).toBeNull();
+    });
+
+    it('should return null and display an error when actor with alias is not found', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'other-alias');
+        global.game.addActor(actor);
+
+        const message = "Kapascardia @alias";
+        const result = findAdressedActor(message);
+        expect(result).toBeNull();
+        expect(ui.notifications.error).toHaveBeenCalled();
+    });
+
+    it('should return the actor when alias is addressed', () => {
+        const actor = new Actor();
+        actor.setFlag('unkenny', 'alias', 'alias');
+        global.game.addActor(actor);
+
+        const message = "/alias Kapascardia";
+        const result = findAdressedActor(message);
+        expect(result).toBe(actor);
+    });
+});
