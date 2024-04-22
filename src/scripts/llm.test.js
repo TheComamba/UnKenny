@@ -53,3 +53,5 @@ describe('getGenerationParameters', () => {
         }
     });
 });
+
+// TODO: Test that actor flags overwrite global flags

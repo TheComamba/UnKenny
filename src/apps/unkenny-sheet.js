@@ -21,6 +21,7 @@ class UnKennySheet extends DocumentSheet {
         return this.context;
     }
 
+    // TODO: Export models to a separate file
     initContextModels() {
         // Models to choose from: 
         // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending

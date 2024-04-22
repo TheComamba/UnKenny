@@ -17,6 +17,8 @@ For that reason, monitor your API key usage every now and then. If ever you find
 
 ## Usage
 
+__TODO__ Update usage for global settings.
+
 After enabling the module for a world, click on the actor of your choice.
 
 Click on "Make UnKenny" and enter some of the following data: 
