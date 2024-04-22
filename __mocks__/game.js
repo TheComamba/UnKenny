@@ -7,5 +7,5 @@ const game = {
         this.actors = [];
     }
 };
-
+// TODO: Add settings field to game.
 export default game;
