@@ -9,4 +9,8 @@ Hooks.on.mockImplementation((event, callback) => {
   // Mock implementation here
 });
 
+Hooks.once.mockImplementation((event, callback) => {
+  callback();
+});
+
 export default Hooks;

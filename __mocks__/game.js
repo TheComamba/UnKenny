@@ -5,7 +5,18 @@ const game = {
     },
     reset: function () {
         this.actors = [];
+    },
+    settings: {
+        data: {},
+        register: function(module, key, settingsObject) {
+            if (!this.data[module]) {
+                this.data[module] = {};
+            }
+            this.data[module][key] = settingsObject;
+        },
+        get: function(module, key) {
+            return this.data[module] ? this.data[module][key] : undefined;
+        }
     }
 };
-// TODO: Add settings field to game.
 export default game;
