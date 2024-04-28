@@ -14,60 +14,26 @@ function llmParametersAndDefaults() {
     };
 }
 
+async function getGenerationParameter(actor, parameterName) {
+    let value = await actor.getFlag("unkenny", parameterName);
+    if (!value) {
+        value = game.settings.get("unkenny", parameterName);
+    }
+    if (!value) {
+        value = llmParametersAndDefaults()[parameterName];
+        ui.notifications.warning(`No value found for ${parameterName}. Using default value "${value}".`);
+    }
+    return value;
+}
+
 async function getGenerationParameters(actor) {
-    let name = actor.name;
-
-    let model = await actor.getFlag("unkenny", "model");
-    if (!model) {
-        ui.notifications.error("Error: Model parameter is missing.");
-        return null;
+    let params = {};
+    params.actorName = actor.name;
+    for (let key in llmParametersAndDefaults()) {
+        params[key] = await getGenerationParameter(actor, key);
     }
-
-    let apiKey = await actor.getFlag("unkenny", "apiKey") || "";
-
-    let preamble = await actor.getFlag("unkenny", "preamble");
-    if (!preamble) {
-        ui.notifications.error("Error: Preamble parameter is missing.");
-        return null;
-    }
-
-    let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
-    if (!minNewTokens) {
-        ui.notifications.error("Error: MinNewTokens parameter is missing.");
-        return null;
-    }
-
-    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
-    if (!maxNewTokens) {
-        ui.notifications.error("Error: MaxNewTokens parameter is missing.");
-        return null;
-    }
-
-    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
-    if (!repetitionPenalty) {
-        ui.notifications.error("Error: RepetitionPenalty parameter is missing.");
-        return null;
-    }
-
-    let llmType = await actor.getFlag("unkenny", "llmType");
-    if (!llmType) {
-        ui.notifications.error("Error: LLMType parameter is missing.");
-        return null;
-    }
-
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-
-    return {
-        actorName: name,
-        model: model,
-        apiKey: apiKey,
-        preamble: preamble,
-        minNewTokens: minNewTokens,
-        maxNewTokens: maxNewTokens,
-        repetitionPenalty: repetitionPenalty,
-        llmType: llmType,
-        prefixWithTalk: prefixWithTalk
-    };
+    params.preamble = await getGenerationParameter(actor, "preamble");
+    return params;
 }
 
 async function generateResponse(actor, input) {
