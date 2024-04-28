@@ -1,12 +1,14 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
-import { postResponse } from "./llm.js";
+import { llmParametersAndDefaults, postResponse } from "./llm.js";
 import { getModelsAsMap } from "./models.js";
 
 // CONFIG.debug.hooks = true;
 
 Hooks.once('init', async function () {
+  const params = llmParametersAndDefaults();
+
   game.settings.register("unkenny", "model", {
     name: "Large Language Model", // TODO: Use this setting.
     hint: `The default model used by unkenny actors to generate responses.
@@ -16,7 +18,7 @@ Hooks.once('init', async function () {
     config: true,
     type: String,
     choices: getModelsAsMap(),
-    default: "",
+    default: params.model,
     onChange: value => {
       console.log(value)
     }
@@ -29,7 +31,7 @@ Hooks.once('init', async function () {
     scope: "world",
     config: true,
     type: String,
-    default: "",
+    default: params.apiKey,
     onChange: value => {
       console.log(value)
     }
@@ -47,7 +49,7 @@ Hooks.once('init', async function () {
       max: 100,
       step: 1
     },
-    default: 1,
+    default: params.minNewTokens,
     onChange: value => {
       console.log(value)
     }
@@ -64,13 +66,13 @@ Hooks.once('init', async function () {
       max: 1000,
       step: 1
     },
-    default: 250,
+    default: params.maxNewTokens,
     onChange: value => {
       console.log(value)
     }
   });
 
-  game.settings.register("unkenny", "repititionPenalty", {
+  game.settings.register("unkenny", "repetitionPenalty", {
     name: "Repetition Penalty / Frequency Penalty", // TODO: Use this setting.
     hint: `The repetition penalty is a number that makes it less likely for a token that has already been generated to be generated again.
     Higher values reduce the likelihood of repetition, negative values increase it.`,
@@ -82,7 +84,7 @@ Hooks.once('init', async function () {
       max: 2.0,
       step: 0.01
     },
-    default: 0.0,
+    default: params.repetitionPenalty,
     onChange: value => {
       console.log(value)
     }
@@ -102,7 +104,7 @@ Hooks.once('init', async function () {
       max: 2,
       step: 0.01
     },
-    default: 1.0,
+    default: params.temperature,
     onChange: value => {
       console.log(value)
     }
@@ -114,7 +116,7 @@ Hooks.once('init', async function () {
     scope: "world",
     config: true,
     type: Boolean,
-    default: false,
+    default: params.prefixWithTalk,
     onChange: value => {
       console.log(value)
     }

@@ -2,6 +2,18 @@ import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { postInChat } from "../scripts/shared.js";
 
+function llmParametersAndDefaults() {
+    return {
+        model: "",
+        apiKey: "",
+        minNewTokens: 1,
+        maxNewTokens: 250,
+        repetitionPenalty: 0.0,
+        temperature: 1.0,
+        prefixWithTalk: false
+    };
+}
+
 async function getGenerationParameters(actor) {
     let name = actor.name;
 
@@ -95,4 +107,4 @@ async function postResponse(actor, request) {
     }
 }
 
-export { postResponse, generateResponse, getGenerationParameters };
+export { generateResponse, getGenerationParameters, llmParametersAndDefaults, postResponse };
