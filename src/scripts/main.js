@@ -88,23 +88,6 @@ Hooks.once('init', async function () {
     }
   });
 
-  game.settings.register("unkenny", "presencePenalty", {
-    name: "Presence Penalty", // TODO: Remove this setting.
-    hint: "TODO: Only OpenAI",
-    scope: "world",
-    config: true,
-    type: Number,
-    range: {
-      min: 0,
-      max: 100,
-      step: 10
-    },
-    default: 50,
-    onChange: value => {
-      console.log(value)
-    }
-  });
-
   game.settings.register("unkenny", "temperature", {
     name: "Temperature", // TODO: Use this setting.
     hint: "TODO",
@@ -117,23 +100,6 @@ Hooks.once('init', async function () {
       step: 0.01
     },
     default: 1.0,
-    onChange: value => {
-      console.log(value)
-    }
-  });
-
-  game.settings.register("unkenny", "topP", {
-    name: "Top P", // TODO: Remove this setting.
-    hint: "TODO: Only OpenAI",
-    scope: "world",
-    config: true,
-    type: Number,
-    range: {
-      min: 0.1,
-      max: 1,
-      step: 0.01
-    },
-    default: 0.5,
     onChange: value => {
       console.log(value)
     }
