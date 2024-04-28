@@ -26,7 +26,7 @@ class UnKennySheet extends DocumentSheet {
     initContextWithActorData() {
         this.context.alias = this.object.getFlag("unkenny", "alias") || "";
         this.context.preamble = this.object.getFlag("unkenny", "preamble") || "";
-        this.context.llmAPIKey = this.object.getFlag("unkenny", "llmAPIKey") || "";
+        this.context.apiKey = this.object.getFlag("unkenny", "apiKey") || "";
 
         let currentModel = this.object.getFlag("unkenny", "model") || "";
         this.setContextModel(currentModel);
@@ -71,7 +71,7 @@ class UnKennySheet extends DocumentSheet {
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.object.setFlag("unkenny", "model", formData.model);
         await this.object.setFlag("unkenny", "llmType", this.context.llmType);
-        await this.object.setFlag("unkenny", "llmAPIKey", formData.llmAPIKey);
+        await this.object.setFlag("unkenny", "apiKey", formData.apiKey);
         await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
         await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
         await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);

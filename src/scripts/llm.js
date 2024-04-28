@@ -23,7 +23,7 @@ async function getGenerationParameters(actor) {
         return null;
     }
 
-    let apiKey = await actor.getFlag("unkenny", "llmAPIKey") || "";
+    let apiKey = await actor.getFlag("unkenny", "apiKey") || "";
 
     let preamble = await actor.getFlag("unkenny", "preamble");
     if (!preamble) {
