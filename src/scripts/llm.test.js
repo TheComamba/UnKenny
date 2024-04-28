@@ -3,24 +3,32 @@ import { getGenerationParameters, llmParametersAndDefaults } from './llm.js';
 
 describe('getGenerationParameters', () => {
     beforeEach(() => {
-        global.ui = { notifications: { warning: jest.fn() } };
+        game.reset();
+        global.ui = {
+            notifications: {
+                warning: jest.fn(),
+                error: jest.fn()
+            }
+        };
     });
 
     it('should return the default values if no flags are set', async () => {
         let actor = new Actor();
         actor.name = 'actor1';
         actor.setFlag('unkenny', 'preamble', 'preamble');
+        game.settings.set('unkenny', 'model', 'model1');
 
         const result = await getGenerationParameters(actor);
 
         const params = llmParametersAndDefaults();
         expect(result).toEqual({
             actorName: 'actor1',
-            model: params.model,
+            model: 'model1',
             apiKey: params.apiKey,
             preamble: 'preamble',
             minNewTokens: params.minNewTokens,
             maxNewTokens: params.maxNewTokens,
+            temperature: params.temperature,
             repetitionPenalty: params.repetitionPenalty,
             prefixWithTalk: params.prefixWithTalk
         });
@@ -34,6 +42,7 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
+        game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
@@ -48,6 +57,7 @@ describe('getGenerationParameters', () => {
             preamble: 'preamble',
             minNewTokens: 10,
             maxNewTokens: 20,
+            temperature: 1.5,
             repetitionPenalty: 0.5,
             prefixWithTalk: true
         });
@@ -61,6 +71,7 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
+        game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
@@ -68,6 +79,7 @@ describe('getGenerationParameters', () => {
         actor.setFlag('unkenny', 'model', 'model2');
         actor.setFlag('unkenny', 'minNewTokens', 11);
         actor.setFlag('unkenny', 'maxNewTokens', 21);
+        actor.setFlag('unkenny', 'temperature', 1.6);
         actor.setFlag('unkenny', 'repetitionPenalty', 0.6);
         actor.setFlag('unkenny', 'prefixWithTalk', false);
 
@@ -80,6 +92,7 @@ describe('getGenerationParameters', () => {
             preamble: 'preamble',
             minNewTokens: 11,
             maxNewTokens: 21,
+            temperature: 1.6,
             repetitionPenalty: 0.6,
             prefixWithTalk: false
         });
@@ -93,11 +106,29 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
+        game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
         const result = await getGenerationParameters(actor);
 
         expect(ui.notifications.warning).toHaveBeenCalled();
+    });
+
+    it('should print an error and return null if no model is set', async () => {
+        let actor = new Actor();
+        actor.name = 'actor1';
+
+        game.settings.set('unkenny', 'apiKey', 'apiKey1');
+        game.settings.set('unkenny', 'minNewTokens', 10);
+        game.settings.set('unkenny', 'maxNewTokens', 20);
+        game.settings.set('unkenny', 'temperature', 1.5);
+        game.settings.set('unkenny', 'repetitionPenalty', 0.5);
+        game.settings.set('unkenny', 'prefixWithTalk', true);
+
+        const result = await getGenerationParameters(actor);
+
+        expect(ui.notifications.error).toHaveBeenCalled();
+        expect(result).toBeNull();
     });
 });

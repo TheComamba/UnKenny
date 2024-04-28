@@ -5,7 +5,7 @@ import { isLocal } from "./models.js";
 
 function llmParametersAndDefaults() {
     return {
-        model: "",
+        model: null,
         apiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
@@ -17,12 +17,16 @@ function llmParametersAndDefaults() {
 
 async function getGenerationParameter(actor, parameterName) {
     let value = await actor.getFlag("unkenny", parameterName);
-    if (!value) {
+    if (value == null) {
         value = game.settings.get("unkenny", parameterName);
     }
-    if (!value) {
+    if (value == null) {
         value = llmParametersAndDefaults()[parameterName];
         ui.notifications.warning(`No value found for ${parameterName}. Using default value "${value}".`);
+    }
+    if (value == null) {
+        ui.notifications.error(`No default value found for ${parameterName}.`);
+        return null;
     }
     return value;
 }
@@ -31,7 +35,11 @@ async function getGenerationParameters(actor) {
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
-        params[key] = await getGenerationParameter(actor, key);
+        const param = await getGenerationParameter(actor, key);
+        if (param == null) {
+            return null;
+        }
+        params[key] = param;
     }
     params.preamble = await getGenerationParameter(actor, "preamble");
     return params;
