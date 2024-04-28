@@ -3,9 +3,6 @@ const game = {
     addActor: function (actor) {
         this.actors.push(actor);
     },
-    reset: function () {
-        this.actors = [];
-    },
     settings: {
         data: {},
         register: function (module, key, settingsObject) {
@@ -23,6 +20,10 @@ const game = {
             }
             this.data[module][key] = value;
         }
-    }
+    },
+    reset: function () {
+        this.actors = [];
+        this.settings.data = {};
+    },
 };
 export default game;
