@@ -110,7 +110,7 @@ Hooks.once('init', async function () {
 
   game.settings.register("unkenny", "prefixWithTalk", {
     name: "Prefix responses with /talk", // TODO: Use this setting.
-    hint: "TODO",
+    hint: `If this option is checked and the Talking Actors FoundryVTT module is enabled and set up, the model's responses are read out loud by an AI voice.`,
     scope: "world",
     config: true,
     type: Boolean,
