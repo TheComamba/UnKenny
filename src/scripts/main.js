@@ -2,29 +2,30 @@ import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
 import { postResponse } from "./llm.js";
+import { getModelsAsMap } from "./models.js";
 
 // CONFIG.debug.hooks = true;
 
 Hooks.once('init', async function () {
   game.settings.register("unkenny", "model", {
-    name: "Large Language Model",
-    hint: "TODO",
+    name: "Large Language Model", // TODO: Use this setting.
+    hint: `The default model used by unkenny actors to generate responses.
+    Local models run in your browser or FoundryVTT instance, while OpenAI models run on a remote server.
+    OpenAI models are much faster and mostly yield better results, but they require an API key to work.`,
     scope: "world",
     config: true,
     type: String,
-    choices: {
-      "a": "Model A",
-      "b": "Model B",
-    },
-    default: "a",
+    choices: getModelsAsMap(),
+    default: "",
     onChange: value => {
       console.log(value)
     }
   });
 
   game.settings.register("unkenny", "apiKey", {
-    name: "OpenAI API Key",
-    hint: "TODO",
+    name: "OpenAI API Key", // TODO: Use this setting.
+    hint: `If you want to use OpenAI models, you need to provide an API key here.
+    Additionally, your account must have a positive balance.`,
     scope: "world",
     config: true,
     type: String,
@@ -35,58 +36,60 @@ Hooks.once('init', async function () {
   });
 
   game.settings.register("unkenny", "minNewTokens", {
-    name: "Minimum Number of New Tokens",
-    hint: "TODO",
+    name: "Minimum Number of New Tokens", // TODO: Use this setting.
+    hint: `In large language models, the number of tokens determines the length of the generated text.
+    To avoid very short responses, you can set a minimum number of tokens here.`,
     scope: "world",
     config: true,
     type: Number,
     range: {
-      min: 0,
+      min: 1,
       max: 100,
       step: 1
     },
-    default: 50,
+    default: 1,
     onChange: value => {
       console.log(value)
     }
   });
 
   game.settings.register("unkenny", "maxNewTokens", {
-    name: "Maximum Number of New Tokens",
-    hint: "TODO",
+    name: "Maximum Number of New Tokens", // TODO: Use this setting.
+    hint: `To avoid overly long responses, you can set a maximum number of tokens here.`,
     scope: "world",
     config: true,
     type: Number,
     range: {
-      min: 0,
-      max: 100,
+      min: 1,
+      max: 1000,
       step: 1
     },
-    default: 50,
+    default: 250,
     onChange: value => {
       console.log(value)
     }
   });
 
   game.settings.register("unkenny", "repititionPenalty", {
-    name: "Repetition Penalty / Frequency Penalty",
-    hint: "TODO",
+    name: "Repetition Penalty / Frequency Penalty", // TODO: Use this setting.
+    hint: `The repetition penalty is a number that makes it less likely for a token that has already been generated to be generated again.
+    Higher values reduce the likelihood of repetition.`,
     scope: "world",
     config: true,
     type: Number,
     range: {
-      min: 0,
-      max: 100,
-      step: 10
+      min: -2.0,
+      max: 2.0,
+      step: 0.01
     },
-    default: 50,
+    default: 0.0,
     onChange: value => {
       console.log(value)
     }
   });
 
   game.settings.register("unkenny", "presencePenalty", {
-    name: "Presence Penalty",
+    name: "Presence Penalty", // TODO: Remove this setting.
     hint: "TODO: Only OpenAI",
     scope: "world",
     config: true,
@@ -103,8 +106,8 @@ Hooks.once('init', async function () {
   });
 
   game.settings.register("unkenny", "temperature", {
-    name: "Temperature",
-    hint: "TODO: Only OpenAI",
+    name: "Temperature", // TODO: Use this setting.
+    hint: "TODO",
     scope: "world",
     config: true,
     type: Number,
@@ -120,7 +123,7 @@ Hooks.once('init', async function () {
   });
 
   game.settings.register("unkenny", "topP", {
-    name: "Top P",
+    name: "Top P", // TODO: Remove this setting.
     hint: "TODO: Only OpenAI",
     scope: "world",
     config: true,
@@ -137,7 +140,7 @@ Hooks.once('init', async function () {
   });
 
   game.settings.register("unkenny", "prefixWithTalk", {
-    name: "Prefix responses with /talk",
+    name: "Prefix responses with /talk", // TODO: Use this setting.
     hint: "TODO",
     scope: "world",
     config: true,
