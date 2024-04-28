@@ -73,7 +73,7 @@ Hooks.once('init', async function () {
   game.settings.register("unkenny", "repititionPenalty", {
     name: "Repetition Penalty / Frequency Penalty", // TODO: Use this setting.
     hint: `The repetition penalty is a number that makes it less likely for a token that has already been generated to be generated again.
-    Higher values reduce the likelihood of repetition.`,
+    Higher values reduce the likelihood of repetition, negative values increase it.`,
     scope: "world",
     config: true,
     type: Number,
@@ -90,7 +90,10 @@ Hooks.once('init', async function () {
 
   game.settings.register("unkenny", "temperature", {
     name: "Temperature", // TODO: Use this setting.
-    hint: "TODO",
+    hint: `Large language models generate text by sampling from a probability distribution over the vocabulary.
+    Temperature infuences this distribution:
+    With a temperature of 0, the model always chooses the most likely token, while all token become nearly equally likely for very high temperatures.
+    Lower values make the model more conservative, higher values make it more creative.`,
     scope: "world",
     config: true,
     type: Number,
