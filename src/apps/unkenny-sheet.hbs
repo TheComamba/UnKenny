@@ -26,13 +26,6 @@
             </select>
         </div>
 
-        {{#if (eq llmType "api")}}
-        <div class='form-field'>
-            <label>OpenAI API Key</label>
-            <input name="apiKey" type="text" value="{{apiKey}}">
-        </div>
-        {{/if}}
-
         <div class='form-field'>
             <label>Minimum number of generated tokens</label>
             <input name="minNewTokens" type="number" value="{{minNewTokens}}" step="1">

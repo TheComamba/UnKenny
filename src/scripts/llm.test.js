@@ -22,7 +22,6 @@ describe('getGenerationParameters', () => {
             minNewTokens: params.minNewTokens,
             maxNewTokens: params.maxNewTokens,
             repetitionPenalty: params.repetitionPenalty,
-            llmType: params.llmType,
             prefixWithTalk: params.prefixWithTalk
         });
     });
@@ -36,7 +35,6 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'llmType', 'type1');
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
         actor.setFlag('unkenny', 'preamble', 'preamble');
@@ -51,7 +49,6 @@ describe('getGenerationParameters', () => {
             minNewTokens: 10,
             maxNewTokens: 20,
             repetitionPenalty: 0.5,
-            llmType: 'type1',
             prefixWithTalk: true
         });
     });
@@ -65,7 +62,6 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'llmType', 'type1');
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
         actor.setFlag('unkenny', 'preamble', 'preamble');
@@ -73,7 +69,6 @@ describe('getGenerationParameters', () => {
         actor.setFlag('unkenny', 'minNewTokens', 11);
         actor.setFlag('unkenny', 'maxNewTokens', 21);
         actor.setFlag('unkenny', 'repetitionPenalty', 0.6);
-        actor.setFlag('unkenny', 'llmType', 'type2');
         actor.setFlag('unkenny', 'prefixWithTalk', false);
 
         const result = await getGenerationParameters(actor);
@@ -86,7 +81,6 @@ describe('getGenerationParameters', () => {
             minNewTokens: 11,
             maxNewTokens: 21,
             repetitionPenalty: 0.6,
-            llmType: 'type2',
             prefixWithTalk: false
         });
     });
@@ -100,7 +94,6 @@ describe('getGenerationParameters', () => {
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'llmType', 'type1');
         game.settings.set('unkenny', 'prefixWithTalk', true);
 
         const result = await getGenerationParameters(actor);

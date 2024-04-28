@@ -1,6 +1,7 @@
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { postInChat } from "../scripts/shared.js";
+import { isLocal } from "./models.js";
 
 function llmParametersAndDefaults() {
     return {
@@ -42,13 +43,10 @@ async function generateResponse(actor, input) {
         return;
     }
     let response;
-    if (parameters.llmType == 'api') {
-        response = await getResponseFromOpenAI(parameters, input);
-    } else if (parameters.llmType == 'local') {
+    if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, input);
     } else {
-        ui.notifications.error("The selected model has neither the local nor the api property.");
-        return;
+        response = await getResponseFromOpenAI(parameters, input);
     }
 
     let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
