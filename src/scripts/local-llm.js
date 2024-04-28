@@ -48,7 +48,8 @@ async function getResponseFromLocalLLM(parameters, input) {
     const localParameters = {
         min_new_tokens: parameters.minNewTokens,
         max_new_tokens: parameters.maxNewTokens,
-        repetition_penalty: parameters.repetitionPenalty
+        repetition_penalty: parameters.repetitionPenalty,
+        temperature: parameters.temperature,
     };
     let tokens = await model.generate(input_ids, localParameters);
     let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
