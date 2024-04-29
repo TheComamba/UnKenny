@@ -26,32 +26,21 @@ class UnKennySheet extends DocumentSheet {
     initContextWithActorData() {
         this.context.alias = this.object.getFlag("unkenny", "alias") || "";
         this.context.preamble = this.object.getFlag("unkenny", "preamble") || "";
-        this.context.apiKey = this.object.getFlag("unkenny", "apiKey") || "";
 
-        let currentModel = this.object.getFlag("unkenny", "model") || "";
+        let currentModel = this.object.getFlag("unkenny", "model");
         this.setContextModel(currentModel);
 
-        this.context.minNewTokens = this.object.getFlag("unkenny", "minNewTokens") || 3;
-        this.context.maxNewTokens = this.object.getFlag("unkenny", "maxNewTokens") || 128;
-        this.context.repetitionPenalty = this.object.getFlag("unkenny", "repetitionPenalty") || 1.2;
-
-        this.context.prefixWithTalk = this.object.getFlag("unkenny", "prefixWithTalk") || false;
+        this.context.minNewTokens = this.object.getFlag("unkenny", "minNewTokens");
+        this.context.maxNewTokens = this.object.getFlag("unkenny", "maxNewTokens");
+        this.context.repetitionPenalty = this.object.getFlag("unkenny", "repetitionPenalty");
+        this.context.temperature = this.object.getFlag("unkenny", "temperature");
     }
 
     async _onChangeInput(event) {
         await super._onChangeInput(event);
-        let needsReRendering = false;
         if (event.target.name == "model") {
             let model = event.target.value
             this.setContextModel(model);
-            needsReRendering = true;
-        }
-        if (needsReRendering) {
-            await this.render(true);
-            let position = this.position;
-            position.height = "auto";
-            position.width = "auto";
-            this.setPosition(position);
         }
     }
 
@@ -68,12 +57,19 @@ class UnKennySheet extends DocumentSheet {
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "alias", formData.alias);
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
-        await this.object.setFlag("unkenny", "model", formData.model);
-        await this.object.setFlag("unkenny", "apiKey", formData.apiKey);
-        await this.object.setFlag("unkenny", "minNewTokens", formData.minNewTokens);
-        await this.object.setFlag("unkenny", "maxNewTokens", formData.maxNewTokens);
-        await this.object.setFlag("unkenny", "repetitionPenalty", formData.repetitionPenalty);
-        await this.object.setFlag("unkenny", "prefixWithTalk", formData.prefixWithTalk);
+        await this.updateFlag(formData, "model");
+        await this.updateFlag(formData, "minNewTokens");
+        await this.updateFlag(formData, "maxNewTokens");
+        await this.updateFlag(formData, "repetitionPenalty");
+        await this.updateFlag(formData, "temperature");
+    }
+
+    async updateFlag(formData, key) {
+        if (formData[key]) {
+            await this.object.setFlag("unkenny", key, formData[key]);
+        } else {
+            await this.object.unsetFlag("unkenny", key);
+        }
     }
 }
 

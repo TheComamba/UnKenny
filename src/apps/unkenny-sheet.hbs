@@ -18,7 +18,7 @@
         </div>
 
         <div class='form-field'>
-            <label>Model</label>
+            <label>Overwrite model</label>
             <select name='model' class='form-control'>
                 {{#each models}}
                 <option value="{{this.path}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
@@ -27,23 +27,23 @@
         </div>
 
         <div class='form-field'>
-            <label>Minimum number of generated tokens</label>
+            <label>Overwrite minimum number of generated tokens</label>
             <input name="minNewTokens" type="number" value="{{minNewTokens}}" step="1">
         </div>
 
         <div class='form-field'>
-            <label>Maximum number of generated tokens</label>
+            <label>Overwrite maximum number of generated tokens</label>
             <input name="maxNewTokens" type="number" value="{{maxNewTokens}}" step="1">
         </div>
 
         <div class='form-field'>
-            <label>Repetition Penalty</label>
+            <label>Overwrite Repetition Penalty</label>
             <input name="repetitionPenalty" type="number" step="0.01" value="{{repetitionPenalty}}">
         </div>
 
         <div class='form-field'>
-            <label>Prefix response with "/talk" macro from "Talking Actors" module</label>
-            <input name="prefixWithTalk" type="checkbox" {{#prefixWithTalk}}checked{{/prefixWithTalk}}>
+            <label>Overwrite Temperature</label>
+            <input name="temperature" type="number" step="0.01" value="{{repetitionPenalty}}">
         </div>
 
         <button type="submit">
