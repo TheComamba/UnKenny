@@ -37,10 +37,25 @@ async function getModelAndTokenizer(model_path) {
     return { model, tokenizer };
 }
 
+function messagesToPrompt(tokenizer, messages) {
+    // Store the original console.warn
+    let originalConsoleWarn = console.warn;
+    // Override console.warn to show errors in the UI
+    console.warn = function (message) {
+        ui.notifications.error(message);
+    };
+    // The actual function call
+    let input_ids = tokenizer.apply_chat_template(messages);
+    // Restore the original console.warn
+    console.warn = originalConsoleWarn;
+
+    return input_ids;
+}
+
 async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
-    let input_ids = tokenizer.apply_chat_template(messages);
+    let prompt = messagesToPrompt(tokenizer, messages);
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
 
@@ -50,8 +65,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
         repetition_penalty: parameters.repetitionPenalty,
         temperature: parameters.temperature,
     };
-    let tokens = await model.generate(input_ids, localParameters);
-    tokens = tokens[0].slice(input_ids.size);
+    let tokens = await model.generate(prompt, localParameters);
+    tokens = tokens[0].slice(prompt.size);
     let response = tokenizer.decode(tokens, { skip_special_tokens: false });
 
     await info.close();
