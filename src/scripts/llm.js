@@ -1,61 +1,48 @@
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { postInChat } from "../scripts/shared.js";
+import { isLocal } from "./models.js";
+
+function llmParametersAndDefaults() {
+    return {
+        model: null,
+        apiKey: "",
+        minNewTokens: 1,
+        maxNewTokens: 250,
+        repetitionPenalty: 0.0,
+        temperature: 1.0,
+        prefixWithTalk: false
+    };
+}
+
+async function getGenerationParameter(actor, parameterName) {
+    let value = await actor.getFlag("unkenny", parameterName);
+    if (value == null) {
+        value = game.settings.get("unkenny", parameterName);
+    }
+    if (value == null) {
+        value = llmParametersAndDefaults()[parameterName];
+        ui.notifications.warning(`No value found for ${parameterName}. Using default value "${value}".`);
+    }
+    if (value == null) {
+        ui.notifications.error(`No default value found for ${parameterName}.`);
+        return null;
+    }
+    return value;
+}
 
 async function getGenerationParameters(actor) {
-    let name = actor.name;
-
-    let model = await actor.getFlag("unkenny", "model");
-    if (!model) {
-        ui.notifications.error("Error: Model parameter is missing.");
-        return null;
+    let params = {};
+    params.actorName = actor.name;
+    for (let key in llmParametersAndDefaults()) {
+        const param = await getGenerationParameter(actor, key);
+        if (param == null) {
+            return null;
+        }
+        params[key] = param;
     }
-
-    let apiKey = await actor.getFlag("unkenny", "llmAPIKey") || "";
-
-    let preamble = await actor.getFlag("unkenny", "preamble");
-    if (!preamble) {
-        ui.notifications.error("Error: Preamble parameter is missing.");
-        return null;
-    }
-
-    let minNewTokens = await actor.getFlag("unkenny", "minNewTokens");
-    if (!minNewTokens) {
-        ui.notifications.error("Error: MinNewTokens parameter is missing.");
-        return null;
-    }
-
-    let maxNewTokens = await actor.getFlag("unkenny", "maxNewTokens");
-    if (!maxNewTokens) {
-        ui.notifications.error("Error: MaxNewTokens parameter is missing.");
-        return null;
-    }
-
-    let repetitionPenalty = await actor.getFlag("unkenny", "repetitionPenalty");
-    if (!repetitionPenalty) {
-        ui.notifications.error("Error: RepetitionPenalty parameter is missing.");
-        return null;
-    }
-
-    let llmType = await actor.getFlag("unkenny", "llmType");
-    if (!llmType) {
-        ui.notifications.error("Error: LLMType parameter is missing.");
-        return null;
-    }
-
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-
-    return {
-        actorName: name,
-        model: model,
-        apiKey: apiKey,
-        preamble: preamble,
-        minNewTokens: minNewTokens,
-        maxNewTokens: maxNewTokens,
-        repetitionPenalty: repetitionPenalty,
-        llmType: llmType,
-        prefixWithTalk: prefixWithTalk
-    };
+    params.preamble = await getGenerationParameter(actor, "preamble");
+    return params;
 }
 
 async function generateResponse(actor, input) {
@@ -64,13 +51,10 @@ async function generateResponse(actor, input) {
         return;
     }
     let response;
-    if (parameters.llmType == 'api') {
-        response = await getResponseFromOpenAI(parameters, input);
-    } else if (parameters.llmType == 'local') {
+    if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, input);
     } else {
-        ui.notifications.error("The selected model has neither the local nor the api property.");
-        return;
+        response = await getResponseFromOpenAI(parameters, input);
     }
 
     let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
@@ -95,4 +79,4 @@ async function postResponse(actor, request) {
     }
 }
 
-export { postResponse, generateResponse, getGenerationParameters };
+export { generateResponse, getGenerationParameters, llmParametersAndDefaults, postResponse };

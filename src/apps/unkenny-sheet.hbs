@@ -17,6 +17,12 @@
             <textarea name="preamble" rows="15">{{preamble}}</textarea>
         </div>
 
+        <header class="flex-header">
+            <h3>
+                Overwrite Global Parameters
+            </h3>
+        </header>
+
         <div class='form-field'>
             <label>Model</label>
             <select name='model' class='form-control'>
@@ -25,13 +31,6 @@
                 {{/each}}
             </select>
         </div>
-
-        {{#if (eq llmType "api")}}
-        <div class='form-field'>
-            <label>OpenAI API Key</label>
-            <input name="llmAPIKey" type="text" value="{{llmAPIKey}}">
-        </div>
-        {{/if}}
 
         <div class='form-field'>
             <label>Minimum number of generated tokens</label>
@@ -44,13 +43,13 @@
         </div>
 
         <div class='form-field'>
-            <label>Repetition Penalty</label>
+            <label>Repetition penalty</label>
             <input name="repetitionPenalty" type="number" step="0.01" value="{{repetitionPenalty}}">
         </div>
 
         <div class='form-field'>
-            <label>Prefix response with "/talk" macro from "Talking Actors" module</label>
-            <input name="prefixWithTalk" type="checkbox" {{#prefixWithTalk}}checked{{/prefixWithTalk}}>
+            <label>Temperature</label>
+            <input name="temperature" type="number" step="0.01" value="{{repetitionPenalty}}">
         </div>
 
         <button type="submit">
