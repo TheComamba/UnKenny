@@ -37,11 +37,10 @@ async function getModelAndTokenizer(model_path) {
     return { model, tokenizer };
 }
 
-async function getResponseFromLocalLLM(parameters, input) {
+async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
-    let prompt = parameters.preamble + '</s>' + input + '<s>';
-    let { input_ids } = tokenizer(prompt);
+    let input_ids = tokenizer.apply_chat_template(messages);
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
 

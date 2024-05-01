@@ -45,16 +45,30 @@ async function getGenerationParameters(actor) {
     return params;
 }
 
+function getMessages(parameters, input) {
+    return [
+        {
+            role: 'system',
+            content: parameters.preamble,
+        },
+        {
+            role: 'user',
+            content: input,
+        }
+    ];
+}
+
 async function generateResponse(actor, input) {
     let parameters = await getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
+    let messages = getMessages(parameters, input);
     let response;
     if (isLocal(parameters.model)) {
-        response = await getResponseFromLocalLLM(parameters, input);
+        response = await getResponseFromLocalLLM(parameters, messages);
     } else {
-        response = await getResponseFromOpenAI(parameters, input);
+        response = await getResponseFromOpenAI(parameters, messages);
     }
 
     let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;

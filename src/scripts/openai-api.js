@@ -12,7 +12,7 @@ import('https://cdn.jsdelivr.net/npm/openai@4.22.1/+esm')
         }
     });
 
-async function getResponseFromOpenAI(parameters, input) {
+async function getResponseFromOpenAI(parameters, messages) {
     const openai = new OpenAi({
         apiKey: parameters.apiKey,
         dangerouslyAllowBrowser: true,
@@ -20,21 +20,10 @@ async function getResponseFromOpenAI(parameters, input) {
 
     const chatCompletion = await openai.chat.completions.create({
         model: parameters.model,
-        messages: [
-            {
-                role: 'system',
-                content: parameters.preamble,
-            },
-            {
-                role: 'user',
-                content: input,
-            }
-        ],
-        temperature: 0,
+        messages: messages,
         max_tokens: parameters.maxNewTokens,
-        top_p: 1.0,
+        temperature: parameters.temperature,
         frequency_penalty: parameters.repetitionPenalty,
-        presence_penalty: 0.0,
     });
 
     return chatCompletion['choices'][0]['message']['content'];
