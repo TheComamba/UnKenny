@@ -51,8 +51,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
         temperature: parameters.temperature,
     };
     let tokens = await model.generate(input_ids, localParameters);
-    let response = tokenizer.decode(tokens[0], { skip_special_tokens: false });
-    response = response.substring(prompt.length);
+    tokens = tokens[0].slice(input_ids.size);
+    let response = tokenizer.decode(tokens, { skip_special_tokens: false });
 
     await info.close();
 
