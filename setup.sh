@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "This script is currently broken. Best install nodejs and npm manually, for the moment."
+exit 1
+
 set -e
 
 # Source nvm script, replace with the path to your nvm script
