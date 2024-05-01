@@ -19,7 +19,9 @@ For that reason, monitor your API key usage every now and then. If ever you find
 
 ### Global Configuration
 
-After enabling the module for a world, configure it in the global settings. Selecting a [Large Language Model](https://en.wikipedia.org/wiki/Large_language_model) is required. If you want to use one of OpenAI's models, you will also need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/). The other parameters are set to reasonable defaults.
+After enabling the module for a world, configure it in the global settings. Selecting a [Large Language Model](https://en.wikipedia.org/wiki/Large_language_model) is required. If you want to use one of OpenAI's models, you will also need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/). Note that different models may have different capabilties and also different usage costs.
+
+The other parameters are set to reasonable defaults.
 
 ![UnKenny Game Settings](https://raw.githubusercontent.com/thecomamba/unkenny/main/img/game_settings.png)
 

@@ -3,12 +3,11 @@ function getModels() {
     // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
     return [
         { text: "", path: "", value: "{}" },
-        { text: "Local: Felladrin Bloomz (ca. 3 GB RAM)", path: "Felladrin/onnx-bloomz-560m-sft-chat" },
-        { text: "Local: Felladrin GPT2 (ca. 1 GB RAM)", path: "Felladrin/onnx-gpt2-conversational-retrain" },
-        { text: "Local: Felladrin GPT2 Large (ca. 2 GB RAM)", path: "Felladrin/onnx-gpt2-large-conversational-retrain" },
-        { text: "Local: Xenova GPT2 Large (ca. 2 GB RAM)", path: "Xenova/gpt2-large-conversational" },
-        { text: "OpenAI: GPT-3.5-turbo", path: "gpt-3.5-turbo" },
-        { text: "OpenAI: GPT-4-preview", path: "gpt-4-1106-preview" }
+        { text: "Local: Xenova Tiny Lllama 1.1", path: "Xenova/TinyLlama-1.1B-Chat-v1.0" },
+        { text: "Local: Xenova Qwen 1.5", path: "Xenova/Qwen1.5-1.8B-Chat" },
+        { text: "OpenAI: GPT 3.5 turbo", path: "gpt-3.5-turbo" },
+        { text: "OpenAI: GPT 4", path: "gpt-4" },
+        { text: "OpenAI: GPT 4 turbo", path: "gpt-4-turbo" }
     ];
 }
 
