@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "description": "## FoundryVTT NPCs with artificial intelligence",
-  "main": "index.js",
+  "main": "src/scripts/main.js",
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage"
@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/TheComamba/UnKenny/issues"
   },
