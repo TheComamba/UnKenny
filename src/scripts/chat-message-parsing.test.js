@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { findAdressedAlias } from './chat-message-parsing.js';
 
 describe('findAdressedAlias', () => {

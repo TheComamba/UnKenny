@@ -1,8 +1,14 @@
-global.Actor = require('./__mocks__/actor.js').default;
-global.Dialog = require('./__mocks__/dialog.js').default;
-global.DocumentSheet = require('./__mocks__/document-sheet.js').default;
-global.game = require('./__mocks__/game.js').default;
-global.Hooks = require('./__mocks__/hooks.js').default;
+import Actor from './__mocks__/actor.js';
+import Dialog from './__mocks__/dialog.js';
+import DocumentSheet from './__mocks__/document-sheet.js';
+import game from './__mocks__/game.js';
+import Hooks from './__mocks__/hooks.js';
+
+global.Actor = Actor;
+global.Dialog = Dialog;
+global.DocumentSheet = DocumentSheet;
+global.game = game;
+global.Hooks = Hooks;
 
 beforeEach(() => {
   Hooks.on.mockReset();

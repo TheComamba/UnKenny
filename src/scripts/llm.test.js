@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import game from '../../__mocks__/game.js';
 import { getGenerationParameters, llmParametersAndDefaults } from './llm.js';
 

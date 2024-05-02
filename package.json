@@ -5,8 +5,8 @@
   "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "src/scripts/main.js",
   "scripts": {
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./jest.setup.js"
-    ]
+    ],
+    "transform": {}
   }
 }

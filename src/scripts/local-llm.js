@@ -1,5 +1,4 @@
 let AutoModelForCausalLM, AutoTokenizer;
-
 import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
     .then(module => {
         AutoModelForCausalLM = module.AutoModelForCausalLM;
@@ -13,6 +12,7 @@ import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
         }
     });
 
+// import { AutoModelForCausalLM, AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 
 const modelCache = new Map();

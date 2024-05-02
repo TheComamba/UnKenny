@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { llmParametersAndDefaults } from './llm.js';
 import * as main from './main.js';
 
