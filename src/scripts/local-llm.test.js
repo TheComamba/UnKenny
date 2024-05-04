@@ -1,8 +1,9 @@
 import { testIfSlow } from './jest-utils.js';
-import { getResponseFromLocalLLM } from './local-llm.js';
 
 describe('getResponseFromLocalLLM', () => {
     testIfSlow('returns the expected response', async () => {
+        const { getResponseFromLocalLLM } = await import('./local-llm.js');
+
         const parameters = {
             model: 'todo',
             actorName: 'Test Actor',
