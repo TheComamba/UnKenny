@@ -5,7 +5,7 @@ describe('getResponseFromLocalLLM', () => {
         const { getResponseFromLocalLLM } = await import('./local-llm.js');
 
         const parameters = {
-            model: 'todo',
+            model: 'Xenova/TinyLlama-1.1B-Chat-v1.0',
             actorName: 'Test Actor',
             minNewTokens: 10,
             maxNewTokens: 20,
