@@ -6,6 +6,12 @@ class Dialog {
             resolve();
         });
     }
+
+    close() {
+        return new Promise((resolve, reject) => {
+            resolve();
+        });
+    }
 }
 
 export default Dialog;
