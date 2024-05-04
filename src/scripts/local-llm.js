@@ -12,10 +12,10 @@ import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
                     AutoTokenizer = localModule.AutoTokenizer;
                 })
                 .catch(localError => {
-                    console.error("Unable to load local module", localError);
+                    throw new Error("Unable to load local module: " + localError);
                 });
         } else {
-            console.error("Unable to load module", error);
+            throw new Error("Unable to load module: " + error);
         }
     });
 
