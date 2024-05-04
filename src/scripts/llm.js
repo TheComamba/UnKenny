@@ -93,4 +93,4 @@ async function postResponse(actor, request) {
     }
 }
 
-export { generateResponse, getGenerationParameters, llmParametersAndDefaults, postResponse };
+export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults, postResponse };
