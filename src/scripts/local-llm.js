@@ -1,23 +1,21 @@
 let AutoModelForCausalLM, AutoTokenizer;
-import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1')
-    .then(module => {
-        AutoModelForCausalLM = module.AutoModelForCausalLM;
-        AutoTokenizer = module.AutoTokenizer;
-    })
-    .catch(error => {
-        if (process.env.NODE_ENV === 'test') {
-            import('@xenova/transformers')
-                .then(localModule => {
-                    AutoModelForCausalLM = localModule.AutoModelForCausalLM;
-                    AutoTokenizer = localModule.AutoTokenizer;
-                })
-                .catch(localError => {
-                    throw new Error("Unable to load local module: " + localError);
-                });
-        } else {
-            throw new Error("Unable to load module: " + error);
+try {
+    const module = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1');
+    AutoModelForCausalLM = module.AutoModelForCausalLM;
+    AutoTokenizer = module.AutoTokenizer;
+} catch (error) {
+    if (process.env.NODE_ENV === 'test') {
+        try {
+            const localModule = await import('@xenova/transformers');
+            AutoModelForCausalLM = localModule.AutoModelForCausalLM;
+            AutoTokenizer = localModule.AutoTokenizer;
+        } catch (localError) {
+            throw new Error("Unable to load local module: " + localError);
         }
-    });
+    } else {
+        throw new Error("Unable to load module: " + error);
+    }
+}
 
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 
