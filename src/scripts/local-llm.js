@@ -60,7 +60,7 @@ async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
     const prompt = messagesToPrompt(tokenizer, messages);
-    const { input_ids } = tokenizer(prompt, { return_tensor: false }); // TODO: Not sure if return_tensor: false is correct here.
+    const { input_ids } = tokenizer(prompt, { return_tensor: true }); // TODO: Not sure if return_tensor: true is correct here.
 
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
