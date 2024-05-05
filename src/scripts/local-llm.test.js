@@ -6,7 +6,7 @@ describe('getResponseFromLocalLLM', () => {
         const { getResponseFromLocalLLM } = await import('./local-llm.js');
 
         const parameters = {
-            model: 'Xenova/TinyLlama-1.1B-Chat-v1.0',
+            model: 'Xenova/Qwen1.5-1.8B-Chat',
             actorName: 'Histrios',
             preamble: 'Your name is Histrios.',
             minNewTokens: 8,

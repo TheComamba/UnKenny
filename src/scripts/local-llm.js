@@ -49,17 +49,19 @@ function messagesToPrompt(tokenizer, messages) {
         ui.notifications.error(message);
     };
     // The actual function call
-    let input_ids = tokenizer.apply_chat_template(messages);
+    let prompt = tokenizer.apply_chat_template(messages, { tokenize: false });
     // Restore the original console.warn
     console.warn = originalConsoleWarn;
 
-    return input_ids;
+    return prompt;
 }
 
 async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
-    let prompt = messagesToPrompt(tokenizer, messages);
+    const prompt = messagesToPrompt(tokenizer, messages);
+    const { input_ids } = tokenizer(prompt, { return_tensor: false }); // TODO: Not sure if return_tensor: false is correct here.
+
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
 
@@ -69,8 +71,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
         repetition_penalty: parameters.repetitionPenalty,
         temperature: parameters.temperature,
     };
-    let tokens = await model.generate(prompt, localParameters);
-    tokens = tokens[0].slice(prompt.size);
+    let tokens = await model.generate(input_ids, localParameters);
+    tokens = tokens[0].slice(input_ids.size);
     let response = tokenizer.decode(tokens, { skip_special_tokens: false });
 
     await info.close();
