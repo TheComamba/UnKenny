@@ -9,7 +9,3 @@ global.Dialog = Dialog;
 global.DocumentSheet = DocumentSheet;
 global.game = game;
 global.Hooks = Hooks;
-
-beforeEach(() => {
-  Hooks.on.mockReset();
-});

@@ -6,6 +6,10 @@ test('main.js can be loaded as an ES module entry point', () => {
 });
 
 test('After loading main.js, the game object settings have the defaults', () => {
+  beforeEach(() => {
+    Hooks.on.mockReset();
+  });
+
   const params = llmParametersAndDefaults();
   for (let key in params) {
     try {
@@ -17,6 +21,10 @@ test('After loading main.js, the game object settings have the defaults', () => 
 });
 
 test('After loading main.js, the game object settings has no members besides the llm parameters', () => {
+  beforeEach(() => {
+    Hooks.on.mockReset();
+  });
+  
   const params = llmParametersAndDefaults();
 
   for (let key in game.settings.settings) {
