@@ -5,8 +5,7 @@
   "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "src/scripts/main.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -20,17 +19,7 @@
   },
   "homepage": "https://github.com/TheComamba/UnKenny#readme",
   "devDependencies": {
-    "@babel/core": "^7.24.4",
-    "@babel/plugin-transform-runtime": "^7.24.3",
-    "@babel/preset-env": "^7.24.4",
-    "babel-jest": "^29.7.0",
-    "jest": "^29.7.0"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ],
-    "transform": {}
+    "mocha": "^10.4.0"
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.1"
