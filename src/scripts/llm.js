@@ -70,6 +70,9 @@ async function generateResponse(actor, input) {
     } else {
         response = await getResponseFromOpenAI(parameters, messages);
     }
+    if (!response) {
+        return;
+    }
 
     let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
     if (prefixWithTalk) {
@@ -80,12 +83,7 @@ async function generateResponse(actor, input) {
 }
 
 async function postResponse(actor, request) {
-    let response = null;
-    try {
-        response = await generateResponse(actor, request);
-    } catch (error) {
-        ui.notifications.error(error);
-    }
+    let response = await generateResponse(actor, request);
     if (response) {
         postInChat(actor, response);
     } else {

@@ -18,13 +18,19 @@ async function getResponseFromOpenAI(parameters, messages) {
         dangerouslyAllowBrowser: true,
     });
 
-    const chatCompletion = await openai.chat.completions.create({
+    const input_parameters = {
         model: parameters.model,
         messages: messages,
         max_tokens: parameters.maxNewTokens,
         temperature: parameters.temperature,
         frequency_penalty: parameters.repetitionPenalty,
-    });
+    };
+    try {
+        const chatCompletion = await openai.chat.completions.create(input_parameters);
+    } catch (error) {
+        ui.notifications.error(`Unable to get response from OpenAI: ${error}`);
+        return;
+    }
 
     return chatCompletion['choices'][0]['message']['content'];
 }

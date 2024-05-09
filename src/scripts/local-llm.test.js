@@ -1,7 +1,18 @@
+import { jest } from '@jest/globals';
 import { testIfSlow } from './jest-utils.js';
 import { getMessages } from './llm.js';
 
 describe('getResponseFromLocalLLM', () => {
+    beforeEach(() => {
+        game.reset();
+        global.ui = {
+            notifications: {
+                warning: jest.fn(),
+                error: jest.fn()
+            }
+        };
+    });
+
     testIfSlow('returns the expected response', async () => {
         const { getResponseFromLocalLLM } = await import('./local-llm.js');
 
@@ -19,6 +30,7 @@ describe('getResponseFromLocalLLM', () => {
 
         const response = await getResponseFromLocalLLM(parameters, messages);
 
+        expect(global.ui.notifications.error).not.toHaveBeenCalled();
         expect(response).toBe('expectedResponse');
     });
 });

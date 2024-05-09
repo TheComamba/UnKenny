@@ -41,7 +41,7 @@ async function getModelAndTokenizer(model_path) {
     return { model, tokenizer };
 }
 
-function messagesToPrompt(tokenizer, messages) {
+function tokenizedMessages(tokenizer, messages) {
     // Store the original console.warn
     let originalConsoleWarn = console.warn;
     // Override console.warn to show errors in the UI
@@ -49,7 +49,7 @@ function messagesToPrompt(tokenizer, messages) {
         ui.notifications.error(message);
     };
     // The actual function call
-    let prompt = tokenizer.apply_chat_template(messages, { tokenize: false });
+    let prompt = tokenizer.apply_chat_template(messages, { tokenize: true });
     // Restore the original console.warn
     console.warn = originalConsoleWarn;
 
@@ -59,8 +59,7 @@ function messagesToPrompt(tokenizer, messages) {
 async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
 
-    const prompt = messagesToPrompt(tokenizer, messages);
-    const { input_ids } = tokenizer(prompt, { return_tensor: true }); // TODO: Not sure if return_tensor: true is correct here.
+    const input_tokens = tokenizedMessages(tokenizer, messages);
 
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
@@ -71,9 +70,17 @@ async function getResponseFromLocalLLM(parameters, messages) {
         repetition_penalty: parameters.repetitionPenalty,
         temperature: parameters.temperature,
     };
-    let tokens = await model.generate(input_ids, localParameters);
-    tokens = tokens[0].slice(input_ids.size);
-    let response = tokenizer.decode(tokens, { skip_special_tokens: false });
+
+    let output_tokens
+    try {
+        output_tokens = await model.generate(input_tokens, localParameters);
+    } catch (error) {
+        ui.notifications.error('An error occurred during text generation:', error);
+        await info.close();
+        return;
+    }
+    output_tokens = output_tokens[0].slice(input_tokens.size);
+    let response = tokenizer.decode(output_tokens, { skip_special_tokens: false });
 
     await info.close();
 
