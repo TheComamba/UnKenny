@@ -5,7 +5,7 @@
   "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "src/scripts/main.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require ./mocha.setup.js"
   },
   "repository": {
     "type": "git",

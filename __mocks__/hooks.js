@@ -1,16 +1,8 @@
-import { jest } from '@jest/globals';
-
 const Hooks = {
-  on: jest.fn(),
-  once: jest.fn(),
+  on: function (event, callback) { },
+  once: function (event, callback) {
+    callback();
+  },
 };
-
-Hooks.on.mockImplementation((event, callback) => {
-  // Mock implementation here
-});
-
-Hooks.once.mockImplementation((event, callback) => {
-  callback();
-});
 
 export default Hooks;
