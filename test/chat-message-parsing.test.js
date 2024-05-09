@@ -38,7 +38,7 @@ describe('findAdressedAlias', () => {
     });
 });
 
-import { replaceAlias } from './chat-message-parsing.js';
+import { replaceAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('replaceAlias', () => {
     it('should return the original message if alias is empty', () => {
@@ -72,7 +72,7 @@ describe('replaceAlias', () => {
     });
 });
 
-import { actorHasAlias } from './chat-message-parsing';
+import { actorHasAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('actorHasAlias', () => {
     let actor;
@@ -127,7 +127,7 @@ describe('actorHasAlias', () => {
     });
 });
 
-import { findAdressedActor } from './chat-message-parsing.js';
+import { findAdressedActor } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedActor', () => {
     let ui;
