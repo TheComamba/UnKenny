@@ -1,5 +1,4 @@
-import { jest } from '@jest/globals';
-import { isUnkenny } from './shared.js';
+import { isUnkenny } from '../src/scripts/shared.js';
 
 describe('isUnkenny', () => {
     let ui;

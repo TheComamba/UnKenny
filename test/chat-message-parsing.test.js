@@ -1,5 +1,4 @@
-import { jest } from '@jest/globals';
-import { findAdressedAlias } from './chat-message-parsing.js';
+import { findAdressedAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedAlias', () => {
     it('should return null if no alias is addressed', () => {

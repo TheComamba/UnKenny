@@ -1,6 +1,5 @@
-import { jest } from '@jest/globals';
-import { llmParametersAndDefaults } from './llm.js';
-import * as main from './main.js';
+import { llmParametersAndDefaults } from '../src/scripts/llm.js';
+import * as main from '../src/scripts/main.js';
 
 test('main.js can be loaded as an ES module entry point', () => {
   expect(main).toBeDefined();

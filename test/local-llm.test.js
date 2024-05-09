@@ -1,6 +1,5 @@
-import { jest } from '@jest/globals';
-import { testIfSlow } from './jest-utils.js';
-import { getMessages } from './llm.js';
+import { testIfSlow } from '../src/scripts/jest-utils.js';
+import { getMessages } from '../src/scripts/llm.js';
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
