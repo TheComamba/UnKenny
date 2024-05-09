@@ -6,7 +6,18 @@
                 "targets": {
                     "node": "current"
                 },
-                "modules": false
+                "modules": false // This tells Babel not to transform ES6 modules to another type by default
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime", 
+            {
+                "corejs": false, // Indicates we're not adding polyfills for newer JS features in older environments
+                "helpers": true, // Ensures Babel's helper functions are referenced from the runtime, rather than being inlined into each file
+                "regenerator": true, // Enables transformation of generator functions and async functions to ES5
+                "useESModules": false // Forces the use of CommonJS modules format for the helper functions, which can help with instanceof checks when the code is transpiled
             }
         ]
     ]
