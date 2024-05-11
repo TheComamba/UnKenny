@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { findAdressedAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedAlias', () => {
@@ -81,11 +83,11 @@ describe('actorHasAlias', () => {
 
     beforeEach(() => {
         actor = new Actor();
-        consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleSpy = sinon.stub(console, 'error');
     });
 
     afterEach(() => {
-        consoleSpy.mockRestore();
+        consoleSpy.restore();
     });
 
     it('should return false when alias is empty string', () => {
@@ -119,12 +121,12 @@ describe('actorHasAlias', () => {
 
     it('should log an error when actor is null', () => {
         actorHasAlias(null, 'John Doe');
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy.called).to.be.true;
     });
 
     it('should log an error when alias is not a string', () => {
         actorHasAlias(actor, 123);
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy.called).to.be.true;
     });
 });
 
@@ -136,7 +138,7 @@ describe('findAdressedActor', () => {
     beforeEach(() => {
         ui = {
             notifications: {
-                error: jest.fn()
+                error: sinon.spy()
             }
         };
         global.game.reset()
@@ -161,7 +163,7 @@ describe('findAdressedActor', () => {
         const message = "Kapascardia @alias";
         const result = findAdressedActor(message);
         expect(result).to.be.null;
-        expect(ui.notifications.error).toHaveBeenCalled();
+        expect(ui.notifications.error.called).to.be.true;
     });
 
     it('should return the actor when alias is addressed', () => {
