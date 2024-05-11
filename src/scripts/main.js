@@ -150,3 +150,5 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     return true; //Chat message needs to be posted by Foundry.
   }
 });
+
+export default {};

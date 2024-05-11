@@ -1,4 +1,4 @@
-import { testIfSlow } from '../src/scripts/jest-utils.js';
+import { testIfSlow } from './test-utils.js';
 import { getMessages } from '../src/scripts/llm.js';
 
 describe('getResponseFromLocalLLM', () => {
