@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { llmParametersAndDefaults } from '../src/scripts/llm.js';
 
 describe('main.js tests', () => {

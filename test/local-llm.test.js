@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { testIfSlow } from './test-utils.js';
 import { getMessages } from '../src/scripts/llm.js';
 
@@ -30,6 +31,6 @@ describe('getResponseFromLocalLLM', () => {
         const response = await getResponseFromLocalLLM(parameters, messages);
 
         expect(global.ui.notifications.error).not.toHaveBeenCalled();
-        expect(response).toBe('expectedResponse');
+        expect(response).to.equal('expectedResponse');
     });
 });

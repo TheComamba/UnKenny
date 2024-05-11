@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import game from '../__mocks__/game.js';
 import { getGenerationParameters, llmParametersAndDefaults } from '../src/scripts/llm.js';
 
@@ -129,6 +130,6 @@ describe('getGenerationParameters', () => {
         const result = await getGenerationParameters(actor);
 
         expect(ui.notifications.error).toHaveBeenCalled();
-        expect(result).toBeNull();
+        expect(result).to.be.null;
     });
 });
