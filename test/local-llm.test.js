@@ -7,7 +7,7 @@ import { getModels, isLocal } from '../src/scripts/models.js';
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
         game.reset();
-        global.ui.reset();
+        ui.reset();
     });
 
     const localModels = getModels().filter(model => isLocal(model.path));
@@ -29,7 +29,7 @@ describe('getResponseFromLocalLLM', () => {
             const response = await getResponseFromLocalLLM(parameters, messages);
             console.log(model.path, 'generated the following response:\n', response);
 
-            expect(global.ui.notifications.error.called).to.be.false;
+            expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
             expect(response).to.not.include('assistant');
         });
