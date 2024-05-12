@@ -27,7 +27,7 @@ describe('getResponseFromLocalLLM', () => {
             const messages = getMessages(parameters, prompt);
 
             const response = await getResponseFromLocalLLM(parameters, messages);
-            console.log('Received response:\n', response);
+            console.log(model.path, 'generated the following response:\n', response);
 
             expect(global.ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
