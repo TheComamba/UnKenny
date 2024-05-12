@@ -13,6 +13,16 @@ const game = {
             if (!this.data[module]) {
                 this.data[module] = {};
             }
+
+            if (settingsObject.choices) {
+                for (let choiceKey in settingsObject.choices) {
+                    if (typeof choiceKey !== 'string' || typeof settingsObject.choices[choiceKey] !== 'string') {
+                        console.error('Choices must be of the form {String: String}');
+                        return;
+                    }
+                }
+            }
+
             this.data[module][key] = settingsObject.default;
         },
         get: function (module, key) {

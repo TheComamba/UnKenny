@@ -1,5 +1,5 @@
 
-import { getModelAndTextPairs } from "../scripts/models.js";
+import { getModelToTextMap } from "../scripts/models.js";
 
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
@@ -16,7 +16,7 @@ class UnKennySheet extends DocumentSheet {
         if (Object.keys(this.context).length === 0) {
             this.context = await super.getData(options);
             this.context.resizable = true;
-            this.context.models = getModelAndTextPairs();
+            this.context.models = getModelToTextMap();
             this.initContextWithActorData();
         }
 
