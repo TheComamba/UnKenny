@@ -13,9 +13,9 @@ const MODELS_MAP = new Map([
 ]);
 
 function getModelToTextMap() {
-    let modelToTextMap = new Map();
+    let modelToTextMap = {};
     for (let [key, value] of MODELS_MAP) {
-        modelToTextMap.set(key, value.text);
+        modelToTextMap[key] = value.text;
     }
     return modelToTextMap;
 }
