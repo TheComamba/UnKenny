@@ -47,7 +47,7 @@ class UnKennySheet extends DocumentSheet {
 
     setContextModel(model) {
         this.context.models.forEach(m => {
-            if (m.path == model) {
+            if (m.model == model) {
                 m.isSelected = true;
             } else {
                 m.isSelected = false;
