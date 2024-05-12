@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { testIfSlow } from './test-utils.js';
 import { getMessages } from '../src/scripts/llm.js';
+import { getResponseFromLocalLLM } from '../src/scripts/local-llm.js';
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
@@ -8,7 +9,6 @@ describe('getResponseFromLocalLLM', () => {
     });
 
     testIfSlow('returns the expected response', async () => {
-        const { getResponseFromLocalLLM } = await import('./local-llm.js');
 
         const parameters = {
             model: 'Xenova/Qwen1.5-1.8B-Chat',
