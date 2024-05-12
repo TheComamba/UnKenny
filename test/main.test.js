@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import { testIfSlow } from './test-utils.js';
+import { testIfSlow, waitFor } from './test-utils.js';
 import { llmParametersAndDefaults } from '../src/scripts/llm.js';
 import { getModels, isLocal } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
+import Hooks from '../__mocks__/hooks.js';
 
 describe('main.js tests', () => {
   beforeEach(() => {
@@ -45,6 +46,7 @@ describe('Integration test', () => {
   beforeEach(() => {
     game.reset();
     ChatMessage.reset();
+    ui.reset();
   });
 
   testIfSlow('should be possible to select a local model, create an unkenny actor, and generate a response that is posted in the chat', async () => {
@@ -65,11 +67,14 @@ describe('Integration test', () => {
       content: message,
       type: CONST.CHAT_MESSAGE_TYPES.OTHER
     }
-    ChatMessage.create(chatData);
+    Hooks.call('chatMessage', chatData);
 
-    expect(ChatMessage.database.length).to.equal(2);
+    await waitFor(() => ChatMessage.database.length === 2);
+
     expect(ChatMessage.database[0].content).to.equal('What is your name?');
     expect(ChatMessage.database[1].content).to.not.be.empty;
     expect(ChatMessage.database[1].speaker).to.equal('Bobby');
+    expect(ui.notifications.warning.called).to.be.false;
+    expect(ui.notifications.warning.error).to.be.false;
   });
 });
