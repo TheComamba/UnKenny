@@ -73,8 +73,9 @@ describe('Integration test', () => {
     expect(ChatMessage.database.length).to.be.greaterThan(0);
     await waitFor(() => ChatMessage.database.length === 2);
     expect(ChatMessage.database[0].content).to.equal('What is your name?');
+    expect(ChatMessage.database[0].user).to.equal(USER_ID);
     expect(ChatMessage.database[1].content).to.not.be.empty;
-    expect(ChatMessage.database[1].speaker).to.equal('Bobby');
+    expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
     expect(ui.notifications.warning.called).to.be.false;
     expect(ui.notifications.warning.error).to.be.false;
   });
