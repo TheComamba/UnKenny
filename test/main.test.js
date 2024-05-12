@@ -62,15 +62,16 @@ describe('Integration test', () => {
     actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
     game.addActor(actor);
 
+    const chatLog = null;
     const message = '/bob What is your name?';
     const chatData = {
       content: message,
       type: CONST.CHAT_MESSAGE_TYPES.OTHER
     }
-    Hooks.call('chatMessage', chatData);
+    Hooks.call('chatMessage', chatLog, message, chatData);
 
+    expect(ChatMessage.database.length).to.be.greaterThan(0);
     await waitFor(() => ChatMessage.database.length === 2);
-
     expect(ChatMessage.database[0].content).to.equal('What is your name?');
     expect(ChatMessage.database[1].content).to.not.be.empty;
     expect(ChatMessage.database[1].speaker).to.equal('Bobby');
