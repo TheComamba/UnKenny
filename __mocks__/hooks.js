@@ -21,9 +21,10 @@ const Hooks = {
   },
   call: function (event, ...args) {
     if (!this.events[event]) {
-      return;
+      return true;
     }
-    this.events[event].forEach(callback => callback(...args));
+    const isInterrupted = this.events[event].some(callback => callback(...args) === false);
+    return !isInterrupted;
   },
 };
 
