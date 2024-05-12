@@ -30,6 +30,7 @@ describe('UnKennySheet', () => {
     it('should have a getData method that returns a filled context', async () => {
         const context = await sheet.getData();
         expect(Object.keys(context).length).to.be.greaterThan(0);
+        expect(Object.keys(context.models).length).to.be.greaterThan(0);
     });
 
     it('should not display data for a new actor', async () => {
@@ -39,10 +40,10 @@ describe('UnKennySheet', () => {
         for (const model of context.models) {
             expect(model.isSelected).to.be.false;
         }
-        expect(context.minNewTokens).to.be.undefined;
-        expect(context.maxNewTokens).to.be.undefined;
-        expect(context.repetitionPenalty).to.be.undefined;
-        expect(context.temperature).to.be.undefined;
+        expect(context.minNewTokens).to.be.null;
+        expect(context.maxNewTokens).to.be.null;
+        expect(context.repetitionPenalty).to.be.null;
+        expect(context.temperature).to.be.null;
     });
 
     it('should display data for an existing actor', async () => {
@@ -75,6 +76,6 @@ describe('UnKennySheet', () => {
         const model = getLocalModels()[0];
         const event = { target: { name: "model", value: model } };
         await sheet._onChangeInput(event);
-        expect(context.models.find(m => m.isSelected).path).to.equal(model);
+        expect(context.models.find(m => m.isSelected).model).to.equal(model);
     });
 });
