@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { testIfSlow } from './test-utils.js';
 import { getMessages } from '../src/scripts/llm.js';
 import { getResponseFromLocalLLM } from '../src/scripts/local-llm.js';
-import { getModels, isLocal } from '../src/scripts/models.js';
+import { getLocalModels } from '../src/scripts/models.js';
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
@@ -10,12 +10,12 @@ describe('getResponseFromLocalLLM', () => {
         ui.reset();
     });
 
-    const localModels = getModels().filter(model => isLocal(model.path));
+    const localModels = getLocalModels();
 
     localModels.forEach(model => {
-        testIfSlow(model.path + ' returns a somewhat expected response', async () => {
+        testIfSlow(model + ' returns a somewhat expected response', async () => {
             const parameters = {
-                model: model.path,
+                model: model,
                 actorName: 'Bob',
                 preamble: 'Your name is Bob.',
                 minNewTokens: 8,
@@ -27,7 +27,7 @@ describe('getResponseFromLocalLLM', () => {
             const messages = getMessages(parameters, prompt);
 
             const response = await getResponseFromLocalLLM(parameters, messages);
-            console.log(model.path, 'generated the following response:\n', response);
+            console.log(model, 'generated the following response:\n', response);
 
             expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');

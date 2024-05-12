@@ -1,5 +1,5 @@
 
-import { getModels } from "../scripts/models.js";
+import { getModelToTextMap } from "../scripts/models.js";
 
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
@@ -16,11 +16,18 @@ class UnKennySheet extends DocumentSheet {
         if (Object.keys(this.context).length === 0) {
             this.context = await super.getData(options);
             this.context.resizable = true;
-            this.context.models = getModels();
+            this.initModels();
             this.initContextWithActorData();
         }
 
         return this.context;
+    }
+
+    initModels() {
+        const modelsEntries = Object.entries(getModelToTextMap());
+        let modelArray = modelsEntries.map(([model, text]) => ({ "model": model, "text": text }));
+        modelArray.unshift({ "model": "", "text": "" });
+        this.context.models = modelArray;
     }
 
     initContextWithActorData() {
@@ -46,7 +53,7 @@ class UnKennySheet extends DocumentSheet {
 
     setContextModel(model) {
         this.context.models.forEach(m => {
-            if (m.path == model) {
+            if (m.model == model) {
                 m.isSelected = true;
             } else {
                 m.isSelected = false;

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { testIfOpenAi } from './test-utils.js';
 import { getMessages } from '../src/scripts/llm.js';
 import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
-import { getModels, isLocal } from '../src/scripts/models.js';
+import { getOpenAiModels } from '../src/scripts/models.js';
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
@@ -10,12 +10,12 @@ describe('getResponseFromLocalLLM', () => {
         ui.reset();
     });
 
-    const openaiModels = getModels().filter(model => !isLocal(model.path));
+    const openaiModels = getOpenAiModels();
 
     openaiModels.forEach(model => {
-        testIfOpenAi(model.path + ' returns a somewhat expected response', async () => {
+        testIfOpenAi(model + ' returns a somewhat expected response', async () => {
             const parameters = {
-                model: model.path,
+                model: model,
                 apiKey: process.env.OPENAI_API_KEY,
                 actorName: 'Bob',
                 preamble: 'Your name is Bob.',
@@ -28,7 +28,7 @@ describe('getResponseFromLocalLLM', () => {
             const messages = getMessages(parameters, prompt);
 
             const response = await getResponseFromOpenAI(parameters, messages);
-            console.log(model.path, 'generated the following response:\n', response);
+            console.log(model, 'generated the following response:\n', response);
 
             expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
