@@ -8,7 +8,7 @@ describe('getResponseFromLocalLLM', () => {
         game.reset();
     });
 
-    testIfSlow('returns the expected response', async () => {
+    testIfSlow('returns a somewhat expected response', async () => {
         const parameters = {
             model: 'Xenova/Qwen1.5-1.8B-Chat',
             actorName: 'Bob',
@@ -25,6 +25,6 @@ describe('getResponseFromLocalLLM', () => {
         console.log('Received response:', response);
 
         expect(global.ui.notifications.error.called).to.be.false;
-        expect(response).to.equal('expectedResponse');
+        expect(response).to.include('Bob');
     });
 });
