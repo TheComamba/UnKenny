@@ -12,8 +12,8 @@ const MODELS_MAP = new Map([
     ["gpt-4-turbo", { text: "OpenAI: GPT 4 turbo" }]
 ]);
 
-function getModels() {
-    return Array.from(MODELS_MAP);
+function getModelAndTextPairs() {
+    return Array.from(MODELS_MAP).map(model => ({ "model": model[0], "text": model[1].text }));
 }
 
 function isLocal(model) {
@@ -22,4 +22,16 @@ function isLocal(model) {
     return isLocal;
 }
 
-export { getModels, isLocal };
+function getLocalModels() {
+    return Array.from(MODELS_MAP)
+        .filter(model => isLocal(model[0]))
+        .map(model => model[0]);
+}
+
+function getOpenAiModels() {
+    return Array.from(MODELS_MAP)
+        .filter(model => !isLocal(model[0]))
+        .map(model => model[0]);
+}
+
+export { getModelAndTextPairs, getLocalModels, getOpenAiModels, isLocal };

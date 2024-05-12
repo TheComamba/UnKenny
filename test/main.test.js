@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { testIfOpenAi, testIfSlow, waitFor } from './test-utils.js';
 import { llmParametersAndDefaults } from '../src/scripts/llm.js';
-import { getModels, isLocal } from '../src/scripts/models.js';
+import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 
@@ -51,14 +51,14 @@ describe('Integration test', () => {
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
     game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
-    const openaiModels = getModels().filter(model => !isLocal(model.path));
+    const openaiModels = getOpenAiModels();
     const model = openaiModels[0];
     await postMessageAndCheckReply(model);
   });
 
   testIfSlow('should be possible to post a message and get a response from a local model', async () => {
     game.settings.set("unkenny", "apiKey", "");
-    const localModels = getModels().filter(model => isLocal(model.path));
+    const localModels = getLocalModels();
     const model = localModels[0];
     await postMessageAndCheckReply(model);
   });
@@ -68,7 +68,7 @@ async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
   Hooks.call('init');
 
-  game.settings.set("unkenny", "model", model.path);
+  game.settings.set("unkenny", "model", model);
   game.settings.set("unkenny", "minNewTokens", 1);
   game.settings.set("unkenny", "maxNewTokens", 250);
   game.settings.set("unkenny", "repetitionPenalty", 0.0);

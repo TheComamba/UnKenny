@@ -2,7 +2,7 @@ import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
 import { llmParametersAndDefaults, startPostingResponse } from "./llm.js";
-import { getModels } from "./models.js";
+import { getModelAndTextPairs } from "./models.js";
 
 // CONFIG.debug.hooks = true;
 
@@ -17,7 +17,7 @@ Hooks.once('init', async function () {
     scope: "world",
     config: true,
     type: String,
-    choices: getModels(),
+    choices: getModelAndTextPairs(),
     default: params.model
   });
 
