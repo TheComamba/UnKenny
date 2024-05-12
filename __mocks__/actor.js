@@ -19,6 +19,12 @@ class Actor {
         }
         return null;
     }
+
+    unsetFlag(module, key) {
+        if (this.flags.has(module)) {
+            this.flags.get(module).delete(key);
+        }
+    }
 }
 
 export default Actor;

@@ -130,12 +130,12 @@ describe('UnKennySheet', () => {
 
         await sheet._updateObject(null, formData);
 
-        expect(actor.getFlag("unkenny", "alias")).to.be.null;
-        expect(actor.getFlag("unkenny", "preamble")).to.be.null;
-        expect(actor.getFlag("unkenny", "model")).to.be.null;
-        expect(actor.getFlag("unkenny", "minNewTokens")).to.be.null;
-        expect(actor.getFlag("unkenny", "maxNewTokens")).to.be.null;
-        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.be.null;
-        expect(actor.getFlag("unkenny", "temperature")).to.be.null;
+        expect(actor.getFlag("unkenny", "alias")).to.be.empty;
+        expect(actor.getFlag("unkenny", "preamble")).to.be.empty;
+        expect(actor.getFlag("unkenny", "model")).to.be.undefined;
+        expect(actor.getFlag("unkenny", "minNewTokens")).to.be.undefined;
+        expect(actor.getFlag("unkenny", "maxNewTokens")).to.be.undefined;
+        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.be.undefined;
+        expect(actor.getFlag("unkenny", "temperature")).to.be.undefined;
     });
 });
