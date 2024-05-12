@@ -1,5 +1,8 @@
 import { expect } from 'chai';
+import { testIfSlow } from './test-utils.js';
 import { llmParametersAndDefaults } from '../src/scripts/llm.js';
+import { getModels, isLocal } from '../src/scripts/models.js';
+import ChatMessage from '../__mocks__/chat-message.js';
 
 describe('main.js tests', () => {
   beforeEach(() => {
@@ -35,5 +38,38 @@ describe('main.js tests', () => {
         throw new Error(`Unexpected key ${key} found in game.settings.settings`);
       }
     }
+  });
+});
+
+describe('Integration test', () => {
+  beforeEach(() => {
+    game.reset();
+    ChatMessage.reset();
+  });
+
+  testIfSlow('should be possible to select a local model, create an unkenny actor, and generate a response that is posted in the chat', async () => {
+    await import('../src/scripts/main.js');
+    Hooks.call('init');
+
+    const localModels = getModels().filter(model => isLocal(model.path));
+    const model = localModels[0];
+    game.settings.set("unkenny", "model", model.path);
+
+    let actor = new Actor();
+    actor.setFlag('unkenny', 'alias', 'bob');
+    actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
+    game.addActor(actor);
+
+    const message = '/bob What is your name?';
+    const chatData = {
+      content: message,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    }
+    ChatMessage.create(chatData);
+
+    expect(ChatMessage.database.length).to.equal(2);
+    expect(ChatMessage.database[0].content).to.equal('What is your name?');
+    expect(ChatMessage.database[1].content).to.not.be.empty;
+    expect(ChatMessage.database[1].speaker).to.equal('Bobby');
   });
 });

@@ -8,6 +8,10 @@ class ChatMessage {
     ChatMessage.database.push(newMessage);
     return newMessage;
   }
+
+  static reset() {
+    ChatMessage.database = [];
+  }
 }
 
 Hooks.on("chatMessage", (_chatlog, _messageText, chatData) => {
