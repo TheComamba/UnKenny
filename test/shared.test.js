@@ -50,8 +50,9 @@ describe('postInChat', () => {
     });
 
     it('should not post message in chat when chatMessage hook returns false', () => {
-        Hooks.call.withArgs("chatMessage").returns(false);
-        postInChat(new User(), 'some message');
+        Hooks.on("chatMessage", (_log, _text, _data) => false);
+        const actor = new Actor();
+        postInChat(actor, 'some message');
         expect(ChatMessage.create.called).to.be.false;
         expect(ui.notifications.error.called).to.be.false;
     });
