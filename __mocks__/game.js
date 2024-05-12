@@ -26,4 +26,5 @@ const game = {
         this.settings.data = {};
     },
 };
+
 export default game;

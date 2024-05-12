@@ -2,13 +2,16 @@ function getModels() {
     // Local models to choose from: 
     // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
     return [
-        { text: "", path: "", value: "{}" },
-        { text: "Local: Felladrin Bloomz (ca. 3 GB RAM)", path: "Felladrin/onnx-bloomz-560m-sft-chat" },
-        { text: "Local: Felladrin GPT2 (ca. 1 GB RAM)", path: "Felladrin/onnx-gpt2-conversational-retrain" },
-        { text: "Local: Felladrin GPT2 Large (ca. 2 GB RAM)", path: "Felladrin/onnx-gpt2-large-conversational-retrain" },
-        { text: "Local: Xenova GPT2 Large (ca. 2 GB RAM)", path: "Xenova/gpt2-large-conversational" },
-        { text: "OpenAI: GPT-3.5-turbo", path: "gpt-3.5-turbo" },
-        { text: "OpenAI: GPT-4-preview", path: "gpt-4-1106-preview" }
+        { text: "", path: "" },
+        { text: "Local: Felladrin Minueza", path: "Felladrin/onnx-Minueza-32M-Chat" },
+        { text: "Local: Felladrin Tiny Mistral", path: "Felladrin/onnx-TinyMistral-248M-Chat-v2" },
+        // { text: "Local: Schmuell Tiny Llama", path: "schmuell/TinyLlama-1.1B-Chat-v1.0-int4" }, // Cannot be loaded.
+        // { text: "Local: Xenova GPT-2 Large Conversational", path: "Xenova/gpt2-large-conversational" }, // Outdated.
+        { text: "Local: Xenova Qwen", path: "Xenova/Qwen1.5-0.5B-Chat" },
+        //{ text: "Local: Xenova Tiny Llama", path: "Xenova/TinyLlama-1.1B-Chat-v1.0" }, // Proved to be very repetitive.
+        { text: "OpenAI: GPT 3.5 turbo", path: "gpt-3.5-turbo" },
+        { text: "OpenAI: GPT 4", path: "gpt-4" },
+        { text: "OpenAI: GPT 4 turbo", path: "gpt-4-turbo" }
     ];
 }
 

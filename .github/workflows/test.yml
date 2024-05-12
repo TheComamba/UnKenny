@@ -12,6 +12,13 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            test_script: .\test.ps1 --all
+          - os: ubuntu-latest
+            test_script: ./test.sh --all
+          - os: macos-latest
+            test_script: ./test.sh --all
         node-version: [18.x, 20.x]
 
     runs-on: ${{ matrix.os }}
@@ -23,4 +30,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm test
+    - name: Run tests
+      run: ${{ matrix.test_script }}

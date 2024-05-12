@@ -40,7 +40,7 @@ Hooks.once('init', async function () {
   game.settings.register("unkenny", "minNewTokens", {
     name: "Minimum Number of New Tokens",
     hint: `In large language models, the number of tokens determines the length of the generated text.
-    To avoid very short responses, you can set a minimum number of tokens here.`,
+    To avoid very short responses, you can set a minimum number of tokens here. Note: This parameter is only considered in local models.`,
     scope: "world",
     config: true,
     type: Number,
@@ -150,3 +150,5 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     return true; //Chat message needs to be posted by Foundry.
   }
 });
+
+export default {};

@@ -1,15 +1,11 @@
-import game from '../../__mocks__/game.js';
-import { getGenerationParameters, llmParametersAndDefaults } from './llm.js';
+import { expect } from 'chai';
+import game from '../__mocks__/game.js';
+import { getGenerationParameters, llmParametersAndDefaults } from '../src/scripts/llm.js';
 
 describe('getGenerationParameters', () => {
     beforeEach(() => {
         game.reset();
-        global.ui = {
-            notifications: {
-                warning: jest.fn(),
-                error: jest.fn()
-            }
-        };
+        global.ui.reset();
     });
 
     it('should return the default values if no flags are set', async () => {
@@ -21,7 +17,7 @@ describe('getGenerationParameters', () => {
         const result = await getGenerationParameters(actor);
 
         const params = llmParametersAndDefaults();
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
             apiKey: params.apiKey,
@@ -50,7 +46,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
             apiKey: 'apiKey1',
@@ -85,7 +81,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model2',
             apiKey: 'apiKey1',
@@ -112,7 +108,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(ui.notifications.warning).toHaveBeenCalled();
+        expect(ui.notifications.warning.called).to.be.true;
     });
 
     it('should print an error and return null if no model is set', async () => {
@@ -128,7 +124,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(ui.notifications.error).toHaveBeenCalled();
-        expect(result).toBeNull();
+        expect(ui.notifications.error.called).to.be.true;
+        expect(result).to.be.null;
     });
 });
