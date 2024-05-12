@@ -17,11 +17,12 @@ describe('UnKennySheet', () => {
         expect(sheet.template).to.include('modules/unkenny/');
     });
 
-    it('should have a renderable template', () => {
+    it('should have a renderable template', async () => {
         const templatePath = sheet.template.replace('modules/unkenny/', 'src/');
         const templateString = fs.readFileSync(templatePath, 'utf8');
         const template = Handlebars.compile(templateString);
-        const output = template(actor);
+        const context = await sheet.getData();
+        const output = template(context);
 
         expect(output).to.include('submit');
     });

@@ -16,7 +16,8 @@ class UnKennySheet extends DocumentSheet {
         if (Object.keys(this.context).length === 0) {
             this.context = await super.getData(options);
             this.context.resizable = true;
-            this.context.models = getModelToTextMap();
+            const models = getModelToTextMap();
+            this.context.models = Array.from(models).map(([model, text]) => ({ "model": model, "text": text }));
             this.initContextWithActorData();
         }
 
