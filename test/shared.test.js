@@ -51,7 +51,7 @@ describe('postInChat', () => {
         expect(ui.notifications.error.called).to.be.false;
     });
 
-    it('should show error when originator is not String or Actor', () => {
+    it('should show error when originator is neither String nor Actor', () => {
         postInChat(null, 'some message');
         sinon.assert.notCalled(spy);
         expect(ui.notifications.error.called).to.be.true;
