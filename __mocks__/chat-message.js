@@ -1,3 +1,5 @@
+import Hooks from './hooks.js';
+
 class ChatMessage {
   static database = [];
 
@@ -7,5 +9,9 @@ class ChatMessage {
     return newMessage;
   }
 }
+
+Hooks.on("chatMessage", (_chatlog, _messageText, chatData) => {
+  ChatMessage.create(chatData);
+});
 
 export default ChatMessage;

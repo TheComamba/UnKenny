@@ -4,7 +4,7 @@ const Hooks = {
     if (!this.events[event]) {
       this.events[event] = [];
     }
-    this.events[event].push(callback);
+    this.events[event].unshift(callback);
   },
   once: function (event, callback) {
     const wrapper = (...args) => {
