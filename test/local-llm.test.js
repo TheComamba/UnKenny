@@ -15,7 +15,7 @@ describe('getResponseFromLocalLLM', () => {
             actorName: 'Histrios',
             preamble: 'Your name is Histrios.',
             minNewTokens: 8,
-            maxNewTokens: 128,
+            maxNewTokens: 1024,
             repetitionPenalty: 1.0,
             temperature: 0.0,
         };
@@ -23,6 +23,7 @@ describe('getResponseFromLocalLLM', () => {
         const messages = getMessages(parameters, prompt);
 
         const response = await getResponseFromLocalLLM(parameters, messages);
+        console.log('Received response:', response);
 
         expect(global.ui.notifications.error.called).to.be.false;
         expect(response).to.equal('expectedResponse');
