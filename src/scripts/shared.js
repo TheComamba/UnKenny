@@ -11,11 +11,7 @@ function postInChat(originator, message) {
         ui.notifications.error("Message originator has unkown type.");
     }
 
-    const chatMessageHookReturnValue = Hooks.call("chatMessage", this, message, chatData)
-    const hasMessageBeenPosted = chatMessageHookReturnValue === true;
-    if (!hasMessageBeenPosted) {
-        ChatMessage.create(chatData);
-    }
+    ChatMessage.create(chatData);
 }
 
 function isUnkenny(actor) {
