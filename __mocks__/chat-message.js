@@ -1,10 +1,16 @@
 import Hooks from './hooks.js';
 
 class ChatMessage {
+  constructor(chatData) {
+    this.content = chatData.content;
+    this.speaker = chatData.speaker;
+    this.user = chatData.user;
+  }
+
   static database = [];
 
-  static create(_chatData) {
-    const newMessage = new ChatMessage();
+  static create(chatData) {
+    const newMessage = new ChatMessage(chatData);
     ChatMessage.database.push(newMessage);
     return newMessage;
   }
