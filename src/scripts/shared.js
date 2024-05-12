@@ -15,10 +15,12 @@ async function loadExternalModule(name, version) {
             try {
                 return await import(name);
             } catch (localError) {
-                throw new Error("Unable to load local module " + name + ": " + localError);
+                console.error("Unable to load local module " + name + ": " + localError);
+                return;
             }
         } else {
-            throw new Error("Unable to load module: " + error);
+            ui.notifications.error("Unable to load module: " + error);
+            return;
         }
     }
 }

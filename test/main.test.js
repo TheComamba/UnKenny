@@ -89,11 +89,17 @@ async function postMessageAndCheckReply(model) {
   Hooks.call('chatMessage', chatLog, message, chatData);
 
   expect(ChatMessage.database.length).to.be.greaterThan(0);
-  await waitFor(() => ChatMessage.database.length === 2);
+  await waitFor(postMessageAndCheckReplyCompletionCondition);
   expect(ChatMessage.database[0].content).to.equal('What is your name?');
   expect(ChatMessage.database[0].user).to.equal(game.user.id);
   expect(ChatMessage.database[1].content).to.not.be.empty;
   expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
   expect(ui.notifications.warning.called).to.be.false;
   expect(ui.notifications.error.called).to.be.false;
+}
+
+function postMessageAndCheckReplyCompletionCondition() {
+  return ChatMessage.database.length === 2 || // Happy path
+    ui.notifications.warning.called || // Sad path
+    ui.notifications.error.called; // Sad path
 }

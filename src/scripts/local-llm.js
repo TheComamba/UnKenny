@@ -13,6 +13,10 @@ async function getModelAndTokenizer(model_path) {
     await info.render(true);
 
     const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+    if (!transformersModule) {
+        await info.close();
+        return {};
+    }
     const model = await transformersModule.AutoModelForCausalLM.from_pretrained(model_path);
     const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model_path);
 
@@ -41,6 +45,9 @@ function tokenizedMessages(tokenizer, messages) {
 
 async function getResponseFromLocalLLM(parameters, messages) {
     const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
+    if (!model || !tokenizer) {
+        return;
+    }
 
     const input_tokens = tokenizedMessages(tokenizer, messages);
 
