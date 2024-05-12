@@ -12,13 +12,11 @@ function testIfSlow(name, fn) {
 function testIfOpenAi(name, fn) {
     const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
     if (shouldRunOpenAiTests) {
-        const apiKey = process.env.OPENAI_API_KEY;
-        if (!apiKey) {
+        if (!process.env.OPENAI_API_KEY) {
             it(name, () => {
                 throw new Error('OPENAI_API_KEY environment variable is not set.');
             });
         }
-        game.settings.set('unkenny', 'apiKey', apiKey);
         return it(name, fn).timeout(oneMinute);
     } else {
         return it.skip(name, fn);

@@ -16,6 +16,7 @@ describe('getResponseFromLocalLLM', () => {
         testIfOpenAi(model.path + ' returns a somewhat expected response', async () => {
             const parameters = {
                 model: model.path,
+                apiKey: process.env.OPENAI_API_KEY,
                 actorName: 'Bob',
                 preamble: 'Your name is Bob.',
                 minNewTokens: 8,

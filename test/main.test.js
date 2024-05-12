@@ -50,6 +50,7 @@ describe('Integration test', () => {
   });
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
+    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
     const openaiModels = getModels().filter(model => !isLocal(model.path));
     const model = openaiModels[0];
     await postMessageAndCheckReply(model);
