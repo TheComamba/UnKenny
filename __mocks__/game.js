@@ -1,16 +1,14 @@
 import User from "./user.js";
 
 const game = {
-    constructor: function () {
-        this.user = new User();
-        this.actors = [];
-        this.settings.data = {};
-    },
+    user: new User(),
+    actors: [],
 
     addActor: function (actor) {
         this.actors.push(actor);
     },
     settings: {
+        data: {},
         register: function (module, key, settingsObject) {
             if (!this.data[module]) {
                 this.data[module] = {};
