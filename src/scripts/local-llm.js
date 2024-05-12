@@ -68,7 +68,7 @@ async function getResponseFromLocalLLM(parameters, messages) {
     const localParameters = {
         min_new_tokens: parameters.minNewTokens,
         max_new_tokens: parameters.maxNewTokens,
-        repetition_penalty: parameters.repetitionPenalty,
+        repetition_penalty: parameters.repetitionPenalty + 1.0, // 1.0 means no penalty
         temperature: parameters.temperature,
         renormalize_logits: true, // Default is false, but highly recommended to set to true...
     };
