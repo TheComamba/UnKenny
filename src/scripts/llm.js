@@ -82,7 +82,7 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-async function postResponse(actor, request) {
+async function startPostingResponse(actor, request) {
     let response = await generateResponse(actor, request);
     if (response) {
         postInChat(actor, response);
@@ -91,4 +91,4 @@ async function postResponse(actor, request) {
     }
 }
 
-export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults, postResponse };
+export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults, startPostingResponse };

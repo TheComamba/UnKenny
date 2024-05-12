@@ -1,7 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
-import { llmParametersAndDefaults, postResponse } from "./llm.js";
+import { llmParametersAndDefaults, startPostingResponse } from "./llm.js";
 import { getModelsAsMap } from "./models.js";
 
 // CONFIG.debug.hooks = true;
@@ -123,7 +123,7 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     messageText = replaceAlias(messageText, name, name);
     messageText = replaceAlias(messageText, alias, name);
     postInChat(chatData.user, messageText);
-    postResponse(actor, messageText);
+    startPostingResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
   } else {
     return true; //Chat message needs to be posted by Foundry.
