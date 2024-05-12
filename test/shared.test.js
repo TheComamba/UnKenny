@@ -27,9 +27,13 @@ describe('isUnkenny', () => {
 });
 
 describe('postInChat', () => {
-    let spy = sinon.spy(ChatMessage, 'create');
+    let spy;
     beforeEach(() => {
         ui.reset();
+        spy = sinon.spy(ChatMessage, 'create');
+    });
+
+    afterEach(() => {
         spy.restore();
     });
 
