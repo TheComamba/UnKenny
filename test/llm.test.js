@@ -5,12 +5,6 @@ import { getGenerationParameters, llmParametersAndDefaults } from '../src/script
 describe('getGenerationParameters', () => {
     beforeEach(() => {
         game.reset();
-        global.ui = {
-            notifications: {
-                warning: jest.fn(),
-                error: jest.fn()
-            }
-        };
     });
 
     it('should return the default values if no flags are set', async () => {
@@ -113,7 +107,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(ui.notifications.warning).toHaveBeenCalled();
+        expect(ui.notifications.warning.called).to.be.true;
     });
 
     it('should print an error and return null if no model is set', async () => {
@@ -129,7 +123,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(ui.notifications.error).toHaveBeenCalled();
+        expect(ui.notifications.error.called).to.be.true;
         expect(result).to.be.null;
     });
 });

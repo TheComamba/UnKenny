@@ -5,12 +5,6 @@ import { getMessages } from '../src/scripts/llm.js';
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
         game.reset();
-        global.ui = {
-            notifications: {
-                warning: jest.fn(),
-                error: jest.fn()
-            }
-        };
     });
 
     testIfSlow('returns the expected response', async () => {
@@ -30,7 +24,7 @@ describe('getResponseFromLocalLLM', () => {
 
         const response = await getResponseFromLocalLLM(parameters, messages);
 
-        expect(global.ui.notifications.error).not.toHaveBeenCalled();
+        expect(global.ui.notifications.error.called).to.be.false;
         expect(response).to.equal('expectedResponse');
     });
 });

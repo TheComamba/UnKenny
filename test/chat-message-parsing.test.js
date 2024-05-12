@@ -136,13 +136,7 @@ describe('findAdressedActor', () => {
     let ui;
 
     beforeEach(() => {
-        ui = {
-            notifications: {
-                error: sinon.spy()
-            }
-        };
         global.game.reset()
-        global.ui = ui;
     });
 
     it('should return null when no alias is addressed', () => {

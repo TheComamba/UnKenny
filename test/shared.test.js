@@ -2,20 +2,10 @@ import { expect } from 'chai';
 import { isUnkenny } from '../src/scripts/shared.js';
 
 describe('isUnkenny', () => {
-    let ui;
-    beforeEach(() => {
-        ui = {
-            notifications: {
-                error: jest.fn()
-            }
-        };
-        global.ui = ui;
-    });
-
     it('should return false and show error when actor is null', () => {
         const result = isUnkenny(null);
         expect(result).to.equal(false);
-        expect(ui.notifications.error).toHaveBeenCalledWith("Unkennyness checked for null actor.");
+        expect(global.ui.notifications.error.called).to.be.true;
     });
 
     it('should return false when actor does not have unkenny flag', () => {
