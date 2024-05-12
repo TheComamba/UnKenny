@@ -3,7 +3,7 @@ function postInChat(originator, message) {
         content: message,
         type: CONST.CHAT_MESSAGE_TYPES.OTHER
     }
-    if (originator instanceof String) {
+    if (typeof originator === 'string') {
         chatData["user"] = originator;
     } else if (originator instanceof Actor) {
         chatData["speaker"] = { actor: originator.id };
