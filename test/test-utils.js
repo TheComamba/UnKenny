@@ -1,7 +1,26 @@
+const oneMinute = 60 * 1000;
+
 function testIfSlow(name, fn) {
-    const oneMinute = 60 * 1000;
     const shouldRunSlowTests = process.env.RUN_SLOW_TESTS === 'true';
-    return (shouldRunSlowTests ? it : it.skip)(name, fn).timeout(oneMinute);
+    if (shouldRunSlowTests) {
+        return it(name, fn).timeout(oneMinute);
+    } else {
+        return it.skip(name, fn);
+    }
+}
+
+function testIfOpenAi(name, fn) {
+    const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
+    if (shouldRunOpenAiTests) {
+        if (!process.env.OPENAI_API_KEY) {
+            it(name, () => {
+                throw new Error('OPENAI_API_KEY environment variable is not set.');
+            });
+        }
+        return it(name, fn).timeout(oneMinute);
+    } else {
+        return it.skip(name, fn);
+    }
 }
 
 function waitFor(conditionFunction) {
@@ -12,4 +31,4 @@ function waitFor(conditionFunction) {
     return new Promise(poll);
 }
 
-export { testIfSlow, waitFor };
+export { testIfOpenAi, testIfSlow, waitFor };

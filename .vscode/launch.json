@@ -4,7 +4,7 @@
         {
             "type": "node",
             "request": "attach",
-            "name": "Attach by Process ID",
+            "name": "Attach to process",
             "processId": "${command:PickProcess}",
             "skipFiles": [
                 "<node_internals>/**"
@@ -13,7 +13,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch via NPM",
+            "name": "Launch tests via npm",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
@@ -38,6 +38,41 @@
             "skipFiles": [
                 "<node_internals>/**"
             ]
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Include OpenAI tests",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "env": {
+                "RUN_OPENAI_TESTS": "true",
+                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Include all tests",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "env": {
+                "RUN_SLOW_TESTS": "true",
+                "RUN_OPENAI_TESTS": "true",
+                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
     ]
 }

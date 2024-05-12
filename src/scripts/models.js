@@ -2,7 +2,6 @@ function getModels() {
     // Local models to choose from: 
     // https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
     return [
-        { text: "", path: "" },
         { text: "Local: Felladrin Minueza", path: "Felladrin/onnx-Minueza-32M-Chat" },
         { text: "Local: Felladrin Tiny Mistral", path: "Felladrin/onnx-TinyMistral-248M-Chat-v2" },
         // { text: "Local: Schmuell Tiny Llama", path: "schmuell/TinyLlama-1.1B-Chat-v1.0-int4" }, // Cannot be loaded.

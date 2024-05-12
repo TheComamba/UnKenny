@@ -12,23 +12,39 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        include:
-          - os: windows-latest
-            test_script: .\test.ps1 --all
-          - os: ubuntu-latest
-            test_script: ./test.sh --all
-          - os: macos-latest
-            test_script: ./test.sh --all
         node-version: [18.x, 20.x]
 
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+
     - run: npm ci
-    - name: Run tests
-      run: ${{ matrix.test_script }}
+    
+    - name: Run tests on Unix
+      if: matrix.os != 'windows-latest'
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          ./test.sh --all
+        else
+          ./test.sh
+        fi
+
+    - name: Run tests on Windows
+      if: matrix.os == 'windows-latest'
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        if ("${{ github.event_name }}" -eq "pull_request") { 
+          .\test.ps1 --all 
+        } else { 
+          .\test.ps1 
+        }
+      shell: pwsh
