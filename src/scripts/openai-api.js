@@ -1,4 +1,4 @@
-import { loadExternalModule } from './shared';
+import { loadExternalModule } from './shared.js';
 
 async function getResponseFromOpenAI(parameters, messages) {
     const OpenAIModule = await loadExternalModule('openai', '4.22.1/+esm');

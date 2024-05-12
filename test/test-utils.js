@@ -28,4 +28,4 @@ function waitFor(conditionFunction) {
     return new Promise(poll);
 }
 
-export { testIfSlow, waitFor };
+export { testIfOpenAi, testIfSlow, waitFor };
