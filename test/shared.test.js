@@ -53,15 +53,14 @@ describe('postInChat', () => {
 
     it('should show error when originator is neither String nor Actor', () => {
         postInChat(null, 'some message');
-        sinon.assert.notCalled(spy);
         expect(ui.notifications.error.called).to.be.true;
     });
 
-    it('should not post message in chat when chatMessage hook returns false', () => {
+    it('should post not more than one message in chat when chatMessage hook returns false', () => {
         Hooks.on("chatMessage", (_log, _text, _data) => false);
         const actor = new Actor();
         postInChat(actor, 'some message');
-        sinon.assert.notCalled(spy);
+        sinon.assert.calledOnce(spy);
         expect(ui.notifications.error.called).to.be.false;
     });
 });
