@@ -122,7 +122,11 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     let alias = actor.getFlag("unkenny", "alias");
     messageText = replaceAlias(messageText, name, name);
     messageText = replaceAlias(messageText, alias, name);
+
+    // JS strings are immutable, so we cannot change the text.
+    // Instead, we post the modified message in the chat and return false as an interrupt signal.
     postInChat(chatData.user, messageText);
+
     startPostingResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
   } else {
