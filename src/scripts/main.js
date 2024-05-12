@@ -1,7 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
-import { llmParametersAndDefaults, postResponse } from "./llm.js";
+import { llmParametersAndDefaults, startPostingResponse } from "./llm.js";
 import { getModelsAsMap } from "./models.js";
 
 // CONFIG.debug.hooks = true;
@@ -18,10 +18,7 @@ Hooks.once('init', async function () {
     config: true,
     type: String,
     choices: getModelsAsMap(),
-    default: params.model,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.model
   });
 
   game.settings.register("unkenny", "apiKey", {
@@ -31,10 +28,7 @@ Hooks.once('init', async function () {
     scope: "world",
     config: true,
     type: String,
-    default: params.apiKey,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.apiKey
   });
 
   game.settings.register("unkenny", "minNewTokens", {
@@ -49,10 +43,7 @@ Hooks.once('init', async function () {
       max: 100,
       step: 1
     },
-    default: params.minNewTokens,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.minNewTokens
   });
 
   game.settings.register("unkenny", "maxNewTokens", {
@@ -66,10 +57,7 @@ Hooks.once('init', async function () {
       max: 1000,
       step: 1
     },
-    default: params.maxNewTokens,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.maxNewTokens
   });
 
   game.settings.register("unkenny", "repetitionPenalty", {
@@ -84,10 +72,7 @@ Hooks.once('init', async function () {
       max: 2.0,
       step: 0.01
     },
-    default: params.repetitionPenalty,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.repetitionPenalty
   });
 
   game.settings.register("unkenny", "temperature", {
@@ -104,10 +89,7 @@ Hooks.once('init', async function () {
       max: 2,
       step: 0.01
     },
-    default: params.temperature,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.temperature
   });
 
   game.settings.register("unkenny", "prefixWithTalk", {
@@ -116,10 +98,7 @@ Hooks.once('init', async function () {
     scope: "world",
     config: true,
     type: Boolean,
-    default: params.prefixWithTalk,
-    onChange: value => {
-      console.log(value)
-    }
+    default: params.prefixWithTalk
   });
 
 });
@@ -143,8 +122,12 @@ Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
     let alias = actor.getFlag("unkenny", "alias");
     messageText = replaceAlias(messageText, name, name);
     messageText = replaceAlias(messageText, alias, name);
+
+    // JS strings are immutable, so we cannot change the text.
+    // Instead, we post the modified message in the chat and return false as an interrupt signal.
     postInChat(chatData.user, messageText);
-    postResponse(actor, messageText);
+
+    startPostingResponse(actor, messageText);
     return false; //Chat message has been posted by UnKenny.
   } else {
     return true; //Chat message needs to be posted by Foundry.

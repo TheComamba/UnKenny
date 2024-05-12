@@ -5,7 +5,7 @@ import { getGenerationParameters, llmParametersAndDefaults } from '../src/script
 describe('getGenerationParameters', () => {
     beforeEach(() => {
         game.reset();
-        global.ui.reset();
+        ui.reset();
     });
 
     it('should return the default values if no flags are set', async () => {

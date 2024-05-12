@@ -1,5 +1,9 @@
+import User from "./user.js";
+
 const game = {
+    user: new User(),
     actors: [],
+
     addActor: function (actor) {
         this.actors.push(actor);
     },

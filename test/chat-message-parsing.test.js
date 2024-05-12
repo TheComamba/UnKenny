@@ -134,14 +134,14 @@ import { findAdressedActor } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedActor', () => {
     beforeEach(() => {
-        global.game.reset()
-        global.ui.reset();
+        game.reset()
+        ui.reset();
     });
 
     it('should return null when no alias is addressed', () => {
         const actor = new Actor();
         actor.setFlag('unkenny', 'alias', 'alias');
-        global.game.addActor(actor);
+        game.addActor(actor);
 
         const message = "Kapascardia";
         const result = findAdressedActor(message);
@@ -151,18 +151,18 @@ describe('findAdressedActor', () => {
     it('should return null and display an error when actor with alias is not found', () => {
         const actor = new Actor();
         actor.setFlag('unkenny', 'alias', 'other-alias');
-        global.game.addActor(actor);
+        game.addActor(actor);
 
         const message = "Kapascardia @alias";
         const result = findAdressedActor(message);
         expect(result).to.be.null;
-        expect(global.ui.notifications.error.called).to.be.true;
+        expect(ui.notifications.error.called).to.be.true;
     });
 
     it('should return the actor when alias is addressed', () => {
         const actor = new Actor();
         actor.setFlag('unkenny', 'alias', 'alias');
-        global.game.addActor(actor);
+        game.addActor(actor);
 
         const message = "/alias Kapascardia";
         const result = findAdressedActor(message);

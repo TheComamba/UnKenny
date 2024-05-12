@@ -4,7 +4,7 @@ const Hooks = {
     if (!this.events[event]) {
       this.events[event] = [];
     }
-    this.events[event].push(callback);
+    this.events[event].unshift(callback);
   },
   once: function (event, callback) {
     const wrapper = (...args) => {
@@ -19,11 +19,12 @@ const Hooks = {
     }
     this.events[event] = this.events[event].filter(cb => cb !== callback);
   },
-  trigger: function (event, ...args) {
+  call: function (event, ...args) {
     if (!this.events[event]) {
-      return;
+      return true;
     }
-    this.events[event].forEach(callback => callback(...args));
+    const isInterrupted = this.events[event].some(callback => callback(...args) === false);
+    return !isInterrupted;
   },
 };
 
