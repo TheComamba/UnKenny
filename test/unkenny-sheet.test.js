@@ -59,7 +59,7 @@ describe('UnKennySheet', () => {
         expect(context.alias).to.equal("test alias");
         expect(context.preamble).to.equal("test preamble");
         for (const model of context.models) {
-            if (model.path == getLocalModels()[0]) {
+            if (model.model == getLocalModels()[0]) {
                 expect(model.isSelected).to.be.true;
             } else {
                 expect(model.isSelected).to.be.false;
