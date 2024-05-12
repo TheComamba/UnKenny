@@ -1,5 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { isUnkenny, postInChat } from '../src/scripts/shared.js';
+import ChatMessage from '../__mocks__/chat-message.js';
 
 describe('isUnkenny', () => {
     beforeEach(() => {
@@ -25,27 +27,29 @@ describe('isUnkenny', () => {
 });
 
 describe('postInChat', () => {
+    let spy = sinon.spy(ChatMessage.prototype, 'create');
     beforeEach(() => {
         ui.reset();
+        spy.restore();
     });
 
-    it('should post message in chat when originator is User', () => {
+    it('should post message in chat when originator is String', () => {
         const user_id = '60d7213e4f5f2b6';
         postInChat(user_id, 'some message');
-        expect(ChatMessage.create.called).to.be.true;
+        sinon.assert.calledOnce(spy);
         expect(ui.notifications.error.called).to.be.false;
     });
 
     it('should post message in chat when originator is Actor', () => {
         const actor = new Actor();
         postInChat(actor, 'some message');
-        expect(ChatMessage.create.called).to.be.true;
+        sinon.assert.calledOnce(spy);
         expect(ui.notifications.error.called).to.be.false;
     });
 
-    it('should show error when originator is not User or Actor', () => {
+    it('should show error when originator is not String or Actor', () => {
         postInChat(null, 'some message');
-        expect(ChatMessage.create.called).to.be.false;
+        sinon.assert.notCalled(spy);
         expect(ui.notifications.error.called).to.be.true;
     });
 
@@ -53,7 +57,7 @@ describe('postInChat', () => {
         Hooks.on("chatMessage", (_log, _text, _data) => false);
         const actor = new Actor();
         postInChat(actor, 'some message');
-        expect(ChatMessage.create.called).to.be.false;
+        sinon.assert.notCalled(spy);
         expect(ui.notifications.error.called).to.be.false;
     });
 });
