@@ -1,7 +1,7 @@
 class ChatMessage {
   static database = [];
 
-  create() {
+  static create(_chatData) {
     const newMessage = new ChatMessage();
     ChatMessage.database.push(newMessage);
     return newMessage;
