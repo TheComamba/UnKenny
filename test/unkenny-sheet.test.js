@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { UnKennySheet } from "../src/apps/unkenny-sheet.js";
 import fs from 'fs';
 import Handlebars from 'handlebars';
-import { getLocalModels } from '../src/scripts/models.js';
+import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
 describe('UnKennySheet', () => {
     let actor;
@@ -72,10 +72,20 @@ describe('UnKennySheet', () => {
     });
 
     it('should set the context model when the model changes', async () => {
+        const oldModel = getLocalModels()[0];
+        const newModel = getOpenAiModels()[0];
+        actor.setFlag("unkenny", "model", oldModel);
         const context = await sheet.getData();
-        const model = getLocalModels()[0];
-        const event = { target: { name: "model", value: model } };
+
+        const event = { target: { name: "model", value: newModel } };
         await sheet._onChangeInput(event);
-        expect(context.models.find(m => m.isSelected).model).to.equal(model);
+
+        for (const model of context.models) {
+            if (model.model == newModel) {
+                expect(model.isSelected).to.be.true;
+            } else {
+                expect(model.isSelected).to.be.false;
+            }
+        }
     });
 });
