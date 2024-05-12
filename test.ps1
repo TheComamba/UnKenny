@@ -27,4 +27,4 @@ if ($env:RUN_OPENAI_TESTS -eq $true -and -not $env:OPENAI_API_KEY) {
 }
 
 Write-Host "Running tests..."
-npm run test:coverage
+$env:OPENAI_API_KEY = $env:OPENAI_API_KEY; npm run test:coverage

@@ -26,4 +26,4 @@ if [[ "$RUN_OPENAI_TESTS" = true && -z "$OPENAI_API_KEY" ]]; then
 fi
 
 echo "Running tests..."
-npm run test:coverage
+OPENAI_API_KEY=$OPENAI_API_KEY npm run test:coverage
