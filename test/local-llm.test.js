@@ -6,6 +6,7 @@ import { getResponseFromLocalLLM } from '../src/scripts/local-llm.js';
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
         game.reset();
+        global.ui.reset();
     });
 
     testIfSlow('returns a somewhat expected response', async () => {

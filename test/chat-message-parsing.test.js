@@ -133,10 +133,9 @@ describe('actorHasAlias', () => {
 import { findAdressedActor } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedActor', () => {
-    let ui;
-
     beforeEach(() => {
         global.game.reset()
+        global.ui.reset();
     });
 
     it('should return null when no alias is addressed', () => {

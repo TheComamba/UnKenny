@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import { isUnkenny } from '../src/scripts/shared.js';
 
 describe('isUnkenny', () => {
+    beforeEach(() => {
+        global.ui.reset();
+    });
+
     it('should return false and show error when actor is null', () => {
         const result = isUnkenny(null);
         expect(result).to.equal(false);
