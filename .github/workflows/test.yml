@@ -23,4 +23,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm test
+    - name: Run tests
+      run: |
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          .\test.ps1 --all
+        else
+          ./test.sh --all
+        fi
+      shell: bash
