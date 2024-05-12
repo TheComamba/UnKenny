@@ -19,7 +19,7 @@ const Hooks = {
     }
     this.events[event] = this.events[event].filter(cb => cb !== callback);
   },
-  trigger: function (event, ...args) {
+  call: function (event, ...args) {
     if (!this.events[event]) {
       return;
     }
