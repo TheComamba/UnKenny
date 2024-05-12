@@ -9,17 +9,16 @@ describe('getResponseFromLocalLLM', () => {
     });
 
     testIfSlow('returns the expected response', async () => {
-
         const parameters = {
             model: 'Xenova/Qwen1.5-1.8B-Chat',
-            actorName: 'Histrios',
-            preamble: 'Your name is Histrios.',
+            actorName: 'Bob',
+            preamble: 'Your name is Bob.',
             minNewTokens: 8,
-            maxNewTokens: 1024,
+            maxNewTokens: 128,
             repetitionPenalty: 1.0,
             temperature: 0.0,
         };
-        const prompt = 'What is your name?';
+        const prompt = 'Repeat after me: "I am Bob."';
         const messages = getMessages(parameters, prompt);
 
         const response = await getResponseFromLocalLLM(parameters, messages);

@@ -64,11 +64,13 @@ async function getResponseFromLocalLLM(parameters, messages) {
     let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
     await info.render(true);
 
+    // https://huggingface.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig
     const localParameters = {
         min_new_tokens: parameters.minNewTokens,
         max_new_tokens: parameters.maxNewTokens,
         repetition_penalty: parameters.repetitionPenalty,
         temperature: parameters.temperature,
+        renormalize_logits: true, // Default is false, but highly recommended to set to true...
     };
 
     let output_tokens
@@ -80,7 +82,7 @@ async function getResponseFromLocalLLM(parameters, messages) {
         return;
     }
     output_tokens = output_tokens[0].slice(input_tokens.size);
-    let response = tokenizer.decode(output_tokens, { skip_special_tokens: false });
+    let response = tokenizer.decode(output_tokens, { skip_special_tokens: true }).trim();
 
     await info.close();
 
