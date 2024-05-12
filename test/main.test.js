@@ -56,6 +56,12 @@ describe('Integration test', () => {
     const localModels = getModels().filter(model => isLocal(model.path));
     const model = localModels[0];
     game.settings.set("unkenny", "model", model.path);
+    game.settings.set("unkenny", "apiKey", "");
+    game.settings.set("unkenny", "minNewTokens", 1);
+    game.settings.set("unkenny", "maxNewTokens", 250);
+    game.settings.set("unkenny", "repetitionPenalty", 0.0);
+    game.settings.set("unkenny", "temperature", 1.0);
+    game.settings.set("unkenny", "prefixWithTalk", false);
 
     let actor = new Actor();
     actor.setFlag('unkenny', 'alias', 'bob');
@@ -78,6 +84,6 @@ describe('Integration test', () => {
     expect(ChatMessage.database[1].content).to.not.be.empty;
     expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
     expect(ui.notifications.warning.called).to.be.false;
-    expect(ui.notifications.warning.error).to.be.false;
+    expect(ui.notifications.error.called).to.be.false;
   });
 });
