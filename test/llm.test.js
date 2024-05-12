@@ -16,7 +16,7 @@ describe('getGenerationParameters', () => {
         const result = await getGenerationParameters(actor);
 
         const params = llmParametersAndDefaults();
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
             apiKey: params.apiKey,
@@ -45,7 +45,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
             apiKey: 'apiKey1',
@@ -80,7 +80,7 @@ describe('getGenerationParameters', () => {
 
         const result = await getGenerationParameters(actor);
 
-        expect(result).toEqual({
+        expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model2',
             apiKey: 'apiKey1',

@@ -3,7 +3,7 @@ import { llmParametersAndDefaults } from '../src/scripts/llm.js';
 
 describe('main.js tests', () => {
   beforeEach(() => {
-    Hooks.on.mockReset();
+    game.reset();
   });
 
   it('main.js can be loaded as an ES module entry point', async () => {

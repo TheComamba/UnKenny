@@ -157,7 +157,7 @@ describe('findAdressedActor', () => {
         const message = "Kapascardia @alias";
         const result = findAdressedActor(message);
         expect(result).to.be.null;
-        expect(ui.notifications.error.called).to.be.true;
+        expect(global.ui.notifications.error.called).to.be.true;
     });
 
     it('should return the actor when alias is addressed', () => {
