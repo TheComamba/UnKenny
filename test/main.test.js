@@ -65,6 +65,7 @@ describe('Integration test', () => {
     const chatLog = null;
     const message = '/bob What is your name?';
     const chatData = {
+      user: game.user.id,
       content: message,
       type: CONST.CHAT_MESSAGE_TYPES.OTHER
     }
