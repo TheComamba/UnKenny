@@ -30,7 +30,13 @@ describe('UnKennySheet', () => {
     it('should have a getData method that returns a filled context', async () => {
         const context = await sheet.getData();
         expect(Object.keys(context).length).to.be.greaterThan(0);
-        expect(Object.keys(context.models).length).to.be.greaterThan(0);
+        expect(Object.keys(context.models).length).to.be.greaterThan(1);
+    });
+
+    it('should offer an empty model as first option', async () => {
+        const context = await sheet.getData();
+        expect(context.models[0].model).to.be.empty;
+        expect(context.models[0].text).to.be.empty;
     });
 
     it('should not display data for a new actor', async () => {
@@ -87,5 +93,49 @@ describe('UnKennySheet', () => {
                 expect(model.isSelected).to.be.false;
             }
         }
+    });
+
+    it('should update the actor flags when the form is submitted', async () => {
+        const formData = {
+            alias: "test alias",
+            preamble: "test preamble",
+            model: getLocalModels()[0],
+            minNewTokens: 1,
+            maxNewTokens: 10,
+            repetitionPenalty: 1.0,
+            temperature: 0.5
+        };
+
+        await sheet._updateObject(null, formData);
+
+        expect(actor.getFlag("unkenny", "alias")).to.equal("test alias");
+        expect(actor.getFlag("unkenny", "preamble")).to.equal("test preamble");
+        expect(actor.getFlag("unkenny", "model")).to.equal(getLocalModels()[0]);
+        expect(actor.getFlag("unkenny", "minNewTokens")).to.equal(1);
+        expect(actor.getFlag("unkenny", "maxNewTokens")).to.equal(10);
+        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.equal(1.0);
+        expect(actor.getFlag("unkenny", "temperature")).to.equal(0.5);
+    });
+
+    it('should unset the actor flags when the form is emptied', async () => {
+        const formData = {
+            alias: "",
+            preamble: "",
+            model: "",
+            minNewTokens: null,
+            maxNewTokens: null,
+            repetitionPenalty: null,
+            temperature: null
+        };
+
+        await sheet._updateObject(null, formData);
+
+        expect(actor.getFlag("unkenny", "alias")).to.be.null;
+        expect(actor.getFlag("unkenny", "preamble")).to.be.null;
+        expect(actor.getFlag("unkenny", "model")).to.be.null;
+        expect(actor.getFlag("unkenny", "minNewTokens")).to.be.null;
+        expect(actor.getFlag("unkenny", "maxNewTokens")).to.be.null;
+        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.be.null;
+        expect(actor.getFlag("unkenny", "temperature")).to.be.null;
     });
 });
