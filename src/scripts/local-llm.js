@@ -83,6 +83,7 @@ async function getResponseFromLocalLLM(parameters, messages) {
     }
     output_tokens = output_tokens[0].slice(input_tokens.size);
     let response = tokenizer.decode(output_tokens, { skip_special_tokens: true }).trim();
+    response = response.replace(/^assistant/i, '').trim();
 
     await info.close();
 

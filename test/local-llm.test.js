@@ -31,6 +31,7 @@ describe('getResponseFromLocalLLM', () => {
 
             expect(global.ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
+            expect(response).to.not.include('assistant');
         });
     });
 });
