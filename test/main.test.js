@@ -13,6 +13,7 @@ describe('main.js tests', () => {
 
   it('After loading main.js, the game object settings have the defaults', async () => {
     await import('../src/scripts/main.js');
+    Hooks.trigger('init');
 
     const params = llmParametersAndDefaults();
     for (let key in params) {
@@ -26,6 +27,7 @@ describe('main.js tests', () => {
 
   it('After loading main.js, the game object settings has no members besides the llm parameters', async () => {
     await import('../src/scripts/main.js');
+    Hooks.trigger('init');
 
     const params = llmParametersAndDefaults();
     for (let key in game.settings.settings) {
