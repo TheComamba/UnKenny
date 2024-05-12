@@ -1,7 +1,23 @@
+const oneMinute = 60 * 1000;
+
 function testIfSlow(name, fn) {
-    const oneMinute = 60 * 1000;
     const shouldRunSlowTests = process.env.RUN_SLOW_TESTS === 'true';
-    return (shouldRunSlowTests ? it : it.skip)(name, fn).timeout(oneMinute);
+    if (shouldRunSlowTests) {
+        return it(name, fn).timeout(oneMinute);
+    } else {
+        return it.skip(name, fn);
+    }
+}
+
+function testIfOpenAi(name, fn) {
+    const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
+    if (shouldRunOpenAiTests) {
+        const apiKey = process.env.OPENAI_API_KEY;
+        game.settings.set('unkenny', 'apiKey', apiKey);
+        return it(name, fn).timeout(oneMinute);
+    } else {
+        return it.skip(name, fn);
+    }
 }
 
 function waitFor(conditionFunction) {
