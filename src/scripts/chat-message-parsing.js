@@ -1,7 +1,7 @@
 import { isUnkenny } from "./shared.js";
 
 function findAdressedAlias(message) {
-    const regex = /(?:^\/|@)(\w+)/;
+    const regex = /@(\w+)/;
     const match = message.match(regex);
     return match ? match[1].toLowerCase() : null;
 }
@@ -10,10 +10,8 @@ function replaceAlias(message, alias, actorName) {
     if (alias == "") {
         return message;
     }
-    const aliasAtBeginning = new RegExp("^/" + alias, "i");
-    const aliasAnywhere = new RegExp("@" + alias, "gi");
-    message = message.replace(aliasAtBeginning, '');
-    message = message.replace(aliasAnywhere, "<b>" + actorName + "</b>");
+    const aliasReplacement = new RegExp("@" + alias, "gi");
+    message = message.replace(aliasReplacement, "<b>" + actorName + "</b>");
     message = message.trim();
     return message;
 }

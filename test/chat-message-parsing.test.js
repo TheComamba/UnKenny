@@ -11,7 +11,7 @@ describe('findAdressedAlias', () => {
     });
 
     it('should return the alias if it is addressed at the beginning of the message', () => {
-        const message = "/alias Kapascardia";
+        const message = "@alias Kapascardia";
         const result = findAdressedAlias(message);
         expect(result).to.equal('alias');
     });
@@ -22,14 +22,14 @@ describe('findAdressedAlias', () => {
         expect(result).to.equal('alias');
     });
 
-    it('should return the alias in lowercase', () => {
-        const message = "Kapascardia @Alias funurkel";
+    it('should return the alias if it is addressed at the end of the message', () => {
+        const message = "Kapascardia @alias";
         const result = findAdressedAlias(message);
         expect(result).to.equal('alias');
     });
 
-    it('should return the alias if it is addressed at the end of the message', () => {
-        const message = "Kapascardia @alias";
+    it('should return the alias in lowercase', () => {
+        const message = "Kapascardia @Alias funurkel";
         const result = findAdressedAlias(message);
         expect(result).to.equal('alias');
     });
@@ -48,12 +48,6 @@ describe('replaceAlias', () => {
         const message = "Hello @alias, how are you?";
         const result = replaceAlias(message, "", "John");
         expect(result).to.equal(message);
-    });
-
-    it('should remove the slash-alias at the beginning of the message', () => {
-        const message = "/alias How are you?";
-        const result = replaceAlias(message, "alias", "John");
-        expect(result).to.equal("How are you?");
     });
 
     it('should replace the alias anywhere in the message with actor name', () => {
@@ -164,7 +158,7 @@ describe('findAdressedActor', () => {
         actor.setFlag('unkenny', 'alias', 'alias');
         game.addActor(actor);
 
-        const message = "/alias Kapascardia";
+        const message = "@alias Kapascardia";
         const result = findAdressedActor(message);
         expect(result).to.equal(actor);
     });
