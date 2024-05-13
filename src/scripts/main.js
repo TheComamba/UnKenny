@@ -116,7 +116,7 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
   })
 });
 
-Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
+Hooks.on("preCreateChatMessage", (_newMessage, chatData, _options, _originator) => {
   let actor = findAdressedActor(messageText);
   if (actor) {
     modifyUnkennyChatData(chatData, actor);
