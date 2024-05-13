@@ -16,6 +16,9 @@ function llmParametersAndDefaults() {
 }
 
 async function getGenerationParameter(actor, parameterName) {
+    if (!actor) {
+        return;
+    }
     let value = await actor.getFlag("unkenny", parameterName);
     if (value == null) {
         value = game.settings.get("unkenny", parameterName);
@@ -26,7 +29,7 @@ async function getGenerationParameter(actor, parameterName) {
     }
     if (value == null) {
         ui.notifications.error(`No default value found for ${parameterName}.`);
-        return null;
+        return;
     }
     return value;
 }
