@@ -1,6 +1,5 @@
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
-import { postInChat } from "../scripts/shared.js";
 import { isLocal } from "./models.js";
 
 function llmParametersAndDefaults() {

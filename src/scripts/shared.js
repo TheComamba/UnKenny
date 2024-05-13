@@ -25,20 +25,4 @@ async function loadExternalModule(name, version) {
     }
 }
 
-function postInChat(originator, message) {
-    let chatData = {
-        content: message,
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER
-    }
-    if (typeof originator === 'string') {
-        chatData["user"] = originator;
-    } else if (originator instanceof Actor) {
-        chatData["speaker"] = { actor: originator.id };
-    } else {
-        ui.notifications.error("Message originator has unkown type.");
-    }
-
-    ChatMessage.create(chatData);
-}
-
-export { isUnkenny, loadExternalModule, postInChat };
+export { isUnkenny, loadExternalModule };

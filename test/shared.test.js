@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { isUnkenny, postInChat } from '../src/scripts/shared.js';
-import ChatMessage from '../__mocks__/chat-message.js';
+import { isUnkenny } from '../src/scripts/shared.js';
 
 describe('isUnkenny', () => {
     beforeEach(() => {
@@ -23,44 +21,5 @@ describe('isUnkenny', () => {
         const actor = new Actor();
         actor.setFlag("unkenny", "alias", 'some-alias');
         expect(isUnkenny(actor)).to.equal(true);
-    });
-});
-
-describe('postInChat', () => {
-    let spy;
-    beforeEach(() => {
-        ui.reset();
-        spy = sinon.spy(ChatMessage, 'create');
-    });
-
-    afterEach(() => {
-        spy.restore();
-    });
-
-    it('should post message in chat when originator is String', () => {
-        const user_id = '60d7213e4f5f2b6';
-        postInChat(user_id, 'some message');
-        sinon.assert.calledOnce(spy);
-        expect(ui.notifications.error.called).to.be.false;
-    });
-
-    it('should post message in chat when originator is Actor', () => {
-        const actor = new Actor();
-        postInChat(actor, 'some message');
-        sinon.assert.calledOnce(spy);
-        expect(ui.notifications.error.called).to.be.false;
-    });
-
-    it('should show error when originator is neither String nor Actor', () => {
-        postInChat(null, 'some message');
-        expect(ui.notifications.error.called).to.be.true;
-    });
-
-    it('should post not more than one message in chat when chatMessage hook returns false', () => {
-        Hooks.on("chatMessage", (_log, _text, _data) => false);
-        const actor = new Actor();
-        postInChat(actor, 'some message');
-        sinon.assert.calledOnce(spy);
-        expect(ui.notifications.error.called).to.be.false;
     });
 });
