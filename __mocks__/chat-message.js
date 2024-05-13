@@ -25,6 +25,7 @@ class ChatMessage {
   }
 
   static reset() {
+    // TODO: ChatMessage has no database. ChatLog has a remember method.
     ChatMessage.database = [];
   }
 }
