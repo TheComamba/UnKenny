@@ -1,13 +1,16 @@
 import { isUnkenny } from "./shared.js";
 
 function findAdressedAlias(message) {
+    if (!message) {
+        return null;
+    }
     const regex = /@(\w+)/;
     const match = message.match(regex);
     return match ? match[1].toLowerCase() : null;
 }
 
 function replaceAlias(message, alias, actorName) {
-    if (alias == "") {
+    if (!message || !alias || !actorName) {
         return message;
     }
     const aliasReplacement = new RegExp("@" + alias, "gi");

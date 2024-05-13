@@ -4,6 +4,12 @@ import sinon from 'sinon';
 import { findAdressedAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('findAdressedAlias', () => {
+    it('should return null if message is null', () => {
+        const message = null;
+        const result = findAdressedAlias(message);
+        expect(result).to.be.null;
+    });
+
     it('should return null if no alias is addressed', () => {
         const message = "Kapascardia";
         const result = findAdressedAlias(message);
@@ -44,6 +50,11 @@ describe('findAdressedAlias', () => {
 import { replaceAlias } from '../src/scripts/chat-message-parsing.js';
 
 describe('replaceAlias', () => {
+    it('should return the original message if message is empty', () => {
+        const result = replaceAlias("", "alias", "John");
+        expect(result).to.equal("");
+    });
+
     it('should return the original message if alias is empty', () => {
         const message = "Hello @alias, how are you?";
         const result = replaceAlias(message, "", "John");
