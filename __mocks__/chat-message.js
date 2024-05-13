@@ -29,8 +29,4 @@ class ChatMessage {
   }
 }
 
-Hooks.on("chatMessage", (_chatlog, content, chatData) => {
-  ChatMessage.create(content, chatData);
-});
-
 export default ChatMessage;
