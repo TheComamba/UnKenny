@@ -87,7 +87,7 @@ async function postMessageAndCheckReply(model) {
     content: message,
     type: CONST.CHAT_MESSAGE_TYPES.OTHER
   };
-  Hooks.call('chatMessage', chatLog, message, chatData);
+  Hooks.call('chatMessage', chatLog, message, chatData); // This triggers the message creation.
 
   expect(ChatMessage.database.length).to.be.greaterThan(0);
   await waitFor(postMessageAndCheckReplyCompletionCondition);
