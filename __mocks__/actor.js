@@ -1,7 +1,8 @@
 import { generateRandomId } from "./utils.js";
 
 class Actor {
-    constructor() {
+    constructor(name = "") {
+        this.name = name;
         this.id = generateRandomId();
         this.flags = new Map();
     }

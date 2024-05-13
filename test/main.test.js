@@ -75,13 +75,13 @@ async function postMessageAndCheckReply(model) {
   game.settings.set("unkenny", "temperature", 1.0);
   game.settings.set("unkenny", "prefixWithTalk", false);
 
-  let actor = new Actor();
+  let actor = new Actor('Robert');
   actor.setFlag('unkenny', 'alias', 'bob');
   actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
   game.addActor(actor);
 
   const chatLog = null;
-  const message = '/bob What is your name?';
+  const message = 'What is your name, @bob?';
   const chatData = {
     user: game.user.id,
     content: message,
@@ -91,7 +91,7 @@ async function postMessageAndCheckReply(model) {
 
   expect(ChatMessage.database.length).to.be.greaterThan(0);
   await waitFor(postMessageAndCheckReplyCompletionCondition);
-  expect(ChatMessage.database[0].content).to.equal('What is your name?');
+  expect(ChatMessage.database[0].content).to.equal('What is your name, <b>Robert</b>?');
   expect(ChatMessage.database[0].user).to.equal(game.user.id);
   expect(ChatMessage.database[1].content).to.not.be.empty;
   expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
