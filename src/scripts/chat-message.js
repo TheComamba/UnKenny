@@ -1,3 +1,6 @@
+import { replaceAlias } from "./chat-message-parsing.js";
+import { generateResponse } from "./llm.js";
+
 function modifyUnkennyChatData(chatData, addressedActor) {
     let name = addressedActor.name;
     let alias = addressedActor.getFlag("unkenny", "alias");
