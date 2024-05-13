@@ -14,11 +14,11 @@ function llmParametersAndDefaults() {
     };
 }
 
-async function getGenerationParameter(actor, parameterName) {
+function getGenerationParameter(actor, parameterName) {
     if (!actor) {
         return;
     }
-    let value = await actor.getFlag("unkenny", parameterName);
+    let value = actor.getFlag("unkenny", parameterName);
     if (value == null) {
         value = game.settings.get("unkenny", parameterName);
     }
@@ -33,20 +33,20 @@ async function getGenerationParameter(actor, parameterName) {
     return value;
 }
 
-async function getGenerationParameters(actor) {
+function getGenerationParameters(actor) {
     if (!actor) {
         return;
     }
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
-        const param = await getGenerationParameter(actor, key);
+        const param = getGenerationParameter(actor, key);
         if (param == null) {
             return null;
         }
         params[key] = param;
     }
-    params.preamble = await getGenerationParameter(actor, "preamble");
+    params.preamble = getGenerationParameter(actor, "preamble");
     return params;
 }
 
@@ -64,7 +64,7 @@ function getMessages(parameters, input) {
 }
 
 async function generateResponse(actor, input) {
-    let parameters = await getGenerationParameters(actor);
+    let parameters = getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
