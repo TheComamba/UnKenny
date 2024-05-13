@@ -17,14 +17,14 @@ describe('modifyUnkennyChatData', () => {
 
 describe('triggerResponse', () => {
     testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
-        game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
+        game.settings.setFlag("unkenny", "apiKey", process.env.OPENAI_API_KEY);
         const openaiModels = getOpenAiModels();
         const model = openaiModels[0];
         await runTriggerResponse();
     });
 
     testIfSlow('should generate a response from a local model and trigger a chat message', async () => {
-        game.settings.set("unkenny", "apiKey", "");
+        game.settings.setFlag("unkenny", "apiKey", "");
         const localModels = getLocalModels();
         const model = localModels[0];
         await runTriggerResponse();
@@ -40,7 +40,7 @@ describe('triggerResponse', () => {
 
 async function runTriggerResponse(model) {
     const actor = new Actor("John Doe");
-    game.settings.set("unkenny", "model", model);
+    game.settings.setFlag("unkenny", "model", model);
     actor.setFlag("unkenny", "alias", "jd");
     actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";
