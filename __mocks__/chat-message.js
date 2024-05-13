@@ -11,7 +11,10 @@ class ChatMessage {
 
   static create(chatData) {
     const newMessage = new ChatMessage(chatData);
+    Hooks.call("preCreateChatMessage", newMessage);
+    Hooks.call("createChatMessage", newMessage);
     ChatMessage.database.push(newMessage);
+    Hooks.call("renderChatMessage", newMessage);
     return newMessage;
   }
 
