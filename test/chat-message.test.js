@@ -10,7 +10,7 @@ describe('modifyUnkennyChatData', () => {
         let addressedActor = new Actor("John Doe");
         addressedActor.setFlag("unkenny", "alias", "jd");
         modifyUnkennyChatData(chatData, addressedActor);
-        expect(chatData.content).to.equal("Hello, <b>John Doe!</b>");
+        expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
     });
 });
 

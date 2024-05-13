@@ -34,6 +34,9 @@ async function getGenerationParameter(actor, parameterName) {
 }
 
 async function getGenerationParameters(actor) {
+    if (!actor) {
+        return;
+    }
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
