@@ -1,7 +1,8 @@
 import Hooks from './hooks.js';
 
 class ChatMessage {
-  constructor(chatData) {
+  constructor(content, chatData) {
+    chatData.content = content;
     this.applyChatData(chatData);
   }
 
@@ -13,10 +14,10 @@ class ChatMessage {
     this.user = chatData.user;
   }
 
-  static create(chatData) {
+  static create(content, chatData) {
     const options = { "temporary": false, "renderSheet": false, "render": true }
     const originator = game.user.id;
-    let newMessage = new ChatMessage(chatData);
+    let newMessage = new ChatMessage(content, chatData);
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
     newMessage.applyChatData(chatData);
     Hooks.call("createChatMessage", newMessage, options, originator);
@@ -28,8 +29,8 @@ class ChatMessage {
   }
 }
 
-Hooks.on("chatMessage", (_chatlog, _messageText, chatData) => {
-  ChatMessage.create(chatData);
+Hooks.on("chatMessage", (_chatlog, content, chatData) => {
+  ChatMessage.create(content, chatData);
 });
 
 export default ChatMessage;

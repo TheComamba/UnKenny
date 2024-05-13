@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { modifyUnkennyChatData, triggerResponse } from '../src/scripts/chat-message.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
+import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
 describe('modifyUnkennyChatData', () => {
     it('should replace the alias with the actor name', () => {
