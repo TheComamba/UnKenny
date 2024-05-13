@@ -80,17 +80,15 @@ async function postMessageAndCheckReply(model) {
   actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
   game.addActor(actor);
 
-  const chatLog = null;
   const message = 'What is your name, @bob?';
-  const chatData = {
-    user: game.user.id,
-    content: message,
-    type: CONST.CHAT_MESSAGE_TYPES.OTHER
-  };
-  Hooks.call('chatMessage', chatLog, message, chatData); // This triggers the message creation.
+  simulateUserInput(message);
 
   expect(ChatMessage.database.length).to.be.greaterThan(0);
-  await waitFor(postMessageAndCheckReplyCompletionCondition);
+  await waitFor(() => {
+    return ChatMessage.database.length === 2 || // Happy path
+      ui.notifications.warning.called || // Sad path
+      ui.notifications.error.called; // Sad path
+  });
   expect(ChatMessage.database[0].content).to.equal('What is your name, <b>Robert</b>?');
   expect(ChatMessage.database[0].user).to.equal(game.user.id);
   expect(ChatMessage.database[1].content).to.not.be.empty;
@@ -99,8 +97,12 @@ async function postMessageAndCheckReply(model) {
   expect(ui.notifications.error.called).to.be.false;
 }
 
-function postMessageAndCheckReplyCompletionCondition() {
-  return ChatMessage.database.length === 2 || // Happy path
-    ui.notifications.warning.called || // Sad path
-    ui.notifications.error.called; // Sad path
+function simulateUserInput(message) {
+  const chatLog = null;
+  const chatData = {
+    user: game.user.id,
+    content: message,
+    type: CONST.CHAT_MESSAGE_TYPES.OTHER
+  };
+  Hooks.call('chatMessage', chatLog, message, chatData);
 }
