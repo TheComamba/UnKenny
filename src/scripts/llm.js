@@ -82,13 +82,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-async function startPostingResponse(actor, request) {
-    let response = await generateResponse(actor, request);
-    if (response) {
-        postInChat(actor, response);
-    } else {
-        ui.notifications.error("No response generated.");
-    }
-}
-
-export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults, startPostingResponse };
+export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults };

@@ -3,6 +3,7 @@ import { isUnkenny, postInChat } from "./shared.js";
 import { findAdressedActor, replaceAlias } from "./chat-message-parsing.js";
 import { llmParametersAndDefaults, startPostingResponse } from "./llm.js";
 import { getModelToTextMap } from "./models.js";
+import { modifyUnkennyChatData, triggerResponse } from "./chat-message.js";
 
 // CONFIG.debug.hooks = true;
 
@@ -118,20 +119,10 @@ Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
 Hooks.on("chatMessage", (_chatlog, messageText, chatData) => {
   let actor = findAdressedActor(messageText);
   if (actor) {
-    let name = actor.name;
-    let alias = actor.getFlag("unkenny", "alias");
-    messageText = replaceAlias(messageText, name, name);
-    messageText = replaceAlias(messageText, alias, name);
-
-    // JS strings are immutable, so we cannot change the text.
-    // Instead, we post the modified message in the chat and return false as an interrupt signal.
-    postInChat(chatData.user, messageText);
-
-    startPostingResponse(actor, messageText);
-    return false; //Chat message has been posted by UnKenny.
-  } else {
-    return true; //Chat message needs to be posted by Foundry.
+    modifyUnkennyChatData(chatData, actor);
+    triggerResponse(actor, chatData.content);
   }
+  return true;
 });
 
 export default {};
