@@ -8,6 +8,18 @@ import { modifyUnkennyChatData, triggerResponse } from "./chat-message.js";
 // CONFIG.debug.hooks = true;
 
 Hooks.once('init', async function () {
+
+  const currentChatMessage = CONFIG.ChatMessage.documentClass;
+  class OurChatMessage extends currentChatMessage {
+    /** @inheritDoc */
+    _initialize(options = {}) {
+      super._initialize(options);
+      console.log("OurChatMessage initialized!");
+    }
+  }
+  CONFIG.ChatMessage.documentClass = OurChatMessage;
+
+
   const params = llmParametersAndDefaults();
 
   game.settings.register("unkenny", "model", {
