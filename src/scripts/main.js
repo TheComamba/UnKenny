@@ -16,6 +16,17 @@ Hooks.once('init', async function () {
       super._initialize(options);
       console.log("OurChatMessage initialized!");
     }
+
+    /** @override */
+    async _preCreate(data, options, user) {
+      if (data.content.startsWith("#TeamEmilia")) {
+        let chatDataJson = JSON.parse(data.content.replace("#TeamEmilia", ""));
+        data.content = chatDataJson.content;
+        data.type = chatDataJson.type;
+        user.name = chatDataJson.actorName;
+      }
+      await super._preCreate(data, options, user);
+    }
   }
   CONFIG.ChatMessage.documentClass = OurChatMessage;
 

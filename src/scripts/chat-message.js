@@ -13,9 +13,11 @@ async function triggerResponse(actor, request) {
         let chatData = {
             content: response,
             type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            speaker: { actor: actor.id }
+            actorName: actor.name
         };
-        Hooks.call('chatMessage', chatLog, message, chatData);
+        new ChatLog().processMessage("#TeamEmilia" + JSON.stringify(chatData));
+
+        //Hooks.call('chatMessage', response, chatData);
     } else {
         ui.notifications.error("No response generated.");
     }
