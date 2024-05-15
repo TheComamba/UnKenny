@@ -16,8 +16,6 @@ async function triggerResponse(actor, request) {
             actorName: actor.name
         };
         new ChatLog().processMessage("#TeamEmilia" + JSON.stringify(chatData));
-
-        //Hooks.call('chatMessage', response, chatData);
     } else {
         ui.notifications.error("No response generated.");
     }

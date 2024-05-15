@@ -13,13 +13,21 @@ Hooks.once('init', async function () {
   class UnkennyChatMessage extends currentChatMessage {
     /** @override */
     async _preCreate(data, options, user) {
+      this.processTeamEmiliaData(data, user);
+      await super._preCreate(data, options, user);
+    }
+
+    processTeamEmiliaData(data, user) {
       if (data.content.startsWith("#TeamEmilia")) {
         let chatDataJson = JSON.parse(data.content.replace("#TeamEmilia", ""));
-        data.content = chatDataJson.content;
-        data.type = chatDataJson.type;
-        user.name = chatDataJson.actorName;
-      }
-      await super._preCreate(data, options, user);
+        if ('content' in chatDataJson && 'type' in chatDataJson && 'actorName' in chatDataJson) {
+          data.content = chatDataJson.content;
+          data.type = chatDataJson.type;
+          user.name = chatDataJson.actorName;
+        } else {
+          data.content = "#TeamEmilaForever" + data.content;
+        }
+      }     
     }
   }
   CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
