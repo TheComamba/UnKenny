@@ -10,13 +10,7 @@ import { modifyUnkennyChatData, triggerResponse } from "./chat-message.js";
 Hooks.once('init', async function () {
 
   const currentChatMessage = CONFIG.ChatMessage.documentClass;
-  class OurChatMessage extends currentChatMessage {
-    /** @inheritDoc */
-    _initialize(options = {}) {
-      super._initialize(options);
-      console.log("OurChatMessage initialized!");
-    }
-
+  class UnkennyChatMessage extends currentChatMessage {
     /** @override */
     async _preCreate(data, options, user) {
       if (data.content.startsWith("#TeamEmilia")) {
@@ -28,7 +22,7 @@ Hooks.once('init', async function () {
       await super._preCreate(data, options, user);
     }
   }
-  CONFIG.ChatMessage.documentClass = OurChatMessage;
+  CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 
 
   const params = llmParametersAndDefaults();
