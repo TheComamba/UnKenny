@@ -62,3 +62,9 @@ ln -s {folder containing git repo}/UnKenny/src {Foundry user data}/Data/modules/
 This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license. In a nutshell this means that all code is made public, and you are free to use it without any charge.
 
 We do not provide any guarantees for the licenses under which the models are distributed. The local models have some open source licensing, OpenAI's models are proprietary.
+
+## Acknowledgments
+
+Some of the authors thank [CarinaKt](https://github.com/CarinaKt) for the ongoing fruitful discussions.
+
+Some of the authors support #TeamEmilia.
