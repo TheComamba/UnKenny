@@ -1,4 +1,5 @@
 import Actor from './__mocks__/actor.js';
+import ChatLog from './__mocks__/chat-log.js'
 import ChatMessage from './__mocks__/chat-message.js';
 import CONST from './__mocks__/CONST.js';
 import Dialog from './__mocks__/dialog.js';
@@ -8,6 +9,7 @@ import Hooks from './__mocks__/hooks.js';
 import ui from './__mocks__/ui.js';
 
 global.Actor = Actor;
+global.ChatLog = ChatLog;
 global.ChatMessage = ChatMessage;
 global.CONST = CONST;
 global.Dialog = Dialog;
