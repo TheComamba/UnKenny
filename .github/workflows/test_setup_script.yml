@@ -1,0 +1,40 @@
+name: Test setup.sh
+
+on:
+    pull_request:
+        branches: [ main ]
+    push:
+
+jobs:
+    test:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, debian-latest]
+                include:
+                    - os: ubuntu-latest
+                      container: ubuntu:20.04
+                    - os: debian-latest
+                      container: debian:bullseye
+        runs-on: ${{ matrix.os }}
+        container: ${{ matrix.container }}
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Check that npm is not installed before setup
+          run: |
+                command -v npm
+                if [ $? -eq 0 ]; then
+                    echo "npm is already installed"
+                    exit 1
+                fi
+
+        - name: Run setup.sh
+          run: |
+                chmod +x ./setup.sh
+                ./setup.sh
+
+        - name: Check npm installation
+          run: |
+                command -v npm
