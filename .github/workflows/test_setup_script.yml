@@ -10,12 +10,12 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                os: [ubuntu-latest, debian-latest]
+                container: ['ubuntu:20.04', 'debian:bullseye']
                 include:
-                    - os: ubuntu-latest
-                      container: ubuntu:20.04
-                    - os: debian-latest
-                      container: debian:bullseye
+                    - container: 'ubuntu:20.04'
+                      os: ubuntu-latest
+                    - container: 'debian:bullseye'
+                      os: debian-latest
         runs-on: ${{ matrix.os }}
         container: ${{ matrix.container }}
 
