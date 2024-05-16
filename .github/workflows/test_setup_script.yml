@@ -3,7 +3,7 @@ name: Test setup.sh
 on:
     pull_request:
         branches: [ main ]
-    push:
+    push: #TODO: This is just for testing the workflow.
 
 jobs:
     testSetupScript:
