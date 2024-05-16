@@ -33,8 +33,11 @@ jobs:
         - name: Run setup.sh
           run: |
                 chmod +x ./setup.sh
-                . ./setup.sh
+                ./setup.sh
 
         - name: Check npm installation
           run: |
+                [ -s ~/.bashrc ] && . ~/.bashrc
+                [ -s ~/.zshrc ] && . ~/.zshrc
+                [ -s ~/.profile ] && . ~/.profile
                 command -v npm
