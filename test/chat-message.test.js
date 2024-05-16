@@ -69,7 +69,7 @@ describe('processUnKennyResponseData', () => {
 
         expect(data.content).to.equal('Hello');
         expect(data.type).to.equal('whisper');
-        expect(data.user).to.equal('John');
+        expect(data.actorName).to.equal('John');
         expect(ui.notifications.error.called).to.be.false;
     });
 

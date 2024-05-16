@@ -40,7 +40,6 @@ function overwriteChatMessage() {
             processUnKennyResponseData(data);
             await super._preCreate(data, options, user);
         }
-
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
