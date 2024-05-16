@@ -6,7 +6,7 @@ on:
     push:
 
 jobs:
-    test-setup-script:
+    testSetupScript:
         strategy:
             fail-fast: false
             matrix:
