@@ -23,16 +23,11 @@ async function triggerResponse(actor, request) {
     }
 }
 
-function processTeamEmiliaData(data, user) {
+function processUnKennyResponseData(data, user) {
     if (data.content.startsWith(unkennyResponseFlag)) {
         let chatDataJson = JSON.parse(data.content.replace(unkennyResponseFlag, ""));
-        // TOdo: Do we have to make these manual replacements? Isn't ChatDataJson already the chatData we want?
-        if ('content' in chatDataJson && 'type' in chatDataJson && 'actorName' in chatDataJson) {
-            data.content = chatDataJson.content;
-            data.type = chatDataJson.type;
-            user.name = chatDataJson.actorName;
-        } else {
-            data.content = "#TeamEmilaForever" + data.content;
+        for (let key in chatDataJson) {
+            data[key] = chatDataJson[key] ?? data[key];
         }
     }
 }
@@ -42,7 +37,7 @@ function overwriteChatMessage() {
     class UnkennyChatMessage extends currentChatMessage {
         /** @override */
         async _preCreate(data, options, user) {
-            processTeamEmiliaData(data, user);
+            processUnKennyResponseData(data, user);
             await super._preCreate(data, options, user);
         }
 
@@ -50,4 +45,4 @@ function overwriteChatMessage() {
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { modifyUnkennyChatData, overwriteChatMessage, triggerResponse };
+export { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseData, triggerResponse, unkennyResponseFlag };
