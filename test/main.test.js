@@ -9,6 +9,7 @@ describe('main.js tests', () => {
   let module;
   beforeEach(async () => {
     game.reset();
+    Hooks.reset();
     module = await import('../src/scripts/main.js');
   });
 

@@ -19,3 +19,8 @@ global.DocumentSheet = DocumentSheet;
 global.game = game;
 global.Hooks = Hooks;
 global.ui = ui;
+global.CONFIG = {
+    ChatMessage: {
+      documentClass: ChatMessage,
+    },
+  };
