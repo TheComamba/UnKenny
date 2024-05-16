@@ -11,21 +11,17 @@ jobs:
             fail-fast: false
             matrix:
                 container: ['ubuntu:22.04', 'ubuntu:24.04', 'debian:bullseye', 'debian:bookworm']
-                include:
-                    - container: 'ubuntu:22.04'
-                      os: ubuntu-latest
-                    - container: 'ubuntu:24.04'
-                      os: ubuntu-latest
-                    - container: 'debian:bullseye'
-                      os: debian-latest
-                    - container: 'debian:bookworm'
-                      os: debian-latest
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         container: ${{ matrix.container }}
 
         steps:
         - name: Checkout code
           uses: actions/checkout@v2
+
+        - name: Install sudo
+          run: |
+                apt-get update
+                apt-get install -y sudo
 
         - name: Check that npm is not installed before setup
           run: |

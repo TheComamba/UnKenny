@@ -2,11 +2,6 @@
 
 set -e
 
-if ! command -v sudo &> /dev/null; then
-    echo "sudo is not installed. Installing..."
-    apt-get install -y sudo
-fi
-
 if ! command -v curl &> /dev/null; then
     echo "curl is not installed. Installing..."
     sudo apt-get update
