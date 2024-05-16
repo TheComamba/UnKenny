@@ -16,6 +16,12 @@ describe('modifyUnkennyChatData', () => {
 });
 
 describe('triggerResponse', () => {
+    beforeEach(() => {
+        game.reset();
+        ChatMessage.reset();
+        ui.reset();
+    });
+
     testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
         game.settings.setFlag("unkenny", "apiKey", process.env.OPENAI_API_KEY);
         const openaiModels = getOpenAiModels();
