@@ -20,3 +20,7 @@ nvm use 18
 
 echo "Ensuring dependencies..."
 npm install
+
+echo Setup finished. You probably need to call
+echo . ~/.bashrc
+echo to refresh your current terminal.
