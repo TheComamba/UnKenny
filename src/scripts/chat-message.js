@@ -1,6 +1,8 @@
 import { replaceAlias } from "./chat-message-parsing.js";
 import { generateResponse } from "./llm.js";
 
+const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
+
 function modifyUnkennyChatData(chatData, addressedActor) {
     let name = addressedActor.name;
     let alias = addressedActor.getFlag("unkenny", "alias");
@@ -15,15 +17,16 @@ async function triggerResponse(actor, request) {
             type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             actorName: actor.name
         };
-        new ChatLog().processMessage("#TeamEmilia" + JSON.stringify(chatData));
+        new ChatLog().processMessage(unkennyResponseFlag + JSON.stringify(chatData));
     } else {
         ui.notifications.error("No response generated.");
     }
 }
 
 function processTeamEmiliaData(data, user) {
-    if (data.content.startsWith("#TeamEmilia")) {
-        let chatDataJson = JSON.parse(data.content.replace("#TeamEmilia", ""));
+    if (data.content.startsWith(unkennyResponseFlag)) {
+        let chatDataJson = JSON.parse(data.content.replace(unkennyResponseFlag, ""));
+        // TOdo: Do we have to make these manual replacements? Isn't ChatDataJson already the chatData we want?
         if ('content' in chatDataJson && 'type' in chatDataJson && 'actorName' in chatDataJson) {
             data.content = chatDataJson.content;
             data.type = chatDataJson.type;
