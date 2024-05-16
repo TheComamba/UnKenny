@@ -1,18 +1,13 @@
 class ChatLog {
-    static database = [];
-    
-    _processMessage(message) {
-        const chatamessageClass = CONFIG;//TODO I don't quite remember that line, can be found in Foundry Code
+
+    async processMessage(message) {
+        const chatMessageClass = ChatMessage.implementation;
         Hooks.call('chatMessage', message);
         const chatData = {
-            //todo: what goes in here again?
-        }
-        const chatMessage = chatMessageClass.create(message, chatData);
-        database.push(chatMessage);
-    }
-    
-    reset() {
-        this.database = [];
+            user: game.user.id,
+            speaker: chatMessageClass.getSpeaker()
+        };
+        return chatMessageClass.create(message, chatData);
     }
 }
 
