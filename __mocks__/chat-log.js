@@ -11,4 +11,4 @@ class ChatLog {
     }
 }
 
-//TODO: create ChatLog implementation that implements _processMessage. Creates a ChatMessage of the correct type and stores it in a database.
+export default ChatLog;

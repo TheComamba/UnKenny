@@ -6,9 +6,10 @@ import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 
 describe('main.js tests', () => {
+  let module;
   beforeEach(async () => {
     game.reset();
-    await import('../src/scripts/main.js');
+    module = await import('../src/scripts/main.js');
   });
 
   it('main.js can be loaded as an ES module entry point', () => {
