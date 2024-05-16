@@ -24,8 +24,7 @@ jobs:
 
         - name: Check that npm is not installed before setup
           run: |
-                command -v npm
-                if [ $? -eq 0 ]; then
+                if command -v npm > /dev/null; then
                     echo "npm is already installed"
                     exit 1
                 fi
