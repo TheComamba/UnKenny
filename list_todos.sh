@@ -2,8 +2,7 @@
 
 SCRIPT=$(readlink -f "$0")
 
-if grep -rin todo * \
-    --include={*.js,*.hbs,*.json,*.sh,*.md} \
+if grep -rinI todo * \
     --exclude-dir=node_modules \
     --exclude-dir=coverage \
     --exclude=$(basename $SCRIPT) \

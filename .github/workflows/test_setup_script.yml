@@ -1,0 +1,38 @@
+name: Test setup.sh
+
+on:
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    testSetupScript:
+        strategy:
+            fail-fast: false
+            matrix:
+                container: ['ubuntu:22.04', 'ubuntu:24.04', 'debian:bullseye', 'debian:bookworm']
+        runs-on: ubuntu-latest
+        container: ${{ matrix.container }}
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Install sudo
+          run: |
+                apt-get update
+                apt-get install -y sudo
+
+        - name: Check that npm is not installed before setup
+          run: |
+                if command -v npm > /dev/null; then
+                    echo "npm is already installed"
+                    exit 1
+                fi
+
+          # Setup and check need to be in the same context.
+          # Sourcing bashrc did not work, probably because the default bashrc returns if it is run in a non-interactive shell.
+        - name: Run setup.sh and check npm installation)
+          run: |
+                chmod +x ./setup.sh
+                . ./setup.sh
+                command -v npm || exit 1
