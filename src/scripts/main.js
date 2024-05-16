@@ -3,35 +3,12 @@ import { isUnkenny } from "./shared.js";
 import { findAdressedActor } from "./chat-message-parsing.js";
 import { llmParametersAndDefaults } from "./llm.js";
 import { getModelToTextMap } from "./models.js";
-import { modifyUnkennyChatData, triggerResponse } from "./chat-message.js";
+import { modifyUnkennyChatData, overwriteChatMessage, triggerResponse } from "./chat-message.js";
 
 // CONFIG.debug.hooks = true;
 
 Hooks.once('init', async function () {
-
-  const currentChatMessage = CONFIG.ChatMessage.documentClass;
-  class UnkennyChatMessage extends currentChatMessage {
-    /** @override */
-    async _preCreate(data, options, user) {
-      this.processTeamEmiliaData(data, user);
-      await super._preCreate(data, options, user);
-    }
-
-    processTeamEmiliaData(data, user) {
-      if (data.content.startsWith("#TeamEmilia")) {
-        let chatDataJson = JSON.parse(data.content.replace("#TeamEmilia", ""));
-        if ('content' in chatDataJson && 'type' in chatDataJson && 'actorName' in chatDataJson) {
-          data.content = chatDataJson.content;
-          data.type = chatDataJson.type;
-          user.name = chatDataJson.actorName;
-        } else {
-          data.content = "#TeamEmilaForever" + data.content;
-        }
-      }     
-    }
-  }
-  CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
-
+  overwriteChatMessage();
 
   const params = llmParametersAndDefaults();
 

@@ -21,4 +21,30 @@ async function triggerResponse(actor, request) {
     }
 }
 
-export { modifyUnkennyChatData, triggerResponse };
+function processTeamEmiliaData(data, user) {
+    if (data.content.startsWith("#TeamEmilia")) {
+        let chatDataJson = JSON.parse(data.content.replace("#TeamEmilia", ""));
+        if ('content' in chatDataJson && 'type' in chatDataJson && 'actorName' in chatDataJson) {
+            data.content = chatDataJson.content;
+            data.type = chatDataJson.type;
+            user.name = chatDataJson.actorName;
+        } else {
+            data.content = "#TeamEmilaForever" + data.content;
+        }
+    }
+}
+
+function overwriteChatMessage() {
+    const currentChatMessage = CONFIG.ChatMessage.documentClass;
+    class UnkennyChatMessage extends currentChatMessage {
+        /** @override */
+        async _preCreate(data, options, user) {
+            processTeamEmiliaData(data, user);
+            await super._preCreate(data, options, user);
+        }
+
+    }
+    CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
+}
+
+export { modifyUnkennyChatData, overwriteChatMessage, triggerResponse };
