@@ -30,14 +30,10 @@ jobs:
                     exit 1
                 fi
 
-        - name: Run setup.sh
+          # Setup and check need to be in the same context.
+          # Sourcing bashrc did not work, probably because the default bashrc returns if it is run in a non-interactive shell.
+        - name: Run setup.sh and check npm installation)
           run: |
                 chmod +x ./setup.sh
-                ./setup.sh
-
-        - name: Check npm installation
-          run: |
-                [ -s ~/.bashrc ] && . ~/.bashrc
-                [ -s ~/.zshrc ] && . ~/.zshrc
-                [ -s ~/.profile ] && . ~/.profile
-                command -v npm
+                . ./setup.sh
+                command -v npm || exit 1
