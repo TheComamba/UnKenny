@@ -28,7 +28,7 @@ class ChatMessage {
     return CONFIG[this.documentName]?.documentClass || this;
   }
 
-  reset() {
+  static reset() {
     this.database = [];
   }
 }
