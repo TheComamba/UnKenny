@@ -6,8 +6,9 @@ on:
     push:
 
 jobs:
-    test:
+    test-setup-script:
         strategy:
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest, debian-latest]
                 include:
