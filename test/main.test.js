@@ -6,19 +6,17 @@ import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 
 describe('main.js tests', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     game.reset();
+    await import('../src/scripts/main.js');
   });
 
-  it('main.js can be loaded as an ES module entry point', async () => {
-    const module = await import('../src/scripts/main.js');
+  it('main.js can be loaded as an ES module entry point', () => {
     expect(module).to.exist;
   });
 
-  it('After loading main.js, the game object settings have the defaults', async () => {
-    await import('../src/scripts/main.js');
+  it('After init Hook, the game object settings have the defaults', () => {
     Hooks.call('init');
-
     const params = llmParametersAndDefaults();
     for (let key in params) {
       try {
@@ -29,16 +27,22 @@ describe('main.js tests', () => {
     }
   });
 
-  it('After loading main.js, the game object settings has no members besides the llm parameters', async () => {
-    await import('../src/scripts/main.js');
+  it('After init Hook, the game object settings has no members besides the llm parameters', () => {
     Hooks.call('init');
-
     const params = llmParametersAndDefaults();
     for (let key in game.settings.settings) {
       if (!params.hasOwnProperty(key)) {
         throw new Error(`Unexpected key ${key} found in game.settings.settings`);
       }
     }
+  });
+
+  it('After init Hook, the ChatMessage class inherits from UnkennyChatMessage which inherits from TestChatMessage', () => {
+    class TestChatMessage extends ChatMessage { }
+    CONFIG.ChatMessage.documentClass = TestChatMessage;
+    Hooks.call('init');
+    expect(CONFIG.ChatMessage.documentClass.name).to.equal('UnkennyChatMessage');
+    expect(Object.getPrototypeOf(CONFIG.ChatMessage.documentClass)).to.equal(TestChatMessage);
   });
 });
 
@@ -106,4 +110,3 @@ function simulateUserInput(message) {
   };
   Hooks.call('chatMessage', chatLog, message, chatData);
 }
-
