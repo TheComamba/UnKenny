@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { modifyUnkennyChatData, triggerResponse } from '../src/scripts/chat-message.js';
+import { modifyUnkennyChatData, processUnKennyResponseData, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
@@ -52,3 +52,42 @@ async function runTriggerResponse(model) {
     expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
 }
 
+
+describe('processUnKennyResponseData', () => {
+    it('should process flagged data correctly', () => {
+        const data = {
+            content: unkennyResponseFlag + '{"content":"Hello","type":"whisper","actorName":"John"}'
+        };
+
+        processUnKennyResponseData(data);
+
+        expect(data.content).to.equal('Hello');
+        expect(data.type).to.equal('whisper');
+        expect(user.name).to.equal('John');
+        expect(ui.notifications.error.called).to.be.false;
+    });
+
+    it('should handle invalid flagged data', () => {
+        const invalidJson = unkennyResponseFlag + '{"content":';
+        const data = {
+            content: invalidJson
+        };
+
+        processUnKennyResponseData(data);
+
+        expect(data.content).to.equal(invalidJson);
+        expect(ui.notifications.error.called).to.be.true;
+    });
+
+    if ('should not process unflagged data', () => {
+        const unflaggedData = "We support Team Emilia.";
+        const data = {
+            content: unflaggedData
+        };
+
+        processUnKennyResponseData(data);
+
+        expect(data.content).to.equal(unflaggedData);
+        expect(ui.notifications.error.called).to.be.false;
+    });
+});

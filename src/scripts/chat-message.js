@@ -23,7 +23,7 @@ async function triggerResponse(actor, request) {
     }
 }
 
-function processUnKennyResponseData(data, user) {
+function processUnKennyResponseData(data) {
     if (data.content.startsWith(unkennyResponseFlag)) {
         let chatDataJson = JSON.parse(data.content.replace(unkennyResponseFlag, ""));
         for (let key in chatDataJson) {
@@ -37,7 +37,7 @@ function overwriteChatMessage() {
     class UnkennyChatMessage extends currentChatMessage {
         /** @override */
         async _preCreate(data, options, user) {
-            processUnKennyResponseData(data, user);
+            processUnKennyResponseData(data);
             await super._preCreate(data, options, user);
         }
 

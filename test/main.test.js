@@ -42,43 +42,6 @@ describe('main.js tests', () => {
   });
 });
 
-describe('UnkennyChatMessage', () => {
-  let chatMessage;
-
-  beforeEach(() => {
-    chatMessage = new UnkennyChatMessage();
-  });
-
-  it('should process TeamEmilia data correctly', () => {
-    const data = {
-      content: '#TeamEmilia{"content":"Hello","type":"whisper","actorName":"John"}'
-    };
-    const user = {
-      name: ''
-    };
-
-    chatMessage._preCreate(data, {}, user);
-
-    expect(data.content).to.equal('Hello');
-    expect(data.type).to.equal('whisper');
-    expect(user.name).to.equal('John');
-  });
-
-  it('should handle invalid TeamEmilia data', () => {
-    const data = {
-      content: '#TeamEmilia{"content":"Hello"}'
-    };
-    const user = {
-      name: ''
-    };
-
-    chatMessage._preCreate(data, {}, user);
-
-    expect(data.content).to.equal('#TeamEmilaForeverHello');
-    expect(user.name).to.equal('');
-  });
-});
-
 describe('Integration test', () => {
   beforeEach(() => {
     game.reset();
