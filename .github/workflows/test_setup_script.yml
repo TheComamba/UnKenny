@@ -37,4 +37,5 @@ jobs:
 
         - name: Check npm installation
           run: |
+                . ~/.bashrc
                 command -v npm
