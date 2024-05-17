@@ -28,6 +28,13 @@ class ChatMessage {
     return CONFIG[this.documentName]?.documentClass || this;
   }
 
+  static getSpeaker() {
+    return {
+      actor: null,
+      alias: game.user.name
+    };
+  }
+
   static reset() {
     this.database = [];
   }
