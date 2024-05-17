@@ -1,18 +1,7 @@
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { isLocal } from "./models.js";
-
-function llmParametersAndDefaults() { //TODO: move this to an extra file settings.js
-    return {
-        model: null,
-        apiKey: "",
-        minNewTokens: 1,
-        maxNewTokens: 250,
-        repetitionPenalty: 0.0,
-        temperature: 1.0,
-        prefixWithTalk: false
-    };
-}
+import { llmParametersAndDefaults } from "./settings.js";
 
 function getGenerationParameter(actor, parameterName) {
     if (!actor) {
@@ -87,4 +76,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults };
+export { generateResponse, getGenerationParameters, getMessages };

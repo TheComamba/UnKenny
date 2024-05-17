@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { testIfOpenAi, testIfSlow, waitFor } from './test-utils.js';
-import { llmParametersAndDefaults } from '../src/scripts/llm.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
+import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 
 describe('main.js', () => {
   it('does not contain import errors and can thus be loaded as an ES module entry point', async () => {
