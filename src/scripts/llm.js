@@ -2,7 +2,7 @@ import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { isLocal } from "./models.js";
 
-function llmParametersAndDefaults() {
+function llmParametersAndDefaults() { //TODO: move this to an extra file settings.js
     return {
         model: null,
         apiKey: "",

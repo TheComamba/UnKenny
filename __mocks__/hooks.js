@@ -1,12 +1,10 @@
 const Hooks = {
   events: {},
-  resetEvents: {},
   on: function (event, callback) {
     if (!this.events[event]) {
       this.events[event] = [];
     }
     this.events[event].unshift(callback);
-    this.resetEvents = JSON.parse(JSON.stringify(this.events));
   },
   once: function (event, callback) {
     const wrapper = (...args) => {
@@ -19,7 +17,6 @@ const Hooks = {
     if (!this.events[event]) {
       return;
     }
-    this.resetEvents = JSON.parse(JSON.stringify(this.events));
     this.events[event] = this.events[event].filter(cb => cb !== callback);
   },
   call: function (event, ...args) {
@@ -30,7 +27,7 @@ const Hooks = {
     return !isInterrupted;
   },
   reset: function () {
-    this.events = JSON.parse(JSON.stringify(this.resetEvents));
+    this.events = {};
   }
 };
 

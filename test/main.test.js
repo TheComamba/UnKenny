@@ -5,12 +5,12 @@ import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 
-describe('main.js tests', () => {
-  let module;
+describe('main.js tests', async () => {
+  let module = await import('../src/scripts/main.js');
+
   beforeEach(async () => {
     game.reset();
     Hooks.reset();
-    module = await import('../src/scripts/main.js');
   });
 
   it('main.js can be loaded as an ES module entry point', () => {
@@ -18,6 +18,7 @@ describe('main.js tests', () => {
   });
 
   it('After init Hook, the game object settings have the defaults', () => {
+    module.setupHooks();
     Hooks.call('init');
     const params = llmParametersAndDefaults();
     for (let key in params) {
@@ -30,6 +31,7 @@ describe('main.js tests', () => {
   });
 
   it('After init Hook, the game object settings has no members besides the llm parameters', () => {
+    module.setupHooks();
     Hooks.call('init');
     const params = llmParametersAndDefaults();
     for (let key in game.settings.settings) {
@@ -42,6 +44,7 @@ describe('main.js tests', () => {
   it('After init Hook, the ChatMessage class inherits from UnkennyChatMessage which inherits from TestChatMessage', () => {
     class TestChatMessage extends ChatMessage { }
     CONFIG.ChatMessage.documentClass = TestChatMessage;
+    module.setupHooks();
     Hooks.call('init');
     expect(CONFIG.ChatMessage.documentClass.name).to.equal('UnkennyChatMessage');
     expect(Object.getPrototypeOf(CONFIG.ChatMessage.documentClass)).to.equal(TestChatMessage);
