@@ -25,7 +25,14 @@ async function triggerResponse(actor, request) {
 
 function processUnKennyResponseData(data) {
     if (data.content.startsWith(unkennyResponseFlag)) {
-        let chatDataJson = JSON.parse(data.content.replace(unkennyResponseFlag, ""));
+        const jsonString = data.content.replace(unkennyResponseFlag, "");
+        let chatDataJson;
+        try {
+            chatDataJson = JSON.parse(jsonString);
+        } catch (error) {
+            ui.notifications.error("Error parsing JSON: " + error);
+            return;
+        }
         for (let key in chatDataJson) {
             data[key] = chatDataJson[key] ?? data[key];
         }
