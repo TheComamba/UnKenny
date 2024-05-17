@@ -26,14 +26,14 @@ describe('triggerResponse', () => {
         game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
         const openaiModels = getOpenAiModels();
         const model = openaiModels[0];
-        await runTriggerResponse();
+        await runTriggerResponse(model);
     });
 
     testIfSlow('should generate a response from a local model and trigger a chat message', async () => {
         game.settings.set("unkenny", "apiKey", "");
         const localModels = getLocalModels();
         const model = localModels[0];
-        await runTriggerResponse();
+        await runTriggerResponse(model);
     });
 
     it('should generate an error message if no response is generated', async () => {
