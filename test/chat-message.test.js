@@ -60,6 +60,11 @@ async function runTriggerResponse(model) {
 
 
 describe('processUnKennyResponseData', () => {
+    beforeEach(() => {
+        game.reset();
+        ui.reset();
+    });
+
     it('should process flagged data correctly', () => {
         const data = {
             content: unkennyResponseFlag + '{"content":"Hello","type":"whisper","actorName":"John"}'
