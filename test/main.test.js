@@ -92,7 +92,7 @@ async function postMessageAndCheckReply(model) {
   game.addActor(actor);
 
   const message = 'What is your name, @bob?';
-  simulateUserInput(message);
+  ui.chat.processMessage(message);
 
   expect(ChatMessage.database.length).to.be.greaterThan(0);
   await waitFor(() => {
@@ -106,14 +106,4 @@ async function postMessageAndCheckReply(model) {
   expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
   expect(ui.notifications.warning.called).to.be.false;
   expect(ui.notifications.error.called).to.be.false;
-}
-
-function simulateUserInput(message) {
-  const chatLog = null;
-  const chatData = {
-    user: game.user.id,
-    content: message,
-    type: CONST.CHAT_MESSAGE_TYPES.OTHER
-  };
-  Hooks.call('chatMessage', chatLog, message, chatData);
 }
