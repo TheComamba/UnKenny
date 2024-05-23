@@ -10,7 +10,6 @@ import Hooks from './__mocks__/hooks.js';
 import ui from './__mocks__/ui.js';
 
 global.Actor = Actor;
-global.ChatLog = ChatLog;
 global.ChatMessage = ChatMessage;
 global.CONFIG = CONFIG;
 global.CONST = CONST;
@@ -20,7 +19,10 @@ global.game = game;
 global.Hooks = Hooks;
 global.ui = ui;
 global.CONFIG = {
-    ChatMessage: {
-      documentClass: ChatMessage,
-    },
-  };
+  ChatMessage: {
+    documentClass: ChatMessage,
+  },
+  ui: {
+    chat: ChatLog,
+  },
+};

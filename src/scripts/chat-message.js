@@ -20,7 +20,7 @@ async function triggerResponse(actor, request) {
                 alias: actor.name
             }
         };
-        new ChatLog().processMessage(unkennyResponseFlag + JSON.stringify(chatData));
+        ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
     } else {
         ui.notifications.error("No response generated.");
     }
