@@ -54,6 +54,7 @@ async function runTriggerResponse(model) {
     expect(ChatMessage.database.length).to.equal(1);
     expect(ChatMessage.database[0].content).to.not.be.empty;
     expect(ChatMessage.database[0].speaker.actor).to.equal(actor.id);
+    expect(ChatMessage.database[0].speaker.alias).to.equal(actor.name);
 }
 
 

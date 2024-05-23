@@ -15,7 +15,10 @@ async function triggerResponse(actor, request) {
         let chatData = {
             content: response,
             type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            actorName: actor.name
+            speaker: {
+                actor: actor.id,
+                alias: actor.name
+            }
         };
         new ChatLog().processMessage(unkennyResponseFlag + JSON.stringify(chatData));
     } else {
