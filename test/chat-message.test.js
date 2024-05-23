@@ -51,11 +51,9 @@ async function runTriggerResponse(model) {
     actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";
     await triggerResponse(actor, request);
-    expect(ChatMessage.database.length).to.be.greaterThan(0);
-    expect(ChatMessage.database[0].content).to.equal("What is your name, <b>John Doe</b>?");
-    expect(ChatMessage.database[0].user).to.equal(game.user.id);
-    expect(ChatMessage.database[1].content).to.not.be.empty;
-    expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
+    expect(ChatMessage.database.length).to.equal(1);
+    expect(ChatMessage.database[0].content).to.not.be.empty;
+    expect(ChatMessage.database[0].speaker.actor).to.equal(actor.id);
 }
 
 
