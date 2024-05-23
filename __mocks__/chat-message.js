@@ -9,9 +9,9 @@ class ChatMessage {
   }
 
   applyChatData(chatData) {
-    this.content = chatData.content;
-    this.speaker = chatData.speaker;
-    this.user = chatData.user;
+    for (let key in chatData) {
+      this[key] = chatData[key] ?? data[key];
+    }
   }
 
   static create(content, chatData) {

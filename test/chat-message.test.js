@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { modifyUnkennyChatData, processUnKennyResponseData, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
+import { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseData, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
@@ -20,6 +20,7 @@ describe('triggerResponse', () => {
         game.reset();
         ChatMessage.reset();
         ui.reset();
+        overwriteChatMessage();
     });
 
     testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {

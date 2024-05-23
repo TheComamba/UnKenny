@@ -48,6 +48,9 @@ function overwriteChatMessage() {
         /** @override */
         async _preCreate(data, options, user) {
             processUnKennyResponseData(data);
+            for (let key in data) {
+                this[key] = data[key] ?? this[key]; //TODO: This still does not render the ator token and set the speaker name.
+            }
             await super._preCreate(data, options, user);
         }
     }
