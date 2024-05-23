@@ -19,9 +19,8 @@ class ChatMessage {
     const originator = game.user.id;
     let newMessage = new ChatMessage(content, chatData);
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
-    newMessage.applyChatData(chatData);
-    Hooks.call("createChatMessage", newMessage, options, originator);
     this.database.push(newMessage);
+    Hooks.call("createChatMessage", newMessage, options, originator);
   }
 
   static get implementation() {
