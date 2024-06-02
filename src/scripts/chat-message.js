@@ -50,11 +50,8 @@ function overwriteChatMessage() {
     class UnkennyChatMessage extends currentChatMessage {
         /** @override */
         async _preCreate(data, options, user) {
-            await super._preCreate(data, options, user); // Needs to be called before applying changes.
             processUnKennyResponseData(data);
-            for (let key in data) {
-                this[key] = data[key] ?? this[key]; //TODO: This still does not render the ator token and set the speaker name.
-            }
+            await super._preCreate(data, options, user); // Needs to be after the data processing
         }
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
