@@ -4,12 +4,6 @@ import Hooks from './hooks.js';
 class ChatMessage extends BaseChatMessage {
   static database = [];
 
-  constructor(content, chatData) {
-    super();
-    chatData.content = content;
-    this.applyChatData(chatData);
-  }
-
   applyChatData(chatData) {
     for (let key in chatData) {
       this[key] = chatData[key] ?? data[key];
@@ -42,21 +36,15 @@ class ChatMessage extends BaseChatMessage {
     };
   }
 
-  _preCreate(data, options, user) {
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
     if (typeof data.content === "string") {
       let content = data.content;
-      this.updateSource({content});
+      this.updateSource({ content });
     }
   }
 
-  updateSource(changes={}, options={}) {
-    for (let [k, v] of Object.entries(changes)) {
-      this[k] = v;
-    }
-    this._initialize();
-  }
-
-  _initialize(options={}) {
+  _initialize(options = {}) {
     super._initialize(options);
     this.data = this.data || {};
     this.data.flags = {};
