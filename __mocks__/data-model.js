@@ -3,11 +3,19 @@ class DataModel {
         this._source = data;
     }
 
+    _initialize(options = {}) {
+        this.applySources();
+    }
+
     updateSource(changes = {}, options = {}) {
-        for (let [k, v] of Object.entries(changes)) {
+        this.applySources(changes);
+        if (!options.dryRun) this._initialize();
+    }
+
+    applySources() {
+        for (let [k, v] of Object.entries(this._source)) {
             this[k] = v;
         }
-        if (!options.dryRun) this._initialize();
     }
 }
 
