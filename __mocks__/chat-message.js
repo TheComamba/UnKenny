@@ -1,9 +1,11 @@
+import BaseChatMessage from './base-chat-message.js';
 import Hooks from './hooks.js';
 
-class ChatMessage {
+class ChatMessage extends BaseChatMessage {
   static database = [];
 
   constructor(content, chatData) {
+    super();
     chatData.content = content;
     this.applyChatData(chatData);
   }
@@ -55,6 +57,7 @@ class ChatMessage {
   }
 
   _initialize(options={}) {
+    super._initialize(options);
     this.data = this.data || {};
     this.data.flags = {};
     this.data.speaker = this.constructor.getSpeaker();
