@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
+import { modifyUnkennyChatData, overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
@@ -52,8 +52,32 @@ async function runTriggerResponse(model) {
     actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";
     await triggerResponse(actor, request);
+    expectChatMessageResponse(actor);
+}
+
+describe('postResponse', () => {
+    beforeEach(() => {
+        game.reset();
+        ChatMessage.reset();
+        ui.reset();
+        overwriteChatMessage();
+    });
+
+    it('should post a chat message with the response', async () => {
+        const actor = new Actor("John Doe");
+        const response = "Some response.";
+        await postResponse(response, actor);
+        expectChatMessageResponse(actor, response);
+    });
+});
+
+function expectChatMessageResponse(actor, response) {
     expect(ChatMessage.database.length).to.equal(1);
-    expect(ChatMessage.database[0].content).to.not.be.empty;
+    if (response == undefined) {
+        expect(ChatMessage.database[0].content).to.not.be.empty;
+    } else {
+        expect(ChatMessage.database[0].content).to.equal(response);
+    }
     expect(ChatMessage.database[0].speaker.actor).to.equal(actor.id);
     expect(ChatMessage.database[0].speaker.alias).to.equal(actor.name);
 }
@@ -102,3 +126,4 @@ describe('processUnKennyResponseSource', () => {
         expect(ui.notifications.error.called).to.be.false;
     });
 });
+

@@ -12,18 +12,22 @@ function modifyUnkennyChatData(chatData, addressedActor) {
 async function triggerResponse(actor, request) {
     let response = await generateResponse(actor, request);
     if (response) {
-        let chatData = {
-            content: response,
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            speaker: {
-                actor: actor.id,
-                alias: actor.name
-            }
-        };
-        ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
+        await postResponse(response, actor);
     } else {
         ui.notifications.error("No response generated.");
     }
+}
+
+async function postResponse(response, actor) {
+    let chatData = {
+        content: response,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        speaker: {
+            actor: actor.id,
+            alias: actor.name
+        }
+    };
+    await ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
 }
 
 function processUnKennyResponseSource(source) {
@@ -57,4 +61,4 @@ function overwriteChatMessage() {
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag };
+export { modifyUnkennyChatData, overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag };
