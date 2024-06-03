@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseData, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
+import { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
@@ -59,7 +59,7 @@ async function runTriggerResponse(model) {
 }
 
 
-describe('processUnKennyResponseData', () => {
+describe('processUnKennyResponseSource', () => {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -70,7 +70,7 @@ describe('processUnKennyResponseData', () => {
             content: unkennyResponseFlag + '{"content":"Hello","type":"whisper","actorName":"John"}'
         };
 
-        processUnKennyResponseData(data);
+        processUnKennyResponseSource(data);
 
         expect(data.content).to.equal('Hello');
         expect(data.type).to.equal('whisper');
@@ -84,7 +84,7 @@ describe('processUnKennyResponseData', () => {
             content: invalidJson
         };
 
-        processUnKennyResponseData(data);
+        processUnKennyResponseSource(data);
 
         expect(data.content).to.equal(invalidJson);
         expect(ui.notifications.error.called).to.be.true;
@@ -96,7 +96,7 @@ describe('processUnKennyResponseData', () => {
             content: unflaggedData
         };
 
-        processUnKennyResponseData(data);
+        processUnKennyResponseSource(data);
 
         expect(data.content).to.equal(unflaggedData);
         expect(ui.notifications.error.called).to.be.false;

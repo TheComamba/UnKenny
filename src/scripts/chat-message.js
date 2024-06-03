@@ -26,9 +26,9 @@ async function triggerResponse(actor, request) {
     }
 }
 
-function processUnKennyResponseData(data) {
-    if (data.content.startsWith(unkennyResponseFlag)) {
-        const jsonString = data.content.replace(unkennyResponseFlag, "");
+function processUnKennyResponseSource(source) {
+    if (source.content.startsWith(unkennyResponseFlag)) {
+        const jsonString = source.content.replace(unkennyResponseFlag, "");
         let chatDataJson;
         try {
             chatDataJson = JSON.parse(jsonString);
@@ -37,7 +37,7 @@ function processUnKennyResponseData(data) {
             return;
         }
         for (let key in chatDataJson) {
-            data[key] = chatDataJson[key] ?? data[key];
+            source[key] = chatDataJson[key] ?? source[key];
         }
     }
 }
@@ -49,12 +49,12 @@ function overwriteChatMessage() {
     }
     class UnkennyChatMessage extends currentChatMessage {
         /** @override */
-        async _preCreate(data, options, user) {
-            processUnKennyResponseData(data);
-            await super._preCreate(data, options, user); // Needs to be after the data processing
+        _initialize(options = {}) {
+            processUnKennyResponseSource(this._source);
+            super._initialize(options);
         }
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseData, triggerResponse, unkennyResponseFlag };
+export { modifyUnkennyChatData, overwriteChatMessage, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag };
