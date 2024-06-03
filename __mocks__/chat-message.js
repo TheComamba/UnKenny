@@ -4,17 +4,11 @@ import Hooks from './hooks.js';
 class ChatMessage extends BaseChatMessage {
   static database = [];
 
-  applyChatData(chatData) {
-    for (let key in chatData) {
-      this[key] = chatData[key] ?? data[key];
-    }
-  }
-
-  static create(content, chatData) {
+  static create(chatData) {
     const options = { "temporary": false, "renderSheet": false, "render": true }
     const originator = game.user.id;
     let classRef = this.implementation;
-    let newMessage = new classRef(content, chatData);
+    let newMessage = new classRef(chatData);
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
     newMessage._preCreate(chatData, options, originator);
     Hooks.call("createChatMessage", newMessage, options, originator);

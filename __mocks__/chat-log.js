@@ -5,9 +5,10 @@ class ChatLog {
         Hooks.call('chatMessage', message);
         const chatData = {
             user: game.user.id,
-            speaker: chatMessageClass.getSpeaker()
+            speaker: chatMessageClass.getSpeaker(),
+            content: message
         };
-        return chatMessageClass.create(message, chatData);
+        return chatMessageClass.create(chatData);
     }
 }
 
