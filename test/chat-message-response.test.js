@@ -1,19 +1,7 @@
 import { expect } from 'chai';
-import { modifyUnkennyChatData, overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message.js';
+import { overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
-
-describe('modifyUnkennyChatData', () => {
-    it('should replace the alias with the actor name', () => {
-        const chatData = {
-            content: "Hello, @jd!",
-        };
-        let addressedActor = new Actor("John Doe");
-        addressedActor.setFlag("unkenny", "alias", "jd");
-        modifyUnkennyChatData(chatData, addressedActor);
-        expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
-    });
-});
 
 describe('triggerResponse', () => {
     beforeEach(() => {
@@ -126,4 +114,3 @@ describe('processUnKennyResponseSource', () => {
         expect(ui.notifications.error.called).to.be.false;
     });
 });
-

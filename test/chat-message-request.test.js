@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { findAdressedAlias } from '../src/scripts/chat-message-parsing.js';
+import { findAdressedAlias } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedAlias', () => {
     it('should return null if message is null', () => {
@@ -47,7 +47,7 @@ describe('findAdressedAlias', () => {
     });
 });
 
-import { replaceAlias } from '../src/scripts/chat-message-parsing.js';
+import { replaceAlias } from '../src/scripts/chat-message-request.js';
 
 describe('replaceAlias', () => {
     it('should return the original message if message is empty', () => {
@@ -80,7 +80,7 @@ describe('replaceAlias', () => {
     });
 });
 
-import { actorHasAlias } from '../src/scripts/chat-message-parsing.js';
+import { actorHasAlias } from '../src/scripts/chat-message-request.js';
 
 describe('actorHasAlias', () => {
     let actor;
@@ -135,7 +135,7 @@ describe('actorHasAlias', () => {
     });
 });
 
-import { findAdressedActor } from '../src/scripts/chat-message-parsing.js';
+import { findAdressedActor } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedActor', () => {
     beforeEach(() => {
@@ -172,5 +172,19 @@ describe('findAdressedActor', () => {
         const message = "@alias Kapascardia";
         const result = findAdressedActor(message);
         expect(result).to.equal(actor);
+    });
+});
+
+import { modifyUnkennyChatData } from '../src/scripts/chat-message-request.js';
+
+describe('modifyUnkennyChatData', () => {
+    it('should replace the alias with the actor name', () => {
+        const chatData = {
+            content: "Hello, @jd!",
+        };
+        let addressedActor = new Actor("John Doe");
+        addressedActor.setFlag("unkenny", "alias", "jd");
+        modifyUnkennyChatData(chatData, addressedActor);
+        expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
     });
 });

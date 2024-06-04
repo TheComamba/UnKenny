@@ -1,5 +1,3 @@
-import { isUnkenny } from "./shared.js";
-
 function findAdressedAlias(message) {
     if (!message) {
         return null;
@@ -48,4 +46,10 @@ function findAdressedActor(message) {
     return actor;
 }
 
-export { findAdressedActor, replaceAlias, findAdressedAlias, actorHasAlias };
+function modifyUnkennyChatData(chatData, addressedActor) {
+    let name = addressedActor.name;
+    let alias = addressedActor.getFlag("unkenny", "alias");
+    chatData.content = replaceAlias(chatData.content, alias, name);
+}
+
+export { actorHasAlias, findAdressedActor, modifyUnkennyChatData, replaceAlias, findAdressedAlias };

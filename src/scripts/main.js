@@ -1,7 +1,7 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny } from "./shared.js";
-import { findAdressedActor } from "./chat-message-parsing.js";
-import { modifyUnkennyChatData, overwriteChatMessage, triggerResponse } from "./chat-message.js";
+import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
+import { overwriteChatMessage, triggerResponse } from "./chat-message-response.js";
 import { registerGameParameters } from "./settings.js";
 
 // CONFIG.debug.hooks = true;
