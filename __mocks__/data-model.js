@@ -1,6 +1,6 @@
 class DataModel {
     constructor(data = {}, { parent = null, strict = true, ...options } = {}) {
-        this._source = data;
+        this._source = deepCopy(data);
     }
 
     _initialize(options = {}) {
@@ -17,6 +17,10 @@ class DataModel {
             this[k] = v;
         }
     }
+}
+
+function deepCopy(data) {
+    return JSON.parse(JSON.stringify(data));
 }
 
 export default DataModel;

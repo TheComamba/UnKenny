@@ -27,7 +27,7 @@ function setupHooks() {
   Hooks.on("preCreateChatMessage", (_newMessage, chatData, _options, _originator) => {
     let actor = findAdressedActor(chatData.content);
     if (actor) {
-      modifyUnkennyChatData(chatData, actor);
+      modifyUnkennyChatData(_newMessage._source, actor);
       triggerResponse(actor, chatData.content);
     }
     return true;
