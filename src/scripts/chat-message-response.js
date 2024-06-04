@@ -13,6 +13,8 @@ async function triggerResponse(actor, request) {
 }
 
 async function postResponse(response, actor) {
+    response = response.replace(/\n/g, "<br>");
+
     let chatData = {
         content: response,
         type: CONST.CHAT_MESSAGE_TYPES.OTHER,

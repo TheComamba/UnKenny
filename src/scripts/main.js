@@ -24,11 +24,11 @@ function setupHooks() {
     })
   });
 
-  Hooks.on("preCreateChatMessage", (_newMessage, chatData, _options, _originator) => {
-    let actor = findAdressedActor(chatData.content);
+  Hooks.on("preCreateChatMessage", (newMessage, _chatData, _options, _originator) => {
+    let actor = findAdressedActor(newMessage._source.content);
     if (actor) {
-      modifyUnkennyChatData(_newMessage._source, actor);
-      triggerResponse(actor, chatData.content);
+      modifyUnkennyChatData(newMessage._source, actor);
+      triggerResponse(actor, newMessage._source.content);
     }
     return true;
   });
