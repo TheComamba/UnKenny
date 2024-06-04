@@ -20,7 +20,5 @@ global.Hooks = Hooks;
 global.ui = ui;
 
 if (fs.existsSync('.env')) {
-    dotenv.config();
+    dotenv.config({ override: true });
 }
-let test = process.env.OPENAI_API_KEY;
-console.log(test);
