@@ -188,3 +188,20 @@ describe('modifyUnkennyChatData', () => {
         expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
     });
 });
+
+describe('posting a messge with an alias', () => {
+    beforeEach(() => {
+        game.reset()
+        ui.reset();
+    });
+
+    it('should replace that alias with the actor name', async () => {
+        let actor = new Actor("John Doe");
+        actor.setFlag("unkenny", "alias", "jd");
+        game.addActor(actor);
+        
+        let message = "Hello, @jd!";
+        await ui.chat.processMessage(message);
+        expect(ChatMessage.database[0].content).to.equal("Hello, <b>John Doe</b>!");
+    });
+});
