@@ -57,6 +57,14 @@ describe('postResponse', () => {
         await postResponse(response, actor);
         expectChatMessageResponse(actor, response);
     });
+
+    it('should replace all linebreaks with <br>', async () => {
+        const actor = new Actor("John Doe");
+        const responseIn = "Some\nresponse.";
+        await postResponse(responseIn, actor);
+        const responseOut = "Some<br>response.";
+        expectChatMessageResponse(actor, responseOut);
+    });
 });
 
 function expectChatMessageResponse(actor, response) {
