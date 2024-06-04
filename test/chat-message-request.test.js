@@ -1,9 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { findAdressedAlias } from '../src/scripts/chat-message-parsing.js';
+import { findAdressedAlias } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedAlias', () => {
+    it('should return null if message is null', () => {
+        const message = null;
+        const result = findAdressedAlias(message);
+        expect(result).to.be.null;
+    });
+
     it('should return null if no alias is addressed', () => {
         const message = "Kapascardia";
         const result = findAdressedAlias(message);
@@ -41,9 +47,14 @@ describe('findAdressedAlias', () => {
     });
 });
 
-import { replaceAlias } from '../src/scripts/chat-message-parsing.js';
+import { replaceAlias } from '../src/scripts/chat-message-request.js';
 
 describe('replaceAlias', () => {
+    it('should return the original message if message is empty', () => {
+        const result = replaceAlias("", "alias", "John");
+        expect(result).to.equal("");
+    });
+
     it('should return the original message if alias is empty', () => {
         const message = "Hello @alias, how are you?";
         const result = replaceAlias(message, "", "John");
@@ -69,7 +80,7 @@ describe('replaceAlias', () => {
     });
 });
 
-import { actorHasAlias } from '../src/scripts/chat-message-parsing.js';
+import { actorHasAlias } from '../src/scripts/chat-message-request.js';
 
 describe('actorHasAlias', () => {
     let actor;
@@ -124,7 +135,7 @@ describe('actorHasAlias', () => {
     });
 });
 
-import { findAdressedActor } from '../src/scripts/chat-message-parsing.js';
+import { findAdressedActor } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedActor', () => {
     beforeEach(() => {
@@ -161,5 +172,36 @@ describe('findAdressedActor', () => {
         const message = "@alias Kapascardia";
         const result = findAdressedActor(message);
         expect(result).to.equal(actor);
+    });
+});
+
+import { modifyUnkennyChatData } from '../src/scripts/chat-message-request.js';
+
+describe('modifyUnkennyChatData', () => {
+    it('should replace the alias with the actor name', () => {
+        const chatData = {
+            content: "Hello, @jd!",
+        };
+        let addressedActor = new Actor("John Doe");
+        addressedActor.setFlag("unkenny", "alias", "jd");
+        modifyUnkennyChatData(chatData, addressedActor);
+        expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
+    });
+});
+
+describe('posting a messge with an alias', () => {
+    beforeEach(() => {
+        game.reset()
+        ui.reset();
+    });
+
+    it('should replace that alias with the actor name', async () => {
+        let actor = new Actor("John Doe");
+        actor.setFlag("unkenny", "alias", "jd");
+        game.addActor(actor);
+        
+        let message = "Hello, @jd!";
+        await ui.chat.processMessage(message);
+        expect(ChatMessage.database[0].content).to.equal("Hello, <b>John Doe</b>!");
     });
 });

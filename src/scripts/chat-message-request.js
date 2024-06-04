@@ -1,13 +1,14 @@
-import { isUnkenny } from "./shared.js";
-
 function findAdressedAlias(message) {
+    if (!message) {
+        return null;
+    }
     const regex = /@(\w+)/;
     const match = message.match(regex);
     return match ? match[1].toLowerCase() : null;
 }
 
 function replaceAlias(message, alias, actorName) {
-    if (alias == "") {
+    if (!message || !alias || !actorName) {
         return message;
     }
     const aliasReplacement = new RegExp("@" + alias, "gi");
@@ -45,4 +46,10 @@ function findAdressedActor(message) {
     return actor;
 }
 
-export { findAdressedActor, replaceAlias, findAdressedAlias, actorHasAlias };
+function modifyUnkennyChatData(chatData, addressedActor) {
+    let name = addressedActor.name;
+    let alias = addressedActor.getFlag("unkenny", "alias");
+    chatData.content = replaceAlias(chatData.content, alias, name);
+}
+
+export { actorHasAlias, findAdressedActor, modifyUnkennyChatData, replaceAlias, findAdressedAlias };

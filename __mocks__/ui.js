@@ -1,6 +1,8 @@
 import sinon from 'sinon';
+import ChatLog from './chat-log.js';
 
 const ui = {
+    chat: new ChatLog(),
     notifications: {
         warning: sinon.stub(),
         error: sinon.stub()
