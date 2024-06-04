@@ -17,7 +17,8 @@
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
-                "test"
+                "test",
+                "--timeout=2000",
             ],
             "skipFiles": [
                 "<node_internals>/**"

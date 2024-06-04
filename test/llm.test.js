@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import game from '../__mocks__/game.js';
-import { getGenerationParameters, llmParametersAndDefaults } from '../src/scripts/llm.js';
+import { getGenerationParameters } from '../src/scripts/llm.js';
+import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 
 describe('getGenerationParameters', () => {
     beforeEach(() => {

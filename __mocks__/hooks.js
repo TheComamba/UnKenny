@@ -26,6 +26,9 @@ const Hooks = {
     const isInterrupted = this.events[event].some(callback => callback(...args) === false);
     return !isInterrupted;
   },
+  reset: function () {
+    this.events = {};
+  }
 };
 
 export default Hooks;

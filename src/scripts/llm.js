@@ -1,22 +1,13 @@
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
-import { postInChat } from "../scripts/shared.js";
 import { isLocal } from "./models.js";
+import { llmParametersAndDefaults } from "./settings.js";
 
-function llmParametersAndDefaults() {
-    return {
-        model: null,
-        apiKey: "",
-        minNewTokens: 1,
-        maxNewTokens: 250,
-        repetitionPenalty: 0.0,
-        temperature: 1.0,
-        prefixWithTalk: false
-    };
-}
-
-async function getGenerationParameter(actor, parameterName) {
-    let value = await actor.getFlag("unkenny", parameterName);
+function getGenerationParameter(actor, parameterName) {
+    if (!actor) {
+        return;
+    }
+    let value = actor.getFlag("unkenny", parameterName);
     if (value == null) {
         value = game.settings.get("unkenny", parameterName);
     }
@@ -26,22 +17,25 @@ async function getGenerationParameter(actor, parameterName) {
     }
     if (value == null) {
         ui.notifications.error(`No default value found for ${parameterName}.`);
-        return null;
+        return;
     }
     return value;
 }
 
-async function getGenerationParameters(actor) {
+function getGenerationParameters(actor) {
+    if (!actor) {
+        return;
+    }
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
-        const param = await getGenerationParameter(actor, key);
+        const param = getGenerationParameter(actor, key);
         if (param == null) {
             return null;
         }
         params[key] = param;
     }
-    params.preamble = await getGenerationParameter(actor, "preamble");
+    params.preamble = getGenerationParameter(actor, "preamble");
     return params;
 }
 
@@ -59,7 +53,7 @@ function getMessages(parameters, input) {
 }
 
 async function generateResponse(actor, input) {
-    let parameters = await getGenerationParameters(actor);
+    let parameters = getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
@@ -82,13 +76,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-async function startPostingResponse(actor, request) {
-    let response = await generateResponse(actor, request);
-    if (response) {
-        postInChat(actor, response);
-    } else {
-        ui.notifications.error("No response generated.");
-    }
-}
-
-export { generateResponse, getGenerationParameters, getMessages, llmParametersAndDefaults, startPostingResponse };
+export { generateResponse, getGenerationParameters, getMessages };
