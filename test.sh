@@ -19,11 +19,5 @@ do
     esac
 done
 
-if [[ "$RUN_OPENAI_TESTS" = true && -z "$OPENAI_API_KEY" ]]; then
-    echo "OPENAI_API_KEY is not set. Before running OpenAI API tests, run:"
-    echo "export OPENAI_API_KEY=<your-api-key>"
-    exit 1
-fi
-
 echo "Running tests..."
 OPENAI_API_KEY=$OPENAI_API_KEY npm run test:coverage

@@ -1,3 +1,6 @@
+import fs from 'fs';
+import dotenv from 'dotenv';
+
 import Actor from './__mocks__/actor.js';
 import ChatLog from './__mocks__/chat-log.js'
 import ChatMessage from './__mocks__/chat-message.js';
@@ -18,11 +21,16 @@ global.DocumentSheet = DocumentSheet;
 global.game = game;
 global.Hooks = Hooks;
 global.ui = ui;
+
 global.CONFIG = {
-  ChatMessage: {
-    documentClass: ChatMessage,
-  },
-  ui: {
-    chat: ChatLog,
-  },
+    ChatMessage: {
+        documentClass: ChatMessage,
+    },
+    ui: {
+        chat: ChatLog,
+    },
 };
+
+if (fs.existsSync('.env')) {
+    dotenv.config({ override: true });
+}
