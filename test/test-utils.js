@@ -14,7 +14,13 @@ function testIfOpenAi(name, fn) {
     if (shouldRunOpenAiTests) {
         if (!process.env.OPENAI_API_KEY) {
             it(name, () => {
-                throw new Error('OPENAI_API_KEY environment variable is not set.');
+                let errorText = 'The OPENAI_API_KEY environment variable is not set.';
+                errorText += 'Before running OpenAI API tests, run:\n'
+                errorText += 'export OPENAI_API_KEY=<your-api-key>\n';
+                errorText += 'Alternatively, you can set add a file called ".env" and add the line \n';
+                errorText += 'OPENAI_API_KEY=<your-api-key>\n';
+                errorText += 'to it.';
+                throw new Error(errorText);
             });
         }
         return it(name, fn).timeout(oneMinute);
