@@ -67,7 +67,20 @@ describe('sortMessages', () => {
     });
 
     it('should sort messages by timestamp', () => {
-        expect(true).to.equal(false);
+        const message1 = new ChatMessage();
+        const message2 = new ChatMessage();
+        const message3 = new ChatMessage();
+        let messages = [
+            message3,
+            message1,
+            message2
+        ];
+
+        sortMessages(messages);
+
+        expect(messages[0].id).to.equal(message1.id);
+        expect(messages[1].id).to.equal(message2.id);
+        expect(messages[2].id).to.equal(message3.id);
     });
 });
 
