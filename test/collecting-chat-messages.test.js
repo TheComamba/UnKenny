@@ -173,6 +173,9 @@ describe('collectChatMessages', () => {
             content: 'This is a message posted by the user.'
         };
         const messagePostedByUser = new ChatMessage(messageDataPostedByUser);
+        messagePostedByUser._initialize();
+        messagePostedByUser.setFlag('unkenny', 'conversationWith', actor.id);
+
         const messageDataPostedByActor = {
             content: 'This is a message posted by the user.',
             speaker: {
@@ -180,6 +183,8 @@ describe('collectChatMessages', () => {
             }
         };
         const messagePostedByActor = new ChatMessage(messageDataPostedByActor);
+        messagePostedByActor._initialize();
+        messagePostedByActor.setFlag('unkenny', 'conversationWith', actor.id);
 
         game.messages.set(messagePostedByUser.id, messagePostedByUser);
         game.messages.set(messagePostedByActor.id, messagePostedByActor);
