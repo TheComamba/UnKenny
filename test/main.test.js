@@ -90,19 +90,26 @@ async function postMessageAndCheckReply(model) {
   actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
   game.addActor(actor);
 
-  const message = 'What is your name, @bob?';
-  ui.chat.processMessage(message);
+  const messageContent = 'What is your name, @bob?';
+  const expectedRequestContent = 'What is your name, <b>Robert</b>?';
+  ui.chat.processMessage(messageContent);
 
-  expect(ChatMessage.database.length).to.be.greaterThan(0);
+  expect(game.messages.length).to.be.greaterThan(0);
   await waitFor(() => {
-    return ChatMessage.database.length === 2 || // Happy path
+    return game.messages.length === 2 || // Happy path
       ui.notifications.warning.called || // Sad path
       ui.notifications.error.called; // Sad path
   });
-  expect(ChatMessage.database[0].content).to.equal('What is your name, <b>Robert</b>?');
-  expect(ChatMessage.database[0].user).to.equal(game.user.id);
-  expect(ChatMessage.database[1].content).to.not.be.empty;
-  expect(ChatMessage.database[1].speaker.actor).to.equal(actor.id);
+  expect(game.messages.length).to.equal(2);
+
+  let request = game.messages.find(m => m.data.content === expectedRequestContent);
+  expect(request.content).to.equal('What is your name, <b>Robert</b>?');
+  expect(request.user).to.equal(game.user.id);
+
+  let reply = game.messages.find(m => m.data.content != expectedRequestContent);
+  expect(reply.content).to.not.be.empty;
+  expect(reply.speaker.actor).to.equal(actor.id);
+
   expect(ui.notifications.warning.called).to.be.false;
   expect(ui.notifications.error.called).to.be.false;
 }

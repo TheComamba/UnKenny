@@ -68,20 +68,20 @@ describe('postResponse', () => {
         const actor = new Actor("John Doe");
         const response = "Some response.";
         await postResponse(response, actor);
-        let conversationWith = ChatMessage.database[0].getFlag("unkenny", "conversationWith");
-        expect(conversationWith).to.equal(actor.id);
+        expect(game.messages.find(m => m.getFlag("unkenny", "conversationWith") === actor.id)).to.not.be.undefined;
     });
 });
 
 function expectChatMessageResponse(actor, response) {
-    expect(ChatMessage.database.length).to.equal(1);
+    expect(game.messages.length).to.equal(1);
+    let message = game.messages.find(() => true)[0];
     if (response == undefined) {
-        expect(ChatMessage.database[0].content).to.not.be.empty;
+        expect(message.content).to.not.be.empty;
     } else {
-        expect(ChatMessage.database[0].content).to.equal(response);
+        expect(message.content).to.equal(response);
     }
-    expect(ChatMessage.database[0].speaker.actor).to.equal(actor.id);
-    expect(ChatMessage.database[0].speaker.alias).to.equal(actor.name);
+    expect(message.speaker.actor).to.equal(actor.id);
+    expect(message.speaker.alias).to.equal(actor.name);
 }
 
 

@@ -200,9 +200,11 @@ describe('posting a messge with an alias', () => {
         actor.setFlag("unkenny", "alias", "jd");
         game.addActor(actor);
 
-        let message = "Hello, @jd!";
-        await ui.chat.processMessage(message);
-        expect(ChatMessage.database[0].content).to.equal("Hello, <b>John Doe</b>!");
+        let messageContent = "Hello, @jd!";
+        let expectedContent = "Hello, <b>John Doe</b>!";
+        await ui.chat.processMessage(messageContent);
+        const message = game.messages.find(m => m.data.content === expectedContent);
+        expect(message).to.not.be.undefined;
     });
 
     it('should set the conversationWith flag', async () => {
@@ -210,9 +212,9 @@ describe('posting a messge with an alias', () => {
         actor.setFlag("unkenny", "alias", "jd");
         game.addActor(actor);
 
-        let message = "Hello, @jd!";
-        await ui.chat.processMessage(message);
-        let conversationWith = ChatMessage.database[0].getFlag("unkenny", "conversationWith");
-        expect(conversationWith).to.equal(actor.id);
+        let messageContent = "Hello, @jd!";
+        await ui.chat.processMessage(messageContent);
+        const message = game.messages.find(m => m.getFlag("unkenny", "conversationWith") === actor.id);
+        expect(message).to.not.be.undefined;
     });
 });
