@@ -152,12 +152,9 @@ describe('messagesOrganisedForTemplate', () => {
         let actorWithoutPreamble = new Actor();
         let previousMessages = [];
 
-        const spy = sinon.spy(ui.notifications, 'error');
-
         messagesOrganisedForTemplate(actorWithoutPreamble, previousMessages, newContent);
-        expect(spy).toHaveBeenCalled();
 
-        spy.restore();
+        expect(ui.notifications.error.called).to.be.true;
     });
 });
 

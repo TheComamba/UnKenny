@@ -9,6 +9,11 @@ function sortMessages(messages) {
 }
 
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
+    if (!actor.getFlag('unkenny', 'preamble')) {
+        ui.notifications.error('No preamble set for actor ' + actor.name + '.');
+        return [];
+    }
+
     let messages = [];
     messages.push({
         role: 'system',
