@@ -6,7 +6,6 @@ class Actor extends BaseActor {
         super();
         this.name = name;
         this.id = generateRandomId();
-        this.flags = new Map();
     }
 }
 
