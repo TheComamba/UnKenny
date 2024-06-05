@@ -68,13 +68,14 @@ describe('postResponse', () => {
         const actor = new Actor("John Doe");
         const response = "Some response.";
         await postResponse(response, actor);
-        expect(game.messages.find(m => m.getFlag("unkenny", "conversationWith") === actor.id)).to.not.be.undefined;
+        const condition = m => m.getFlag("unkenny", "conversationWith") === actor.id;
+        expect(game.messages.find(condition)).to.not.be.undefined;
     });
 });
 
 function expectChatMessageResponse(actor, response) {
-    expect(game.messages.length).to.equal(1);
-    let message = game.messages.find(() => true)[0];
+    expect(game.messages.size).to.equal(1);
+    let message = game.messages.find(() => true);
     if (response == undefined) {
         expect(message.content).to.not.be.empty;
     } else {
@@ -83,7 +84,6 @@ function expectChatMessageResponse(actor, response) {
     expect(message.speaker.actor).to.equal(actor.id);
     expect(message.speaker.alias).to.equal(actor.name);
 }
-
 
 describe('processUnKennyResponse', () => {
     beforeEach(() => {

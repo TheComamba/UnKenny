@@ -94,13 +94,13 @@ async function postMessageAndCheckReply(model) {
   const expectedRequestContent = 'What is your name, <b>Robert</b>?';
   ui.chat.processMessage(messageContent);
 
-  expect(game.messages.length).to.be.greaterThan(0);
+  expect(game.messages.size).to.be.greaterThan(0);
   await waitFor(() => {
-    return game.messages.length === 2 || // Happy path
+    return game.messages.size === 2 || // Happy path
       ui.notifications.warning.called || // Sad path
       ui.notifications.error.called; // Sad path
   });
-  expect(game.messages.length).to.equal(2);
+  expect(game.messages.size).to.equal(2);
 
   let request = game.messages.find(m => m.data.content === expectedRequestContent);
   expect(request.content).to.equal('What is your name, <b>Robert</b>?');

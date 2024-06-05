@@ -1,6 +1,8 @@
 
 function collectPreviousMessages(actor) {
-
+    const condition = (m) => m.getFlag('unkenny', 'conversationWith') === actor.id;
+    const messages = game.messages.find(condition) ?? [];
+    return messages
 }
 
 function sortMessages(messages) {
@@ -30,4 +32,4 @@ function collectChatMessages(actor, newMessageContent) {
     return messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
 }
 
-export { collectChatMessages, collectPreviousMessages, sortMessages, messagesOrganisedForTemplate};
+export { collectChatMessages, collectPreviousMessages, sortMessages, messagesOrganisedForTemplate };

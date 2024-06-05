@@ -17,7 +17,7 @@ describe('collectPreviousMessages', () => {
         const actor1 = new Actor();
         const actor2 = new Actor();
         const message = new ChatMessage();
-        message.setFlag('unkenny', 'actorId', actor2.id);
+        message.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message.id, message);
 
         let messages = collectPreviousMessages(actor1);
@@ -28,18 +28,35 @@ describe('collectPreviousMessages', () => {
     it('should return only messages adressed at the specified actor', () => {
         const actor1 = new Actor();
         const message1 = new ChatMessage();
-        message1.setFlag('unkenny', 'actorId', actor1.id);
+        message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
         
         const actor2 = new Actor();
         const message2 = new ChatMessage();
-        message2.setFlag('unkenny', 'actorId', actor2.id);
+        message2.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message2.id, message2);
         
         let messages = collectPreviousMessages(actor1);
         
         expect(messages.length).to.equal(1);
         expect(messages[0].id).to.equal(message1.id);
+    });
+
+
+    it('should return all messages adressed at the specified actor', () => {
+        const actor = new Actor();
+        const message1 = new ChatMessage();
+        message1.setFlag('unkenny', 'conversationWith', actor.id);
+        game.messages.set(message1.id, message1);
+        const message2 = new ChatMessage();
+        message2.setFlag('unkenny', 'conversationWith', actor.id);
+        game.messages.set(message2.id, message2);
+        
+        let messages = collectPreviousMessages(actor);
+        
+        expect(messages.length).to.equal(2);
+        expect(messages[0].id).to.equal(message1.id);
+        expect(messages[1].id).to.equal(message1.id);
     });
 });
 
