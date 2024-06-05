@@ -30,14 +30,14 @@ describe('collectPreviousMessages', () => {
         const message1 = new ChatMessage();
         message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
-        
+
         const actor2 = new Actor();
         const message2 = new ChatMessage();
         message2.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message2.id, message2);
-        
+
         let messages = collectPreviousMessages(actor1);
-        
+
         expect(messages.length).to.equal(1);
         expect(messages[0].id).to.equal(message1.id);
     });
@@ -51,12 +51,12 @@ describe('collectPreviousMessages', () => {
         const message2 = new ChatMessage();
         message2.setFlag('unkenny', 'conversationWith', actor.id);
         game.messages.set(message2.id, message2);
-        
+
         let messages = collectPreviousMessages(actor);
-        
+
         expect(messages.length).to.equal(2);
         expect(messages[0].id).to.equal(message1.id);
-        expect(messages[1].id).to.equal(message1.id);
+        expect(messages[1].id).to.equal(message2.id);
     });
 });
 

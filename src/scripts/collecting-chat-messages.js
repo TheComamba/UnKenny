@@ -1,8 +1,7 @@
 
 function collectPreviousMessages(actor) {
     const condition = (m) => m.getFlag('unkenny', 'conversationWith') === actor.id;
-    const messages = game.messages.find(condition) ?? [];
-    return messages
+    return Array.from(game.messages).filter(condition);
 }
 
 function sortMessages(messages) {
