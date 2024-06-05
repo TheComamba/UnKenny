@@ -6,7 +6,6 @@ import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 describe('triggerResponse', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
         overwriteChatMessage();
     });
@@ -46,7 +45,6 @@ async function runTriggerResponse(model) {
 describe('postResponse', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
         overwriteChatMessage();
     });

@@ -56,7 +56,6 @@ describe('setupHooks', async () => {
 describe('Integration test', () => {
   beforeEach(() => {
     game.reset();
-    ChatMessage.reset();
     ui.reset();
   });
 

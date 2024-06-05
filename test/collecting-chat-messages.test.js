@@ -3,7 +3,6 @@
 describe('collectPreviousMessages', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
     });
 
@@ -23,7 +22,6 @@ describe('collectPreviousMessages', () => {
 describe('sortMessages', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
     });
 
@@ -35,7 +33,6 @@ describe('sortMessages', () => {
 describe('messagesOrganisedForTemplate', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
     });
 
@@ -59,7 +56,6 @@ describe('messagesOrganisedForTemplate', () => {
 describe('collectChatMessages', () => {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
     });
 

@@ -1,9 +1,11 @@
 import DataModel from './data-model.js';
+import { generateRandomId } from './utils.js';
 
 class Document extends DataModel {
     constructor(data, options = {}) {
         super(data, options);
         this.flags = new Map();
+        this.id = generateRandomId();
     }
 
     _initialize(options = {}) {
