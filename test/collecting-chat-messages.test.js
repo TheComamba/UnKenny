@@ -50,6 +50,10 @@ describe('messagesOrganisedForTemplate', () => {
     it('should assign the "assistant" role to previous messages posted by the actor', () => {
         expect(true).to.equal(false);
     });
+
+    it('should display an error if the actor has no preamble', () => {
+        expect(true).to.equal(false);
+    });
 });
 
 describe('collectChatMessages', () => {

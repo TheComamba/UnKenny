@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { testIfSlow } from './test-utils.js';
-import { getMessages } from '../src/scripts/llm.js';
+import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromLocalLLM } from '../src/scripts/local-llm.js';
 import { getLocalModels } from '../src/scripts/models.js';
 
@@ -14,9 +14,11 @@ describe('getResponseFromLocalLLM', () => {
 
     localModels.forEach(model => {
         testIfSlow(model + ' returns a somewhat expected response', async () => {
+            const actor = new Actor('Bob');
+            actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
             const parameters = {
                 model: model,
-                actorName: 'Bob',
+                actorName: actor.name,
                 preamble: 'Your name is Bob.',
                 minNewTokens: 8,
                 maxNewTokens: 128,
@@ -24,7 +26,7 @@ describe('getResponseFromLocalLLM', () => {
                 temperature: 0.0,
             };
             const prompt = 'Repeat after me: "I am Bob."';
-            const messages = getMessages(parameters, prompt);
+            const messages = messagesOrganisedForTemplate(actor, prompt);
 
             const response = await getResponseFromLocalLLM(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
