@@ -19,7 +19,6 @@ describe('getResponseFromLocalLLM', () => {
             const parameters = {
                 model: model,
                 actorName: actor.name,
-                preamble: 'Your name is Bob.',
                 minNewTokens: 8,
                 maxNewTokens: 128,
                 repetitionPenalty: 0.0,

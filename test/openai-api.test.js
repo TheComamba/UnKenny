@@ -20,7 +20,6 @@ describe('getResponseFromLocalLLM', () => {
                 model: model,
                 apiKey: process.env.OPENAI_API_KEY,
                 actorName: actor.name,
-                preamble: 'Your name is Bob.',
                 minNewTokens: 8,
                 maxNewTokens: 128,
                 repetitionPenalty: 0.0,

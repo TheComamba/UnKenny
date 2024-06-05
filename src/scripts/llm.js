@@ -36,7 +36,6 @@ function getGenerationParameters(actor) {
         }
         params[key] = param;
     }
-    params.preamble = getGenerationParameter(actor, "preamble");
     return params;
 }
 
