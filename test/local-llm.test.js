@@ -25,7 +25,7 @@ describe('getResponseFromLocalLLM', () => {
                 temperature: 0.0,
             };
             const prompt = 'Repeat after me: "I am Bob."';
-            const messages = messagesOrganisedForTemplate(actor, prompt);
+            const messages = messagesOrganisedForTemplate(actor, [], prompt);
 
             const response = await getResponseFromLocalLLM(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
