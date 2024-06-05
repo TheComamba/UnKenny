@@ -9,4 +9,14 @@ function generateRandomId() {
     return result;
 }
 
-export { generateRandomId };
+let lastTimestamp = 0;
+function getUniqueTimestamp() {
+    let timestamp = Date.now();
+    if (timestamp <= lastTimestamp) {
+        timestamp = lastTimestamp + 1;
+    }
+    lastTimestamp = timestamp;
+    return timestamp;
+}
+
+export { generateRandomId, getUniqueTimestamp };
