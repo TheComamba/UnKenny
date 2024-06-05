@@ -1,3 +1,4 @@
+import { collectChatMessages } from "./collecting-chat-messages.js";
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { isLocal } from "./models.js";
@@ -39,25 +40,12 @@ function getGenerationParameters(actor) {
     return params;
 }
 
-function getMessages(parameters, input) {
-    return [
-        {
-            role: 'system',
-            content: parameters.preamble,
-        },
-        {
-            role: 'user',
-            content: input,
-        }
-    ];
-}
-
 async function generateResponse(actor, input) {
     let parameters = getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
-    let messages = getMessages(parameters, input);
+    let messages = collectChatMessages(actor, input);
     let response;
     if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, messages);
@@ -76,4 +64,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-export { generateResponse, getGenerationParameters, getMessages };
+export { generateResponse, getGenerationParameters };
