@@ -38,4 +38,8 @@ function getOpenAiModels() {
         .map(model => model[0]);
 }
 
-export { getModelToTextMap, getLocalModels, getOpenAiModels, isLocal };
+function getTokenLimit(model) {
+
+}
+
+export { getModelToTextMap, getLocalModels, getOpenAiModels, getTokenLimit, isLocal };

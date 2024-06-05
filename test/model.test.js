@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { getLocalModels, getModelToTextMap, getOpenAiModels, isLocal } from '../src/scripts/models.js';
+import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
+import { loadExternalModule } from '../src/scripts/shared.js';
 
 describe('getModelToTextMap', () => {
     it('should return a map of models to text', () => {
@@ -33,6 +34,32 @@ describe('getOpenAiModels', () => {
         for (const model of openAiModels) {
             expect(model).to.be.a('string');
             expect(isLocal(model)).to.be.false;
+        }
+    });
+});
+
+describe('getTokenLimit', async () => {
+    it('should return a positive number for every model', () => {
+        const map = getModelToTextMap();
+        for (const [model, _value] of Object.entries(map)) {
+            let limit = getTokenLimit(model);
+            expect(limit).to.be.greaterThan(0);
+        }
+    });
+
+    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+
+    it('should return the verifiable number for local model', () => {
+        const map = getModelToTextMap();
+        for (const [model, _value] of Object.entries(map)) {
+            if (!isLocal(model)) {
+                continue;
+            }
+            tokenizer = transformersModule.AutoTokenizer.from_pretrained(model)
+            let expected_limit = tokenizer.model_max_length;
+
+            let limit = getTokenLimit(model);
+            expect(limit).to.be.equal(expected_limit);
         }
     });
 });
