@@ -68,8 +68,11 @@ describe('sortMessages', () => {
 
     it('should sort messages by timestamp', () => {
         const message1 = new ChatMessage();
+        message1._initialize();
         const message2 = new ChatMessage();
+        message2._initialize();
         const message3 = new ChatMessage();
+        message3._initialize();
         let messages = [
             message3,
             message1,

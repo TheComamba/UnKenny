@@ -5,7 +5,7 @@ function collectPreviousMessages(actor) {
 }
 
 function sortMessages(messages) {
-
+    return messages.sort((a, b) => a.timestamp - b.timestamp);
 }
 
 // function getMessages(parameters, input) {
