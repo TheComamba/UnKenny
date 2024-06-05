@@ -28,6 +28,7 @@ function setupHooks() {
     let actor = findAdressedActor(newMessage._source.content);
     if (actor) {
       modifyUnkennyChatData(newMessage._source, actor);
+      newMessage.setFlag("unkenny", "conversationWith", actor.id);
       triggerResponse(actor, newMessage._source.content);
     }
     return true;

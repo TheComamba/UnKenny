@@ -191,6 +191,7 @@ describe('modifyUnkennyChatData', () => {
 
 describe('posting a messge with an alias', () => {
     beforeEach(() => {
+        ChatMessage.reset();
         game.reset()
         ui.reset();
     });
