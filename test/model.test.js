@@ -38,7 +38,7 @@ describe('getOpenAiModels', () => {
     });
 });
 
-describe('getTokenLimit', async () => {
+describe('getTokenLimit', () => {
     it('should return a positive number for every model', () => {
         const map = getModelToTextMap();
         for (const [model, _value] of Object.entries(map)) {
@@ -47,15 +47,15 @@ describe('getTokenLimit', async () => {
         }
     });
 
-    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
 
-    it('should return the verifiable number for local model', () => {
+    it('should return the verifiable number for local model', async () => {
+        const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
         const map = getModelToTextMap();
         for (const [model, _value] of Object.entries(map)) {
             if (!isLocal(model)) {
                 continue;
             }
-            tokenizer = transformersModule.AutoTokenizer.from_pretrained(model)
+            const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model)
             let expected_limit = tokenizer.model_max_length;
 
             let limit = getTokenLimit(model);
