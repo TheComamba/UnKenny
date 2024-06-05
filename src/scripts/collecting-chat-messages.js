@@ -8,6 +8,10 @@ function sortMessages(messages) {
     return messages.sort((a, b) => a.timestamp - b.timestamp);
 }
 
+// TODO: We need a function to truncate the messages.
+// TODO: Note that the entire context includes the generated output.
+// TODO: Note also that it is measured in tokens, not characters.
+
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
     if (!actor.getFlag('unkenny', 'preamble')) {
         ui.notifications.error('No preamble set for actor ' + actor.name + '.');
