@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import sinon from 'sinon';
 import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages } from "../src/scripts/collecting-chat-messages.js";
 
 describe('collectPreviousMessages', () => {
@@ -94,6 +95,7 @@ describe('messagesOrganisedForTemplate', () => {
         content: 'This is a message posted by the user.'
     };
     const messagePostedByUser = new ChatMessage(messageDataPostedByUser);
+    messagePostedByUser._initialize();
 
     const messageDataPostedByActor = {
         content: 'This is a message posted by the user.',
@@ -102,6 +104,7 @@ describe('messagesOrganisedForTemplate', () => {
         }
     };
     const messagePostedByActor = new ChatMessage(messageDataPostedByActor);
+    messagePostedByActor._initialize();
 
     beforeEach(() => {
         game.reset();
@@ -149,12 +152,12 @@ describe('messagesOrganisedForTemplate', () => {
         let actorWithoutPreamble = new Actor();
         let previousMessages = [];
 
-        const spy = jest.spyOn(ui.notifications, 'error');
+        const spy = sinon.spy(ui.notifications, 'error');
 
         messagesOrganisedForTemplate(actorWithoutPreamble, previousMessages, newContent);
         expect(spy).toHaveBeenCalled();
 
-        spy.mockRestore();
+        spy.restore();
     });
 });
 

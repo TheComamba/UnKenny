@@ -8,21 +8,28 @@ function sortMessages(messages) {
     return messages.sort((a, b) => a.timestamp - b.timestamp);
 }
 
-// function getMessages(parameters, input) {
-//     return [
-//         {
-//             role: 'system',
-//             content: parameters.preamble,
-//         },
-//         {
-//             role: 'user',
-//             content: input,
-//         }
-//     ];
-// }
-
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
-
+    let messages = [];
+    messages.push({
+        role: 'system',
+        content: actor.getFlag('unkenny', 'preamble')
+    });
+    previousMessages.forEach((message) => {
+        let role = 'user';
+        const speaker = message.data.speaker;
+        if (speaker && speaker.actor === actor.id) {
+            role = 'assistant';
+        }
+        messages.push({
+            role: role,
+            content: message.data.content
+        });
+    });
+    messages.push({
+        role: 'user',
+        content: newMessageContent
+    });
+    return messages;
 }
 
 function collectChatMessages(actor, newMessageContent) {
