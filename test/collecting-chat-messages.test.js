@@ -98,7 +98,7 @@ describe('messagesOrganisedForTemplate', () => {
     messagePostedByUser._initialize();
 
     const messageDataPostedByActor = {
-        content: 'This is a message posted by the user.',
+        content: 'This is a message posted by the actor.',
         speaker: {
             actor: actor.id
         }

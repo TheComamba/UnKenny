@@ -16,7 +16,7 @@ function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent
     });
     previousMessages.forEach((message) => {
         let role = 'user';
-        const speaker = message.data.speaker;
+        const speaker = message._source.speaker;
         if (speaker && speaker.actor === actor.id) {
             role = 'assistant';
         }

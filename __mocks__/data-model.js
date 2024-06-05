@@ -16,6 +16,7 @@ class DataModel {
     }
 
     applySources() {
+        this.data = deepCopy(this._source);
         for (let [k, v] of Object.entries(this._source)) {
             this[k] = v;
         }
