@@ -26,7 +26,8 @@ async function postResponse(response, actor) {
     await ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
 }
 
-function processUnKennyResponseSource(source) {
+function processUnKennyResponse(message) {
+    let source = message._source;
     if (source.content.startsWith(unkennyResponseFlag)) {
         const jsonString = source.content.replace(unkennyResponseFlag, "");
         let chatDataJson;
@@ -39,6 +40,8 @@ function processUnKennyResponseSource(source) {
         for (let key in chatDataJson) {
             source[key] = chatDataJson[key] ?? source[key];
         }
+
+        message.setFlag("unkenny", "conversationWith", chatDataJson.speaker.actor);
     }
 }
 
@@ -50,11 +53,11 @@ function overwriteChatMessage() {
     class UnkennyChatMessage extends currentChatMessage {
         /** @override */
         _initialize(options = {}) {
-            processUnKennyResponseSource(this._source);
+            processUnKennyResponse(this);
             super._initialize(options);
         }
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag };
+export { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag };

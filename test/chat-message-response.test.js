@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
@@ -87,7 +87,7 @@ function expectChatMessageResponse(actor, response) {
 }
 
 
-describe('processUnKennyResponseSource', () => {
+describe('processUnKennyResponse', () => {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -95,14 +95,14 @@ describe('processUnKennyResponseSource', () => {
 
     it('should process flagged data correctly', () => {
         const data = {
-            content: unkennyResponseFlag + '{"content":"Hello","type":"whisper","actorName":"John"}'
+            content: unkennyResponseFlag + '{"content":"Hello","speaker":{"actor":"blmXW5O6DAwXf08v"}}'
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal('Hello');
-        expect(data.type).to.equal('whisper');
-        expect(data.actorName).to.equal('John');
+        expect(message._source.content).to.equal('Hello');
+        expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
         expect(ui.notifications.error.called).to.be.false;
     });
 
@@ -111,10 +111,11 @@ describe('processUnKennyResponseSource', () => {
         const data = {
             content: invalidJson
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal(invalidJson);
+        expect(message._source.content).to.equal(invalidJson);
         expect(ui.notifications.error.called).to.be.true;
     });
 
@@ -123,10 +124,11 @@ describe('processUnKennyResponseSource', () => {
         const data = {
             content: unflaggedData
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal(unflaggedData);
+        expect(message._source.content).to.equal(unflaggedData);
         expect(ui.notifications.error.called).to.be.false;
     });
 });
