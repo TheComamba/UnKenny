@@ -22,7 +22,7 @@ function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent
         }
         messages.push({
             role: role,
-            content: message.data.content
+            content: message.content
         });
     });
     messages.push({
