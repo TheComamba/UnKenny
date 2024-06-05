@@ -65,6 +65,14 @@ describe('postResponse', () => {
         const responseOut = "Some<br>response.";
         expectChatMessageResponse(actor, responseOut);
     });
+
+    it('should set the conversationWith flag', async () => {
+        const actor = new Actor("John Doe");
+        const response = "Some response.";
+        await postResponse(response, actor);
+        let conversationWith = ChatMessage.database[0].getFlag("unkenny", "conversationWith");
+        expect(conversationWith).to.equal(actor.id);
+    });
 });
 
 function expectChatMessageResponse(actor, response) {

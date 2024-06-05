@@ -199,9 +199,20 @@ describe('posting a messge with an alias', () => {
         let actor = new Actor("John Doe");
         actor.setFlag("unkenny", "alias", "jd");
         game.addActor(actor);
-        
+
         let message = "Hello, @jd!";
         await ui.chat.processMessage(message);
         expect(ChatMessage.database[0].content).to.equal("Hello, <b>John Doe</b>!");
+    });
+
+    it('should set the conversationWith flag', async () => {
+        let actor = new Actor("John Doe");
+        actor.setFlag("unkenny", "alias", "jd");
+        game.addActor(actor);
+
+        let message = "Hello, @jd!";
+        await ui.chat.processMessage(message);
+        let conversationWith = ChatMessage.database[0].getFlag("unkenny", "conversationWith");
+        expect(conversationWith).to.equal(actor.id);
     });
 });
