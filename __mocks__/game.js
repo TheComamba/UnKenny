@@ -1,11 +1,12 @@
+import Collection from "./collection.js";
 import User from "./user.js";
 
 const game = {
     user: new User(),
-    actors: [],
+    actors: new Collection(),
 
     addActor: function (actor) {
-        this.actors.push(actor);
+        this.actors.set(actor.id, actor);
     },
     settings: {
         data: {},
@@ -40,7 +41,7 @@ const game = {
         }
     },
     reset: function () {
-        this.actors = [];
+        this.actors = new Collection();
         this.settings.data = {};
     },
 };
