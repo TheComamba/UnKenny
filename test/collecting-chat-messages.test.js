@@ -1,4 +1,5 @@
-
+import { expect } from "chai";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages } from "../src/scripts/collecting-chat-messages.js";
 
 describe('collectPreviousMessages', () => {
     beforeEach(() => {
@@ -7,15 +8,38 @@ describe('collectPreviousMessages', () => {
     });
 
     it('should return an empty list if there are no previous messages', () => {
-        expect(true).to.equal(false);
+        const actor = new Actor();
+        let messages = collectPreviousMessages(actor);
+        expect(messages.length).to.equal(0);
     });
 
     it('should return an empty list if there are only messages for another actor', () => {
-        expect(true).to.equal(false);
+        const actor1 = new Actor();
+        const actor2 = new Actor();
+        const message = new ChatMessage();
+        message.setFlag('unkenny', 'actorId', actor2.id);
+        game.messages.set(message.id, message);
+
+        let messages = collectPreviousMessages(actor1);
+
+        expect(messages.length).to.equal(0);
     });
 
     it('should return only messages adressed at the specified actor', () => {
-        expect(true).to.equal(false);
+        const actor1 = new Actor();
+        const message1 = new ChatMessage();
+        message1.setFlag('unkenny', 'actorId', actor1.id);
+        game.messages.set(message1.id, message1);
+        
+        const actor2 = new Actor();
+        const message2 = new ChatMessage();
+        message2.setFlag('unkenny', 'actorId', actor2.id);
+        game.messages.set(message2.id, message2);
+        
+        let messages = collectPreviousMessages(actor1);
+        
+        expect(messages.length).to.equal(1);
+        expect(messages[0].id).to.equal(message1.id);
     });
 });
 
