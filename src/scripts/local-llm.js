@@ -52,7 +52,16 @@ function tokenizedMessages(tokenizer, messages) {
 }
 
 async function numberOfTokensForLocalLLM(model, messages) {
-    //TDOO
+    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+    if (!transformersModule) {
+        return;
+    }
+    const tokenizer = await getTokenizer(transformersModule, model);
+    if (!tokenizer) {
+        return;
+    }
+    let tokenized = tokenizedMessages(tokenizer, messages);
+    return tokenized.size;
 }
 
 async function getResponseFromLocalLLM(parameters, messages) {
