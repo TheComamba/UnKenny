@@ -8,7 +8,7 @@ function sortMessages(messages) {
     return messages.sort((a, b) => a.timestamp - b.timestamp);
 }
 
-// TODO: We need a function to truncate the messages.
+// TODO: We need a function to truncate the messages for the local models.
 // TODO: Note that the entire context includes the generated output.
 // TODO: Note also that it is measured in tokens, not characters.
 
