@@ -1,5 +1,9 @@
 import { loadExternalModule } from './shared.js';
 
+async function numberOfTokensForOpenAi(model, messages) {
+    //TDOO
+}
+
 async function getResponseFromOpenAI(parameters, messages) {
     const OpenAIModule = await loadExternalModule('openai', '4.22.1/+esm');
     if (!OpenAIModule) {
@@ -28,4 +32,4 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
 }
 
-export { getResponseFromOpenAI };
+export { getResponseFromOpenAI, numberOfTokensForOpenAi };

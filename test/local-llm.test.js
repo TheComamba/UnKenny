@@ -1,8 +1,29 @@
 import { expect } from 'chai';
 import { testIfSlow } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
-import { getResponseFromLocalLLM } from '../src/scripts/local-llm.js';
+import { getResponseFromLocalLLM, numberOfTokensForLocalLLM } from '../src/scripts/local-llm.js';
 import { getLocalModels } from '../src/scripts/models.js';
+
+describe('numberOfTokensForLocalLLM', () => {
+    const localModels = getLocalModels();
+
+    localModels.forEach(model => {
+        it(model + ' tokenizer returns a somewhat expected number', async () => {
+            const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
+            const actor = new Actor('Bob');
+            actor.setFlag('unkenny', 'preamble', text);
+            const prompt = text;
+            const messages = messagesOrganisedForTemplate(actor, [], prompt);
+
+            const minExpectedNumber = text.split(' ').length; // One token per word
+            const maxExpectedNumber = text.length; // One token per character
+            const number = await numberOfTokensForLocalLLM(model, messages);
+            
+            expect(number).to.be.greaterThanOrEqual(minExpectedNumber);
+            expect(number).to.be.lessThanOrEqual(maxExpectedNumber);
+        });
+    });
+});
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
