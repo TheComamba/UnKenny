@@ -158,6 +158,28 @@ describe('messagesOrganisedForTemplate', () => {
     });
 });
 
+describe('truncateMessages', () => {
+    it('should not truncate message below the token limit', () => {
+        expect(true).to.be.false;
+    });
+
+    it('should truncate messages to local models starting with the first message that is not the preamble', () => {
+        expect(true).to.be.false;
+    });
+
+    it('should truncate messages to local models if the expected output does not fit inside the context limit', () => {
+        expect(true).to.be.false;
+    });
+
+    it('should display a warning but not truncate any messages to OpenAI models', () => {
+        expect(true).to.be.false;
+    });
+
+    it('should display an error and fail if further truncation is not possible', () => {
+        expect(true).to.be.false;
+    });
+});
+
 describe('collectChatMessages', () => {
     beforeEach(() => {
         game.reset();

@@ -11,6 +11,16 @@ function sortMessages(messages) {
 // TODO: We need a function to truncate the messages for the local models.
 // TODO: Note that the entire context includes the generated output.
 // TODO: Note also that it is measured in tokens, not characters.
+// TODO: When truncating, a notification should appear.
+// TODO: If preamble and prompt are already too long, an error message should appear and the process should fail.
+
+function isContextTooLong(messages, tokenLimit) {
+ // TODO
+}
+
+function truncateMessages() {
+
+}
 
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
     if (!actor.getFlag('unkenny', 'preamble')) {
@@ -47,4 +57,4 @@ function collectChatMessages(actor, newMessageContent) {
     return messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
 }
 
-export { collectChatMessages, collectPreviousMessages, sortMessages, messagesOrganisedForTemplate };
+export { collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, sortMessages, truncateMessages };
