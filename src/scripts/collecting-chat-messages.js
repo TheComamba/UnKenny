@@ -1,3 +1,5 @@
+import { getTokenLimit, isLocal } from "./models.js";
+import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
 function collectPreviousMessages(actor) {
     const condition = (m) => m.getFlag('unkenny', 'conversationWith') === actor.id;
@@ -15,11 +17,21 @@ function sortMessages(messages) {
 // TODO: If preamble and prompt are already too long, an error message should appear and the process should fail.
 
 function isContextTooLong(messages, tokenLimit) {
- // TODO
+    // TODO
 }
 
-function truncateMessages() {
-
+async function truncateMessages(model, messages, newTokenLimit) {
+    const warningMessage = 'This conversion spanning ' + (messages.length - 1) + ' messages is too long for the model, and will be truncated. To prevent this in the future, you can either switch the model or shorten the conversation by deleting previous messages.';
+    const errorMessage = 'The conversation has only just begun, but it is already too long for the model. This is likely due to the preamble being too long. Please shorten the preamble or switch to a different model with a larger context size.'
+    const limit = getTokenLimit(model) - newTokenLimit;
+    if (isLocal(model)) {
+        //TODO
+    } else {
+        const messageSize = roughNumberOfTokensForOpenAi(messages);
+        if (messageSize > limit) {
+            ui.notifications.warning(warningMessage);
+        }
+    }
 }
 
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
@@ -51,10 +63,11 @@ function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent
     return messages;
 }
 
-function collectChatMessages(actor, newMessageContent) {
+async function collectChatMessages(actor, newMessageContent) {
     let previousMessages = collectPreviousMessages(actor);
     sortMessages(previousMessages);
     return messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
+    // TODO: Truncate messages if necessary
 }
 
 export { collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, sortMessages, truncateMessages };

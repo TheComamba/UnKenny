@@ -336,7 +336,7 @@ describe('collectChatMessages', () => {
         ui.reset();
     });
 
-    it('should return a chat template list including previously posted messages', () => {
+    it('should return a chat template list including previously posted messages', async () => {
         const actor = new Actor();
         const preamble = 'This is a preamble.';
         actor.setFlag('unkenny', 'preamble', preamble);
@@ -361,7 +361,7 @@ describe('collectChatMessages', () => {
         game.messages.set(messagePostedByUser.id, messagePostedByUser);
         game.messages.set(messagePostedByActor.id, messagePostedByActor);
 
-        let messages = collectChatMessages(actor, newContent);
+        let messages = await collectChatMessages(actor, newContent);
 
         expect(messages.length).to.equal(4);
         expect(messages[0].role).to.equal('system');
