@@ -1,8 +1,27 @@
 import { expect } from 'chai';
 import { testIfOpenAi } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
-import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
+import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
+
+describe('roughNumberOfTokensForOpenAi', () => {
+    const localModels = getOpenAiModels();
+
+    it('returns a somewhat expected number', async () => {
+        const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
+        const actor = new Actor('Bob');
+        actor.setFlag('unkenny', 'preamble', text);
+        const prompt = text;
+        const messages = messagesOrganisedForTemplate(actor, [], prompt);
+
+        const minExpectedNumber = text.split(' ').length; // One token per word
+        const maxExpectedNumber = text.length; // One token per character
+        const number = roughNumberOfTokensForOpenAi(messages);
+
+        expect(number).to.be.greaterThanOrEqual(minExpectedNumber);
+        expect(number).to.be.lessThanOrEqual(maxExpectedNumber);
+    });
+});
 
 describe('getResponseFromLocalLLM', () => {
     beforeEach(() => {
