@@ -257,7 +257,7 @@ describe('truncateMessages', () => {
                 content: content
             }
         ];
-        const hugeLimitForNewTokens = content.length * 1.5;
+        const hugeLimitForNewTokens = getTokenLimit(localModel) / 5 * 1.5;
 
         await truncateMessages(localModel, messages, hugeLimitForNewTokens);
 
