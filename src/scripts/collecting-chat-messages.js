@@ -1,3 +1,4 @@
+import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
@@ -16,16 +17,36 @@ function sortMessages(messages) {
 // TODO: When truncating, a notification should appear.
 // TODO: If preamble and prompt are already too long, an error message should appear and the process should fail.
 
-function isContextTooLong(messages, tokenLimit) {
-    // TODO
+async function isContextTooLongForLocalModel(model, messages, tokenLimit) {
+    let tokenCount = await numberOfTokensForLocalLLM(model, messages);
+    return tokenCount > tokenLimit;
+}
+
+function shortenMessagesByOne(messages) {
+    for (let i = 0; i < messages.length - 2; i++) {
+        if (messages[i].role != 'system') {
+            messages.splice(i, 1);
+            return;
+        }
+    }
+
+    const errorMessage = 'The conversation has only just begun, but it is already too long for the model. This is likely due to the preamble being too long. Please shorten the preamble or switch to a different model with a larger context size.'
+    ui.notifications.error(errorMessage);
+    messages.length = 0;
 }
 
 async function truncateMessages(model, messages, newTokenLimit) {
     const warningMessage = 'This conversion spanning ' + (messages.length - 1) + ' messages is too long for the model, and will be truncated. To prevent this in the future, you can either switch the model or shorten the conversation by deleting previous messages.';
-    const errorMessage = 'The conversation has only just begun, but it is already too long for the model. This is likely due to the preamble being too long. Please shorten the preamble or switch to a different model with a larger context size.'
+    let warningHasBeenGiven = false;
     const limit = getTokenLimit(model) - newTokenLimit;
     if (isLocal(model)) {
-        //TODO
+        while (await isContextTooLongForLocalModel(model, messages, limit)) {
+            if (!warningHasBeenGiven) {
+                ui.notifications.warning(warningMessage);
+                warningHasBeenGiven = true;
+            }
+            shortenMessagesByOne(messages);
+        }
     } else {
         const messageSize = roughNumberOfTokensForOpenAi(messages);
         if (messageSize > limit) {
