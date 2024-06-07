@@ -1,4 +1,4 @@
-import { replaceAlias } from "./chat-message-request.js";
+import { findAdressedActor } from "./chat-message-request.js";
 import { generateResponse } from "./llm.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
@@ -60,7 +60,7 @@ function overwriteChatMessage() {
             await super._preCreate(data, options, user);
 
             //TODO: This is not the correct condition, is it?
-            let actor = await findAdressedActor(newMessage._source.content);
+            let actor = await findAdressedActor(data.content);
             if (actor) {
 
                 await this.setFlag("unkenny", "conversationWith", actor.id);
