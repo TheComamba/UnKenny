@@ -13,7 +13,7 @@ function setupHooks() {
   });
 
   Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
-    let buttonText = isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";
+    let buttonText = await isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";
     buttons.unshift({
       label: buttonText,
       class: "modify-unkennyness",
@@ -24,10 +24,10 @@ function setupHooks() {
     })
   });
 
-  Hooks.on("preCreateChatMessage", (newMessage, _chatData, _options, _originator) => {
-    let actor = findAdressedActor(newMessage._source.content);
+  Hooks.on("preCreateChatMessage", async (newMessage, _chatData, _options, _originator) => {
+    let actor = await findAdressedActor(newMessage._source.content);
     if (actor) {
-      modifyUnkennyChatData(newMessage._source, actor);
+      await modifyUnkennyChatData(newMessage._source, actor);
       await newMessage.setFlag("unkenny", "conversationWith", actor.id);
       triggerResponse(actor, newMessage._source.content);
     }

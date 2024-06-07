@@ -2,9 +2,13 @@ import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
-function collectPreviousMessages(actor) {
-    const condition = (m) => await m.getFlag('unkenny', 'conversationWith') === actor.id;
-    return game.messages.contents.filter(condition);
+async function collectPreviousMessages(actor) {
+    const messages = await Promise.all(game.messages.contents.map(async (m) => {
+        const flag = await m.getFlag('unkenny', 'conversationWith');
+        return flag === actor.id ? m : null;
+    }));
+
+    return messages.filter(m => m !== null);
 }
 
 function sortMessages(messages) {
@@ -49,7 +53,7 @@ async function truncateMessages(model, messages, newTokenLimit) {
     }
 }
 
-function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
+async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
     const preamble = await actor.getFlag('unkenny', 'preamble');
     if (!preamble) {
         ui.notifications.error('No preamble set for actor ' + actor.name + '.');
@@ -80,9 +84,9 @@ function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent
 }
 
 async function collectChatMessages(actor, newMessageContent) {
-    let previousMessages = collectPreviousMessages(actor);
+    let previousMessages = await collectPreviousMessages(actor);
     sortMessages(previousMessages);
-    let messages = messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
+    let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
     truncateMessages(actor, messages, 0); //TODO: pass newTokenLimit
     return messages;
 }

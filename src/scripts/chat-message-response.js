@@ -40,8 +40,6 @@ function processUnKennyResponse(message) {
         for (let key in chatDataJson) {
             source[key] = chatDataJson[key] ?? source[key];
         }
-
-        await message.setFlag("unkenny", "conversationWith", chatDataJson.speaker.actor);
     }
 }
 
@@ -55,6 +53,18 @@ function overwriteChatMessage() {
         _initialize(options = {}) {
             processUnKennyResponse(this);
             super._initialize(options);
+        }
+
+        /** @override */
+        async _preCreate(data, options, user) {
+            await super._preCreate(data, options, user);
+
+            //TODO: This is not the correct condition, is it?
+            let actor = await findAdressedActor(newMessage._source.content);
+            if (actor) {
+
+                await this.setFlag("unkenny", "conversationWith", actor.id);
+            }
         }
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;

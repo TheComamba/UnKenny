@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { testIfOpenAi, testIfSlow } from './test-utils.js';
+import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
 describe('triggerResponse', () => {
@@ -68,8 +68,8 @@ describe('postResponse', () => {
         const actor = new Actor("John Doe");
         const response = "Some response.";
         await postResponse(response, actor);
-        const condition = m => await m.getFlag("unkenny", "conversationWith") === actor.id;
-        expect(game.messages.find(condition)).to.not.be.undefined;
+        const message = findFirstMessageConcerning(actor);
+        expect(message).to.not.be.undefined;
     });
 });
 

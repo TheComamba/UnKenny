@@ -4,7 +4,7 @@ import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { isLocal } from "./models.js";
 import { llmParametersAndDefaults } from "./settings.js";
 
-function getGenerationParameter(actor, parameterName) {
+async function getGenerationParameter(actor, parameterName) {
     if (!actor) {
         return;
     }
@@ -23,14 +23,14 @@ function getGenerationParameter(actor, parameterName) {
     return value;
 }
 
-function getGenerationParameters(actor) {
+async function getGenerationParameters(actor) {
     if (!actor) {
         return;
     }
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
-        const param = getGenerationParameter(actor, key);
+        const param = await getGenerationParameter(actor, key);
         if (param == null) {
             return null;
         }
@@ -40,7 +40,7 @@ function getGenerationParameters(actor) {
 }
 
 async function generateResponse(actor, input) {
-    let parameters = getGenerationParameters(actor);
+    let parameters = await getGenerationParameters(actor);
     if (!parameters) {
         return;
     }

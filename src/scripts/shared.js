@@ -1,4 +1,4 @@
-function isUnkenny(actor) {
+async function isUnkenny(actor) {
     if (!actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
         return false;

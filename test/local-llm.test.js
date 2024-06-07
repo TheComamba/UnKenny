@@ -13,7 +13,7 @@ describe('numberOfTokensForLocalLLM', () => {
             const actor = new Actor('Bob');
             await actor.setFlag('unkenny', 'preamble', text);
             const prompt = text;
-            const messages = messagesOrganisedForTemplate(actor, [], prompt);
+            const messages = await messagesOrganisedForTemplate(actor, [], prompt);
 
             const minExpectedNumber = text.split(' ').length; // One token per word
             const maxExpectedNumber = text.length; // One token per character
@@ -46,7 +46,7 @@ describe('getResponseFromLocalLLM', () => {
                 temperature: 0.0,
             };
             const prompt = 'Repeat after me: "I am Bob."';
-            const messages = messagesOrganisedForTemplate(actor, [], prompt);
+            const messages = await messagesOrganisedForTemplate(actor, [], prompt);
 
             const response = await getResponseFromLocalLLM(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
