@@ -6,7 +6,11 @@ class Collection extends Map {
     [Symbol.iterator]() {
         return this.values();
     }
-    
+
+    get contents() {
+        return Array.from(this.values());
+    }
+
     find(condition) {
         let i = 0;
         for (let v of this.values()) {
