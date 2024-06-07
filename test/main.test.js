@@ -86,8 +86,8 @@ async function postMessageAndCheckReply(model) {
   game.settings.set("unkenny", "prefixWithTalk", false);
 
   let actor = new Actor('Robert');
-  actor.setFlag('unkenny', 'alias', 'bob');
-  actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
+  await actor.setFlag('unkenny', 'alias', 'bob');
+  await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
   game.addActor(actor);
 
   const messageContent = 'What is your name, @bob?';

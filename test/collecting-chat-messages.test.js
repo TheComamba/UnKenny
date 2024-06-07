@@ -20,7 +20,7 @@ describe('collectPreviousMessages', () => {
 
     it('should return an empty list if there are only messages for another actor', () => {
         const message = new ChatMessage();
-        message.setFlag('unkenny', 'conversationWith', actor2.id);
+        await message.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message.id, message);
 
         let messages = collectPreviousMessages(actor1);
@@ -30,11 +30,11 @@ describe('collectPreviousMessages', () => {
 
     it('should return only messages adressed at the specified actor', () => {
         const message1 = new ChatMessage();
-        message1.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
 
         const message2 = new ChatMessage();
-        message2.setFlag('unkenny', 'conversationWith', actor2.id);
+        await message2.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message2.id, message2);
 
         let messages = collectPreviousMessages(actor1);
@@ -46,10 +46,10 @@ describe('collectPreviousMessages', () => {
 
     it('should return all messages adressed at the specified actor', () => {
         const message1 = new ChatMessage();
-        message1.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
         const message2 = new ChatMessage();
-        message2.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message2.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message2.id, message2);
 
         let messages = collectPreviousMessages(actor1);
@@ -90,7 +90,7 @@ describe('sortMessages', () => {
 describe('messagesOrganisedForTemplate', () => {
     let actor = new Actor();
     const preamble = 'This is a preamble.';
-    actor.setFlag('unkenny', 'preamble', preamble);
+    await actor.setFlag('unkenny', 'preamble', preamble);
     const newContent = 'This is a new message.';
 
     const messageDataPostedByUser = {
@@ -339,14 +339,14 @@ describe('collectChatMessages', () => {
     it('should return a chat template list including previously posted messages', async () => {
         const actor = new Actor();
         const preamble = 'This is a preamble.';
-        actor.setFlag('unkenny', 'preamble', preamble);
+        await actor.setFlag('unkenny', 'preamble', preamble);
         const newContent = 'This is a new message.';
         const messageDataPostedByUser = {
             content: 'This is a message posted by the user.'
         };
         const messagePostedByUser = new ChatMessage(messageDataPostedByUser);
         messagePostedByUser._initialize();
-        messagePostedByUser.setFlag('unkenny', 'conversationWith', actor.id);
+        await messagePostedByUser.setFlag('unkenny', 'conversationWith', actor.id);
 
         const messageDataPostedByActor = {
             content: 'This is a message posted by the user.',
@@ -356,7 +356,7 @@ describe('collectChatMessages', () => {
         };
         const messagePostedByActor = new ChatMessage(messageDataPostedByActor);
         messagePostedByActor._initialize();
-        messagePostedByActor.setFlag('unkenny', 'conversationWith', actor.id);
+        await messagePostedByActor.setFlag('unkenny', 'conversationWith', actor.id);
 
         game.messages.set(messagePostedByUser.id, messagePostedByUser);
         game.messages.set(messagePostedByActor.id, messagePostedByActor);

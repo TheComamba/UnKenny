@@ -3,7 +3,7 @@ import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
 function collectPreviousMessages(actor) {
-    const condition = (m) => m.getFlag('unkenny', 'conversationWith') === actor.id;
+    const condition = (m) => await m.getFlag('unkenny', 'conversationWith') === actor.id;
     return game.messages.contents.filter(condition);
 }
 
@@ -50,7 +50,8 @@ async function truncateMessages(model, messages, newTokenLimit) {
 }
 
 function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
-    if (!actor.getFlag('unkenny', 'preamble')) {
+    const preamble = await actor.getFlag('unkenny', 'preamble');
+    if (!preamble) {
         ui.notifications.error('No preamble set for actor ' + actor.name + '.');
         return [];
     }
@@ -58,7 +59,7 @@ function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent
     let messages = [];
     messages.push({
         role: 'system',
-        content: actor.getFlag('unkenny', 'preamble')
+        content: preamble
     });
     previousMessages.forEach((message) => {
         let role = 'user';

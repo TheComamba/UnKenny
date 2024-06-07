@@ -28,7 +28,7 @@ function actorHasAlias(actor, alias) {
     }
 
     const lowerCaseAlias = alias.toLowerCase();
-    const actorAlias = (actor.getFlag("unkenny", "alias") ?? "").toLowerCase();
+    const actorAlias = (await actor.getFlag("unkenny", "alias") ?? "").toLowerCase();
 
     return actorAlias === lowerCaseAlias;
 }
@@ -48,7 +48,7 @@ function findAdressedActor(message) {
 
 function modifyUnkennyChatData(chatData, addressedActor) {
     let name = addressedActor.name;
-    let alias = addressedActor.getFlag("unkenny", "alias");
+    let alias = await addressedActor.getFlag("unkenny", "alias");
     chatData.content = replaceAlias(chatData.content, alias, name);
 }
 

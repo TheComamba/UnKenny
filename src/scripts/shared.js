@@ -3,7 +3,7 @@ function isUnkenny(actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
         return false;
     }
-    let alias = actor.getFlag("unkenny", "alias");
+    let alias = await actor.getFlag("unkenny", "alias");
     return !!alias;
 }
 

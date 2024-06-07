@@ -10,7 +10,7 @@ describe('roughNumberOfTokensForOpenAi', () => {
     it('returns a somewhat expected number', async () => {
         const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
         const actor = new Actor('Bob');
-        actor.setFlag('unkenny', 'preamble', text);
+        await actor.setFlag('unkenny', 'preamble', text);
         const prompt = text;
         const messages = messagesOrganisedForTemplate(actor, [], prompt);
 
@@ -34,7 +34,7 @@ describe('getResponseFromLocalLLM', () => {
     openaiModels.forEach(model => {
         testIfOpenAi(model + ' returns a somewhat expected response', async () => {
             const actor = new Actor('Bob');
-            actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
+            await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
             const parameters = {
                 model: model,
                 apiKey: process.env.OPENAI_API_KEY,

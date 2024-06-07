@@ -104,23 +104,23 @@ describe('actorHasAlias', () => {
     });
 
     it('should return true when actor has alias set', () => {
-        actor.setFlag('unkenny', 'alias', 'John Doe');
+        await actor.setFlag('unkenny', 'alias', 'John Doe');
         expect(actorHasAlias(actor, 'John Doe')).to.equal(true);
     });
 
     it('should return true when actor has alias set, regardless of case', () => {
-        actor.setFlag('unkenny', 'alias', 'John Doe');
+        await actor.setFlag('unkenny', 'alias', 'John Doe');
         expect(actorHasAlias(actor, 'john doe')).to.equal(true);
         expect(actorHasAlias(actor, 'JOHN DOE')).to.equal(true);
     });
 
     it('should return false when actor has different alias set', () => {
-        actor.setFlag('unkenny', 'alias', 'John Doe');
+        await actor.setFlag('unkenny', 'alias', 'John Doe');
         expect(actorHasAlias(actor, 'Jane Doe')).to.equal(false);
     });
 
     it('should return false when actor has alias set but queried with empty string', () => {
-        actor.setFlag('unkenny', 'alias', 'John Doe');
+        await actor.setFlag('unkenny', 'alias', 'John Doe');
         expect(actorHasAlias(actor, '')).to.equal(false);
     });
 
@@ -145,7 +145,7 @@ describe('findAdressedActor', () => {
 
     it('should return null when no alias is addressed', () => {
         const actor = new Actor();
-        actor.setFlag('unkenny', 'alias', 'alias');
+        await actor.setFlag('unkenny', 'alias', 'alias');
         game.addActor(actor);
 
         const message = "Kapascardia";
@@ -155,7 +155,7 @@ describe('findAdressedActor', () => {
 
     it('should return null and display an error when actor with alias is not found', () => {
         const actor = new Actor();
-        actor.setFlag('unkenny', 'alias', 'other-alias');
+        await actor.setFlag('unkenny', 'alias', 'other-alias');
         game.addActor(actor);
 
         const message = "Kapascardia @alias";
@@ -166,7 +166,7 @@ describe('findAdressedActor', () => {
 
     it('should return the actor when alias is addressed', () => {
         const actor = new Actor();
-        actor.setFlag('unkenny', 'alias', 'alias');
+        await actor.setFlag('unkenny', 'alias', 'alias');
         game.addActor(actor);
 
         const message = "@alias Kapascardia";
@@ -183,7 +183,7 @@ describe('modifyUnkennyChatData', () => {
             content: "Hello, @jd!",
         };
         let addressedActor = new Actor("John Doe");
-        addressedActor.setFlag("unkenny", "alias", "jd");
+        await addressedActor.setFlag("unkenny", "alias", "jd");
         modifyUnkennyChatData(chatData, addressedActor);
         expect(chatData.content).to.equal("Hello, <b>John Doe</b>!");
     });
@@ -197,7 +197,7 @@ describe('posting a message with an alias', () => {
 
     it('should replace that alias with the actor name', async () => {
         let actor = new Actor("John Doe");
-        actor.setFlag("unkenny", "alias", "jd");
+        await actor.setFlag("unkenny", "alias", "jd");
         game.addActor(actor);
 
         let messageContent = "Hello, @jd!";
@@ -209,12 +209,12 @@ describe('posting a message with an alias', () => {
 
     it('should set the conversationWith flag', async () => {
         let actor = new Actor("John Doe");
-        actor.setFlag("unkenny", "alias", "jd");
+        await actor.setFlag("unkenny", "alias", "jd");
         game.addActor(actor);
 
         let messageContent = "Hello, @jd!";
         await ui.chat.processMessage(messageContent);
-        const message = game.messages.find(m => m.getFlag("unkenny", "conversationWith") === actor.id);
+        const message = game.messages.find(m => await m.getFlag("unkenny", "conversationWith") === actor.id);
         expect(message).to.not.be.undefined;
     });
 });

@@ -41,7 +41,7 @@ function processUnKennyResponse(message) {
             source[key] = chatDataJson[key] ?? source[key];
         }
 
-        message.setFlag("unkenny", "conversationWith", chatDataJson.speaker.actor);
+        await message.setFlag("unkenny", "conversationWith", chatDataJson.speaker.actor);
     }
 }
 

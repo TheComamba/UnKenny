@@ -8,7 +8,7 @@ function getGenerationParameter(actor, parameterName) {
     if (!actor) {
         return;
     }
-    let value = actor.getFlag("unkenny", parameterName);
+    let value = await actor.getFlag("unkenny", parameterName);
     if (value == null) {
         value = game.settings.get("unkenny", parameterName);
     }

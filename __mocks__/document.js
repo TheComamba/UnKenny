@@ -14,21 +14,21 @@ class Document extends DataModel {
 
     async _preCreate(data, options, user) { }
 
-    setFlag(module, key, value) {
+    async setFlag(module, key, value) {
         if (!this.flags.has(module)) {
             this.flags.set(module, new Map());
         }
         this.flags.get(module).set(key, value);
     }
 
-    getFlag(module, key) {
+    async getFlag(module, key) {
         if (this.flags.has(module)) {
             return this.flags.get(module).get(key);
         }
         return null;
     }
 
-    unsetFlag(module, key) {
+    async unsetFlag(module, key) {
         if (this.flags.has(module)) {
             this.flags.get(module).delete(key);
         }

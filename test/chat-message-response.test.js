@@ -35,8 +35,8 @@ describe('triggerResponse', () => {
 async function runTriggerResponse(model) {
     const actor = new Actor("John Doe");
     game.settings.set("unkenny", "model", model);
-    actor.setFlag("unkenny", "alias", "jd");
-    actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
+    await actor.setFlag("unkenny", "alias", "jd");
+    await actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";
     await triggerResponse(actor, request);
     expectChatMessageResponse(actor);
@@ -68,7 +68,7 @@ describe('postResponse', () => {
         const actor = new Actor("John Doe");
         const response = "Some response.";
         await postResponse(response, actor);
-        const condition = m => m.getFlag("unkenny", "conversationWith") === actor.id;
+        const condition = m => await m.getFlag("unkenny", "conversationWith") === actor.id;
         expect(game.messages.find(condition)).to.not.be.undefined;
     });
 });

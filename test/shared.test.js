@@ -19,7 +19,7 @@ describe('isUnkenny', () => {
 
     it('should return true when actor has unkenny flag', () => {
         const actor = new Actor();
-        actor.setFlag("unkenny", "alias", 'some-alias');
+        await actor.setFlag("unkenny", "alias", 'some-alias');
         expect(isUnkenny(actor)).to.equal(true);
     });
 });
