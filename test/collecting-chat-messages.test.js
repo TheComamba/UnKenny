@@ -304,7 +304,7 @@ describe('truncateMessages', () => {
             }
         ];
 
-        await truncateMessages(openaiModel, messages, localModel);
+        await truncateMessages(localModel, messages, newTokenLimit);
 
         expect(messages.length).to.equal(0);
         expect(ui.notifications.error.called).to.be.true;
