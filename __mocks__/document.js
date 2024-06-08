@@ -1,11 +1,9 @@
 import DataModel from './data-model.js';
-import { generateRandomId } from './utils.js';
 
 class Document extends DataModel {
     constructor(data, options = {}) {
         super(data, options);
         this.flags = new Map();
-        this.id = generateRandomId();
     }
 
     _initialize(options = {}) {
@@ -15,6 +13,9 @@ class Document extends DataModel {
     async _preCreate(data, options, user) { }
 
     async setFlag(module, key, value) {
+        if (!this.id) {
+            throw new Error("Document must have an id before setting a flag.");
+        }
         if (!this.flags.has(module)) {
             this.flags.set(module, new Map());
         }
@@ -22,6 +23,9 @@ class Document extends DataModel {
     }
 
     async getFlag(module, key) {
+        if (!this.id) {
+            throw new Error("Document must have an id before getting a flag.");
+        }
         if (this.flags.has(module)) {
             return this.flags.get(module).get(key);
         }
@@ -29,6 +33,9 @@ class Document extends DataModel {
     }
 
     async unsetFlag(module, key) {
+        if (!this.id) {
+            throw new Error("Document must have an id before unsetting a flag.");
+        }
         if (this.flags.has(module)) {
             this.flags.get(module).delete(key);
         }

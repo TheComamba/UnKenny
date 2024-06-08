@@ -1,6 +1,7 @@
 import BaseChatMessage from './base-chat-message.js';
 import game from './game.js';
 import Hooks from './hooks.js';
+import { generateRandomId } from './utils.js';
 
 class ChatMessage extends BaseChatMessage {
   static async create(chatData) {
@@ -12,6 +13,7 @@ class ChatMessage extends BaseChatMessage {
     await newMessage._preCreate(chatData, options, originator);
     Hooks.call("createChatMessage", newMessage, options, originator);
     game.messages.set(newMessage.id, newMessage);
+    newMessage.id = generateRandomId();
   }
 
   static get implementation() {
