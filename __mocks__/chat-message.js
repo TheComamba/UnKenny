@@ -3,13 +3,13 @@ import game from './game.js';
 import Hooks from './hooks.js';
 
 class ChatMessage extends BaseChatMessage {
-  static create(chatData) {
+  static async create(chatData) {
     const options = { "temporary": false, "renderSheet": false, "render": true }
     const originator = game.user.id;
     let classRef = this.implementation;
     let newMessage = new classRef(chatData);
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
-    newMessage._preCreate(chatData, options, originator);
+    await newMessage._preCreate(chatData, options, originator);
     Hooks.call("createChatMessage", newMessage, options, originator);
     game.messages.set(newMessage.id, newMessage);
   }
