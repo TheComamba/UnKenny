@@ -1,9 +1,10 @@
+import Collection from './collection.js';
 import DataModel from './data-model.js';
 
 class Document extends DataModel {
     constructor(data, options = {}) {
         super(data, options);
-        this.flags = new Map();
+        this.flags = new Collection();
     }
 
     _initialize(options = {}) {
@@ -17,7 +18,7 @@ class Document extends DataModel {
             throw new Error("Document must have an id before setting a flag.");
         }
         if (!this.flags.has(module)) {
-            this.flags.set(module, new Map());
+            this.flags.set(module, new Collection());
         }
         this.flags.get(module).set(key, value);
     }

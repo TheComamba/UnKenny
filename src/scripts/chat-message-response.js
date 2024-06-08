@@ -1,3 +1,4 @@
+import Collection from "../../__mocks__/collection.js";
 import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
 import { generateResponse } from "./llm.js";
 
@@ -40,10 +41,24 @@ function processUnKennyResponse(message) {
         for (let key in chatDataJson) {
             source[key] = chatDataJson[key] ?? source[key];
         }
+        const actorId = source.speaker.actor;
+        if (actorId) {
+            smuggleConversationWithFlagIntoSource(source, actorId);
+        }
     }
 }
 
 // TODO move to own file.
+function smuggleConversationWithFlagIntoSource(source, actorId) {
+    if (!source.hasOwnProperty('flags')) {
+        source.flags = new Collection();
+    }
+    if (!source.flags.has(module)) {
+        source.flags.set(module, new Collection());
+    }
+    source.flags.get(module).set("conversationWith", actorId);
+}
+
 function overwriteChatMessage() {
     const currentChatMessage = CONFIG.ChatMessage.documentClass;
     if (currentChatMessage.name === 'UnkennyChatMessage') {
@@ -61,7 +76,7 @@ function overwriteChatMessage() {
             let actor = await findAdressedActor(data.content);
             if (actor) {
                 await modifyUnkennyChatData(this._source, actor);
-                await this.setFlag("unkenny", "conversationWith", actor.id);
+                smuggleConversationWithFlagIntoSource(this._source, actor.id);
                 triggerResponse(actor, this._source.content);
             }
             await super._preCreate(data, options, user);
