@@ -1,4 +1,4 @@
-import { findAdressedActor } from "./chat-message-request.js";
+import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
 import { generateResponse } from "./llm.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
