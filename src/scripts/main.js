@@ -7,7 +7,7 @@ import { registerGameParameters } from "./settings.js";
 // CONFIG.debug.hooks = true;
 
 function setupHooks() {
-  Hooks.once('init', async function () {
+  Hooks.once('init', function () {
     overwriteChatMessage();
     registerGameParameters();
   });
@@ -22,16 +22,6 @@ function setupHooks() {
         new UnKennySheet(sheet.object).render(true);
       }
     })
-  });
-
-  Hooks.on("preCreateChatMessage", async (newMessage, _chatData, _options, _originator) => {
-    let actor = await findAdressedActor(newMessage._source.content);
-    if (actor) {
-      await modifyUnkennyChatData(newMessage._source, actor);
-      await newMessage.setFlag("unkenny", "conversationWith", actor.id);
-      triggerResponse(actor, newMessage._source.content);
-    }
-    return true;
   });
 }
 

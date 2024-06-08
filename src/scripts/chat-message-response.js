@@ -43,6 +43,7 @@ function processUnKennyResponse(message) {
     }
 }
 
+// TODO move to own file.
 function overwriteChatMessage() {
     const currentChatMessage = CONFIG.ChatMessage.documentClass;
     if (currentChatMessage.name === 'UnkennyChatMessage') {
@@ -57,14 +58,13 @@ function overwriteChatMessage() {
 
         /** @override */
         async _preCreate(data, options, user) {
-            await super._preCreate(data, options, user);
-
-            //TODO: This is not the correct condition, is it?
             let actor = await findAdressedActor(data.content);
             if (actor) {
-
+                await modifyUnkennyChatData(this._source, actor);
                 await this.setFlag("unkenny", "conversationWith", actor.id);
+                triggerResponse(actor, this._source.content);
             }
+            await super._preCreate(data, options, user);
         }
     }
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
