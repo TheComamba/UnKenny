@@ -12,8 +12,8 @@ class ChatMessage extends BaseChatMessage {
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
     await newMessage._preCreate(chatData, options, originator);
     Hooks.call("createChatMessage", newMessage, options, originator);
-    game.messages.set(newMessage.id, newMessage);
     newMessage.id = generateRandomId();
+    game.messages.set(newMessage.id, newMessage);
   }
 
   static get implementation() {
