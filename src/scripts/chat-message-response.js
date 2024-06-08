@@ -53,10 +53,10 @@ function smuggleConversationWithFlagIntoSource(source, actorId) {
     if (!source.hasOwnProperty('flags')) {
         source.flags = new Collection();
     }
-    if (!source.flags.has(module)) {
-        source.flags.set(module, new Collection());
+    if (!source.flags.has('unkenny')) {
+        source.flags.set('unkenny', new Collection());
     }
-    source.flags.get(module).set("conversationWith", actorId);
+    source.flags.get('unkenny').set("conversationWith", actorId);
 }
 
 function overwriteChatMessage() {

@@ -3,6 +3,7 @@ import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, co
 import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
+import { generateRandomId } from "../__mocks__/utils.js";
 
 describe('collectPreviousMessages', () => {
     const actor1 = new Actor();
@@ -20,6 +21,7 @@ describe('collectPreviousMessages', () => {
 
     it('should return an empty list if there are only messages for another actor', async () => {
         const message = new ChatMessage();
+        message.id = generateRandomId();
         await message.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message.id, message);
 
@@ -30,10 +32,12 @@ describe('collectPreviousMessages', () => {
 
     it('should return only messages adressed at the specified actor', async () => {
         const message1 = new ChatMessage();
+        message1.id = generateRandomId();
         await message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
 
         const message2 = new ChatMessage();
+        message2.id = generateRandomId();
         await message2.setFlag('unkenny', 'conversationWith', actor2.id);
         game.messages.set(message2.id, message2);
 
@@ -46,9 +50,11 @@ describe('collectPreviousMessages', () => {
 
     it('should return all messages adressed at the specified actor', async () => {
         const message1 = new ChatMessage();
+        message1.id = generateRandomId();
         await message1.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message1.id, message1);
         const message2 = new ChatMessage();
+        message2.id = generateRandomId();
         await message2.setFlag('unkenny', 'conversationWith', actor1.id);
         game.messages.set(message2.id, message2);
 
@@ -345,6 +351,7 @@ describe('collectChatMessages', () => {
             content: 'This is a message posted by the user.'
         };
         const messagePostedByUser = new ChatMessage(messageDataPostedByUser);
+        messagePostedByUser.id = generateRandomId();
         messagePostedByUser._initialize();
         await messagePostedByUser.setFlag('unkenny', 'conversationWith', actor.id);
 
@@ -355,6 +362,7 @@ describe('collectChatMessages', () => {
             }
         };
         const messagePostedByActor = new ChatMessage(messageDataPostedByActor);
+        messagePostedByActor.id = generateRandomId();
         messagePostedByActor._initialize();
         await messagePostedByActor.setFlag('unkenny', 'conversationWith', actor.id);
 
