@@ -176,7 +176,7 @@ describe('findAdressedActor', () => {
 });
 
 import { modifyUnkennyChatData } from '../src/scripts/chat-message-request.js';
-import { findFirstMessageConcerning } from './test-utils.js';
+import { findFirstMessageConcerning, waitForMessagesToBePosted } from './test-utils.js';
 
 describe('modifyUnkennyChatData', () => {
     it('should replace the alias with the actor name', async () => {
@@ -194,6 +194,7 @@ describe('posting a message with an alias', () => {
     beforeEach(() => {
         game.reset()
         ui.reset();
+        overwriteChatMessage();
     });
 
     it('should replace that alias with the actor name', async () => {
@@ -204,6 +205,7 @@ describe('posting a message with an alias', () => {
         let messageContent = "Hello, @jd!";
         let expectedContent = "Hello, <b>John Doe</b>!";
         await ui.chat.processMessage(messageContent);
+        await waitForMessagesToBePosted(1);
         const message = game.messages.find(m => m.data.content === expectedContent);
         expect(message).to.not.be.undefined;
     });
@@ -215,6 +217,7 @@ describe('posting a message with an alias', () => {
 
         let messageContent = "Hello, @jd!";
         await ui.chat.processMessage(messageContent);
+        await waitForMessagesToBePosted(1);
         const message = findFirstMessageConcerning(actor);
         expect(message).to.not.be.undefined;
     });

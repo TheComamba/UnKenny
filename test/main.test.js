@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { testIfOpenAi, testIfSlow, waitFor } from './test-utils.js';
+import { testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -94,12 +94,7 @@ async function postMessageAndCheckReply(model) {
   const expectedRequestContent = 'What is your name, <b>Robert</b>?';
   ui.chat.processMessage(messageContent);
 
-  expect(game.messages.size).to.be.greaterThan(0);
-  await waitFor(() => {
-    return game.messages.size === 2 || // Happy path
-      ui.notifications.warning.called || // Sad path
-      ui.notifications.error.called; // Sad path
-  });
+  await waitForMessagesToBePosted(2);
   expect(game.messages.size).to.equal(2);
 
   let request = game.messages.find(m => m.data.content === expectedRequestContent);
