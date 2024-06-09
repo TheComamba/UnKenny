@@ -8,7 +8,7 @@ function replaceAlias(message, alias, actorName) {
         return message;
     }
     const aliasReplacement = new RegExp("@" + alias, "gi");
-    message = message.replace(aliasReplacement, "<b>" + actorName + "</b>");
+    message = message.replace(aliasReplacement, actorName);
     message = message.trim();
     return message;
 }
