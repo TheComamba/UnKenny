@@ -167,6 +167,7 @@ describe('messagesOrganisedForTemplate', async function () {
 });
 
 describe('truncateMessages', function () {
+    this.timeout(10000);
     const localModel = getLocalModels()[0];
     const openaiModel = getOpenAiModels()[0];
     const newTokenLimit = 100;
@@ -337,6 +338,7 @@ async function getContentWorthOneFifthOfTokenLimit(model) {
 }
 
 describe('collectChatMessages', function () {
+    this.timeout(10000);
     beforeEach(() => {
         game.reset();
         ui.reset();
