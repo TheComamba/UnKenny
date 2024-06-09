@@ -7,16 +7,6 @@ function findAdressedAlias(message) {
     return match ? match[1].toLowerCase() : null;
 }
 
-function replaceAlias(message, alias, actorName) {
-    if (!message || !alias || !actorName) {
-        return message;
-    }
-    const aliasReplacement = new RegExp("@" + alias, "gi");
-    message = message.replace(aliasReplacement, "<b>" + actorName + "</b>");
-    message = message.trim();
-    return message;
-}
-
 async function actorHasAlias(actor, alias) {
     if (typeof alias !== 'string' || typeof actor !== 'object' || actor === null) {
         console.error('actorHasAlias called with invalid arguments');
@@ -55,11 +45,4 @@ async function findActorWithAlias(alias) {
     return null;
 }
 
-
-async function modifyUnkennyChatData(chatData, addressedActor) {
-    let name = addressedActor.name;
-    let alias = await addressedActor.getFlag("unkenny", "alias");
-    chatData.content = replaceAlias(chatData.content, alias, name);
-}
-
-export { actorHasAlias, findAdressedActor, modifyUnkennyChatData, replaceAlias, findAdressedAlias };
+export { actorHasAlias, findAdressedActor, findAdressedAlias };

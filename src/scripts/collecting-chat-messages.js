@@ -1,4 +1,4 @@
-import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
+import { findAdressedActor } from "./chat-message-request.js";
 import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
 import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
@@ -119,7 +119,6 @@ function overwriteChatMessage() {
         async _preCreate(data, options, user) {
             let actor = await findAdressedActor(data.content);
             if (actor) {
-                await modifyUnkennyChatData(this._source, actor);
                 smuggleConversationWithFlagIntoSource(this._source, actor.id);
                 triggerResponse(actor, this._source.content);
             }
