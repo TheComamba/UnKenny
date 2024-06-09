@@ -11,10 +11,9 @@ function setupHooks() {
     registerGameParameters();
   });
 
-  Hooks.on("getActorSheetHeaderButtons", async (sheet, buttons) => {
-    let buttonText = await isUnkenny(sheet.object) ? "Modify UnKennyness" : "Make UnKenny";
+  Hooks.on("getActorSheetHeaderButtons", function (sheet, buttons) {
     buttons.unshift({
-      label: buttonText,
+      label: "Modify UnKennyness",
       class: "modify-unkennyness",
       icon: "fas fa-microchip",
       onclick: () => {
