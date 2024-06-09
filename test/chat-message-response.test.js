@@ -19,19 +19,19 @@ describe('replaceAlias', function () {
     it('should replace the alias anywhere in the message with actor name', () => {
         const message = "Hello @alias, how are you?";
         const result = replaceAlias(message, "alias", "John");
-        expect(result).to.equal("Hello <b>John</b>, how are you?");
+        expect(result).to.equal("Hello John, how are you?");
     });
 
     it('should replace the alias in case insensitive manner', () => {
         const message = "Hello @Alias, how are you?";
         const result = replaceAlias(message, "alias", "John");
-        expect(result).to.equal("Hello <b>John</b>, how are you?");
+        expect(result).to.equal("Hello John, how are you?");
     });
 
     it('should replace all occurrences of the alias in the message', () => {
         const message = "@Malkovich @Malkovich @Malkovich";
         const result = replaceAlias(message, "Malkovich", "John");
-        expect(result).to.equal("<b>John</b> <b>John</b> <b>John</b>");
+        expect(result).to.equal("John John John");
     });
 });
 
