@@ -44,7 +44,7 @@ async function generateResponse(actor, input) {
     if (!parameters) {
         return;
     }
-    let messages = await collectChatMessages(actor, input);
+    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
     let response;
     if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, messages);

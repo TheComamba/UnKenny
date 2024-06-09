@@ -85,11 +85,11 @@ async function messagesOrganisedForTemplate(actor, previousMessages, newMessageC
     return messages;
 }
 
-async function collectChatMessages(actor, newMessageContent) {
+async function collectChatMessages(actor, newMessageContent, newTokenLimit) {
     let previousMessages = await collectPreviousMessages(actor);
     sortMessages(previousMessages);
     let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
-    truncateMessages(actor, messages, 0); //TODO: pass newTokenLimit
+    truncateMessages(actor, messages, newTokenLimit);
     return messages;
 }
 
