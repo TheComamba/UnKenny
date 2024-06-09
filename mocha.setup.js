@@ -11,9 +11,11 @@ import DocumentSheet from './__mocks__/document-sheet.js';
 import game from './__mocks__/game.js';
 import Hooks from './__mocks__/hooks.js';
 import ui from './__mocks__/ui.js';
+import Collection from './__mocks__/collection.js';
 
 global.Actor = Actor;
 global.ChatMessage = ChatMessage;
+global.Collection = Collection
 global.CONFIG = CONFIG;
 global.CONST = CONST;
 global.Dialog = Dialog;

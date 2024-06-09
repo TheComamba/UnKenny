@@ -1,4 +1,3 @@
-import Collection from "../../__mocks__/collection.js";
 import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
 import { generateResponse } from "./llm.js";
 
