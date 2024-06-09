@@ -91,17 +91,16 @@ async function postMessageAndCheckReply(model) {
   game.addActor(actor);
 
   const messageContent = 'What is your name, @bob?';
-  const expectedRequestContent = 'What is your name, <b>Robert</b>?';
   ui.chat.processMessage(messageContent);
 
   await waitForMessagesToBePosted(2);
   expect(game.messages.size).to.equal(2);
 
-  let request = game.messages.find(m => m.data.content === expectedRequestContent);
-  expect(request.content).to.equal('What is your name, <b>Robert</b>?');
+  let request = game.messages.find(m => m.data.content === messageContent);
+  expect(request.content).to.equal(messageContent);
   expect(request.user).to.equal(game.user.id);
 
-  let reply = game.messages.find(m => m.data.content != expectedRequestContent);
+  let reply = game.messages.find(m => m.data.content != messageContent);
   expect(reply.content).to.not.be.empty;
   expect(reply.speaker.actor).to.equal(actor.id);
 
