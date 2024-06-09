@@ -3,7 +3,7 @@ import game from '../__mocks__/game.js';
 import { getGenerationParameters } from '../src/scripts/llm.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 
-describe('getGenerationParameters', () => {
+describe('getGenerationParameters', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();

@@ -6,14 +6,14 @@ import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 
-describe('main.js', () => {
+describe('main.js', function () {
   it('does not contain import errors and can thus be loaded as an ES module entry point', async () => {
     let module = await import('../src/scripts/main.js');
     expect(module).to.exist;
   });
 });
 
-describe('setupHooks', async () => {
+describe('setupHooks', async function () {
   beforeEach(async () => {
     game.reset();
     Hooks.reset();
@@ -53,7 +53,7 @@ describe('setupHooks', async () => {
   });
 });
 
-describe('Integration test', () => {
+describe('Integration test', function () {
   beforeEach(() => {
     game.reset();
     ui.reset();

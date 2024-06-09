@@ -5,7 +5,7 @@ import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 
-describe('collectPreviousMessages', () => {
+describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
     const actor2 = new Actor();
 
@@ -66,7 +66,7 @@ describe('collectPreviousMessages', () => {
     });
 });
 
-describe('sortMessages', () => {
+describe('sortMessages', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -93,7 +93,7 @@ describe('sortMessages', () => {
     });
 });
 
-describe('messagesOrganisedForTemplate', async () => {
+describe('messagesOrganisedForTemplate', async function () {
     let actor = new Actor();
     const preamble = 'This is a preamble.';
     await actor.setFlag('unkenny', 'preamble', preamble);
@@ -166,7 +166,7 @@ describe('messagesOrganisedForTemplate', async () => {
     });
 });
 
-describe('truncateMessages', () => {
+describe('truncateMessages', function () {
     const localModel = getLocalModels()[0];
     const openaiModel = getOpenAiModels()[0];
     const newTokenLimit = 100;
@@ -336,7 +336,7 @@ async function getContentWorthOneFifthOfTokenLimit(model) {
     return message.content;
 }
 
-describe('collectChatMessages', () => {
+describe('collectChatMessages', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();

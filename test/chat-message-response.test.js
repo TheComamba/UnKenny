@@ -3,7 +3,7 @@ import { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResp
 import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
-describe('triggerResponse', () => {
+describe('triggerResponse', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -42,7 +42,7 @@ async function runTriggerResponse(model) {
     expectChatMessageResponse(actor);
 }
 
-describe('postResponse', () => {
+describe('postResponse', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -85,7 +85,7 @@ function expectChatMessageResponse(actor, response) {
     expect(message.speaker.alias).to.equal(actor.name);
 }
 
-describe('processUnKennyResponse', () => {
+describe('processUnKennyResponse', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();

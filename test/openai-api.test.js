@@ -4,7 +4,7 @@ import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-mes
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
 
-describe('roughNumberOfTokensForOpenAi', () => {
+describe('roughNumberOfTokensForOpenAi', function () {
     it('returns a somewhat expected number', async () => {
         const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
         const actor = new Actor('Bob');
@@ -21,7 +21,7 @@ describe('roughNumberOfTokensForOpenAi', () => {
     });
 });
 
-describe('getResponseFromOpenAI', () => {
+describe('getResponseFromOpenAI', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();

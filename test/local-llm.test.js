@@ -26,7 +26,7 @@ describe('numberOfTokensForLocalLLM', function () {
     });
 });
 
-describe('getResponseFromLocalLLM', () => {
+describe('getResponseFromLocalLLM', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();

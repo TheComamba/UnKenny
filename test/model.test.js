@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
 import { loadExternalModule } from '../src/scripts/shared.js';
 
-describe('getModelToTextMap', () => {
+describe('getModelToTextMap', function () {
     it('should return a map of models to text', () => {
         const map = getModelToTextMap();
         expect(map).to.be.an('object');
@@ -14,7 +14,7 @@ describe('getModelToTextMap', () => {
     });
 });
 
-describe('getLocalModels', () => {
+describe('getLocalModels', function () {
     it('should return an array of local models', () => {
         const localModels = getLocalModels();
         expect(localModels).to.be.an('array');
@@ -26,7 +26,7 @@ describe('getLocalModels', () => {
     });
 });
 
-describe('getOpenAiModels', () => {
+describe('getOpenAiModels', function () {
     it('should return an array of OpenAI models', () => {
         const openAiModels = getOpenAiModels();
         expect(openAiModels).to.be.an('array');
@@ -38,7 +38,7 @@ describe('getOpenAiModels', () => {
     });
 });
 
-describe('getTokenLimit', () => {
+describe('getTokenLimit', function () {
     it('should return a positive number for every model', () => {
         const map = getModelToTextMap();
         for (const [model, _value] of Object.entries(map)) {

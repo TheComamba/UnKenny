@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { findAdressedAlias } from '../src/scripts/chat-message-request.js';
 
-describe('findAdressedAlias', () => {
+describe('findAdressedAlias', function () {
     it('should return null if message is null', () => {
         const message = null;
         const result = findAdressedAlias(message);
@@ -49,7 +49,7 @@ describe('findAdressedAlias', () => {
 
 import { replaceAlias } from '../src/scripts/chat-message-request.js';
 
-describe('replaceAlias', () => {
+describe('replaceAlias', function () {
     it('should return the original message if message is empty', () => {
         const result = replaceAlias("", "alias", "John");
         expect(result).to.equal("");
@@ -82,7 +82,7 @@ describe('replaceAlias', () => {
 
 import { actorHasAlias } from '../src/scripts/chat-message-request.js';
 
-describe('actorHasAlias', () => {
+describe('actorHasAlias', function () {
     let actor;
     let consoleSpy;
 
@@ -137,7 +137,7 @@ describe('actorHasAlias', () => {
 
 import { findAdressedActor } from '../src/scripts/chat-message-request.js';
 
-describe('findAdressedActor', () => {
+describe('findAdressedActor', function () {
     beforeEach(() => {
         game.reset()
         ui.reset();
@@ -179,7 +179,7 @@ import { modifyUnkennyChatData } from '../src/scripts/chat-message-request.js';
 import { findFirstMessageConcerning, waitForMessagesToBePosted } from './test-utils.js';
 import { overwriteChatMessage } from '../src/scripts/chat-message-response.js';
 
-describe('modifyUnkennyChatData', () => {
+describe('modifyUnkennyChatData', function () {
     it('should replace the alias with the actor name', async () => {
         const chatData = {
             content: "Hello, @jd!",
@@ -191,7 +191,7 @@ describe('modifyUnkennyChatData', () => {
     });
 });
 
-describe('posting a message with an alias', () => {
+describe('posting a message with an alias', function () {
     beforeEach(() => {
         game.reset()
         ui.reset();

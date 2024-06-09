@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { isUnkenny } from '../src/scripts/shared.js';
 
-describe('isUnkenny', () => {
+describe('isUnkenny', function () {
     beforeEach(() => {
         ui.reset();
     });

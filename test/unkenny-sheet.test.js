@@ -4,7 +4,7 @@ import fs from 'fs';
 import Handlebars from 'handlebars';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
-describe('UnKennySheet', () => {
+describe('UnKennySheet', function (){
     let actor;
     let sheet;
 
