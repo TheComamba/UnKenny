@@ -49,10 +49,10 @@ function processUnKennyResponse(message) {
 
 // TODO move to own file.
 function smuggleConversationWithFlagIntoSource(source, actorId) {
-    if (!source.hasOwnProperty('flags')) {
+    if (!source['flags']) {
         source.flags = {};
     }
-    if (!source.flags.hasOwnProperty('unkenny')) {
+    if (!source.flags['unkenny']) {
         source.flags['unkenny'] = {};
     }
     source.flags['unkenny']["conversationWith"] = actorId;
