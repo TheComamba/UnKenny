@@ -1,4 +1,4 @@
-import { replaceAlias } from "./chat-message-request.js";
+import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-messages.js";
 import { generateResponse } from "./llm.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
@@ -26,7 +26,8 @@ async function postResponse(response, actor) {
     await ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
 }
 
-function processUnKennyResponseSource(source) {
+function processUnKennyResponse(message) {
+    let source = message._source;
     if (source.content.startsWith(unkennyResponseFlag)) {
         const jsonString = source.content.replace(unkennyResponseFlag, "");
         let chatDataJson;
@@ -39,22 +40,11 @@ function processUnKennyResponseSource(source) {
         for (let key in chatDataJson) {
             source[key] = chatDataJson[key] ?? source[key];
         }
-    }
-}
-
-function overwriteChatMessage() {
-    const currentChatMessage = CONFIG.ChatMessage.documentClass;
-    if (currentChatMessage.name === 'UnkennyChatMessage') {
-        return;
-    }
-    class UnkennyChatMessage extends currentChatMessage {
-        /** @override */
-        _initialize(options = {}) {
-            processUnKennyResponseSource(this._source);
-            super._initialize(options);
+        const actorId = source.speaker.actor;
+        if (actorId) {
+            smuggleConversationWithFlagIntoSource(source, actorId);
         }
     }
-    CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag };
+export { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag };

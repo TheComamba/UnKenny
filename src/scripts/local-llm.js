@@ -4,28 +4,36 @@ import { loadExternalModule } from './shared.js';
 const modelCache = new Map();
 const tokenizerCache = new Map();
 
-async function getModelAndTokenizer(model_path) {
-    if (modelCache.has(model_path) && tokenizerCache.has(model_path)) {
-        return { model: modelCache.get(model_path), tokenizer: tokenizerCache.get(model_path) };
+async function getModel(transformersModule, model_path) {
+    if (modelCache.has(model_path)) {
+        return modelCache.get(model_path)
+    }
+
+    let info = new UnKennyInfo(`Preparing model '${model_path}'...`);
+    await info.render(true);
+
+    const model = await transformersModule.AutoModelForCausalLM.from_pretrained(model_path);
+
+    await info.close();
+
+    modelCache.set(model_path, model);
+    return model;
+}
+
+async function getTokenizer(transformersModule, model_path) {
+    if (tokenizerCache.has(model_path)) {
+        return tokenizerCache.get(model_path);
     }
 
     let info = new UnKennyInfo(`Preparing model and tokenizer '${model_path}'...`);
     await info.render(true);
 
-    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
-    if (!transformersModule) {
-        await info.close();
-        return {};
-    }
-    const model = await transformersModule.AutoModelForCausalLM.from_pretrained(model_path);
     const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model_path);
 
     await info.close();
 
-    modelCache.set(model_path, model);
     tokenizerCache.set(model_path, tokenizer);
-
-    return { model, tokenizer };
+    return tokenizer;
 }
 
 function tokenizedMessages(tokenizer, messages) {
@@ -43,9 +51,30 @@ function tokenizedMessages(tokenizer, messages) {
     return prompt;
 }
 
+async function numberOfTokensForLocalLLM(model, messages) {
+    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+    if (!transformersModule) {
+        return;
+    }
+    const tokenizer = await getTokenizer(transformersModule, model);
+    if (!tokenizer) {
+        return;
+    }
+    let tokenized = tokenizedMessages(tokenizer, messages);
+    return tokenized.size;
+}
+
 async function getResponseFromLocalLLM(parameters, messages) {
-    const { model, tokenizer } = await getModelAndTokenizer(parameters.model);
-    if (!model || !tokenizer) {
+    const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+    if (!transformersModule) {
+        return;
+    }
+    const model = await getModel(transformersModule, parameters.model);
+    if (!model) {
+        return;
+    }
+    const tokenizer = await getTokenizer(transformersModule, parameters.model);
+    if (!tokenizer) {
         return;
     }
 
@@ -80,4 +109,4 @@ async function getResponseFromLocalLLM(parameters, messages) {
     return response;
 }
 
-export { getResponseFromLocalLLM };
+export { getResponseFromLocalLLM, numberOfTokensForLocalLLM };

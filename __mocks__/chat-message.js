@@ -1,18 +1,19 @@
 import BaseChatMessage from './base-chat-message.js';
+import game from './game.js';
 import Hooks from './hooks.js';
+import { generateRandomId } from './utils.js';
 
 class ChatMessage extends BaseChatMessage {
-  static database = [];
-
-  static create(chatData) {
+  static async create(chatData) {
     const options = { "temporary": false, "renderSheet": false, "render": true }
     const originator = game.user.id;
     let classRef = this.implementation;
     let newMessage = new classRef(chatData);
     Hooks.call("preCreateChatMessage", newMessage, chatData, options, originator);
-    newMessage._preCreate(chatData, options, originator);
+    await newMessage._preCreate(chatData, options, originator);
     Hooks.call("createChatMessage", newMessage, options, originator);
-    this.database.push(newMessage);
+    newMessage.id = generateRandomId();
+    game.messages.set(newMessage.id, newMessage);
   }
 
   static get implementation() {
@@ -43,10 +44,6 @@ class ChatMessage extends BaseChatMessage {
     this.data = this.data || {};
     this.data.flags = {};
     this.data.speaker = this.constructor.getSpeaker();
-  }
-
-  static reset() {
-    this.database = [];
   }
 }
 

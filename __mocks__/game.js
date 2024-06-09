@@ -1,12 +1,15 @@
+import Collection from "./collection.js";
 import User from "./user.js";
 
 const game = {
     user: new User(),
-    actors: [],
+    actors: new Collection(),
+    messages: new Collection(),
 
     addActor: function (actor) {
-        this.actors.push(actor);
+        this.actors.set(actor.id, actor);
     },
+
     settings: {
         data: {},
         register: function (module, key, settingsObject) {
@@ -39,8 +42,10 @@ const game = {
             this.data[module][key] = value;
         }
     },
+
     reset: function () {
-        this.actors = [];
+        this.actors = new Collection();
+        this.messages = new Collection();
         this.settings.data = {};
     },
 };

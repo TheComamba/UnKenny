@@ -17,7 +17,7 @@ class UnKennySheet extends DocumentSheet {
             this.context = await super.getData(options);
             this.context.resizable = true;
             this.initModels();
-            this.initContextWithActorData();
+            await this.initContextWithActorData();
         }
 
         return this.context;
@@ -30,17 +30,17 @@ class UnKennySheet extends DocumentSheet {
         this.context.models = modelArray;
     }
 
-    initContextWithActorData() {
-        this.context.alias = this.object.getFlag("unkenny", "alias") || "";
-        this.context.preamble = this.object.getFlag("unkenny", "preamble") || "";
+    async initContextWithActorData() {
+        this.context.alias = await this.object.getFlag("unkenny", "alias") || "";
+        this.context.preamble = await this.object.getFlag("unkenny", "preamble") || "";
 
-        let currentModel = this.object.getFlag("unkenny", "model");
+        let currentModel = await this.object.getFlag("unkenny", "model");
         this.setContextModel(currentModel);
 
-        this.context.minNewTokens = this.object.getFlag("unkenny", "minNewTokens");
-        this.context.maxNewTokens = this.object.getFlag("unkenny", "maxNewTokens");
-        this.context.repetitionPenalty = this.object.getFlag("unkenny", "repetitionPenalty");
-        this.context.temperature = this.object.getFlag("unkenny", "temperature");
+        this.context.minNewTokens = await this.object.getFlag("unkenny", "minNewTokens");
+        this.context.maxNewTokens = await this.object.getFlag("unkenny", "maxNewTokens");
+        this.context.repetitionPenalty = await this.object.getFlag("unkenny", "repetitionPenalty");
+        this.context.temperature = await this.object.getFlag("unkenny", "temperature");
     }
 
     async _onChangeInput(event) {

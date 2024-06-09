@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { getLocalModels, getModelToTextMap, getOpenAiModels, isLocal } from '../src/scripts/models.js';
+import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
+import { loadExternalModule } from '../src/scripts/shared.js';
 
-describe('getModelToTextMap', () => {
+describe('getModelToTextMap', function () {
     it('should return a map of models to text', () => {
         const map = getModelToTextMap();
         expect(map).to.be.an('object');
@@ -13,7 +14,7 @@ describe('getModelToTextMap', () => {
     });
 });
 
-describe('getLocalModels', () => {
+describe('getLocalModels', function () {
     it('should return an array of local models', () => {
         const localModels = getLocalModels();
         expect(localModels).to.be.an('array');
@@ -25,7 +26,7 @@ describe('getLocalModels', () => {
     });
 });
 
-describe('getOpenAiModels', () => {
+describe('getOpenAiModels', function () {
     it('should return an array of OpenAI models', () => {
         const openAiModels = getOpenAiModels();
         expect(openAiModels).to.be.an('array');
@@ -33,6 +34,32 @@ describe('getOpenAiModels', () => {
         for (const model of openAiModels) {
             expect(model).to.be.a('string');
             expect(isLocal(model)).to.be.false;
+        }
+    });
+});
+
+describe('getTokenLimit', function () {
+    it('should return a positive number for every model', () => {
+        const map = getModelToTextMap();
+        for (const [model, _value] of Object.entries(map)) {
+            let limit = getTokenLimit(model);
+            expect(limit).to.be.greaterThan(0);
+        }
+    });
+
+
+    it('should return the verifiable number for local model', async () => {
+        const transformersModule = await loadExternalModule('@xenova/transformers', '2.17.1');
+        const map = getModelToTextMap();
+        for (const [model, _value] of Object.entries(map)) {
+            if (!isLocal(model)) {
+                continue;
+            }
+            const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model)
+            let expected_limit = tokenizer.model_max_length;
+
+            let limit = getTokenLimit(model);
+            expect(limit).to.be.equal(expected_limit);
         }
     });
 });

@@ -4,7 +4,7 @@ import fs from 'fs';
 import Handlebars from 'handlebars';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 
-describe('UnKennySheet', () => {
+describe('UnKennySheet', function (){
     let actor;
     let sheet;
 
@@ -53,13 +53,13 @@ describe('UnKennySheet', () => {
     });
 
     it('should display data for an existing actor', async () => {
-        actor.setFlag("unkenny", "alias", "test alias");
-        actor.setFlag("unkenny", "preamble", "test preamble");
-        actor.setFlag("unkenny", "model", getLocalModels()[0]);
-        actor.setFlag("unkenny", "minNewTokens", 1);
-        actor.setFlag("unkenny", "maxNewTokens", 10);
-        actor.setFlag("unkenny", "repetitionPenalty", 1.0);
-        actor.setFlag("unkenny", "temperature", 0.5);
+        await actor.setFlag("unkenny", "alias", "test alias");
+        await actor.setFlag("unkenny", "preamble", "test preamble");
+        await actor.setFlag("unkenny", "model", getLocalModels()[0]);
+        await actor.setFlag("unkenny", "minNewTokens", 1);
+        await actor.setFlag("unkenny", "maxNewTokens", 10);
+        await actor.setFlag("unkenny", "repetitionPenalty", 1.0);
+        await actor.setFlag("unkenny", "temperature", 0.5);
 
         const context = await sheet.getData();
         expect(context.alias).to.equal("test alias");
@@ -80,7 +80,7 @@ describe('UnKennySheet', () => {
     it('should set the context model when the model changes', async () => {
         const oldModel = getLocalModels()[0];
         const newModel = getOpenAiModels()[0];
-        actor.setFlag("unkenny", "model", oldModel);
+        await actor.setFlag("unkenny", "model", oldModel);
         const context = await sheet.getData();
 
         const event = { target: { name: "model", value: newModel } };
@@ -108,13 +108,13 @@ describe('UnKennySheet', () => {
 
         await sheet._updateObject(null, formData);
 
-        expect(actor.getFlag("unkenny", "alias")).to.equal("test alias");
-        expect(actor.getFlag("unkenny", "preamble")).to.equal("test preamble");
-        expect(actor.getFlag("unkenny", "model")).to.equal(getLocalModels()[0]);
-        expect(actor.getFlag("unkenny", "minNewTokens")).to.equal(1);
-        expect(actor.getFlag("unkenny", "maxNewTokens")).to.equal(10);
-        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.equal(1.0);
-        expect(actor.getFlag("unkenny", "temperature")).to.equal(0.5);
+        expect(await actor.getFlag("unkenny", "alias")).to.equal("test alias");
+        expect(await actor.getFlag("unkenny", "preamble")).to.equal("test preamble");
+        expect(await actor.getFlag("unkenny", "model")).to.equal(getLocalModels()[0]);
+        expect(await actor.getFlag("unkenny", "minNewTokens")).to.equal(1);
+        expect(await actor.getFlag("unkenny", "maxNewTokens")).to.equal(10);
+        expect(await actor.getFlag("unkenny", "repetitionPenalty")).to.equal(1.0);
+        expect(await actor.getFlag("unkenny", "temperature")).to.equal(0.5);
     });
 
     it('should unset the actor flags when the form is emptied', async () => {
@@ -130,12 +130,12 @@ describe('UnKennySheet', () => {
 
         await sheet._updateObject(null, formData);
 
-        expect(actor.getFlag("unkenny", "alias")).to.be.empty;
-        expect(actor.getFlag("unkenny", "preamble")).to.be.empty;
-        expect(actor.getFlag("unkenny", "model")).to.be.undefined;
-        expect(actor.getFlag("unkenny", "minNewTokens")).to.be.undefined;
-        expect(actor.getFlag("unkenny", "maxNewTokens")).to.be.undefined;
-        expect(actor.getFlag("unkenny", "repetitionPenalty")).to.be.undefined;
-        expect(actor.getFlag("unkenny", "temperature")).to.be.undefined;
+        expect(await actor.getFlag("unkenny", "alias")).to.be.empty;
+        expect(await actor.getFlag("unkenny", "preamble")).to.be.empty;
+        expect(await actor.getFlag("unkenny", "model")).to.be.undefined;
+        expect(await actor.getFlag("unkenny", "minNewTokens")).to.be.undefined;
+        expect(await actor.getFlag("unkenny", "maxNewTokens")).to.be.undefined;
+        expect(await actor.getFlag("unkenny", "repetitionPenalty")).to.be.undefined;
+        expect(await actor.getFlag("unkenny", "temperature")).to.be.undefined;
     });
 });

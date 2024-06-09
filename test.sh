@@ -21,3 +21,10 @@ done
 
 echo "Running tests..."
 OPENAI_API_KEY=$OPENAI_API_KEY npm run test:coverage
+
+if grep -r -q 'mocks' src/
+then
+    echo "'mocks' found in src/ files:"
+    grep -r -q 'mocks' src/
+    exit 1
+fi

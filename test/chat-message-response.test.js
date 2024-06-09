@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import { overwriteChatMessage, postResponse, processUnKennyResponseSource, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { testIfOpenAi, testIfSlow } from './test-utils.js';
+import { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
+import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 
-describe('triggerResponse', () => {
+describe('triggerResponse', function () {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
         overwriteChatMessage();
     });
@@ -36,17 +36,16 @@ describe('triggerResponse', () => {
 async function runTriggerResponse(model) {
     const actor = new Actor("John Doe");
     game.settings.set("unkenny", "model", model);
-    actor.setFlag("unkenny", "alias", "jd");
-    actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
+    await actor.setFlag("unkenny", "alias", "jd");
+    await actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";
     await triggerResponse(actor, request);
     expectChatMessageResponse(actor);
 }
 
-describe('postResponse', () => {
+describe('postResponse', function () {
     beforeEach(() => {
         game.reset();
-        ChatMessage.reset();
         ui.reset();
         overwriteChatMessage();
     });
@@ -65,21 +64,29 @@ describe('postResponse', () => {
         const responseOut = "Some<br>response.";
         expectChatMessageResponse(actor, responseOut);
     });
+
+    it('should set the conversationWith flag', async () => {
+        const actor = new Actor("John Doe");
+        const response = "Some response.";
+        await postResponse(response, actor);
+        const message = findFirstMessageConcerning(actor);
+        expect(message).to.not.be.undefined;
+    });
 });
 
 function expectChatMessageResponse(actor, response) {
-    expect(ChatMessage.database.length).to.equal(1);
+    expect(game.messages.size).to.equal(1);
+    let message = game.messages.find(() => true);
     if (response == undefined) {
-        expect(ChatMessage.database[0].content).to.not.be.empty;
+        expect(message.content).to.not.be.empty;
     } else {
-        expect(ChatMessage.database[0].content).to.equal(response);
+        expect(message.content).to.equal(response);
     }
-    expect(ChatMessage.database[0].speaker.actor).to.equal(actor.id);
-    expect(ChatMessage.database[0].speaker.alias).to.equal(actor.name);
+    expect(message.speaker.actor).to.equal(actor.id);
+    expect(message.speaker.alias).to.equal(actor.name);
 }
 
-
-describe('processUnKennyResponseSource', () => {
+describe('processUnKennyResponse', function () {
     beforeEach(() => {
         game.reset();
         ui.reset();
@@ -87,14 +94,14 @@ describe('processUnKennyResponseSource', () => {
 
     it('should process flagged data correctly', () => {
         const data = {
-            content: unkennyResponseFlag + '{"content":"Hello","type":"whisper","actorName":"John"}'
+            content: unkennyResponseFlag + '{"content":"Hello","speaker":{"actor":"blmXW5O6DAwXf08v"}}'
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal('Hello');
-        expect(data.type).to.equal('whisper');
-        expect(data.actorName).to.equal('John');
+        expect(message._source.content).to.equal('Hello');
+        expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
         expect(ui.notifications.error.called).to.be.false;
     });
 
@@ -103,10 +110,11 @@ describe('processUnKennyResponseSource', () => {
         const data = {
             content: invalidJson
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal(invalidJson);
+        expect(message._source.content).to.equal(invalidJson);
         expect(ui.notifications.error.called).to.be.true;
     });
 
@@ -115,10 +123,11 @@ describe('processUnKennyResponseSource', () => {
         const data = {
             content: unflaggedData
         };
+        let message = new ChatMessage(data);
 
-        processUnKennyResponseSource(data);
+        processUnKennyResponse(message);
 
-        expect(data.content).to.equal(unflaggedData);
+        expect(message._source.content).to.equal(unflaggedData);
         expect(ui.notifications.error.called).to.be.false;
     });
 });

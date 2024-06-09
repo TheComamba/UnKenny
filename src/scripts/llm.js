@@ -1,13 +1,14 @@
+import { collectChatMessages } from "./collecting-chat-messages.js";
 import { getResponseFromLocalLLM } from "../scripts/local-llm.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
 import { isLocal } from "./models.js";
 import { llmParametersAndDefaults } from "./settings.js";
 
-function getGenerationParameter(actor, parameterName) {
+async function getGenerationParameter(actor, parameterName) {
     if (!actor) {
         return;
     }
-    let value = actor.getFlag("unkenny", parameterName);
+    let value = await actor.getFlag("unkenny", parameterName);
     if (value == null) {
         value = game.settings.get("unkenny", parameterName);
     }
@@ -22,42 +23,28 @@ function getGenerationParameter(actor, parameterName) {
     return value;
 }
 
-function getGenerationParameters(actor) {
+async function getGenerationParameters(actor) {
     if (!actor) {
         return;
     }
     let params = {};
     params.actorName = actor.name;
     for (let key in llmParametersAndDefaults()) {
-        const param = getGenerationParameter(actor, key);
+        const param = await getGenerationParameter(actor, key);
         if (param == null) {
             return null;
         }
         params[key] = param;
     }
-    params.preamble = getGenerationParameter(actor, "preamble");
     return params;
 }
 
-function getMessages(parameters, input) {
-    return [
-        {
-            role: 'system',
-            content: parameters.preamble,
-        },
-        {
-            role: 'user',
-            content: input,
-        }
-    ];
-}
-
 async function generateResponse(actor, input) {
-    let parameters = getGenerationParameters(actor);
+    let parameters = await getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
-    let messages = getMessages(parameters, input);
+    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
     let response;
     if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, messages);
@@ -76,4 +63,4 @@ async function generateResponse(actor, input) {
     return response;
 }
 
-export { generateResponse, getGenerationParameters, getMessages };
+export { generateResponse, getGenerationParameters };

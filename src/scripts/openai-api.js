@@ -1,5 +1,15 @@
 import { loadExternalModule } from './shared.js';
 
+function roughNumberOfTokensForOpenAi(messages) {
+    const charsPerToken = 4;
+    let chars = 0;
+    for (const message of messages) {
+        chars += message.role.length;
+        chars += message.content.length;
+    }
+    return chars / charsPerToken;
+}
+
 async function getResponseFromOpenAI(parameters, messages) {
     const OpenAIModule = await loadExternalModule('openai', '4.22.1/+esm');
     if (!OpenAIModule) {
@@ -28,4 +38,4 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
 }
 
-export { getResponseFromOpenAI };
+export { getResponseFromOpenAI, roughNumberOfTokensForOpenAi };

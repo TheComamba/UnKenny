@@ -1,5 +1,8 @@
+import { getUniqueTimestamp } from "./utils.js";
+
 class DataModel {
     constructor(data = {}, { parent = null, strict = true, ...options } = {}) {
+        data.timestamp = getUniqueTimestamp()
         this._source = deepCopy(data);
     }
 
@@ -13,6 +16,7 @@ class DataModel {
     }
 
     applySources() {
+        this.data = deepCopy(this._source);
         for (let [k, v] of Object.entries(this._source)) {
             this[k] = v;
         }

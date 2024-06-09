@@ -17,7 +17,7 @@ function replaceAlias(message, alias, actorName) {
     return message;
 }
 
-function actorHasAlias(actor, alias) {
+async function actorHasAlias(actor, alias) {
     if (typeof alias !== 'string' || typeof actor !== 'object' || actor === null) {
         console.error('actorHasAlias called with invalid arguments');
         return false;
@@ -28,17 +28,17 @@ function actorHasAlias(actor, alias) {
     }
 
     const lowerCaseAlias = alias.toLowerCase();
-    const actorAlias = (actor.getFlag("unkenny", "alias") ?? "").toLowerCase();
+    const actorAlias = (await actor.getFlag("unkenny", "alias") ?? "").toLowerCase();
 
     return actorAlias === lowerCaseAlias;
 }
 
-function findAdressedActor(message) {
+async function findAdressedActor(message) {
     let alias = findAdressedAlias(message);
     if (!alias) {
         return null
     }
-    let actor = game.actors.find(actor => actorHasAlias(actor, alias));
+    let actor = await findActorWithAlias(alias);
     if (!actor) {
         ui.notifications.error(`Actor with alias "${alias}" not found.`);
         return null;
@@ -46,9 +46,19 @@ function findAdressedActor(message) {
     return actor;
 }
 
-function modifyUnkennyChatData(chatData, addressedActor) {
+async function findActorWithAlias(alias) {
+    for (let actor of game.actors) {
+        if (await actorHasAlias(actor, alias)) {
+            return actor;
+        }
+    }
+    return null;
+}
+
+
+async function modifyUnkennyChatData(chatData, addressedActor) {
     let name = addressedActor.name;
-    let alias = addressedActor.getFlag("unkenny", "alias");
+    let alias = await addressedActor.getFlag("unkenny", "alias");
     chatData.content = replaceAlias(chatData.content, alias, name);
 }
 

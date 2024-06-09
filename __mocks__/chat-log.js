@@ -1,5 +1,4 @@
 class ChatLog {
-
     async processMessage(message) {
         const chatMessageClass = ChatMessage.implementation;
         Hooks.call('chatMessage', message);
@@ -8,7 +7,7 @@ class ChatLog {
             speaker: chatMessageClass.getSpeaker(),
             content: message
         };
-        return chatMessageClass.create(chatData);
+        return chatMessageClass.create(chatData); // no await here
     }
 }
 

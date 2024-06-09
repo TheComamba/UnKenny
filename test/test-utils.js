@@ -37,4 +37,22 @@ function waitFor(conditionFunction) {
     return new Promise(poll);
 }
 
-export { testIfOpenAi, testIfSlow, waitFor };
+async function waitForMessagesToBePosted(number) {
+    await waitFor(() => {
+        return game.messages.size === number || // Happy path
+            ui.notifications.warning.called || // Sad path
+            ui.notifications.error.called; // Sad path
+    });
+}
+
+async function findFirstMessageConcerning(actor) {
+    for (let m of game.messages) {
+        const flag = await m.getFlag('unkenny', 'conversationWith');
+        if (flag === actor.id) {
+            return m;
+        }
+    }
+    return null;
+}
+
+export { findFirstMessageConcerning, testIfOpenAi, testIfSlow, waitFor, waitForMessagesToBePosted };

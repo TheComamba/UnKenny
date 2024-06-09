@@ -1,9 +1,9 @@
-function isUnkenny(actor) {
+async function isUnkenny(actor) {
     if (!actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
         return false;
     }
-    let alias = actor.getFlag("unkenny", "alias");
+    let alias = await actor.getFlag("unkenny", "alias");
     return !!alias;
 }
 

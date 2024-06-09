@@ -1,6 +1,6 @@
 {
   "name": "unkenny",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "src/scripts/main.js",
@@ -24,6 +24,7 @@
     "chai": "^5.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "globals": "^15.4.0",
     "mocha": "^10.4.0",
     "sinon": "^17.0.2"
   },
