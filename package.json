@@ -1,6 +1,6 @@
 {
   "name": "unkenny",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "## FoundryVTT NPCs with artificial intelligence",
   "main": "src/scripts/main.js",
