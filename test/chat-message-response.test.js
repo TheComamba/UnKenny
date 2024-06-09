@@ -1,8 +1,39 @@
 import { expect } from 'chai';
-import { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { postResponse, processUnKennyResponse, replaceAlias, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
+
+describe('replaceAlias', function () {
+    it('should return the original message if message is empty', () => {
+        const result = replaceAlias("", "alias", "John");
+        expect(result).to.equal("");
+    });
+
+    it('should return the original message if alias is empty', () => {
+        const message = "Hello @alias, how are you?";
+        const result = replaceAlias(message, "", "John");
+        expect(result).to.equal(message);
+    });
+
+    it('should replace the alias anywhere in the message with actor name', () => {
+        const message = "Hello @alias, how are you?";
+        const result = replaceAlias(message, "alias", "John");
+        expect(result).to.equal("Hello John, how are you?");
+    });
+
+    it('should replace the alias in case insensitive manner', () => {
+        const message = "Hello @Alias, how are you?";
+        const result = replaceAlias(message, "alias", "John");
+        expect(result).to.equal("Hello John, how are you?");
+    });
+
+    it('should replace all occurrences of the alias in the message', () => {
+        const message = "@Malkovich @Malkovich @Malkovich";
+        const result = replaceAlias(message, "Malkovich", "John");
+        expect(result).to.equal("John John John");
+    });
+});
 
 describe('triggerResponse', function () {
     beforeEach(() => {

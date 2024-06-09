@@ -3,7 +3,24 @@ import { generateResponse } from "./llm.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
 
+function replaceAlias(message, alias, actorName) {
+    if (!message || !alias || !actorName) {
+        return message;
+    }
+    const aliasReplacement = new RegExp("@" + alias, "gi");
+    message = message.replace(aliasReplacement, actorName);
+    message = message.trim();
+    return message;
+}
+
 async function triggerResponse(actor, request) {
+    if (!actor) {
+        ui.notifications.error("triggerResponse was called with no actor.");
+        return;
+    }
+    let name = actor.name;
+    let alias = await actor.getFlag("unkenny", "alias");
+    request = replaceAlias(request, alias, name);
     let response = await generateResponse(actor, request);
     if (response) {
         await postResponse(response, actor);
@@ -47,4 +64,4 @@ function processUnKennyResponse(message) {
     }
 }
 
-export { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag };
+export { postResponse, processUnKennyResponse, replaceAlias, triggerResponse, unkennyResponseFlag };
