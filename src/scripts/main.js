@@ -1,6 +1,6 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny } from "./shared.js";
-import { overwriteChatMessage } from "./chat-message-response.js";
+import { overwriteChatMessage } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 
 // CONFIG.debug.hooks = true;

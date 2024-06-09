@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
+import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 
 describe('triggerResponse', function () {
     beforeEach(() => {

@@ -177,7 +177,7 @@ describe('findAdressedActor', function () {
 
 import { modifyUnkennyChatData } from '../src/scripts/chat-message-request.js';
 import { findFirstMessageConcerning, waitForMessagesToBePosted } from './test-utils.js';
-import { overwriteChatMessage } from '../src/scripts/chat-message-response.js';
+import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 
 describe('modifyUnkennyChatData', function () {
     it('should replace the alias with the actor name', async () => {

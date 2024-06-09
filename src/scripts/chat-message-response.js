@@ -1,4 +1,4 @@
-import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
+import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-messages.js";
 import { generateResponse } from "./llm.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
@@ -47,41 +47,4 @@ function processUnKennyResponse(message) {
     }
 }
 
-// TODO move to own file.
-function smuggleConversationWithFlagIntoSource(source, actorId) {
-    if (!source['flags']) {
-        source.flags = {};
-    }
-    if (!source.flags['unkenny']) {
-        source.flags['unkenny'] = {};
-    }
-    source.flags['unkenny']["conversationWith"] = actorId;
-}
-
-function overwriteChatMessage() {
-    const currentChatMessage = CONFIG.ChatMessage.documentClass;
-    if (currentChatMessage.name === 'UnkennyChatMessage') {
-        return;
-    }
-    class UnkennyChatMessage extends currentChatMessage {
-        /** @override */
-        _initialize(options = {}) {
-            processUnKennyResponse(this);
-            super._initialize(options);
-        }
-
-        /** @override */
-        async _preCreate(data, options, user) {
-            let actor = await findAdressedActor(data.content);
-            if (actor) {
-                await modifyUnkennyChatData(this._source, actor);
-                smuggleConversationWithFlagIntoSource(this._source, actor.id);
-                triggerResponse(actor, this._source.content);
-            }
-            await super._preCreate(data, options, user);
-        }
-    }
-    CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
-}
-
-export { overwriteChatMessage, postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag };
+export { postResponse, processUnKennyResponse, triggerResponse, unkennyResponseFlag };

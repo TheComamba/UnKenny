@@ -1,3 +1,5 @@
+import { findAdressedActor, modifyUnkennyChatData } from "./chat-message-request.js";
+import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
 import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
@@ -91,4 +93,40 @@ async function collectChatMessages(actor, newMessageContent) {
     return messages;
 }
 
-export { collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, sortMessages, truncateMessages };
+function smuggleConversationWithFlagIntoSource(source, actorId) {
+    if (!source['flags']) {
+        source.flags = {};
+    }
+    if (!source.flags['unkenny']) {
+        source.flags['unkenny'] = {};
+    }
+    source.flags['unkenny']["conversationWith"] = actorId;
+}
+
+function overwriteChatMessage() {
+    const currentChatMessage = CONFIG.ChatMessage.documentClass;
+    if (currentChatMessage.name === 'UnkennyChatMessage') {
+        return;
+    }
+    class UnkennyChatMessage extends currentChatMessage {
+        /** @override */
+        _initialize(options = {}) {
+            processUnKennyResponse(this);
+            super._initialize(options);
+        }
+
+        /** @override */
+        async _preCreate(data, options, user) {
+            let actor = await findAdressedActor(data.content);
+            if (actor) {
+                await modifyUnkennyChatData(this._source, actor);
+                smuggleConversationWithFlagIntoSource(this._source, actor.id);
+                triggerResponse(actor, this._source.content);
+            }
+            await super._preCreate(data, options, user);
+        }
+    }
+    CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
+}
+
+export { collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, overwriteChatMessage, smuggleConversationWithFlagIntoSource, sortMessages, truncateMessages };
