@@ -5,8 +5,6 @@ import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scri
 import { getOpenAiModels } from '../src/scripts/models.js';
 
 describe('roughNumberOfTokensForOpenAi', () => {
-    const localModels = getOpenAiModels();
-
     it('returns a somewhat expected number', async () => {
         const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
         const actor = new Actor('Bob');
@@ -23,7 +21,7 @@ describe('roughNumberOfTokensForOpenAi', () => {
     });
 });
 
-describe('getResponseFromLocalLLM', () => {
+describe('getResponseFromOpenAI', () => {
     beforeEach(() => {
         game.reset();
         ui.reset();

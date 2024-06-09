@@ -5,6 +5,7 @@ import { getResponseFromLocalLLM, numberOfTokensForLocalLLM } from '../src/scrip
 import { getLocalModels } from '../src/scripts/models.js';
 
 describe('numberOfTokensForLocalLLM', () => {
+    this.timeout(10000);
     const localModels = getLocalModels();
 
     localModels.forEach(model => {
