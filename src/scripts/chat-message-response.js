@@ -50,12 +50,12 @@ function processUnKennyResponse(message) {
 // TODO move to own file.
 function smuggleConversationWithFlagIntoSource(source, actorId) {
     if (!source.hasOwnProperty('flags')) {
-        source.flags = new Collection();
+        source.flags = {};
     }
-    if (!source.flags.has('unkenny')) {
-        source.flags.set('unkenny', new Collection());
+    if (!source.flags.hasOwnProperty('unkenny')) {
+        source.flags['unkenny'] = {};
     }
-    source.flags.get('unkenny').set("conversationWith", actorId);
+    source.flags['unkenny']["conversationWith"] = actorId;
 }
 
 function overwriteChatMessage() {
