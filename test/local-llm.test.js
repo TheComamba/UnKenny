@@ -4,7 +4,7 @@ import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-mes
 import { getResponseFromLocalLLM, numberOfTokensForLocalLLM } from '../src/scripts/local-llm.js';
 import { getLocalModels } from '../src/scripts/models.js';
 
-describe('numberOfTokensForLocalLLM', () => {
+describe('numberOfTokensForLocalLLM', function () {
     this.timeout(10000);
     const localModels = getLocalModels();
 
@@ -19,7 +19,7 @@ describe('numberOfTokensForLocalLLM', () => {
             const minExpectedNumber = text.split(' ').length; // One token per word
             const maxExpectedNumber = text.length; // One token per character
             const number = await numberOfTokensForLocalLLM(model, messages);
-            
+
             expect(number).to.be.greaterThanOrEqual(minExpectedNumber);
             expect(number).to.be.lessThanOrEqual(maxExpectedNumber);
         });
