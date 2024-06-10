@@ -34,7 +34,6 @@ async function postResponse(response, actor) {
 
     let chatData = {
         content: response,
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         speaker: {
             actor: actor.id,
             alias: actor.name
