@@ -1,3 +1,6 @@
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 param(
     [Alias('a')]
     [switch]$all,

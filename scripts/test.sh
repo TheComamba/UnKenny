@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 for arg in "$@"
 do
     case $arg in
