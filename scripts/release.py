@@ -1,34 +1,32 @@
 import requests
 import json
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 
-# Load .env file if exists
 load_dotenv()
-
-# Get the FOUNDRY_API_TOKEN
 foundry_api_key = os.getenv('FOUNDRY_API_KEY')
-
 if not foundry_api_key:
     raise ValueError("FOUNDRY_API_TOKEN is not set in the environment or .env file")
+
+with open("src/module.json", 'r') as file:
+    manifest = json.load(file)
 
 url = "https://api.foundryvtt.com/_api/packages/release_version/"
 headers = {
     'Content-Type': 'application/json',
     'Authorization': foundry_api_key
 }
+version = manifest.get("version")
+manifest_url = f"https://github.com/TheComamba/UnKenny/blob/v{version}/src/module.json"
+notes = f"https://github.com/TheComamba/UnKenny/blob/v{version}/release_notes/{version}.md"
 data = {
-    "id": "unkenny",
+    "id": manifest.get("id"),
     "dry-run": True,
     "release": {
-        "version": "1.0.0",
-        "manifest": "https://github.com/example/example-module/issues/releases/download/release-1.0.0/system.json",
-        "notes": "https://github.com/example/example-module/releases/tag/release-1.0.0",
-        "compatibility": {
-            "minimum": "10.312",
-            "verified": "11",
-            "maximum": ""
-        }
+        "version": version,
+        "manifest": manifest_url,
+        "notes": notes,
+        "compatibility": manifest.get("compatibility"),
     }
 }
 
