@@ -56,6 +56,15 @@ def get_data(manifest):
         }
     }
 
+def check_to_be_on_main_branch():
+    branch = os.popen("git branch --show-current").read().strip()
+    if branch != "main":
+        raise ValueError("You need to be on the main branch to release a new version")
+
+def tag_with_version(version):
+    os.system(f"git tag v{version}")
+    os.system(f"git push origin v{version}")
+
 def check_url_existence(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -78,11 +87,10 @@ version = manifest.get("version")
 data = get_data(manifest)
 
 if not args.dry_run:
+    check_to_be_on_main_branch()
+    tag_with_version(version)
     wait_for_url_to_exists(manifest_url(version))
     wait_for_url_to_exists(release_notes_url(version))
-
-print(data)
-exit()
 
 response = requests.post(foundry_api_endpoint, headers=headers, data=json.dumps(data))
 response_data = response.json()
