@@ -1,6 +1,3 @@
-# Change to git root directory
-cd "$(git rev-parse --show-toplevel)"
-
 param(
     [Alias('a')]
     [switch]$all,
@@ -9,6 +6,9 @@ param(
     [Alias('s')]
     [switch]$slow
 )
+
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
 
 if ($all) {
     $env:RUN_SLOW_TESTS = $true
