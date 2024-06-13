@@ -7,6 +7,9 @@ param(
     [switch]$slow
 )
 
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 if ($all) {
     $env:RUN_SLOW_TESTS = $true
     $env:RUN_OPENAI_TESTS = $true

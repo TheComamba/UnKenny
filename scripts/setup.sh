@@ -2,6 +2,9 @@
 
 set -e
 
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 if ! command -v curl &> /dev/null; then
     echo "curl is not installed. Installing..."
     sudo apt-get update

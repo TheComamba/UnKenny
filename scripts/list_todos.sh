@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 SCRIPT=$(readlink -f "$0")
 
 if grep -rinI todo * \

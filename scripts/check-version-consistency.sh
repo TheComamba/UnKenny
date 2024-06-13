@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+# Change to git root directory
+cd "$(git rev-parse --show-toplevel)"
+
 if ! command -v jq &> /dev/null; then
     echo "jq is not installed. Installing..."
     sudo apt-get install -y jq
