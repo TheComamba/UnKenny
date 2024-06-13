@@ -1,12 +1,26 @@
-import time
-import requests
+import argparse
 import json
-import os
 from dotenv import load_dotenv # type: ignore
+import os
+import requests
+import time
 
 foundry_api_endpoint = "https://api.foundryvtt.com/_api/packages/release_version/"
 
-dry_run = True
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dry_run', type=str2bool, default=True, help='Needs to be explicitly set to False to actually release the module.')
+
+args = parser.parse_args()
 
 def prepare_headers():
     load_dotenv()
@@ -33,7 +47,7 @@ def get_data(manifest):
     version = manifest.get("version")
     return {
         "id": manifest.get("id"),
-        "dry-run": dry_run,
+        "dry-run": args.dry_run,
         "release": {
             "version": version,
             "manifest": manifest_url(version),
@@ -63,9 +77,12 @@ manifest = get_manifest()
 version = manifest.get("version")
 data = get_data(manifest)
 
-if not dry_run:
+if not args.dry_run:
     wait_for_url_to_exists(manifest_url(version))
     wait_for_url_to_exists(release_notes_url(version))
+
+print(data)
+exit()
 
 response = requests.post(foundry_api_endpoint, headers=headers, data=json.dumps(data))
 response_data = response.json()
