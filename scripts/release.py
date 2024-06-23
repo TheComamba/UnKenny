@@ -38,7 +38,7 @@ def get_manifest():
         return json.load(file)
 
 def manifest_url(version):
-    return f"https://github.com/TheComamba/UnKenny/blob/v{version}/src/module.json"
+    return f"https://raw.githubusercontent.com/TheComamba/UnKenny/v{version}/src/module.json"
 
 def release_notes_url(version):
     return f"https://github.com/TheComamba/UnKenny/blob/v{version}/release_notes/{version}.md"

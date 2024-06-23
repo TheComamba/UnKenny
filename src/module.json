@@ -11,7 +11,7 @@
       "name": "KingphilAusti"
     }
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "compatibility": {
     "minimum": "11",
 		"verified": "12"
@@ -20,8 +20,8 @@
     "scripts/main.js"
   ],
   "url": "https://github.com/TheComamba/UnKenny",
-  "manifest": "https://raw.githubusercontent.com/TheComamba/UnKenny/main/src/module.json",
-  "download": "https://github.com/TheComamba/UnKenny/archive/refs/heads/main.zip",
+  "manifest": "https://raw.githubusercontent.com/TheComamba/UnKenny/v1.0.2/src/module.json",
+  "download": "https://github.com/TheComamba/UnKenny/archive/refs/tags/v1.0.2.zip",
   "bugs": "https://github.com/TheComamba/UnKenny/issues",
-  "readme": "https://github.com/TheComamba/UnKenny/blob/main/README.md"
+  "readme": "https://github.com/TheComamba/UnKenny/blob/v1.0.2/README.md"
 }
