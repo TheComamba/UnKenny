@@ -27,3 +27,18 @@ if [ "$PACKAGE_VERSION" != "$LATEST_VERSION" ] || [ "$MODULE_VERSION" != "$LATES
     echo "Module version: $MODULE_VERSION"
     exit 1
 fi
+
+if grep "manifest" src/module.json | grep $PACKAGE_VERSION &> /dev/null; then
+    echo "The manifest link in module.json is not up to date yet."
+    exit 1
+fi
+
+if grep "download" src/module.json | grep $PACKAGE_VERSION &> /dev/null; then
+    echo "The download link in module.json is not up to date yet."
+    exit 1
+fi
+
+if grep "readme" src/module.json | grep $PACKAGE_VERSION &> /dev/null; then
+    echo "The readme link in module.json is not up to date yet."
+    exit 1
+fi
