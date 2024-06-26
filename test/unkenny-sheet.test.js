@@ -3,12 +3,14 @@ import { UnKennySheet } from "../src/apps/unkenny-sheet.js";
 import fs from 'fs';
 import Handlebars from 'handlebars';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
+import mockReset from '../__mocks__/main.js';
 
-describe('UnKennySheet', function (){
+describe('UnKennySheet', function () {
     let actor;
     let sheet;
 
     beforeEach(() => {
+        mockReset();
         actor = new Actor();
         sheet = new UnKennySheet(actor);
     });

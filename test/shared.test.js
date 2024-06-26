@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import { isUnkenny } from '../src/scripts/shared.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('isUnkenny', function () {
     beforeEach(() => {
-        ui.reset();
+        mockReset();
     });
 
     it('should return false and show error when actor is null', async () => {

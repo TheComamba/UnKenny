@@ -3,8 +3,13 @@ import { postResponse, processUnKennyResponse, replaceAlias, triggerResponse, un
 import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('replaceAlias', function () {
+    beforeEach(() => {
+        mockReset();
+    });
+
     it('should return the original message if message is empty', () => {
         const result = replaceAlias("", "alias", "John");
         expect(result).to.equal("");
@@ -37,8 +42,7 @@ describe('replaceAlias', function () {
 
 describe('triggerResponse', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
         overwriteChatMessage();
     });
 
@@ -76,8 +80,7 @@ async function runTriggerResponse(model) {
 
 describe('postResponse', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
         overwriteChatMessage();
     });
 
@@ -119,8 +122,7 @@ function expectChatMessageResponse(actor, response) {
 
 describe('processUnKennyResponse', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should process flagged data correctly', () => {

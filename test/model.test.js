@@ -1,8 +1,13 @@
 import { expect } from 'chai';
 import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
 import { loadExternalModule } from '../src/scripts/shared.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('getModelToTextMap', function () {
+    this.beforeEach(() => {
+        mockReset();
+    });
+
     it('should return a map of models to text', () => {
         const map = getModelToTextMap();
         expect(map).to.be.an('object');
@@ -15,6 +20,10 @@ describe('getModelToTextMap', function () {
 });
 
 describe('getLocalModels', function () {
+    this.beforeEach(() => {
+        mockReset();
+    });
+
     it('should return an array of local models', () => {
         const localModels = getLocalModels();
         expect(localModels).to.be.an('array');
@@ -27,6 +36,10 @@ describe('getLocalModels', function () {
 });
 
 describe('getOpenAiModels', function () {
+    this.beforeEach(() => {
+        mockReset();
+    });
+
     it('should return an array of OpenAI models', () => {
         const openAiModels = getOpenAiModels();
         expect(openAiModels).to.be.an('array');
@@ -39,6 +52,10 @@ describe('getOpenAiModels', function () {
 });
 
 describe('getTokenLimit', function () {
+    this.beforeEach(() => {
+        mockReset();
+    });
+
     it('should return a positive number for every model', () => {
         const map = getModelToTextMap();
         for (const [model, _value] of Object.entries(map)) {
