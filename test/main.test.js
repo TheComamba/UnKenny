@@ -57,6 +57,8 @@ describe('Integration test', function () {
   beforeEach(() => {
     game.reset();
     ui.reset();
+    Hooks.call('init');
+    Hooks.call('setup');
   });
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
@@ -76,8 +78,6 @@ describe('Integration test', function () {
 
 async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
-  Hooks.call('init');
-  Hooks.call('setup');
 
   game.settings.set("unkenny", "model", model);
   game.settings.set("unkenny", "minNewTokens", 1);
