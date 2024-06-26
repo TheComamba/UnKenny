@@ -3,8 +3,13 @@ import { testIfOpenAi } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('roughNumberOfTokensForOpenAi', function () {
+    beforeEach(() => {
+        mockReset();
+    });
+
     it('returns a somewhat expected number', async () => {
         const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
         const actor = new Actor('Bob');
@@ -23,8 +28,7 @@ describe('roughNumberOfTokensForOpenAi', function () {
 
 describe('getResponseFromOpenAI', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     const openaiModels = getOpenAiModels();

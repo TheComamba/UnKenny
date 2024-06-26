@@ -2,8 +2,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findAdressedAlias } from '../src/scripts/chat-message-request.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('findAdressedAlias', function () {
+    beforeEach(() => {
+        mockReset();
+    });
+
     it('should return null if message is null', () => {
         const message = null;
         const result = findAdressedAlias(message);
@@ -60,6 +65,7 @@ describe('actorHasAlias', function () {
     let consoleSpy;
 
     beforeEach(() => {
+        mockReset();
         actor = new Actor();
         consoleSpy = sinon.stub(console, 'error');
     });
@@ -112,8 +118,7 @@ import { findAdressedActor } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedActor', function () {
     beforeEach(() => {
-        game.reset()
-        ui.reset();
+        mockReset();
     });
 
     it('should return null when no alias is addressed', async () => {
@@ -153,8 +158,7 @@ import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js
 
 describe('posting a message with an alias', function () {
     beforeEach(() => {
-        game.reset()
-        ui.reset();
+        mockReset();
         overwriteChatMessage();
     });
 

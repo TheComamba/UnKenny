@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import game from '../__mocks__/game.js';
 import { getGenerationParameters } from '../src/scripts/llm.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('getGenerationParameters', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should return the default values if no flags are set', async () => {

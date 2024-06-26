@@ -4,14 +4,14 @@ import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
+import mockReset from "../__mocks__/main.js";
 
 describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
     const actor2 = new Actor();
 
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should return an empty list if there are no previous messages', async () => {
@@ -68,8 +68,7 @@ describe('collectPreviousMessages', function () {
 
 describe('sortMessages', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should sort messages by timestamp', () => {
@@ -115,8 +114,7 @@ describe('messagesOrganisedForTemplate', async function () {
     messagePostedByActor._initialize();
 
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should return preamble and newMessageContent if previousMessages is empty', async () => {
@@ -171,6 +169,10 @@ describe('truncateMessages', function () {
     const localModel = getLocalModels()[0];
     const openaiModel = getOpenAiModels()[0];
     const newTokenLimit = 100;
+
+    beforeEach(() => {
+        mockReset();
+    });
 
     it('should not truncate message to local model below the token limit', async () => {
         const content = await getContentWorthOneFifthOfTokenLimit(localModel);
@@ -340,8 +342,7 @@ async function getContentWorthOneFifthOfTokenLimit(model) {
 describe('collectChatMessages', function () {
     this.timeout(10000);
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should return a chat template list including previously posted messages', async () => {
@@ -388,8 +389,7 @@ describe('collectChatMessages', function () {
 
 describe('classContainsUnkennyChatMessage', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should return false if the chat message class is not UnkennyChatMessage', () => {
@@ -411,8 +411,7 @@ describe('classContainsUnkennyChatMessage', function () {
 
 describe('overwriteChatMessage', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     it('should overwrite the chat message class', () => {

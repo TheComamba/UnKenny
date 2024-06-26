@@ -3,10 +3,15 @@ import { testIfSlow } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromLocalLLM, numberOfTokensForLocalLLM } from '../src/scripts/local-llm.js';
 import { getLocalModels } from '../src/scripts/models.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('numberOfTokensForLocalLLM', function () {
     this.timeout(10000);
     const localModels = getLocalModels();
+
+    this.beforeEach(() => {
+        mockReset();
+    });
 
     localModels.forEach(model => {
         it(model + ' tokenizer returns a somewhat expected number', async () => {
@@ -28,8 +33,7 @@ describe('numberOfTokensForLocalLLM', function () {
 
 describe('getResponseFromLocalLLM', function () {
     beforeEach(() => {
-        game.reset();
-        ui.reset();
+        mockReset();
     });
 
     const localModels = getLocalModels();

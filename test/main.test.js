@@ -5,8 +5,13 @@ import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
+import mockReset from '../__mocks__/main.js';
 
 describe('main.js', function () {
+  this.beforeEach(() => {
+    mockReset();
+  });
+
   it('does not contain import errors and can thus be loaded as an ES module entry point', async () => {
     let module = await import('../src/scripts/main.js');
     expect(module).to.exist;
@@ -14,9 +19,8 @@ describe('main.js', function () {
 });
 
 describe('setupHooks', async function () {
-  beforeEach(async () => {
-    game.reset();
-    Hooks.reset();
+  beforeEach(() => {
+    mockReset();
   });
 
   it('After init Hook, the game object settings have the defaults', () => {
@@ -55,8 +59,7 @@ describe('setupHooks', async function () {
 
 describe('Integration test', function () {
   beforeEach(() => {
-    game.reset();
-    ui.reset();
+    mockReset();
     Hooks.call('init');
     Hooks.call('setup');
   });
