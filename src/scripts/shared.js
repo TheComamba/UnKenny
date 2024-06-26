@@ -1,3 +1,5 @@
+const loadedModules = {}
+
 async function isUnkenny(actor) {
     if (!actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
@@ -7,11 +9,26 @@ async function isUnkenny(actor) {
     return !!alias;
 }
 
-async function loadExternalModule(name, version) {
+function isTestEnvironment() {
+    if (typeof process === 'undefined') {
+        return false;
+    }
+    return process.env.NODE_ENV === 'test';
+}
+
+async function loadExternalModule(name) {
+    if (loadedModules[name]) {
+        return loadedModules[name];
+    }
     try {
-        return await import('https://cdn.jsdelivr.net/npm/' + name + '@' + version);
+        let nameForUrl = name;
+        if (nameForUrl == "openai") {
+            nameForUrl += "/+esm";
+        }
+        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + nameForUrl);
+        return loadedModules[name];
     } catch (error) {
-        if (process.env.NODE_ENV === 'test') {
+        if (isTestEnvironment()) {
             try {
                 return await import(name);
             } catch (localError) {
