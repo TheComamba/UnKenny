@@ -77,6 +77,7 @@ describe('Integration test', function () {
 async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
   Hooks.call('init');
+  Hooks.call('setup');
 
   game.settings.set("unkenny", "model", model);
   game.settings.set("unkenny", "minNewTokens", 1);
