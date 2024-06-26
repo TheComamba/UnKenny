@@ -7,8 +7,11 @@ import { registerGameParameters } from "./settings.js";
 
 function setupHooks() {
   Hooks.once('init', function () {
-    overwriteChatMessage();
     registerGameParameters();
+  });
+
+  Hooks.once('setup', function () {
+    overwriteChatMessage();
   });
 
   Hooks.on("getActorSheetHeaderButtons", function (sheet, buttons) {
