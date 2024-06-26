@@ -103,9 +103,20 @@ function smuggleConversationWithFlagIntoSource(source, actorId) {
     source.flags['unkenny']["conversationWith"] = actorId;
 }
 
+function classContainsUnkennyChatMessage(chatMessageClass) {
+    let currentClass = chatMessageClass;
+    while (currentClass) {
+        if (currentClass.name === 'UnkennyChatMessage') {
+            return true;
+        }
+        currentClass = Object.getPrototypeOf(currentClass);
+    }
+    return false;
+}
+
 function overwriteChatMessage() {
     const currentChatMessage = CONFIG.ChatMessage.documentClass;
-    if (currentChatMessage.name === 'UnkennyChatMessage') {
+    if (classContainsUnkennyChatMessage(currentChatMessage)) {
         return;
     }
     class UnkennyChatMessage extends currentChatMessage {
@@ -128,4 +139,4 @@ function overwriteChatMessage() {
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, overwriteChatMessage, smuggleConversationWithFlagIntoSource, sortMessages, truncateMessages };
+export { classContainsUnkennyChatMessage, collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, overwriteChatMessage, smuggleConversationWithFlagIntoSource, sortMessages, truncateMessages };

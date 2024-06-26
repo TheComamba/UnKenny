@@ -43,11 +43,11 @@ describe('setupHooks', async function () {
     }
   });
 
-  it('After init Hook, the ChatMessage class inherits from UnkennyChatMessage which inherits from TestChatMessage', () => {
+  it('After setup Hook, the ChatMessage class inherits from UnkennyChatMessage which inherits from TestChatMessage', () => {
     class TestChatMessage extends ChatMessage { }
     CONFIG.ChatMessage.documentClass = TestChatMessage;
     setupHooks();
-    Hooks.call('init');
+    Hooks.call('setup');
     expect(CONFIG.ChatMessage.documentClass.name).to.equal('UnkennyChatMessage');
     expect(Object.getPrototypeOf(CONFIG.ChatMessage.documentClass)).to.equal(TestChatMessage);
   });
@@ -57,6 +57,8 @@ describe('Integration test', function () {
   beforeEach(() => {
     game.reset();
     ui.reset();
+    Hooks.call('init');
+    Hooks.call('setup');
   });
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
@@ -76,7 +78,6 @@ describe('Integration test', function () {
 
 async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
-  Hooks.call('init');
 
   game.settings.set("unkenny", "model", model);
   game.settings.set("unkenny", "minNewTokens", 1);
