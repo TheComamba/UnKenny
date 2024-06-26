@@ -3,6 +3,8 @@ const moduleNameToVersion = {
     "@xenova/transformers": "2.17.1",
 };
 
+const loadedModules = {}
+
 async function isUnkenny(actor) {
     if (!actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
@@ -13,9 +15,17 @@ async function isUnkenny(actor) {
 }
 
 async function loadExternalModule(name) {
+    if (loadedModules[name]) {
+        return loadedModules[name];
+    }
     try {
         let version = moduleNameToVersion[name];
-        return await import('https://cdn.jsdelivr.net/npm/' + name + '@' + version);
+        if (!version) {
+            ui.notifications.error("No version found for module " + name);
+            return;
+        }
+        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + name + '@' + version);
+        return loadedModules[name];
     } catch (error) {
         if (process.env.NODE_ENV === 'test') {
             try {
