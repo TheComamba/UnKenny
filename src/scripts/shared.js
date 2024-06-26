@@ -1,8 +1,3 @@
-const moduleNameToVersion = {
-    "openai": "4.22.1/+esm",
-    "@xenova/transformers": "2.17.1",
-};
-
 const loadedModules = {}
 
 async function isUnkenny(actor) {
@@ -14,20 +9,22 @@ async function isUnkenny(actor) {
     return !!alias;
 }
 
+function isTestEnvironment() {
+    if (typeof process === 'undefined') {
+        return false;
+    }
+    return process.env.NODE_ENV === 'test';
+}
+
 async function loadExternalModule(name) {
     if (loadedModules[name]) {
         return loadedModules[name];
     }
     try {
-        let version = moduleNameToVersion[name];
-        if (!version) {
-            ui.notifications.error("No version found for module " + name);
-            return;
-        }
-        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + name + '@' + version);
+        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + name);
         return loadedModules[name];
     } catch (error) {
-        if (process.env.NODE_ENV === 'test') {
+        if (isTestEnvironment()) {
             try {
                 return await import(name);
             } catch (localError) {
