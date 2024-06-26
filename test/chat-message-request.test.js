@@ -45,6 +45,12 @@ describe('findAdressedAlias', function () {
         const result = findAdressedAlias(message);
         expect(result).to.equal('alias1');
     });
+
+    it('should not throw if the message is not a string', () => {
+        const message = 10; // This happens e.g. for roll results.
+        const result = findAdressedAlias(message);
+        expect(result).to.be.null;
+    });
 });
 
 import { actorHasAlias } from '../src/scripts/chat-message-request.js';

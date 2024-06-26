@@ -1,5 +1,5 @@
 function findAdressedAlias(message) {
-    if (!message) {
+    if (!message || typeof message !== 'string') {
         return null;
     }
     const regex = /@(\w+)/;
