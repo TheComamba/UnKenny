@@ -21,7 +21,11 @@ async function loadExternalModule(name) {
         return loadedModules[name];
     }
     try {
-        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + name);
+        let nameForUrl = name;
+        if (nameForUrl == "openai") {
+            nameForUrl += "/+esm";
+        }
+        loadedModules[name] = await import('https://cdn.jsdelivr.net/npm/' + nameForUrl);
         return loadedModules[name];
     } catch (error) {
         if (isTestEnvironment()) {
