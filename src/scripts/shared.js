@@ -1,3 +1,8 @@
+const moduleNameToVersion = {
+    "openai": "4.22.1/+esm",
+    "@xenova/transformers": "2.17.1",
+};
+
 async function isUnkenny(actor) {
     if (!actor) {
         ui.notifications.error("Unkennyness checked for null actor.");
@@ -7,8 +12,9 @@ async function isUnkenny(actor) {
     return !!alias;
 }
 
-async function loadExternalModule(name, version) {
+async function loadExternalModule(name) {
     try {
+        let version = moduleNameToVersion[name];
         return await import('https://cdn.jsdelivr.net/npm/' + name + '@' + version);
     } catch (error) {
         if (process.env.NODE_ENV === 'test') {

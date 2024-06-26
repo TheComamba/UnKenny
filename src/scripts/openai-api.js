@@ -11,7 +11,7 @@ function roughNumberOfTokensForOpenAi(messages) {
 }
 
 async function getResponseFromOpenAI(parameters, messages) {
-    const OpenAIModule = await loadExternalModule('openai', '4.22.1/+esm');
+    const OpenAIModule = await loadExternalModule('openai');
     if (!OpenAIModule) {
         return;
     }
