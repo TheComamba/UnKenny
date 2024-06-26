@@ -1,0 +1,23 @@
+name: Check for updates
+
+on:
+    schedule:
+      - cron: "0 0 1 * *" # first day of every month at 00:00 UTC
+
+jobs:
+    checkForUpdates:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Run update.sh
+          run: ./scripts/update.sh
+
+        - name: Check for unstaged changes
+          run: |
+                if [[ `git status --porcelain` ]]; then
+                    echo "This repository needs to be updated. Please run ./scripts/update.sh and commit the changes."
+                    git diff
+                    exit 1
+                fi
