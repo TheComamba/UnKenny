@@ -41,7 +41,36 @@ class ChatMessage extends BaseChatMessage {
   }
 
   async getHTML() {
-    const htmlString = '<div>Hello, World!</div>';
+    let speaker = this.data.speaker.actor ?? this.data.speaker.alias;
+    const htmlString = `
+    <li class="chat-message message flexcol " data-message-id="${this.id}" style="border-color:#2ecc28">
+      <header class="message-header flexrow">
+        <h4 class="message-sender">
+          <a class="avatar">
+            <img src="icons/svg/mystery-man.svg" alt="${speaker}">
+          </a>
+          <span class="name-stacked">
+            <span class="title">
+              ${speaker}
+            </span>
+            <span class="subtitle">
+            </span>
+          </span>
+        </h4>
+        <span class="message-metadata">
+          <time class="message-timestamp">
+            15m ago
+          </time>
+          <a aria-label="Additional Controls" class="chat-control" data-context-menu="">
+            <i class="fas fa-ellipsis-vertical fa-fw">
+            </i>
+          </a>
+        </span>
+      </header>
+      <div class="message-content">
+        ${this.data.content}
+      </div>
+    </li>`;
     return $(htmlString);
   }
 
