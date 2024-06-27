@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import BaseChatMessage from './base-chat-message.js';
 import game from './game.js';
 import Hooks from './hooks.js';
@@ -37,6 +38,11 @@ class ChatMessage extends BaseChatMessage {
       let content = data.content;
       this.updateSource({ content });
     }
+  }
+
+  async getHTML() {
+    const htmlString = '<div>Hello, World!</div>';
+    return $(htmlString);
   }
 
   _initialize(options = {}) {
