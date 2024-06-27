@@ -71,7 +71,9 @@ class ChatMessage extends BaseChatMessage {
         ${this.data.content}
       </div>
     </li>`;
-    return $(htmlString);
+    let html = $(htmlString);
+    Hooks.call("renderChatMessage", this, html, this.data);
+    return html;
   }
 
   _initialize(options = {}) {
