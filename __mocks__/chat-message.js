@@ -46,23 +46,25 @@ class ChatMessage extends BaseChatMessage {
     let speaker = this.speaker;
     let sender = speaker ? speaker.alias : this.user.name;
     const htmlString = `
-    <header class="message-header flexrow">
-        <h4 class="message-sender">
-          ${sender}
-        </h4>
-        <span class="message-metadata">
-            <time class="message-timestamp">
-              30m ago
-            </time>
-            <a aria-label="Delete" class="message-delete">
-              <i class="fas fa-trash">
-              </i>
-            </a>
-        </span>
-    </header>
-    <div class="message-content">
-        ${this.data.content}
-    </div>
+    <document>
+      <header class="message-header flexrow">
+          <h4 class="message-sender">
+            ${sender}
+          </h4>
+          <span class="message-metadata">
+              <time class="message-timestamp">
+                30m ago
+              </time>
+              <a aria-label="Delete" class="message-delete">
+                <i class="fas fa-trash">
+                </i>
+              </a>
+          </span>
+      </header>
+      <div class="message-content">
+          ${this.data.content}
+      </div>
+    </document>
 `;
     const dom = new JSDOM(htmlString);
     const window = dom.window;

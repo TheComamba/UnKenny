@@ -16,11 +16,8 @@ describe('adjustHtml', function () {
         await waitForMessagesToBePosted(1);
         let message = game.messages.contents[0];
         let html = await message.getHTML();
-        expect(html.content).to.equal(`
-        <p style="opacity: 0.5; font-size: 10px;">
-            Speaking with Kenny
-        </p>
-        `);
+        let messageContent = html.find('.message-content');
+        expect(messageContent.html()).to.not.contain('Speaking with');
     });
 
     it('should prepend the adressed actor if the message is posted by the user', function () {

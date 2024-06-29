@@ -5,7 +5,13 @@ function adjustHtml(message, html) {
         Speaking with ${audience}
       </p>
     `;
-    html.find('.message-content').prepend(unkennyMarker);
+
+    let todo = html.html();
+
+    let messageContent = html.find('.message-content')
+    if (messageContent) {
+        messageContent.prepend(unkennyMarker);
+    }
 }
 
 export { adjustHtml };
