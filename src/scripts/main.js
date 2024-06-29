@@ -2,6 +2,7 @@ import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { isUnkenny } from "./shared.js";
 import { overwriteChatMessage } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
+import { adjustHtml } from "./chat-message-rendering.js";
 
 // CONFIG.debug.hooks = true;
 
@@ -26,13 +27,7 @@ function setupHooks() {
   });
 
   Hooks.on("renderChatMessage", function (message, html, data) {
-    let audience = 'TODO';
-    let unkennyMarker = `
-      <p style="opacity: 0.5; font-size: 10px;">
-        Speaking with ${audience}
-      </p>
-    `;
-    html.find('.message-content').prepend(unkennyMarker);
+    adjustHtml(message, html);
   });
 }
 
