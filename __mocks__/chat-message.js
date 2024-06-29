@@ -15,7 +15,6 @@ class ChatMessage extends BaseChatMessage {
     Hooks.call("createChatMessage", newMessage, options, originator);
     newMessage.id = generateRandomId();
     game.messages.set(newMessage.id, newMessage);
-    let _html = newMessage.getHTML(); // This operation is not directly called in Foundry, but it also not awaited.
   }
 
   static get implementation() {
@@ -43,11 +42,12 @@ class ChatMessage extends BaseChatMessage {
   }
 
   async getHTML() {
-    let speaker = this.speaker.alias ?? this.user.name;
+    let speaker = this.speaker;
+    let sender = speaker ? speaker.alias : this.user.name;
     const htmlString = `
     <header class="message-header flexrow">
         <h4 class="message-sender">
-          ${speaker}
+          ${sender}
         </h4>
         <span class="message-metadata">
             <time class="message-timestamp">
