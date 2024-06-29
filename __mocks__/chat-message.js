@@ -1,7 +1,9 @@
+import $ from 'jquery';
 import BaseChatMessage from './base-chat-message.js';
 import game from './game.js';
 import Hooks from './hooks.js';
 import { generateRandomId } from './utils.js';
+import { JSDOM } from 'jsdom';
 
 class ChatMessage extends BaseChatMessage {
   static async create(chatData) {
@@ -33,10 +35,42 @@ class ChatMessage extends BaseChatMessage {
 
   async _preCreate(data, options, user) {
     await super._preCreate(data, options, user);
+    this.user = user;
     if (typeof data.content === "string") {
       let content = data.content;
       this.updateSource({ content });
     }
+  }
+
+  async getHTML() {
+    let speaker = this.speaker;
+    let sender = speaker ? speaker.alias : this.user.name;
+    const htmlString = `
+    <document>
+      <header class="message-header flexrow">
+          <h4 class="message-sender">
+            ${sender}
+          </h4>
+          <span class="message-metadata">
+              <time class="message-timestamp">
+                30m ago
+              </time>
+              <a aria-label="Delete" class="message-delete">
+                <i class="fas fa-trash">
+                </i>
+              </a>
+          </span>
+      </header>
+      <div class="message-content">
+          ${this.data.content}
+      </div>
+    </document>
+`;
+    const dom = new JSDOM(htmlString);
+    const window = dom.window;
+    let html = $(window)(htmlString);
+    Hooks.call("renderChatMessage", this, html, this.data);
+    return html;
   }
 
   _initialize(options = {}) {

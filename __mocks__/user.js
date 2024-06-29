@@ -1,9 +1,9 @@
 import { generateRandomId } from "./utils.js";
 
 class User {
-  constructor() {
+  constructor(name = "DefaultUser") {
     this.id = generateRandomId();
-    this.name = "DefaultUser";
+    this.name = name;
   }
 }
 
