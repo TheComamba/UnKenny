@@ -3,6 +3,7 @@ import BaseChatMessage from './base-chat-message.js';
 import game from './game.js';
 import Hooks from './hooks.js';
 import { generateRandomId } from './utils.js';
+import { JSDOM } from 'jsdom';
 
 class ChatMessage extends BaseChatMessage {
   static async create(chatData) {
@@ -63,7 +64,9 @@ class ChatMessage extends BaseChatMessage {
         ${this.data.content}
     </div>
 `;
-    let html = $(htmlString);
+    const dom = new JSDOM(htmlString);
+    const window = dom.window;
+    let html = $(window)(htmlString);
     Hooks.call("renderChatMessage", this, html, this.data);
     return html;
   }

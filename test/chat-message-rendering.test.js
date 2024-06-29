@@ -3,10 +3,12 @@ import mockReset from '../__mocks__/main.js';
 
 import ChatMessage from '../__mocks__/chat-message.js';
 import { waitForMessagesToBePosted } from './test-utils.js';
+import { setupHooks } from '../src/scripts/main.js';
 
 describe('adjustHtml', function () {
     beforeEach(() => {
         mockReset();
+        setupHooks();
     });
 
     it('should prepend nothing if the message is not unkenny', async function () {
