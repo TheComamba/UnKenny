@@ -6,8 +6,6 @@ function adjustHtml(message, html) {
       </p>
     `;
 
-    let todo = html.html();
-
     let messageContent = html.find('.message-content')
     if (messageContent) {
         messageContent.prepend(unkennyMarker);
