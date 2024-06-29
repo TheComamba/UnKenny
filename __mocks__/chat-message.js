@@ -43,38 +43,26 @@ class ChatMessage extends BaseChatMessage {
   }
 
   async getHTML() {
-    let title = this.speaker.alias ?? this.user.name;
-    let subtitle = this.speaker.alias ? this.user.name : "";
+    let speaker = this.speaker.alias ?? this.user.name;
     const htmlString = `
-    <li class="chat-message message flexcol " data-message-id="${this.id}" style="border-color:#2ecc28">
-      <header class="message-header flexrow">
+    <header class="message-header flexrow">
         <h4 class="message-sender">
-          <a class="avatar">
-            <img src="icons/svg/mystery-man.svg" alt="${speaker}">
-          </a>
-          <span class="name-stacked">
-            <span class="title">
-              ${title}
-            </span>
-            <span class="subtitle">
-              ${subtitle}
-            </span>
-          </span>
+          ${speaker}
         </h4>
         <span class="message-metadata">
-          <time class="message-timestamp">
-            15m ago
-          </time>
-          <a aria-label="Additional Controls" class="chat-control" data-context-menu="">
-            <i class="fas fa-ellipsis-vertical fa-fw">
-            </i>
-          </a>
+            <time class="message-timestamp">
+              30m ago
+            </time>
+            <a aria-label="Delete" class="message-delete">
+              <i class="fas fa-trash">
+              </i>
+            </a>
         </span>
-      </header>
-      <div class="message-content">
+    </header>
+    <div class="message-content">
         ${this.data.content}
-      </div>
-    </li>`;
+    </div>
+`;
     let html = $(htmlString);
     Hooks.call("renderChatMessage", this, html, this.data);
     return html;
