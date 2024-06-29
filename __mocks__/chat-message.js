@@ -15,6 +15,7 @@ class ChatMessage extends BaseChatMessage {
     Hooks.call("createChatMessage", newMessage, options, originator);
     newMessage.id = generateRandomId();
     game.messages.set(newMessage.id, newMessage);
+    let _html = newMessage.getHTML(); // This operation is not directly called in Foundry, but it also not awaited.
   }
 
   static get implementation() {
