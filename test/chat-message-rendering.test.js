@@ -9,13 +9,14 @@ import User from '../__mocks__/user.js';
 import { generateRandomId } from '../__mocks__/utils.js';
 
 describe('adjustHtml', function () {
+    const actor = new Actor("Kenny");
+    const user = new User("Cornfield");
+
     beforeEach(() => {
         mockReset();
         setupHooks();
+        game.addActor(actor);
     });
-
-    const actor = new Actor("Kenny");
-    const user = new User("Cornfield");
 
     it('should prepend nothing if the message is not unkenny', async function () {
         await ChatMessage.create({ content: "Kapascardia" });
