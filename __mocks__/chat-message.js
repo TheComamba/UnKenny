@@ -35,6 +35,7 @@ class ChatMessage extends BaseChatMessage {
 
   async _preCreate(data, options, user) {
     await super._preCreate(data, options, user);
+    this.user = user;
     if (typeof data.content === "string") {
       let content = data.content;
       this.updateSource({ content });
@@ -42,7 +43,8 @@ class ChatMessage extends BaseChatMessage {
   }
 
   async getHTML() {
-    let speaker = this.data.speaker.actor ?? this.data.speaker.alias;
+    let title = this.speaker.alias ?? this.user.name;
+    let subtitle = this.speaker.alias ? this.user.name : "";
     const htmlString = `
     <li class="chat-message message flexcol " data-message-id="${this.id}" style="border-color:#2ecc28">
       <header class="message-header flexrow">
@@ -52,9 +54,10 @@ class ChatMessage extends BaseChatMessage {
           </a>
           <span class="name-stacked">
             <span class="title">
-              ${speaker}
+              ${title}
             </span>
             <span class="subtitle">
+              ${subtitle}
             </span>
           </span>
         </h4>
