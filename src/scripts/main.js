@@ -2,6 +2,7 @@ import { UnKennySheet } from "../apps/unkenny-sheet.js";
 import { getConversationWithFlagSync, overwriteChatMessage, removeAllMessagesFromUnkennyConversation, removeMessageFromUnkennyConversation } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
+import { confirmationDialog } from "../apps/confirmation-dialogue.js";
 
 // CONFIG.debug.hooks = true;
 
@@ -45,8 +46,14 @@ function setupHooks() {
 
     html.find('.control-buttons').append(button);
 
-    button.on('click', function() {
-      removeAllMessagesFromUnkennyConversation(game.messages.contents);
+    button.on('click', function () {
+      confirmationDialog({
+        title: "Clear UnKenny Conversations",
+        content: "Are you sure you want to clear all UnKenny Conversations? This will not delete any messages.",
+        yesCallback: () => {
+          removeAllMessagesFromUnkennyConversation(game.messages.contents);
+        }
+      });
     });
   });
 
