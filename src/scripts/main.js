@@ -6,7 +6,7 @@ import { adjustHtml } from "./chat-message-rendering.js";
 // CONFIG.debug.hooks = true;
 
 const UNKENNY_ICON = "fas fa-microchip";
-const DELETE_UNKENNY_ICON = '<span class="fa-stack"><i class="fas fa-microchip fa-stack-1x"></i><i class="fas fa-slash fa-stack-1x"></i></span>';
+const REMOVE_FROM_CONVERSATION = '<i class="fas fa-comment-slash"></i>';
 
 function setupHooks() {
   Hooks.once('init', function () {
@@ -34,11 +34,12 @@ function setupHooks() {
 
   Hooks.on('getChatLogEntryContext', (html, options) => {
     options.push({
-      name: "Custom Option",
-      icon: DELETE_UNKENNY_ICON,
+      name: "Remove from UnKenny Conversation",
+      icon: REMOVE_FROM_CONVERSATION,
       condition: listItem => {
         const message = game.messages.get(listItem.data("messageId"));
-        return true;
+        const conversationWith = message?.flags?.unkenny?.conversationWith;
+        return conversationWith;
       },
       callback: listItem => {
         const message = game.messages.get(listItem.data("messageId"));
