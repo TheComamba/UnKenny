@@ -106,7 +106,7 @@ function smuggleConversationWithFlagIntoSource(source, actorId) {
 }
 
 function getConversationWithFlagSync(message) {
-    return message?.flags?.get('unkenny') ? message.flags.get('unkenny').get(CONVERSATION_FLAG) : undefined;
+    return message?.flags?.unkenny ? message.flags.unkenny[CONVERSATION_FLAG] : undefined;
 }
 
 async function removeMessageFromUnkennyConversation(message) {
