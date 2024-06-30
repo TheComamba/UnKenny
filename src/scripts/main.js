@@ -28,6 +28,23 @@ function setupHooks() {
     })
   });
 
+  Hooks.on('renderChatLog', (app, html, data) => {
+    const label = "Remove all Messages from UnKenny Conversation";
+    const buttonHtml = `
+    <a aria-label="${label}" role="button" class="clear-unkenniness" data-tooltip="${label}">
+      ${REMOVE_FROM_CONVERSATION}
+    </a>`;
+    const button = $(buttonHtml);
+
+    html.find('.control-buttons').append(button);
+
+    button.on('click', function() {
+      // Place your custom functionality here
+      console.log('Custom chat button clicked!');
+      ui.notifications.info("Custom button clicked!");
+    });
+  });
+
   Hooks.on("renderChatMessage", function (message, html, data) {
     adjustHtml(message, html);
   });
