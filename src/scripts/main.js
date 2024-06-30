@@ -1,5 +1,5 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { getConversationWithFlagSync, overwriteChatMessage, removeMessageFromUnkennyConversation } from "./collecting-chat-messages.js";
+import { getConversationWithFlagSync, overwriteChatMessage, removeAllMessagesFromUnkennyConversation, removeMessageFromUnkennyConversation } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 
@@ -10,10 +10,17 @@ const REMOVE_FROM_CONVERSATION = '<i class="fas fa-comment-slash"></i>';
 
 function setupHooks() {
   Hooks.once('init', function () {
+    // When Foundry loads ChatMessages from the database, it needs to initialise them with out class.
+    // Otherwise, the instanceof check when modifying a message will sporadically fail.
+    // This is the reason for this early overwrite.
+    overwriteChatMessage();
     registerGameParameters();
   });
 
   Hooks.once('setup', function () {
+    // In case other modules overwrite the ChatMessage class as well, but do not inherit from the current class,
+    // we need to overwrite it again after all modules have been set up.
+    // This is the reason for this late overwrite.
     overwriteChatMessage();
   });
 
@@ -29,7 +36,7 @@ function setupHooks() {
   });
 
   Hooks.on('renderChatLog', (app, html, data) => {
-    const label = "Remove all Messages from UnKenny Conversation";
+    const label = "Clear UnKenny Conversations";
     const buttonHtml = `
     <a aria-label="${label}" role="button" class="clear-unkenniness" data-tooltip="${label}">
       ${REMOVE_FROM_CONVERSATION}
@@ -39,9 +46,7 @@ function setupHooks() {
     html.find('.control-buttons').append(button);
 
     button.on('click', function() {
-      // Place your custom functionality here
-      console.log('Custom chat button clicked!');
-      ui.notifications.info("Custom button clicked!");
+      removeAllMessagesFromUnkennyConversation(game.messages.contents);
     });
   });
 

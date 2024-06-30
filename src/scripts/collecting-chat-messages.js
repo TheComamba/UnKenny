@@ -113,6 +113,12 @@ async function removeMessageFromUnkennyConversation(message) {
     await message.unsetFlag('unkenny', CONVERSATION_FLAG);
 }
 
+function removeAllMessagesFromUnkennyConversation(messages) {
+    messages.forEach((message) => {
+        removeMessageFromUnkennyConversation(message);
+    });
+}
+
 function classContainsUnkennyChatMessage(chatMessageClass) {
     let currentClass = chatMessageClass;
     while (currentClass) {
@@ -157,6 +163,7 @@ export {
     getConversationWithFlagSync,
     messagesOrganisedForTemplate,
     overwriteChatMessage,
+    removeAllMessagesFromUnkennyConversation,
     removeMessageFromUnkennyConversation,
     smuggleConversationWithFlagIntoSource,
     sortMessages,
