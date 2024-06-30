@@ -103,6 +103,10 @@ function smuggleConversationWithFlagIntoSource(source, actorId) {
     source.flags['unkenny']["conversationWith"] = actorId;
 }
 
+async function removeMessageFromUnkennyConversation(message) {
+    await message.unsetFlag('unkenny', 'conversationWith');
+}
+
 function classContainsUnkennyChatMessage(chatMessageClass) {
     let currentClass = chatMessageClass;
     while (currentClass) {
@@ -139,4 +143,14 @@ function overwriteChatMessage() {
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { classContainsUnkennyChatMessage, collectChatMessages, collectPreviousMessages, messagesOrganisedForTemplate, overwriteChatMessage, smuggleConversationWithFlagIntoSource, sortMessages, truncateMessages };
+export { 
+  classContainsUnkennyChatMessage, 
+  collectChatMessages, 
+  collectPreviousMessages, 
+  messagesOrganisedForTemplate, 
+  overwriteChatMessage, 
+  removeMessageFromUnkennyConversation, 
+  smuggleConversationWithFlagIntoSource, 
+  sortMessages, 
+  truncateMessages 
+};

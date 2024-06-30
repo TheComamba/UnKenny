@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage } from "../src/scripts/collecting-chat-messages.js";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage, removeMessageFromUnkennyConversation } from "../src/scripts/collecting-chat-messages.js";
 import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
@@ -384,6 +384,21 @@ describe('collectChatMessages', function () {
         expect(messages[2].content).to.equal(messageDataPostedByActor.content);
         expect(messages[3].role).to.equal('user');
         expect(messages[3].content).to.equal(newContent);
+    });
+});
+
+describe('removeMessageFromUnkennyConversation', function () {
+    beforeEach(() => {
+        mockReset();
+    });
+
+    it('should remove the conversationWith flag from the message', async () => {
+        const message = new ChatMessage();
+        message.id = generateRandomId();
+        await message.setFlag('unkenny', 'conversationWith', '12345');
+        await removeMessageFromUnkennyConversation(message);
+        const flag = await message.getFlag('unkenny', 'conversationWith');
+        expect(flag).to.be.undefined;
     });
 });
 
