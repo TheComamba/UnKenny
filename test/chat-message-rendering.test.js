@@ -40,7 +40,7 @@ describe('adjustHtml', function () {
         let html = await message.getHTML();
 
         let messageContent = html.find('.message-content').html();
-        expect(messageContent).to.contain('Speaking with Kenny');
+        expect(messageContent).to.contain('Speaking with ' + actor.name);
     });
 
     it('should prepend the adressed user if the message is posted by the actor', async function () {

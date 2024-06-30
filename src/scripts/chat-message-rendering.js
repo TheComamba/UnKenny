@@ -10,7 +10,7 @@ function getNameOfActor(id) {
 }
 
 function adjustHtml(message, html) {
-  const conversationWith = getConversationWithFlagSync;
+  const conversationWith = getConversationWithFlagSync(message);
   if (!conversationWith) {
     return;
   }

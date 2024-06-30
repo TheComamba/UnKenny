@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage, removeMessageFromUnkennyConversation } from "../src/scripts/collecting-chat-messages.js";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage, removeMessageFromUnkennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
 import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
