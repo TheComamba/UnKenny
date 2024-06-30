@@ -37,12 +37,21 @@ async function findAdressedActor(message) {
 }
 
 async function findActorWithAlias(alias) {
+    const actorsWithAlias = [];
     for (let actor of game.actors) {
         if (await actorHasAlias(actor, alias)) {
-            return actor;
+            actorsWithAlias.push(actor);
         }
     }
-    return null;
+    if (actorsWithAlias.length === 0) {
+        return null;
+    } else if (actorsWithAlias.length === 1) {
+        return actorsWithAlias[0];
+    } else {
+        const actorNames = actorsWithAlias.map(actor => actor.name);
+        ui.notifications.error(`Multiple actors with alias "${alias}" found: ${actorNames.join(", ")}`);
+        return null;
+    }
 }
 
-export { actorHasAlias, findAdressedActor, findAdressedAlias };
+export { actorHasAlias, findActorWithAlias, findAdressedActor, findAdressedAlias };

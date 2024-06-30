@@ -1,4 +1,5 @@
 
+import { findActorWithAlias } from "../scripts/chat-message-request.js";
 import { getModelToTextMap } from "../scripts/models.js";
 
 class UnKennySheet extends DocumentSheet {
@@ -69,6 +70,12 @@ class UnKennySheet extends DocumentSheet {
         await this.updateFlag(formData, "maxNewTokens");
         await this.updateFlag(formData, "repetitionPenalty");
         await this.updateFlag(formData, "temperature");
+
+        const actor = await findActorWithAlias(formData.alias);
+        if (!actor) {
+            ui.notifications.error(`Setting alias failed.`);
+            return;
+        }
     }
 
     async updateFlag(formData, key) {

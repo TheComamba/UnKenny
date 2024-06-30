@@ -114,6 +114,46 @@ describe('actorHasAlias', function () {
     });
 });
 
+import { findActorWithAlias } from '../src/scripts/chat-message-request.js';
+
+describe('findActorWithAlias', function () {
+    const actor1 = new Actor("Alfonso");
+    const actor2 = new Actor("Benjamin B. Blabberghast");
+    const actor3 = new Actor("Cecilia");
+
+    beforeEach(async () => {
+        mockReset();
+        game.addActor(actor1);
+        game.addActor(actor2);
+        game.addActor(actor3);
+    });
+
+    it('should return null when no actor has the alias', async () => {
+        const alias = 'john-doe';
+        const result = await findActorWithAlias(alias);
+        expect(result).to.be.null;
+    });
+
+    it('should return the actor when only one actor has the alias', async () => {
+        const alias = 'john-doe';
+        await actor1.setFlag('unkenny', 'alias', alias);
+
+        const result = await findActorWithAlias(alias);
+        expect(result).to.equal(actor1);
+    });
+
+    it('should return null and log an error when multiple actors have the alias', async () => {
+        const alias = 'john-doe';
+
+        await actor1.setFlag('unkenny', 'alias', alias);
+        await actor2.setFlag('unkenny', 'alias', alias);
+
+        const result = await findActorWithAlias(alias);
+        expect(result).to.be.null;
+        expect(ui.notifications.error.called).to.be.true;
+    });
+});
+
 import { findAdressedActor } from '../src/scripts/chat-message-request.js';
 
 describe('findAdressedActor', function () {
