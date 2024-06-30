@@ -5,7 +5,7 @@ import Hooks from './hooks.js';
 import { generateRandomId } from './utils.js';
 import { JSDOM } from 'jsdom';
 
-class ChatMessage extends BaseChatMessage {
+export default class ChatMessage extends BaseChatMessage {
   static async create(chatData) {
     const options = { "temporary": false, "renderSheet": false, "render": true }
     const originator = game.user.id;
@@ -80,5 +80,3 @@ class ChatMessage extends BaseChatMessage {
     this.data.speaker = this.constructor.getSpeaker();
   }
 }
-
-export default ChatMessage;

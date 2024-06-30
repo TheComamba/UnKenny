@@ -1,6 +1,6 @@
 import { getUniqueTimestamp } from "./utils.js";
 
-class DataModel {
+export default class DataModel {
     constructor(data = {}, { parent = null, strict = true, ...options } = {}) {
         data.timestamp = getUniqueTimestamp()
         this._source = deepCopy(data);
@@ -26,5 +26,3 @@ class DataModel {
 function deepCopy(data) {
     return JSON.parse(JSON.stringify(data));
 }
-
-export default DataModel;

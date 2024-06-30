@@ -1,7 +1,7 @@
 import Collection from './collection.js';
 import DataModel from './data-model.js';
 
-class Document extends DataModel {
+export default class Document extends DataModel {
     constructor(data, options = {}) {
         super(data, options);
         this.flags = new Collection();
@@ -42,5 +42,3 @@ class Document extends DataModel {
         }
     }
 }
-
-export default Document;

@@ -1,4 +1,4 @@
-class Dialog {
+export default class Dialog {
     constructor() {}
 
     render(_someBoolean) {
@@ -13,5 +13,3 @@ class Dialog {
         });
     }
 }
-
-export default Dialog;
