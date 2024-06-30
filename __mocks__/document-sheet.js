@@ -1,4 +1,4 @@
-class DocumentSheet {
+export default class DocumentSheet {
     constructor() { }
 
     async getData(options = {}) {
@@ -9,5 +9,3 @@ class DocumentSheet {
         return;
     }
 }
-
-export default DocumentSheet;

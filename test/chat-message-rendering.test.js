@@ -7,6 +7,7 @@ import { setupHooks } from '../src/scripts/main.js';
 import Actor from '../__mocks__/actor.js';
 import User from '../__mocks__/user.js';
 import { generateRandomId } from '../__mocks__/utils.js';
+import { CONVERSATION_FLAG } from '../src/scripts/collecting-chat-messages.js';
 
 describe('adjustHtml', function () {
     const actor = new Actor("Kenny");
@@ -34,12 +35,12 @@ describe('adjustHtml', function () {
         await waitForMessagesToBePosted(1);
         let message = game.messages.contents[0];
         message.user = user;
-        await message.setFlag('unkenny', 'conversationWith', actor.id);
+        await message.setFlag('unkenny', CONVERSATION_FLAG, actor.id);
 
         let html = await message.getHTML();
 
         let messageContent = html.find('.message-content').html();
-        expect(messageContent).to.contain('Speaking with Kenny');
+        expect(messageContent).to.contain('Speaking with ' + actor.name);
     });
 
     it('should prepend the adressed user if the message is posted by the actor', async function () {
@@ -47,7 +48,7 @@ describe('adjustHtml', function () {
         await waitForMessagesToBePosted(1);
         let message = game.messages.contents[0];
         message.user = user;
-        await message.setFlag('unkenny', 'conversationWith', actor.id);
+        await message.setFlag('unkenny', CONVERSATION_FLAG, actor.id);
 
         let html = await message.getHTML();
 
@@ -60,7 +61,7 @@ describe('adjustHtml', function () {
         await waitForMessagesToBePosted(1);
         let message = game.messages.contents[0];
         message.user = user;
-        await message.setFlag('unkenny', 'conversationWith', generateRandomId());
+        await message.setFlag('unkenny', CONVERSATION_FLAG, generateRandomId());
 
         let html = await message.getHTML();
 

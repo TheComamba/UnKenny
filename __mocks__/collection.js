@@ -1,4 +1,4 @@
-class Collection extends Map {
+export default class Collection extends Map {
     constructor(entries) {
         super(entries);
     }
@@ -20,5 +20,3 @@ class Collection extends Map {
         return undefined;
     }
 }
-
-export default Collection;

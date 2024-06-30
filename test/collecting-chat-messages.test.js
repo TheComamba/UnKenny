@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage } from "../src/scripts/collecting-chat-messages.js";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage, removeMessageFromUnkennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
 import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
@@ -22,7 +22,7 @@ describe('collectPreviousMessages', function () {
     it('should return an empty list if there are only messages for another actor', async () => {
         const message = new ChatMessage();
         message.id = generateRandomId();
-        await message.setFlag('unkenny', 'conversationWith', actor2.id);
+        await message.setFlag('unkenny', CONVERSATION_FLAG, actor2.id);
         game.messages.set(message.id, message);
 
         let messages = await collectPreviousMessages(actor1);
@@ -33,12 +33,12 @@ describe('collectPreviousMessages', function () {
     it('should return only messages adressed at the specified actor', async () => {
         const message1 = new ChatMessage();
         message1.id = generateRandomId();
-        await message1.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message1.setFlag('unkenny', CONVERSATION_FLAG, actor1.id);
         game.messages.set(message1.id, message1);
 
         const message2 = new ChatMessage();
         message2.id = generateRandomId();
-        await message2.setFlag('unkenny', 'conversationWith', actor2.id);
+        await message2.setFlag('unkenny', CONVERSATION_FLAG, actor2.id);
         game.messages.set(message2.id, message2);
 
         let messages = await collectPreviousMessages(actor1);
@@ -51,11 +51,11 @@ describe('collectPreviousMessages', function () {
     it('should return all messages adressed at the specified actor', async () => {
         const message1 = new ChatMessage();
         message1.id = generateRandomId();
-        await message1.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message1.setFlag('unkenny', CONVERSATION_FLAG, actor1.id);
         game.messages.set(message1.id, message1);
         const message2 = new ChatMessage();
         message2.id = generateRandomId();
-        await message2.setFlag('unkenny', 'conversationWith', actor1.id);
+        await message2.setFlag('unkenny', CONVERSATION_FLAG, actor1.id);
         game.messages.set(message2.id, message2);
 
         let messages = await collectPreviousMessages(actor1);
@@ -357,7 +357,7 @@ describe('collectChatMessages', function () {
         const messagePostedByUser = new ChatMessage(messageDataPostedByUser);
         messagePostedByUser.id = generateRandomId();
         messagePostedByUser._initialize();
-        await messagePostedByUser.setFlag('unkenny', 'conversationWith', actor.id);
+        await messagePostedByUser.setFlag('unkenny', CONVERSATION_FLAG, actor.id);
 
         const messageDataPostedByActor = {
             content: 'This is a message posted by the user.',
@@ -368,7 +368,7 @@ describe('collectChatMessages', function () {
         const messagePostedByActor = new ChatMessage(messageDataPostedByActor);
         messagePostedByActor.id = generateRandomId();
         messagePostedByActor._initialize();
-        await messagePostedByActor.setFlag('unkenny', 'conversationWith', actor.id);
+        await messagePostedByActor.setFlag('unkenny', CONVERSATION_FLAG, actor.id);
 
         game.messages.set(messagePostedByUser.id, messagePostedByUser);
         game.messages.set(messagePostedByActor.id, messagePostedByActor);
@@ -384,6 +384,21 @@ describe('collectChatMessages', function () {
         expect(messages[2].content).to.equal(messageDataPostedByActor.content);
         expect(messages[3].role).to.equal('user');
         expect(messages[3].content).to.equal(newContent);
+    });
+});
+
+describe('removeMessageFromUnkennyConversation', function () {
+    beforeEach(() => {
+        mockReset();
+    });
+
+    it('should remove the conversationWith flag from the message', async () => {
+        const message = new ChatMessage();
+        message.id = generateRandomId();
+        await message.setFlag('unkenny', CONVERSATION_FLAG, '12345');
+        await removeMessageFromUnkennyConversation(message);
+        const flag = await message.getFlag('unkenny', CONVERSATION_FLAG);
+        expect(flag).to.be.undefined;
     });
 });
 

@@ -47,7 +47,7 @@ async function waitForMessagesToBePosted(number) {
 
 async function findFirstMessageConcerning(actor) {
     for (let m of game.messages) {
-        const flag = await m.getFlag('unkenny', 'conversationWith');
+        const flag = await m.getFlag('unkenny', CONVERSATION_FLAG);
         if (flag === actor.id) {
             return m;
         }

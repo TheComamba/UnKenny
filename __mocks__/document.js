@@ -1,10 +1,9 @@
-import Collection from './collection.js';
 import DataModel from './data-model.js';
 
-class Document extends DataModel {
+export default class Document extends DataModel {
     constructor(data, options = {}) {
         super(data, options);
-        this.flags = new Collection();
+        this.flags = {};
     }
 
     _initialize(options = {}) {
@@ -18,7 +17,7 @@ class Document extends DataModel {
             throw new Error("Document must have an id before setting a flag.");
         }
         if (!this.flags[module]) {
-            this.flags[module] = new Collection();
+            this.flags[module] = {};
         }
         this.flags[module][key] = value;
     }
@@ -38,9 +37,8 @@ class Document extends DataModel {
             throw new Error("Document must have an id before unsetting a flag.");
         }
         if (this.flags[module]) {
-            this.flags[module].delete(key);
+            delete this.flags[module][key];
         }
     }
-}
 
-export default Document;
+}

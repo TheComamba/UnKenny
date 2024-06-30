@@ -1,3 +1,5 @@
+import { getConversationWithFlagSync } from "./collecting-chat-messages.js";
+
 function getNameOfActor(id) {
   for (let actor of game.actors) {
     if (actor.id === id) {
@@ -8,7 +10,7 @@ function getNameOfActor(id) {
 }
 
 function adjustHtml(message, html) {
-  const conversationWith = message.flags?.unkenny?.conversationWith;
+  const conversationWith = getConversationWithFlagSync(message);
   if (!conversationWith) {
     return;
   }

@@ -1,4 +1,4 @@
-class ChatLog {
+export default class ChatLog {
     async processMessage(message) {
         const chatMessageClass = ChatMessage.implementation;
         Hooks.call('chatMessage', message);
@@ -10,5 +10,3 @@ class ChatLog {
         return chatMessageClass.create(chatData); // no await here
     }
 }
-
-export default ChatLog;
