@@ -17,28 +17,29 @@ export default class Document extends DataModel {
         if (!this.id) {
             throw new Error("Document must have an id before setting a flag.");
         }
-        if (!this.flags[module]) {
-            this.flags[module] = new Collection();
+        if (!this.flags.has(module)) {
+            this.flags.set(module, new Collection());
         }
-        this.flags[module][key] = value;
+        this.flags.get(module).set(key, value);
     }
-
+    
     async getFlag(module, key) {
         if (!this.id) {
             throw new Error("Document must have an id before getting a flag.");
         }
-        if (this.flags[module]) {
-            return this.flags[module][key];
+        if (this.flags.has(module)) {
+            return this.flags.get(module).get(key);
         }
         return null;
     }
-
+    
     async unsetFlag(module, key) {
         if (!this.id) {
             throw new Error("Document must have an id before unsetting a flag.");
         }
-        if (this.flags[module]) {
-            this.flags[module].delete(key);
+        if (this.flags.has(module)) {
+            this.flags.get(module).delete(key);
         }
     }
+    
 }
