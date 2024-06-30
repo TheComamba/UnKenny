@@ -43,6 +43,7 @@ function setupHooks() {
       },
       callback: listItem => {
         const message = game.messages.get(listItem.data("messageId"));
+        removeMessageFromUnkennyConversation(message);
       }
     });
   });
