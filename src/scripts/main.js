@@ -1,5 +1,5 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { overwriteChatMessage } from "./collecting-chat-messages.js";
+import { getConversationWithFlagSync, overwriteChatMessage } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 
@@ -38,7 +38,7 @@ function setupHooks() {
       icon: REMOVE_FROM_CONVERSATION,
       condition: listItem => {
         const message = game.messages.get(listItem.data("messageId"));
-        const conversationWith = message?.flags?.unkenny?.conversationWith;
+        const conversationWith = getConversationWithFlagSync(message);
         return conversationWith;
       },
       callback: listItem => {

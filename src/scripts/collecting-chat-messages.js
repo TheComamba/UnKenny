@@ -4,9 +4,11 @@ import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
+const CONVERSATION_FLAG = "conversationWith";
+
 async function collectPreviousMessages(actor) {
     const messages = await Promise.all(game.messages.contents.map(async (m) => {
-        const flag = await m.getFlag('unkenny', 'conversationWith');
+        const flag = await m.getFlag('unkenny', CONVERSATION_FLAG);
         return flag === actor.id ? m : null;
     }));
 
@@ -100,11 +102,15 @@ function smuggleConversationWithFlagIntoSource(source, actorId) {
     if (!source.flags['unkenny']) {
         source.flags['unkenny'] = {};
     }
-    source.flags['unkenny']["conversationWith"] = actorId;
+    source.flags['unkenny'][CONVERSATION_FLAG] = actorId;
+}
+
+function getConversationWithFlagSync(message) {
+    return message.flags?.unkenny ? message.flags.unkenny[CONVERSATION_FLAG] : undefined;
 }
 
 async function removeMessageFromUnkennyConversation(message) {
-    await message.unsetFlag('unkenny', 'conversationWith');
+    await message.unsetFlag('unkenny', CONVERSATION_FLAG);
 }
 
 function classContainsUnkennyChatMessage(chatMessageClass) {
@@ -143,14 +149,16 @@ function overwriteChatMessage() {
     CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
 }
 
-export { 
-  classContainsUnkennyChatMessage, 
-  collectChatMessages, 
-  collectPreviousMessages, 
-  messagesOrganisedForTemplate, 
-  overwriteChatMessage, 
-  removeMessageFromUnkennyConversation, 
-  smuggleConversationWithFlagIntoSource, 
-  sortMessages, 
-  truncateMessages 
+export {
+    CONVERSATION_FLAG,
+    classContainsUnkennyChatMessage,
+    collectChatMessages,
+    collectPreviousMessages,
+    getConversationWithFlagSync,
+    messagesOrganisedForTemplate,
+    overwriteChatMessage,
+    removeMessageFromUnkennyConversation,
+    smuggleConversationWithFlagIntoSource,
+    sortMessages,
+    truncateMessages
 };
