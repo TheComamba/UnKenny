@@ -1,5 +1,5 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { getConversationWithFlagSync, overwriteChatMessage } from "./collecting-chat-messages.js";
+import { getConversationWithFlagSync, overwriteChatMessage, removeMessageFromUnkennyConversation } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 
