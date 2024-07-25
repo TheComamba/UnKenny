@@ -7,10 +7,15 @@ i18n
   .use(Backend)
   .init({
     lng: 'en', // Active language
-    fallbackLng: 'en', // Fallback language
+    fallbackLng: false, // Disable fallback language for tests
     preload: ['en'], // Preload all languages you want to use
     ns: ['translation'], // Namespaces to load (if your translation files are named differently, adjust this)
     defaultNS: 'translation', // Default namespace
+    saveMissing: true, // Enable saving missing keys
+    missingKeyHandler: (lng, ns, key, _fallbackValue) => {
+      // Throw an error when a key is missing
+      throw new Error(`Missing translation key: ${key} in namespace: ${ns} for language: ${lng}`);
+    },
     backend: {
       // Adjust the loadPath to match the new structure
       loadPath: 'src/lang/{{lng}}.json',
