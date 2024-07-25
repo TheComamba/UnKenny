@@ -60,7 +60,7 @@ done
 for KEY in $EN_KEYS; do
   KEY_FOUND=false
   while IFS= read -r FILE; do
-	if grep -q "$KEY" "$FILE"; then
+	if grep -Fq "$KEY" "$FILE"; then
 	  KEY_FOUND=true
 	  break
 	fi
