@@ -9,7 +9,7 @@ async function getModel(transformersModule, model_path) {
         return modelCache.get(model_path)
     }
 
-    const infoMessage = game.i18n.localize('unkenny.llm.preparingModel', { model: model_path });
+    const infoMessage = game.i18n.format('unkenny.llm.preparingModel', { model: model_path });
     let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 
@@ -26,7 +26,7 @@ async function getTokenizer(transformersModule, model_path) {
         return tokenizerCache.get(model_path);
     }
 
-    const infoMessage = game.i18n.localize('unkenny.llm.preparingTokenizer', { model: model_path });
+    const infoMessage = game.i18n.format('unkenny.llm.preparingTokenizer', { model: model_path });
     let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 
@@ -82,7 +82,7 @@ async function getResponseFromLocalLLM(parameters, messages) {
 
     const input_tokens = tokenizedMessages(tokenizer, messages);
 
-    const infoMessage = game.i18n.localize('unkenny.llm.generatingResponse', { actorName: parameters.actorName });
+    const infoMessage = game.i18n.format('unkenny.llm.generatingResponse', { actorName: parameters.actorName });
     let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 

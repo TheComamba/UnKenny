@@ -33,12 +33,12 @@ async function loadExternalModule(name) {
             try {
                 return await import(name);
             } catch (localError) {
-                const errorMessage = game.i18n.localize("unkenny.shared.moduleLoadFailed", { name: name, error: error });
+                const errorMessage = game.i18n.format("unkenny.shared.moduleLoadFailed", { name: name, error: error });
                 console.error(errorMessage);
                 return;
             }
         } else {
-            const errorMessage = game.i18n.localize("unkenny.shared.moduleLoadFailed", { name: name, error: error });
+            const errorMessage = game.i18n.format("unkenny.shared.moduleLoadFailed", { name: name, error: error });
             ui.notifications.error(errorMessage);
             return;
         }

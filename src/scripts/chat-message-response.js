@@ -52,7 +52,7 @@ function processUnKennyResponse(message) {
         try {
             chatDataJson = JSON.parse(jsonString);
         } catch (error) {
-            const errorMessage = game.i18n.localize("unkenny.chatMessage.jsonParseError", { error: error });
+            const errorMessage = game.i18n.format("unkenny.chatMessage.jsonParseError", { error: error });
             ui.notifications.error(errorMessage);
             return;
         }

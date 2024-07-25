@@ -6,7 +6,7 @@ function getNameOfActor(id) {
       return actor.name;
     }
   }
-  ui.notifications.error(game.i18n.localize("unkenny.chatMessage.actorIdNotFound", { id: id }));
+  ui.notifications.error(game.i18n.format("unkenny.chatMessage.actorIdNotFound", { id: id }));
 }
 
 function adjustHtml(message, html) {
@@ -29,7 +29,7 @@ function adjustHtml(message, html) {
 
   let unkennyMarker = `
       <p style="opacity: 0.5; font-size: 10px;">
-        ${game.i18n.localize("unkenny.chatMessage.marker", { audience: audience })}
+        ${game.i18n.format("unkenny.chatMessage.marker", { audience: audience })}
       </p>
     `;
 

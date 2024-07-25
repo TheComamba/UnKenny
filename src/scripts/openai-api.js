@@ -33,7 +33,7 @@ async function getResponseFromOpenAI(parameters, messages) {
         const chatCompletion = await openai.chat.completions.create(input_parameters);
         return chatCompletion['choices'][0]['message']['content'];
     } catch (error) {
-        const errorMessage = game.i18n.localize('unkenny.llm.openAiError', { error: error });
+        const errorMessage = game.i18n.format('unkenny.llm.openAiError', { error: error });
         ui.notifications.error(errorMessage);
         return;
     }
