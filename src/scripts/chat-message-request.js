@@ -30,7 +30,8 @@ async function findAdressedActor(message) {
     }
     let actor = await findActorWithAlias(alias);
     if (!actor) {
-        ui.notifications.error(`Actor with alias "${alias}" not found.`);
+        const errorMessage = game.i18n.localize("unkenny.chatMessage.actorAliasNotFound", { alias: alias });
+        ui.notifications.error(errorMessage);
         return null;
     }
     return actor;
@@ -49,7 +50,8 @@ async function findActorWithAlias(alias) {
         return actorsWithAlias[0];
     } else {
         const actorNames = actorsWithAlias.map(actor => actor.name);
-        ui.notifications.error(`Multiple actors with alias "${alias}" found: ${actorNames.join(", ")}`);
+        const errorMessage = game.i18n.localize("unkenny.chatMessage.multipleActors", { alias: alias, names: actorNames.join(", ") });
+        ui.notifications.error(errorMessage);
         return null;
     }
 }

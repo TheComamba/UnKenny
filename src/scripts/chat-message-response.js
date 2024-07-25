@@ -15,7 +15,8 @@ function replaceAlias(message, alias, actorName) {
 
 async function triggerResponse(actor, request) {
     if (!actor) {
-        ui.notifications.error("triggerResponse was called with no actor.");
+        const errorMessage = game.i18n.localize("unkenny.chatMessage.triggerWithoutActor");
+        ui.notifications.error(errorMessage);
         return;
     }
     let name = actor.name;
@@ -25,7 +26,8 @@ async function triggerResponse(actor, request) {
     if (response) {
         await postResponse(response, actor);
     } else {
-        ui.notifications.error("No response generated.");
+        const errorMessage = game.i18n.localize("unkenny.chatMessage.noResponse");
+        ui.notifications.error(errorMessage);
     }
 }
 
@@ -50,7 +52,8 @@ function processUnKennyResponse(message) {
         try {
             chatDataJson = JSON.parse(jsonString);
         } catch (error) {
-            ui.notifications.error("Error parsing JSON: " + error);
+            const errorMessage = game.i18n.localize("unkenny.chatMessage.jsonParseError", { error: error });
+            ui.notifications.error(errorMessage);
             return;
         }
         for (let key in chatDataJson) {

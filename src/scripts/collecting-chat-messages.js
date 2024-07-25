@@ -32,13 +32,13 @@ function shortenMessagesByOne(messages) {
         }
     }
 
-    const errorMessage = 'The conversation has only just begun, but it is already too long for the model. This is likely due to the preamble being too long. Please shorten the preamble or switch to a different model with a larger context size.'
+    const errorMessage = game.i18n.localize('unkenny.chatMessage.preambleTooLong');
     ui.notifications.error(errorMessage);
     messages.length = 0;
 }
 
 async function truncateMessages(model, messages, newTokenLimit) {
-    const warningMessage = 'This conversion spanning ' + (messages.length - 1) + ' messages is too long for the model, and will be truncated. To prevent this in the future, you can either switch the model or shorten the conversation by deleting previous messages.';
+    const warningMessage = game.i18n.localize("unkenny.chatMessage.truncatingMessage", { messageCount: messages.length - 1 });
     let warningHasBeenGiven = false;
     const limit = getTokenLimit(model) - newTokenLimit;
     if (isLocal(model)) {
@@ -60,7 +60,8 @@ async function truncateMessages(model, messages, newTokenLimit) {
 async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
     const preamble = await actor.getFlag('unkenny', 'preamble');
     if (!preamble) {
-        ui.notifications.error('No preamble set for actor ' + actor.name + '.');
+        const errorMessage = game.i18n.localize('unkenny.chatMessage.noPreamble', { actor: actor.name });
+        ui.notifications.error(errorMessage);
         return [];
     }
 

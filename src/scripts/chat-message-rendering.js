@@ -6,7 +6,7 @@ function getNameOfActor(id) {
       return actor.name;
     }
   }
-  ui.notifications.error(`Actor with id "${id}" not found. Has it been deleted?`);
+  ui.notifications.error(game.i18n.localize("unkenny.chatMessage.actorIdNotFound", { id: id }));
 }
 
 function adjustHtml(message, html) {
@@ -29,7 +29,7 @@ function adjustHtml(message, html) {
 
   let unkennyMarker = `
       <p style="opacity: 0.5; font-size: 10px;">
-        Speaking with ${audience}
+        ${game.i18n.localize("unkenny.chatMessage.marker", { audience: audience })}
       </p>
     `;
 
