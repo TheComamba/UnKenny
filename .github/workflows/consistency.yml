@@ -11,5 +11,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Check consistency
+    - name: Check version consistency
       run: ./scripts/check_version_consistency.sh
+    - name: Check localizations consistency
+      run: ./scripts/check_localizations_consistency.sh
