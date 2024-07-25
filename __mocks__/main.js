@@ -9,6 +9,7 @@ import game from './game.js';
 import Hooks from './hooks.js';
 import ui from './ui.js';
 import Collection from './collection.js';
+import Handlebars from 'handlebars';
 
 global.Actor = Actor;
 global.ChatMessage = ChatMessage;
@@ -29,6 +30,12 @@ global.CONFIG = {
         chat: ChatLog,
     },
 };
+
+function localizeHelper(key) {
+    return game.i18n.localize(key);
+}
+
+Handlebars.registerHelper('localize', localizeHelper);
 
 function mockReset() {
     game.reset()
