@@ -73,7 +73,7 @@ class UnKennySheet extends DocumentSheet {
 
         const actor = await findActorWithAlias(formData.alias);
         if (!actor) {
-            ui.notifications.error(`Setting alias failed.`);
+            ui.notifications.error(game.i18n.localize("unkenny.sheet.settingAliasFailed"));
             return;
         }
     }

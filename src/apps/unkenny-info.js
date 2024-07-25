@@ -1,8 +1,8 @@
 class UnKennyInfo extends Dialog {
     constructor(text) {
         let params = {
-            title: game.i18n.localize("unkenny-info.title"),
-            content: `<p>${text}</p><p>This may take a while, during which FoundryVTT will be unresponsive.</p>`,
+            title: game.i18n.localize("unkenny.info.title"),
+            content: `<p>${text}</p><p>${game.i18n.localize("unkenny.info.message")}</p>`,
             buttons: {}
         };
         super(params);

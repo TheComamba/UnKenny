@@ -76,7 +76,7 @@ done
 while IFS= read -r FILE; do
   if [[ "$FILE" != src/lang/* && -f "$FILE" ]]; then
     # Check for localize(<key>)
-    grep -oP 'localize\(\K[^)]+' "$FILE" | while read -r KEY; do
+    grep -oP 'localize\(\"\K[^\")]+' "$FILE" | while read -r KEY; do
       if ! key_exists_in_en "$KEY"; then
         echo "Key $KEY in $FILE not found in en.json"
         RETURN_CODE=1
@@ -84,7 +84,7 @@ while IFS= read -r FILE; do
     done
     
     # Check for {{localize <key>}}
-    grep -oP '{{localize \K[^}]+' "$FILE" | while read -r KEY; do
+    grep -oP '{{localize \"\K[^}\"]+' "$FILE" | while read -r KEY; do
       if ! key_exists_in_en "$KEY"; then
         echo "Key $KEY in $FILE not found in en.json"
         RETURN_CODE=1

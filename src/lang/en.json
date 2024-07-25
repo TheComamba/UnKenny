@@ -1,5 +1,21 @@
 {
     "unkenny.confirmation.title": "Confirmation",
+    "unkenny.confirmation.question": "Are you sure?",
+    "unkenny.confirmation.yes": "Yes",
+    "unkenny.confirmation.no": "No",
+    "unkenny.confirmation.confirmed": "Confirmed",
+    "unkenny.confirmation.cancelled": "Cancelled",
     "unkenny.info.title": "Please be patient",
-    "unkenny.sheet.alias": "Alias"
+    "unkenny.info.message": "This may take a while, during which FoundryVTT will be unresponsive.",
+    "unkenny.sheet.title": "Edit UnKennyness Parameters",
+    "unkenny.sheet.alias": "Alias",
+    "unkenny.sheet.preamble": "Preamble",
+    "unkenny.sheet.overwrite": "Overwrite Global Parameters",
+    "unkenny.sheet.model": "Model",
+    "unkenny.sheet.minTokens": "Minimum number of generated tokens",
+    "unkenny.sheet.maxTokens": "Maximum number of generated tokens",
+    "unkenny.sheet.repetitionPenalty": "Repetition penalty",
+    "unkenny.sheet.temperature": "Temperature",
+    "unkenny.sheet.save": "Save",
+    "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed."
 }
