@@ -12,4 +12,4 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Check consistency
-      run: ./scripts/check-version-consistency.sh
+      run: ./scripts/check_version_consistency.sh
