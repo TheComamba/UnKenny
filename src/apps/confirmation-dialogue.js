@@ -1,6 +1,6 @@
 function confirmationDialog({ title, content, yesCallback, noCallback, defaultYes = true }) {
     new Dialog({
-        title: title || "Confirmation",
+        title: title || game.i18n.localize("confirmation-dialogue.title"),
         content: content || "<p>Are you sure?</p>",
         buttons: {
             yes: {
