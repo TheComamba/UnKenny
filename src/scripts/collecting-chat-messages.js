@@ -60,7 +60,7 @@ async function truncateMessages(model, messages, newTokenLimit) {
 async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
     const preamble = await actor.getFlag('unkenny', 'preamble');
     if (!preamble) {
-        const errorMessage = game.i18n.format('unkenny.chatMessage.noPreamble', { actor: actor.name });
+        const errorMessage = game.i18n.format('unkenny.chatMessage.noPreamble', { name: actor.name });
         ui.notifications.error(errorMessage);
         return [];
     }

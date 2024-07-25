@@ -3,27 +3,51 @@ import User from "./user.js";
 import i18n from 'i18next';
 import Backend from 'i18next-fs-backend';
 
-i18n
-  .use(Backend)
-  .init({
-    lng: 'en', // Active language
-    fallbackLng: false, // Disable fallback language for tests
-    preload: ['en'], // Preload all languages you want to use
-    ns: ['translation'], // Namespaces to load (if your translation files are named differently, adjust this)
-    defaultNS: 'translation', // Default namespace
-    saveMissing: true, // Enable saving missing keys
-    missingKeyHandler: (lng, ns, key, _fallbackValue) => {
-      // Throw an error when a key is missing
-      throw new Error(`Missing translation key: ${key} in namespace: ${ns} for language: ${lng}`);
-    },
-    backend: {
-      // Adjust the loadPath to match the new structure
-      loadPath: 'src/lang/{{lng}}.json',
-    },
-  }, (err, t) => {
-    if (err) return console.error(err);
-    i18n.localize = (...args) => t(...args);
-  });
+i18n.use(Backend)
+    .init({
+        lng: 'en', // Active language
+        fallbackLng: false, // Disable fallback language for tests
+        preload: ['en'], // Preload all languages you want to use
+        ns: ['translation'], // Namespaces to load (if your translation files are named differently, adjust this)
+        defaultNS: 'translation', // Default namespace
+        saveMissing: true, // Enable saving missing keys
+        missingKeyHandler: (lng, ns, key, _fallbackValue) => {
+            // Throw an error when a key is missing
+            throw new Error(`Missing translation key: ${key} in namespace: ${ns} for language: ${lng}`);
+        },
+        backend: {
+            // Adjust the loadPath to match the new structure
+            loadPath: 'src/lang/{{lng}}.json',
+        },
+    }, (err, t) => {
+        if (err) return console.error(err);
+        i18n.localize = (...args) => {
+            if (args.length > 1) {
+                throw new Error("Localize called with more than one argument. Did you mean to call format?");
+            }
+            return t(args[0]);
+        };
+        i18n.format = (...args) => {
+            if (args.length < 2) {
+                throw new Error("Format called with less than two arguments. Did you mean to call localize?");
+            }
+            let resolved = t(args[0]);
+            let replacements = args[1];
+
+            if (typeof replacements === 'object' && replacements !== null) {
+                for (let key in replacements) {
+                    if (replacements.hasOwnProperty(key)) {
+                        const placeholder = `{${key}}`;
+                        if (!resolved.includes(placeholder)) {
+                            throw new Error(`Placeholder ${placeholder} not found in the resolved string.`);
+                        }
+                        resolved = resolved.replace(new RegExp(`\\{${key}\\}`, 'g'), replacements[key]);
+                    }
+                }
+            }
+            return resolved;
+        }
+    });
 
 const game = {
     user: new User(),
