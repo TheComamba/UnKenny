@@ -51,6 +51,14 @@ Any messages previously posted at or by the actor are included in the chat conve
 
 Note that the context size of a large language model is limited. At some point UnKenny might warn you that it starts truncating messages. To avoid that, simply clean up the chat log. Alternatively you can switch to a model with a larger context size. For OpenAi, these are usually the ones ending on 'turbo'.
 
+## Contributing
+
+Bug reports, feature requests and pull requests are all welcome.
+
+If you want to add a new language, add a file called `src/lang/<new-lang>.json`, where `<new-lang>` is the corresponding [two-letter ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). In `src/module.json`, add a new entry in the `"languages"` array. Running `scripts/check_localizations_consistency.sh` will list all keys that are not translated into your language. It will also discover some typos.
+
+If you develop a feature or fix a bug, please make sure that the behaviour is covered by tests. It may be necessary to expand the FoundryVTT mock contained in the `__mocks__` folder. Without thorough test coverage this module quickly becomes unmaintainable.
+
 ## Manual Installation
 
 To manually install UnKenny (e.g. for development), copy the src/ folder of this repository to the {userData}/Data/modules/ folder of Foundry, and then rename it to 'unkenny' (the id declared in module.json).
