@@ -14,10 +14,12 @@ async function getGenerationParameter(actor, parameterName) {
     }
     if (value == null) {
         value = llmParametersAndDefaults()[parameterName];
-        ui.notifications.warning(`No value found for ${parameterName}. Using default value "${value}".`);
+        const warningMessage = game.i18n.format("unkenny.llm.noValue", { parameterName: parameterName, value: value });
+        ui.notifications.warning(warningMessage);
     }
     if (value == null) {
-        ui.notifications.error(`No default value found for ${parameterName}.`);
+        const errorMessage = game.i18n.format("unkenny.llm.noDefaultValue", { parameterName: parameterName });
+        ui.notifications.error(errorMessage);
         return;
     }
     return value;

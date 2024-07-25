@@ -2,29 +2,29 @@
     <section>
         <header class="flex-header">
             <h1>
-                Edit UnKennyness Parameters
+                {{localize "unkenny.sheet.title"}}
             </h1>
         </header>
     </section>
     <section>
         <div class='form-field'>
-            <label>Alias</label>
+            <label>{{localize "unkenny.sheet.alias"}}</label>
             <input name="alias" type="text" value="{{alias}}" pattern="\w+">
         </div>
 
         <div class='form-field'>
-            <label>Preamble</label>
+            <label>{{localize "unkenny.sheet.preamble"}}</label>
             <textarea name="preamble" rows="15">{{preamble}}</textarea>
         </div>
 
         <header class="flex-header">
             <h3>
-                Overwrite Global Parameters
+                {{localize "unkenny.sheet.overwrite"}}
             </h3>
         </header>
 
         <div class='form-field'>
-            <label>Model</label>
+            <label>{{localize "unkenny.sheet.model"}}</label>
             <select name='model' class='form-control'>
                 {{#each models}}
                 <option value="{{this.model}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
@@ -33,28 +33,28 @@
         </div>
 
         <div class='form-field'>
-            <label>Minimum number of generated tokens</label>
+            <label>{{localize "unkenny.sheet.minTokens"}}</label>
             <input name="minNewTokens" type="number" value="{{minNewTokens}}" step="1">
         </div>
 
         <div class='form-field'>
-            <label>Maximum number of generated tokens</label>
+            <label>{{localize "unkenny.sheet.maxTokens"}}</label>
             <input name="maxNewTokens" type="number" value="{{maxNewTokens}}" step="1">
         </div>
 
         <div class='form-field'>
-            <label>Repetition penalty</label>
+            <label>{{localize "unkenny.sheet.repetitionPenalty"}}</label>
             <input name="repetitionPenalty" type="number" step="0.01" value="{{repetitionPenalty}}">
         </div>
 
         <div class='form-field'>
-            <label>Temperature</label>
+            <label>{{localize "unkenny.sheet.temperature"}}</label>
             <input name="temperature" type="number" step="0.01" value="{{temperature}}">
         </div>
 
         <button type="submit">
             <i class="fa fa-check"></i>
-            Save
+            {{localize "unkenny.sheet.save"}}
         </button>
     </section>
 </form>

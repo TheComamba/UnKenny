@@ -37,7 +37,7 @@ function setupHooks() {
   });
 
   Hooks.on('renderChatLog', (app, html, data) => {
-    const label = "Clear UnKenny Conversations";
+    const label = game.i18n.localize("unkenny.chatLog.clearConversations");
     const buttonHtml = `
     <a aria-label="${label}" role="button" class="clear-unkenniness" data-tooltip="${label}">
       ${REMOVE_FROM_CONVERSATION}
@@ -48,8 +48,8 @@ function setupHooks() {
 
     button.on('click', function () {
       confirmationDialog({
-        title: "Clear UnKenny Conversations",
-        content: "Are you sure you want to clear all UnKenny Conversations? This will not delete any messages.",
+        title: label,
+        content: game.i18n.localize("unkenny.chatLog.clearConversationsConfirmation"),
         yesCallback: () => {
           removeAllMessagesFromUnkennyConversation(game.messages.contents);
         }
@@ -63,7 +63,7 @@ function setupHooks() {
 
   Hooks.on('getChatLogEntryContext', (html, options) => {
     options.push({
-      name: "Remove from UnKenny Conversation",
+      name: game.i18n.localize("unkenny.chatLog.removeFromConversation"),
       icon: REMOVE_FROM_CONVERSATION,
       condition: listItem => {
         const message = game.messages.get(listItem.data("messageId"));

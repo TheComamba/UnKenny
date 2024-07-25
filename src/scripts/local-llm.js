@@ -9,7 +9,8 @@ async function getModel(transformersModule, model_path) {
         return modelCache.get(model_path)
     }
 
-    let info = new UnKennyInfo(`Preparing model '${model_path}'...`);
+    const infoMessage = game.i18n.format('unkenny.llm.preparingModel', { model: model_path });
+    let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 
     const model = await transformersModule.AutoModelForCausalLM.from_pretrained(model_path);
@@ -25,7 +26,8 @@ async function getTokenizer(transformersModule, model_path) {
         return tokenizerCache.get(model_path);
     }
 
-    let info = new UnKennyInfo(`Preparing model and tokenizer '${model_path}'...`);
+    const infoMessage = game.i18n.format('unkenny.llm.preparingTokenizer', { model: model_path });
+    let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 
     const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model_path);
@@ -80,7 +82,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
 
     const input_tokens = tokenizedMessages(tokenizer, messages);
 
-    let info = new UnKennyInfo(`Generating ${parameters.actorName}'s response...`);
+    const infoMessage = game.i18n.format('unkenny.llm.generatingResponse', { actorName: parameters.actorName });
+    let info = new UnKennyInfo(infoMessage);
     await info.render(true);
 
     // https://huggingface.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig
@@ -96,7 +99,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
     try {
         output_tokens = await model.generate(input_tokens, localParameters);
     } catch (error) {
-        ui.notifications.error('An error occurred during text generation:', error);
+        const errorMessage = game.i18n.localize('unkenny.llm.localLlmError', { error: error });
+        ui.notifications.error(errorMessage);
         await info.close();
         return;
     }

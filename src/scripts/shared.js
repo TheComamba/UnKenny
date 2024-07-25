@@ -2,7 +2,8 @@ const loadedModules = {}
 
 async function isUnkenny(actor) {
     if (!actor) {
-        ui.notifications.error("Unkennyness checked for null actor.");
+        const errorMessage = game.i18n.localize("unkenny.shared.unkenninessForNull");
+        ui.notifications.error(errorMessage);
         return false;
     }
     let alias = await actor.getFlag("unkenny", "alias");
@@ -32,11 +33,13 @@ async function loadExternalModule(name) {
             try {
                 return await import(name);
             } catch (localError) {
-                console.error("Unable to load local module " + name + ": " + localError);
+                const errorMessage = game.i18n.format("unkenny.shared.moduleLoadFailed", { name: name, error: error });
+                console.error(errorMessage);
                 return;
             }
         } else {
-            ui.notifications.error("Unable to load module: " + error);
+            const errorMessage = game.i18n.format("unkenny.shared.moduleLoadFailed", { name: name, error: error });
+            ui.notifications.error(errorMessage);
             return;
         }
     }
