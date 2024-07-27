@@ -110,20 +110,20 @@ function getConversationWithFlagSync(message) {
     return message?.flags?.unkenny ? message.flags.unkenny[CONVERSATION_FLAG] : undefined;
 }
 
-async function removeMessageFromUnkennyConversation(message) {
+async function removeMessageFromUnKennyConversation(message) {
     await message.unsetFlag('unkenny', CONVERSATION_FLAG);
 }
 
-function removeAllMessagesFromUnkennyConversation(messages) {
+function removeAllMessagesFromUnKennyConversation(messages) {
     messages.forEach((message) => {
-        removeMessageFromUnkennyConversation(message);
+        removeMessageFromUnKennyConversation(message);
     });
 }
 
-function classContainsUnkennyChatMessage(chatMessageClass) {
+function classContainsUnKennyChatMessage(chatMessageClass) {
     let currentClass = chatMessageClass;
     while (currentClass) {
-        if (currentClass.name === 'UnkennyChatMessage') {
+        if (currentClass.name === 'UnKennyChatMessage') {
             return true;
         }
         currentClass = Object.getPrototypeOf(currentClass);
@@ -133,10 +133,10 @@ function classContainsUnkennyChatMessage(chatMessageClass) {
 
 function overwriteChatMessage() {
     const currentChatMessage = CONFIG.ChatMessage.documentClass;
-    if (classContainsUnkennyChatMessage(currentChatMessage)) {
+    if (classContainsUnKennyChatMessage(currentChatMessage)) {
         return;
     }
-    class UnkennyChatMessage extends currentChatMessage {
+    class UnKennyChatMessage extends currentChatMessage {
         /** @override */
         _initialize(options = {}) {
             processUnKennyResponse(this);
@@ -153,19 +153,19 @@ function overwriteChatMessage() {
             await super._preCreate(data, options, user);
         }
     }
-    CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
+    CONFIG.ChatMessage.documentClass = UnKennyChatMessage;
 }
 
 export {
     CONVERSATION_FLAG,
-    classContainsUnkennyChatMessage,
+    classContainsUnKennyChatMessage,
     collectChatMessages,
     collectPreviousMessages,
     getConversationWithFlagSync,
     messagesOrganisedForTemplate,
     overwriteChatMessage,
-    removeAllMessagesFromUnkennyConversation,
-    removeMessageFromUnkennyConversation,
+    removeAllMessagesFromUnKennyConversation,
+    removeMessageFromUnKennyConversation,
     smuggleConversationWithFlagIntoSource,
     sortMessages,
     truncateMessages

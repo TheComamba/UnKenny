@@ -47,12 +47,12 @@ describe('setupHooks', async function () {
     }
   });
 
-  it('After setup Hook, the ChatMessage class inherits from UnkennyChatMessage which inherits from TestChatMessage', () => {
+  it('After setup Hook, the ChatMessage class inherits from UnKennyChatMessage which inherits from TestChatMessage', () => {
     class TestChatMessage extends ChatMessage { }
     CONFIG.ChatMessage.documentClass = TestChatMessage;
     setupHooks();
     Hooks.call('setup');
-    expect(CONFIG.ChatMessage.documentClass.name).to.equal('UnkennyChatMessage');
+    expect(CONFIG.ChatMessage.documentClass.name).to.equal('UnKennyChatMessage');
     expect(Object.getPrototypeOf(CONFIG.ChatMessage.documentClass)).to.equal(TestChatMessage);
   });
 });

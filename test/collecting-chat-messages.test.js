@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnkennyChatMessage, overwriteChatMessage, removeMessageFromUnkennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
 import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
 import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
@@ -387,7 +387,7 @@ describe('collectChatMessages', function () {
     });
 });
 
-describe('removeMessageFromUnkennyConversation', function () {
+describe('removeMessageFromUnKennyConversation', function () {
     beforeEach(() => {
         mockReset();
     });
@@ -396,31 +396,31 @@ describe('removeMessageFromUnkennyConversation', function () {
         const message = new ChatMessage();
         message.id = generateRandomId();
         await message.setFlag('unkenny', CONVERSATION_FLAG, '12345');
-        await removeMessageFromUnkennyConversation(message);
+        await removeMessageFromUnKennyConversation(message);
         const flag = await message.getFlag('unkenny', CONVERSATION_FLAG);
         expect(flag).to.be.undefined;
     });
 });
 
-describe('classContainsUnkennyChatMessage', function () {
+describe('classContainsUnKennyChatMessage', function () {
     beforeEach(() => {
         mockReset();
     });
 
-    it('should return false if the chat message class is not UnkennyChatMessage', () => {
-        expect(classContainsUnkennyChatMessage(ChatMessage)).to.be.false;
+    it('should return false if the chat message class is not UnKennyChatMessage', () => {
+        expect(classContainsUnKennyChatMessage(ChatMessage)).to.be.false;
     });
 
-    it('should return true if the chat message class is UnkennyChatMessage', () => {
-        class UnkennyChatMessage extends ChatMessage { }
-        expect(classContainsUnkennyChatMessage(UnkennyChatMessage)).to.be.true;
+    it('should return true if the chat message class is UnKennyChatMessage', () => {
+        class UnKennyChatMessage extends ChatMessage { }
+        expect(classContainsUnKennyChatMessage(UnKennyChatMessage)).to.be.true;
     });
 
-    it('should return true if the chat message class inherits from UnkennyChatMessage', () => {
-        class UnkennyChatMessage extends ChatMessage { }
-        class AnotherChatMessage extends UnkennyChatMessage { }
+    it('should return true if the chat message class inherits from UnKennyChatMessage', () => {
+        class UnKennyChatMessage extends ChatMessage { }
+        class AnotherChatMessage extends UnKennyChatMessage { }
         class YetAnotherChatMessage extends AnotherChatMessage { }
-        expect(classContainsUnkennyChatMessage(YetAnotherChatMessage)).to.be.true;
+        expect(classContainsUnKennyChatMessage(YetAnotherChatMessage)).to.be.true;
     });
 });
 
@@ -431,21 +431,21 @@ describe('overwriteChatMessage', function () {
 
     it('should overwrite the chat message class', () => {
         const currentChatMessage = CONFIG.ChatMessage.documentClass;
-        if (currentChatMessage.name === 'UnkennyChatMessage') {
+        if (currentChatMessage.name === 'UnKennyChatMessage') {
             return;
         }
         overwriteChatMessage();
         const newChatMessage = CONFIG.ChatMessage.documentClass;
-        expect(Object.getPrototypeOf(newChatMessage).name).to.equal('UnkennyChatMessage');
+        expect(Object.getPrototypeOf(newChatMessage).name).to.equal('UnKennyChatMessage');
         expect(Object.getPrototypeOf(newChatMessage).name).to.equal('ChatMessage');
     });
 
-    it('should not overwrite the chat message class if it is already UnkennyChatMessage', () => {
-        class UnkennyChatMessage extends ChatMessage { }
-        CONFIG.ChatMessage.documentClass = UnkennyChatMessage;
+    it('should not overwrite the chat message class if it is already UnKennyChatMessage', () => {
+        class UnKennyChatMessage extends ChatMessage { }
+        CONFIG.ChatMessage.documentClass = UnKennyChatMessage;
         overwriteChatMessage();
         const newChatMessage = CONFIG.ChatMessage.documentClass;
-        expect(newChatMessage.name).to.equal('UnkennyChatMessage');
+        expect(newChatMessage.name).to.equal('UnKennyChatMessage');
         expect(Object.getPrototypeOf(newChatMessage).name).to.equal('ChatMessage');
     });
 });

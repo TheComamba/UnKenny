@@ -1,5 +1,5 @@
 import { UnKennySheet } from "../apps/unkenny-sheet.js";
-import { getConversationWithFlagSync, overwriteChatMessage, removeAllMessagesFromUnkennyConversation, removeMessageFromUnkennyConversation } from "./collecting-chat-messages.js";
+import { getConversationWithFlagSync, overwriteChatMessage, removeAllMessagesFromUnKennyConversation, removeMessageFromUnKennyConversation } from "./collecting-chat-messages.js";
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 import { confirmationDialog } from "../apps/confirmation-dialogue.js";
@@ -26,9 +26,10 @@ function setupHooks() {
   });
 
   Hooks.on("getActorSheetHeaderButtons", function (sheet, buttons) {
+    const label = game.i18n.localize("unkenny.sheet.title");
     buttons.unshift({
-      label: "Modify UnKennyness",
-      class: "modify-unkennyness",
+      label: label,
+      class: "modify-UnKenniness",
       icon: UNKENNY_ICON,
       onclick: () => {
         new UnKennySheet(sheet.object).render(true);
@@ -51,7 +52,7 @@ function setupHooks() {
         title: label,
         content: game.i18n.localize("unkenny.chatLog.clearConversationsConfirmation"),
         yesCallback: () => {
-          removeAllMessagesFromUnkennyConversation(game.messages.contents);
+          removeAllMessagesFromUnKennyConversation(game.messages.contents);
         }
       });
     });
@@ -72,7 +73,7 @@ function setupHooks() {
       },
       callback: listItem => {
         const message = game.messages.get(listItem.data("messageId"));
-        removeMessageFromUnkennyConversation(message);
+        removeMessageFromUnKennyConversation(message);
       }
     });
   });
