@@ -1,6 +1,6 @@
 const loadedModules = {}
 
-async function isUnkenny(actor) {
+async function isUnKenny(actor) {
     if (!actor) {
         const errorMessage = game.i18n.localize("unkenny.shared.unkenninessForNull");
         ui.notifications.error(errorMessage);
@@ -45,4 +45,4 @@ async function loadExternalModule(name) {
     }
 }
 
-export { isUnkenny, loadExternalModule };
+export { isUnKenny, loadExternalModule };

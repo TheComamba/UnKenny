@@ -27,7 +27,7 @@ The other parameters are set to reasonable defaults.
 
 ### Actor Configuration
 
-Open the sheet of the actor that you want to make UnKenny and click on "Modify UnKennyness".
+Open the sheet of the actor that you want to make UnKenny and click on "Modify UnKenniness".
 
 ![Actor Sheet](https://raw.githubusercontent.com/thecomamba/unkenny/main/img/actor_sheet.png)
 
