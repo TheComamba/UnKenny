@@ -51,6 +51,11 @@ Any messages previously posted at or by the actor are included in the chat conve
 
 Note that the context size of a large language model is limited. At some point UnKenny might warn you that it starts truncating messages. To avoid that, simply clean up the chat log. Alternatively you can switch to a model with a larger context size. For OpenAi, these are usually the ones ending on 'turbo'.
 
+### Currently Supported Languages
+
+- English
+- German
+
 ## Contributing
 
 Bug reports, feature requests and pull requests are all welcome.
