@@ -60,6 +60,7 @@ describe('setupHooks', async function () {
 describe('Integration test', function () {
   beforeEach(() => {
     mockReset();
+    setupHooks();
     Hooks.call('init');
     Hooks.call('setup');
   });

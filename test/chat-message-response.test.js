@@ -4,6 +4,8 @@ import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIf
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
+import Hooks from '../__mocks__/hooks.js';
+import { setupHooks } from '../src/scripts/main.js';
 
 describe('replaceAlias', function () {
     beforeEach(() => {
@@ -43,7 +45,8 @@ describe('replaceAlias', function () {
 describe('triggerResponse', function () {
     beforeEach(() => {
         mockReset();
-        overwriteChatMessage();
+        setupHooks();
+        Hooks.call('init');
     });
 
     testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
