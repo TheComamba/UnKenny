@@ -1,10 +1,15 @@
 const PREFIX_OPTIONS = {
     none: "",
+    whisper: "/whisper <user> ",
     talk: "/talk ",
 };
 
 function isEmptyPrefix(prefix) {
     return !prefix || prefix === "none";
+}
+
+function replacePlaceholders(prefix) {
+    return prefix.replace("<user>", game.user.name);
 }
 
 async function prefixResponse(response, parameters) {
@@ -19,7 +24,9 @@ async function prefixResponse(response, parameters) {
         prefix = "";
     }
 
+    prefix = replacePlaceholders(prefix);
+
     return prefix + response;
 }
 
-export { PREFIX_OPTIONS, prefixResponse };
+export { PREFIX_OPTIONS, prefixResponse, replacePlaceholders };

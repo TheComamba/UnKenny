@@ -41,7 +41,7 @@
     "unkenny.settings.temperature": "Temperatur",
     "unkenny.settings.temperatureDescription": "Große Sprachmodelle generieren Text, indem sie aus einer Wahrscheinlichkeitsverteilung über den Wortschatz auswählen.\nDie Temperatur beeinflusst diese Verteilung:\nBei einer Temperatur von 0 wählt das Modell immer das wahrscheinlichste Token, während alle Token für sehr hohe Temperaturen fast gleich wahrscheinlich werden.\nNiedrigere Werte machen das Modell konservativer, höhere Werte machen es kreativer.",
     "unkenny.settings.prefix": "Stelle Antworten Folgendes voran",
-    "unkenny.settings.prefixDescription": "Die Wahl eines nicht-leeren Wertes stellt diesen der generierten Antwort voran. Das /talk-Makro wird vom Talking Actors FoundryVTT-Modul erkannt.",
+    "unkenny.settings.prefixDescription": "Die Wahl eines nicht-leeren Wertes stellt diesen der generierten Antwort voran. Der <user> Platzhalter wird durch den Namen des aufrufenden Benutzers ersetzt. Das /talk-Makro wird vom Talking Actors FoundryVTT-Modul erkannt.",
     "unkenny.shared.unkenninessForNull": "UnKenniness für null Akteur überprüft.",
     "unkenny.shared.moduleLoadFailed": "Modul \"{name}\" konnte nicht geladen werden: {error}",
     "unkenny.sheet.title": "Bearbeite UnKenniness-Parameter",
