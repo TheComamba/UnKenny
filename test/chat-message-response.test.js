@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { postResponse, processUnKennyResponse, replaceAlias, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
@@ -77,6 +77,42 @@ async function runTriggerResponse(model) {
     await triggerResponse(actor, request);
     expectChatMessageResponse(actor);
 }
+
+
+describe('respond', function () {
+    beforeEach(() => {
+        mockReset();
+        overwriteChatMessage();
+    });
+
+    it('should prefix the response and post it', async () => {
+        const actor = new Actor("John Doe");
+        const response = "Hello";
+        const parameters = {
+            prefixWithTalk: true
+        };
+        await respond(response, parameters, actor);
+        expectChatMessageResponse(actor, "/talk Hello");
+    });
+
+    it('should produce a prefixed response for the chatMessage Hook', async () => {
+        const actor = new Actor("John Doe");
+        const response = "Hello";
+        const parameters = {
+            prefixWithTalk: true
+        };
+
+        let responseInHook = "";
+        Hooks.on('chatMessage', (chatlog, messageText, chatData) => {
+            responseInHook = messageText;
+        });
+
+        await respond(response, parameters, actor);
+        if (!responseInHook.startsWith("/talk Hello")) {
+            throw new Error(`Expected response to start with "/talk Hello", but got "${responseInHook}"`);
+        }
+    });
+});
 
 describe('postResponse', function () {
     beforeEach(() => {
