@@ -111,6 +111,8 @@ describe('respond', function () {
         if (!responseInHook.startsWith("/talk Hello")) {
             throw new Error(`Expected response to start with "/talk Hello", but got "${responseInHook}"`);
         }
+        expect(ui.notifications.warn.called).to.be.false;
+        expect(ui.notifications.error.called).to.be.false;
     });
 });
 
@@ -141,6 +143,8 @@ describe('postResponse', function () {
         await postResponse(response, actor);
         const message = findFirstMessageConcerning(actor);
         expect(message).to.not.be.undefined;
+        expect(ui.notifications.warn.called).to.be.false;
+        expect(ui.notifications.error.called).to.be.false;
     });
 });
 
@@ -154,6 +158,8 @@ function expectChatMessageResponse(actor, response) {
     }
     expect(message.speaker.actor).to.equal(actor.id);
     expect(message.speaker.alias).to.equal(actor.name);
+    expect(ui.notifications.warn.called).to.be.false;
+    expect(ui.notifications.error.called).to.be.false;
 }
 
 describe('processUnKennyResponse', function () {
@@ -171,6 +177,7 @@ describe('processUnKennyResponse', function () {
 
         expect(message._source.content).to.equal('Hello');
         expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
+        expect(ui.notifications.warn.called).to.be.false;
         expect(ui.notifications.error.called).to.be.false;
     });
 

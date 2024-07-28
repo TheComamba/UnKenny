@@ -52,6 +52,7 @@ describe('getResponseFromOpenAI', function () {
             const response = await getResponseFromOpenAI(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
 
+            expect(ui.notifications.warn.called).to.be.false;
             expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
             expect(response).to.not.include('assistant');

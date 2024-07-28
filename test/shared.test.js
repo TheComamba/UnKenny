@@ -16,11 +16,15 @@ describe('isUnKenny', function () {
     it('should return false when actor does not have unkenny flag', async () => {
         const actor = new Actor();
         expect(await isUnKenny(actor)).to.equal(false);
+        expect(ui.notifications.warn.called).to.be.false;
+        expect(ui.notifications.error.called).to.be.false;
     });
 
     it('should return true when actor has unkenny flag', async () => {
         const actor = new Actor();
         await actor.setFlag("unkenny", "alias", 'some-alias');
         expect(await isUnKenny(actor)).to.equal(true);
+        expect(ui.notifications.warn.called).to.be.false;
+        expect(ui.notifications.error.called).to.be.false;
     });
 });

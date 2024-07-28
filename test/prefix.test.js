@@ -20,6 +20,8 @@ describe('prefixResponse', function () {
         let parameters = await getGenerationParameters(actor);
         let prefixedResponse = await prefixResponse(response, parameters);
         expect(prefixedResponse).to.equal("Hello");
+        expect(ui.notifications.warn.called).to.be.false;
+        expect(ui.notifications.error.called).to.be.false;
     });
 
     it('prefixes response with /talk if the corresponding game setting is set', async () => {
@@ -29,6 +31,8 @@ describe('prefixResponse', function () {
             let parameters = await getGenerationParameters(actor);
             let prefixedResponse = await prefixResponse(response, parameters);
             expect(prefixedResponse).to.equal(prefix + "Hello");
+            expect(ui.notifications.warn.called).to.be.false;
+            expect(ui.notifications.error.called).to.be.false;
         }
     });
 
@@ -39,6 +43,8 @@ describe('prefixResponse', function () {
             let parameters = await getGenerationParameters(actor);
             let prefixedResponse = await prefixResponse(response, parameters);
             expect(prefixedResponse).to.equal(prefix + "Hello");
+            expect(ui.notifications.warn.called).to.be.false;
+            expect(ui.notifications.error.called).to.be.false;
         }
     });
 
