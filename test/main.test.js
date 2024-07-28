@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
+import { expectNoNotifications, testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -103,6 +103,5 @@ async function postMessageAndCheckReply(model) {
   expect(reply.content).to.not.be.empty;
   expect(reply.speaker.actor).to.equal(actor.id);
 
-  expect(ui.notifications.warn.called).to.be.false;
-  expect(ui.notifications.error.called).to.be.false;
+  expectNoNotifications();
 }

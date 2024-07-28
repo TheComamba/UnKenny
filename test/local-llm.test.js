@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { testIfSlow } from './test-utils.js';
+import { expectNoNotifications, testIfSlow } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromLocalLLM, numberOfTokensForLocalLLM } from '../src/scripts/local-llm.js';
 import { getLocalModels } from '../src/scripts/models.js';
@@ -56,9 +56,9 @@ describe('getResponseFromLocalLLM', function () {
             const response = await getResponseFromLocalLLM(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
 
-            expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
             expect(response).to.not.include('assistant');
+            expectNoNotifications();
         });
     });
 });

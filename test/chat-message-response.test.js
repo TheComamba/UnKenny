@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
+import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
@@ -111,8 +111,7 @@ describe('respond', function () {
         if (!responseInHook.startsWith("/talk Hello")) {
             throw new Error(`Expected response to start with "/talk Hello", but got "${responseInHook}"`);
         }
-        expect(ui.notifications.warn.called).to.be.false;
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 });
 
@@ -143,8 +142,7 @@ describe('postResponse', function () {
         await postResponse(response, actor);
         const message = findFirstMessageConcerning(actor);
         expect(message).to.not.be.undefined;
-        expect(ui.notifications.warn.called).to.be.false;
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 });
 
@@ -158,8 +156,7 @@ function expectChatMessageResponse(actor, response) {
     }
     expect(message.speaker.actor).to.equal(actor.id);
     expect(message.speaker.alias).to.equal(actor.name);
-    expect(ui.notifications.warn.called).to.be.false;
-    expect(ui.notifications.error.called).to.be.false;
+    expectNoNotifications();
 }
 
 describe('processUnKennyResponse', function () {
@@ -177,8 +174,7 @@ describe('processUnKennyResponse', function () {
 
         expect(message._source.content).to.equal('Hello');
         expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
-        expect(ui.notifications.warn.called).to.be.false;
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('should handle invalid flagged data', () => {
@@ -204,6 +200,6 @@ describe('processUnKennyResponse', function () {
         processUnKennyResponse(message);
 
         expect(message._source.content).to.equal(unflaggedData);
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 });

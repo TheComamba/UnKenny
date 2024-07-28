@@ -5,6 +5,7 @@ import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
+import { expectNoNotifications } from "./test-utils.js";
 
 describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
@@ -198,7 +199,7 @@ describe('truncateMessages', function () {
         await truncateMessages(localModel, messages, newTokenLimit);
 
         expect(messages.length).to.equal(4);
-        expect(ui.notifications.warn.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('should truncate messages to local models starting with the first message that is not the preamble', async () => {

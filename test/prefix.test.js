@@ -3,6 +3,7 @@ import { setupHooks } from '../src/scripts/main.js';
 import mockReset from '../__mocks__/main.js';
 import { PREFIX_OPTIONS, prefixResponse, replacePlaceholders } from '../src/scripts/prefix.js';
 import { getGenerationParameters } from '../src/scripts/llm.js';
+import { expectNoNotifications } from './test-utils.js';
 
 describe('replacePlaceholder', function () {
     beforeEach(async () => {
@@ -39,8 +40,7 @@ describe('prefixResponse', function () {
         let parameters = await getGenerationParameters(actor);
         let prefixedResponse = await prefixResponse(response, parameters);
         expect(prefixedResponse).to.equal("Hello");
-        expect(ui.notifications.warn.called).to.be.false;
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('prefixes response if the corresponding game setting is set', async () => {
@@ -53,8 +53,7 @@ describe('prefixResponse', function () {
             
             prefix = replacePlaceholders(prefix);
             expect(prefixedResponse).to.equal(prefix + "Hello");
-            expect(ui.notifications.warn.called).to.be.false;
-            expect(ui.notifications.error.called).to.be.false;
+            expectNoNotifications();
         }
     });
 
@@ -68,8 +67,7 @@ describe('prefixResponse', function () {
 
             prefix = replacePlaceholders(prefix);
             expect(prefixedResponse).to.equal(prefix + "Hello");
-            expect(ui.notifications.warn.called).to.be.false;
-            expect(ui.notifications.error.called).to.be.false;
+            expectNoNotifications();
         }
     });
 
@@ -79,8 +77,7 @@ describe('prefixResponse', function () {
         let parameters = await getGenerationParameters(actor);
         let prefixedResponse = await prefixResponse(response, parameters);
         expect(prefixedResponse).to.equal("/whisper " + game.user.name + " Hello");
-        expect(ui.notifications.warn.called).to.be.false;
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('prints a warning message if the prefix is invalid', async () => {
