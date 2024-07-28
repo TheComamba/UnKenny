@@ -48,11 +48,6 @@
     "unkenny.sheet.alias": "Alias",
     "unkenny.sheet.preamble": "Preamble",
     "unkenny.sheet.overwrite": "Overwrite Global Parameters",
-    "unkenny.sheet.model": "Model",
-    "unkenny.sheet.minTokens": "Minimum number of generated tokens",
-    "unkenny.sheet.maxTokens": "Maximum number of generated tokens",
-    "unkenny.sheet.repetitionPenalty": "Repetition penalty",
-    "unkenny.sheet.temperature": "Temperature",
     "unkenny.sheet.save": "Save",
     "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed."
 }
