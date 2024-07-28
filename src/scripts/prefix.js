@@ -4,7 +4,7 @@ const PREFIX_OPTIONS = {
 };
 
 function isEmptyPrefix(prefix) {
-    return !prefix || prefix === PREFIX_OPTIONS.none;
+    return !prefix || prefix === "none";
 }
 
 async function prefixResponse(response, parameters) {

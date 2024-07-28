@@ -13,6 +13,7 @@ describe('prefixResponse', function () {
         Hooks.call('init');
         await actor.setFlag('unkenny', 'preamble', 'preamble');
         game.settings.set('unkenny', 'model', 'model1');
+        await actor.unsetFlag('unkenny', 'prefix');
     });
 
     it('does nothing if no game setting is modified', async () => {
