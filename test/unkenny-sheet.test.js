@@ -78,7 +78,13 @@ describe('UnKennySheet', function () {
         expect(context.maxNewTokens).to.equal(10);
         expect(context.repetitionPenalty).to.equal(1.0);
         expect(context.temperature).to.equal(0.5);
-        expect(context.prefix).to.equal("talk");
+        for (const prefix of context.prefixes) {
+            if (prefix.key == "talk") {
+                expect(prefix.isSelected).to.be.true;
+            } else {
+                expect(prefix.isSelected).to.be.false;
+            }
+        }
     });
 
     it('should set the context model when the model changes', async () => {

@@ -56,7 +56,7 @@
             <label>{{localize "unkenny.settings.prefix"}}</label>
             <select name='prefix' class='form-control'>
                 {{#each prefixes}}
-                <option value="{{this.prefix}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
+                <option value="{{this.key}}" {{#isSelected}}selected="selected" {{/isSelected}}>{{this.text}}</option>
                 {{/each}}
             </select>
         </div>

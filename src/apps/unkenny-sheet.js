@@ -1,6 +1,7 @@
 
 import { findActorWithAlias } from "../scripts/chat-message-request.js";
 import { getModelToTextMap } from "../scripts/models.js";
+import { PREFIX_OPTIONS } from "../scripts/prefix.js";
 //todo add option to overwrite prefix.
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
@@ -18,6 +19,7 @@ class UnKennySheet extends DocumentSheet {
             this.context = await super.getData(options);
             this.context.resizable = true;
             this.initModels();
+            this.initPrefixes();
             await this.initContextWithActorData();
         }
 
@@ -31,6 +33,10 @@ class UnKennySheet extends DocumentSheet {
         this.context.models = modelArray;
     }
 
+    initPrefixes() {
+        this.context.prefixes = Object.entries(PREFIX_OPTIONS).map(([key, value]) => ({ "key": key, "text": value }));
+    }
+
     async initContextWithActorData() {
         this.context.alias = await this.object.getFlag("unkenny", "alias") || "";
         this.context.preamble = await this.object.getFlag("unkenny", "preamble") || "";
@@ -42,6 +48,9 @@ class UnKennySheet extends DocumentSheet {
         this.context.maxNewTokens = await this.object.getFlag("unkenny", "maxNewTokens");
         this.context.repetitionPenalty = await this.object.getFlag("unkenny", "repetitionPenalty");
         this.context.temperature = await this.object.getFlag("unkenny", "temperature");
+
+        let currentPrefix = await this.object.getFlag("unkenny", "prefix") || "none";
+        this.setContextPrefix(currentPrefix);
     }
 
     async _onChangeInput(event) {
@@ -49,6 +58,10 @@ class UnKennySheet extends DocumentSheet {
         if (event.target.name == "model") {
             let model = event.target.value
             this.setContextModel(model);
+        }
+        if (event.target.name == "prefix") {
+            let prefix = event.target.value;
+            this.setContextPrefix(prefix);
         }
     }
 
@@ -62,6 +75,16 @@ class UnKennySheet extends DocumentSheet {
         });
     }
 
+    setContextPrefix(prefix) {
+        this.context.prefixes.forEach(p => {
+            if (p.key == prefix) {
+                p.isSelected = true;
+            } else {
+                p.isSelected = false;
+            }
+        });
+    }
+
     async _updateObject(_event, formData) {
         await this.object.setFlag("unkenny", "alias", formData.alias);
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
@@ -70,6 +93,11 @@ class UnKennySheet extends DocumentSheet {
         await this.updateFlag(formData, "maxNewTokens");
         await this.updateFlag(formData, "repetitionPenalty");
         await this.updateFlag(formData, "temperature");
+        if (formData.prefix == "none") {
+            await this.object.unsetFlag("unkenny", "prefix");
+        } else {
+            await this.updateFlag(formData, "prefix");
+        }
 
         const actor = await findActorWithAlias(formData.alias);
         if (!actor) {
