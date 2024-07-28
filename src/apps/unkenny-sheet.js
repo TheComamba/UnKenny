@@ -2,7 +2,7 @@
 import { findActorWithAlias } from "../scripts/chat-message-request.js";
 import { getModelToTextMap } from "../scripts/models.js";
 import { PREFIX_OPTIONS } from "../scripts/prefix.js";
-//todo add option to overwrite prefix.
+
 class UnKennySheet extends DocumentSheet {
     constructor(actor) {
         super();
