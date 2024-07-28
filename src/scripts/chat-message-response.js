@@ -1,5 +1,6 @@
 import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-messages.js";
-import { generateResponse } from "./llm.js";
+import { generateResponse, getGenerationParameters } from "./llm.js";
+import { prefixResponse } from "./prefix.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
 
@@ -22,32 +23,43 @@ async function triggerResponse(actor, request) {
     let name = actor.name;
     let alias = await actor.getFlag("unkenny", "alias");
     request = replaceAlias(request, alias, name);
-    let response = await generateResponse(actor, request);
+
+    let parameters = await getGenerationParameters(actor);
+    if (!parameters) {
+        return;
+    }
+
+    let response = await generateResponse(actor, request, parameters);
+
     if (response) {
-        await postResponse(response, actor);
+        await respond(response, parameters, actor);
     } else {
         const errorMessage = game.i18n.localize("unkenny.chatMessage.noResponse");
         ui.notifications.error(errorMessage);
     }
 }
 
+async function respond(response, parameters, actor) {
+    response = await prefixResponse(response, parameters);
+    await postResponse(response, actor);
+}
+
 async function postResponse(response, actor) {
     response = response.replace(/\n/g, "<br>");
 
     let chatData = {
-        content: response,
         speaker: {
             actor: actor.id,
             alias: actor.name
         }
     };
-    await ui.chat.processMessage(unkennyResponseFlag + JSON.stringify(chatData));
+    await ui.chat.processMessage(response + unkennyResponseFlag + JSON.stringify(chatData));
 }
 
 function processUnKennyResponse(message) {
     let source = message._source;
-    if (source.content.startsWith(unkennyResponseFlag)) {
-        const jsonString = source.content.replace(unkennyResponseFlag, "");
+    if (source.content.includes(unkennyResponseFlag)) {
+        const [content, jsonString] = source.content.split(unkennyResponseFlag);
         let chatDataJson;
         try {
             chatDataJson = JSON.parse(jsonString);
@@ -56,6 +68,7 @@ function processUnKennyResponse(message) {
             ui.notifications.error(errorMessage);
             return;
         }
+        source.content = content;
         for (let key in chatDataJson) {
             source[key] = chatDataJson[key] ?? source[key];
         }
@@ -66,4 +79,4 @@ function processUnKennyResponse(message) {
     }
 }
 
-export { postResponse, processUnKennyResponse, replaceAlias, triggerResponse, unkennyResponseFlag };
+export { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag };

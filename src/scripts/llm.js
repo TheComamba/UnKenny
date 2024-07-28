@@ -41,11 +41,7 @@ async function getGenerationParameters(actor) {
     return params;
 }
 
-async function generateResponse(actor, input) {
-    let parameters = await getGenerationParameters(actor);
-    if (!parameters) {
-        return;
-    }
+async function generateResponse(actor, input, parameters) {
     let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
     let response;
     if (isLocal(parameters.model)) {
@@ -55,11 +51,6 @@ async function generateResponse(actor, input) {
     }
     if (!response) {
         return;
-    }
-
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-    if (prefixWithTalk) {
-        response = "/talk " + response;
     }
 
     return response;
