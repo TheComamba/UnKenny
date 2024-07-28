@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { setupHooks } from '../src/scripts/main.js';
 import mockReset from '../__mocks__/main.js';
-import { prefixResponse } from '../src/scripts/prefix.js';
+import { PREFIX_OPTIONS, prefixResponse } from '../src/scripts/prefix.js';
 import { getGenerationParameters } from '../src/scripts/llm.js';
 
 describe('prefixResponse', function () {
@@ -23,10 +23,30 @@ describe('prefixResponse', function () {
     });
 
     it('prefixes response with /talk if the corresponding game setting is set', async () => {
-        game.settings.set("unkenny", "prefixWithTalk", true);
+        for (let [key, prefix] of Object.entries(PREFIX_OPTIONS)) {
+            game.settings.set("unkenny", "prefix", key);
+            let response = "Hello";
+            let parameters = await getGenerationParameters(actor);
+            let prefixedResponse = await prefixResponse(response, parameters);
+            expect(prefixedResponse).to.equal(prefix + "Hello");
+        }
+    });
+
+    it('prefixes response with /talk if the actor flag is set', async () => {
+        for (let [key, prefix] of Object.entries(PREFIX_OPTIONS)) {
+            await actor.setFlag('unkenny', 'prefix', key);
+            let response = "Hello";
+            let parameters = await getGenerationParameters(actor);
+            let prefixedResponse = await prefixResponse(response, parameters);
+            expect(prefixedResponse).to.equal(prefix + "Hello");
+        }
+    });
+
+    it('prints a warning message if the prefix is invalid', async () => {
+        game.settings.set("unkenny", "prefix", "invalidPrefixOfDeathAndDestruction");
         let response = "Hello";
         let parameters = await getGenerationParameters(actor);
-        let prefixedResponse = await prefixResponse(response, parameters);
-        expect(prefixedResponse).to.equal("/talk Hello");
+        await prefixResponse(response, parameters);
+        expect(ui.notifications.warning.called).to.be.true;
     });
 });

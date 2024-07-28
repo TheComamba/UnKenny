@@ -89,7 +89,7 @@ describe('respond', function () {
         const actor = new Actor("John Doe");
         const response = "Hello";
         const parameters = {
-            prefixWithTalk: true
+            prefix: "talk"
         };
         await respond(response, parameters, actor);
         expectChatMessageResponse(actor, "/talk Hello");
@@ -99,7 +99,7 @@ describe('respond', function () {
         const actor = new Actor("John Doe");
         const response = "Hello";
         const parameters = {
-            prefixWithTalk: true
+            prefix: "talk"
         };
 
         let responseInHook = "";

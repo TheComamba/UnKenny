@@ -83,11 +83,6 @@ async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
 
   game.settings.set("unkenny", "model", model);
-  game.settings.set("unkenny", "minNewTokens", 1);
-  game.settings.set("unkenny", "maxNewTokens", 250);
-  game.settings.set("unkenny", "repetitionPenalty", 0.0);
-  game.settings.set("unkenny", "temperature", 1.0);
-  game.settings.set("unkenny", "prefixWithTalk", false);
 
   let actor = new Actor('Robert');
   await actor.setFlag('unkenny', 'alias', 'bob');
