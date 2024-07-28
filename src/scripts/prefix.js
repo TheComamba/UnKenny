@@ -3,8 +3,12 @@ const PREFIX_OPTIONS = {
     talk: "/talk ",
 };
 
+function isEmptyPrefix(prefix) {
+    return !prefix || prefix === PREFIX_OPTIONS.none;
+}
+
 async function prefixResponse(response, parameters) {
-    if (!parameters.prefix) {
+    if (isEmptyPrefix(parameters.prefix)) {
         return response;
     }
 

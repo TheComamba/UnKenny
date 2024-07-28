@@ -9,7 +9,7 @@ describe('prefixResponse', function () {
 
     beforeEach(async () => {
         mockReset();
-        setupHooks
+        setupHooks();
         Hooks.call('init');
         await actor.setFlag('unkenny', 'preamble', 'preamble');
         game.settings.set('unkenny', 'model', 'model1');
