@@ -103,6 +103,6 @@ async function postMessageAndCheckReply(model) {
   expect(reply.content).to.not.be.empty;
   expect(reply.speaker.actor).to.equal(actor.id);
 
-  expect(ui.notifications.warning.called).to.be.false;
+  expect(ui.notifications.warn.called).to.be.false;
   expect(ui.notifications.error.called).to.be.false;
 }

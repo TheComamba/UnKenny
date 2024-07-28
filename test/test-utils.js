@@ -40,7 +40,7 @@ function waitFor(conditionFunction) {
 async function waitForMessagesToBePosted(number) {
     await waitFor(() => {
         return game.messages.size === number || // Happy path
-            ui.notifications.warning.called || // Sad path
+            ui.notifications.warn.called || // Sad path
             ui.notifications.error.called; // Sad path
     });
 }

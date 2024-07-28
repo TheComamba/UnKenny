@@ -47,6 +47,6 @@ describe('prefixResponse', function () {
         let response = "Hello";
         let parameters = await getGenerationParameters(actor);
         await prefixResponse(response, parameters);
-        expect(ui.notifications.warning.called).to.be.true;
+        expect(ui.notifications.warn.called).to.be.true;
     });
 });

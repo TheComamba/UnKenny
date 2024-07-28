@@ -44,7 +44,7 @@ async function truncateMessages(model, messages, newTokenLimit) {
     if (isLocal(model)) {
         while (await isContextTooLongForLocalModel(model, messages, limit)) {
             if (!warningHasBeenGiven) {
-                ui.notifications.warning(warningMessage);
+                ui.notifications.warn(warningMessage);
                 warningHasBeenGiven = true;
             }
             shortenMessagesByOne(messages);
@@ -52,7 +52,7 @@ async function truncateMessages(model, messages, newTokenLimit) {
     } else {
         const messageSize = roughNumberOfTokensForOpenAi(messages);
         if (messageSize > limit) {
-            ui.notifications.warning(warningMessage);
+            ui.notifications.warn(warningMessage);
         }
     }
 }
