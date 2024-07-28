@@ -41,11 +41,7 @@ async function getGenerationParameters(actor) {
     return params;
 }
 
-async function generateResponse(actor, input) {
-    let parameters = await getGenerationParameters(actor);
-    if (!parameters) {
-        return;
-    }
+async function generateResponse(actor, input, parameters) {
     let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
     let response;
     if (isLocal(parameters.model)) {

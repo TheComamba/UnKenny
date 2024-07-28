@@ -1,6 +1,5 @@
-async function prefixResponse(actor, response) {
-    let prefixWithTalk = await actor.getFlag("unkenny", "prefixWithTalk") || false;
-    if (prefixWithTalk) {
+async function prefixResponse(response, parameters) {
+    if (parameters.prefixWithTalk) {
         response = "/talk " + response;
     }
     return response;
