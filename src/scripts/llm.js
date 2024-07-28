@@ -15,7 +15,7 @@ async function getGenerationParameter(actor, parameterName) {
     if (value == null) {
         value = llmParametersAndDefaults()[parameterName];
         const warningMessage = game.i18n.format("unkenny.llm.noValue", { parameterName: parameterName, value: value });
-        ui.notifications.warning(warningMessage);
+        ui.notifications.warn(warningMessage);
     }
     if (value == null) {
         const errorMessage = game.i18n.format("unkenny.llm.noDefaultValue", { parameterName: parameterName });

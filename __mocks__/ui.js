@@ -4,11 +4,11 @@ import ChatLog from './chat-log.js';
 const ui = {
     chat: new ChatLog(),
     notifications: {
-        warning: sinon.stub(),
+        warn: sinon.stub(),
         error: sinon.stub()
     },
     reset: function () {
-        this.notifications.warning.reset();
+        this.notifications.warn.reset();
         this.notifications.error.reset();
     }
 };

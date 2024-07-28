@@ -40,7 +40,7 @@ function waitFor(conditionFunction) {
 async function waitForMessagesToBePosted(number) {
     await waitFor(() => {
         return game.messages.size === number || // Happy path
-            ui.notifications.warning.called || // Sad path
+            ui.notifications.warn.called || // Sad path
             ui.notifications.error.called; // Sad path
     });
 }
@@ -55,4 +55,15 @@ async function findFirstMessageConcerning(actor) {
     return null;
 }
 
-export { findFirstMessageConcerning, testIfOpenAi, testIfSlow, waitFor, waitForMessagesToBePosted };
+function expectNoNotifications() {
+    if (ui.notifications.warn.called) {
+        const warning = ui.notifications.warn.getCall(0).args[0];
+        throw new Error("Warning has been called:\n" + warning);
+    }
+    if (ui.notifications.error.called) {
+        const error = ui.notifications.error.getCall(0).args[0];
+        throw new Error("Error has been called:\n" + error);
+    }
+}
+
+export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow, waitFor, waitForMessagesToBePosted };

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { testIfOpenAi } from './test-utils.js';
+import { expectNoNotifications, testIfOpenAi } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
@@ -52,9 +52,9 @@ describe('getResponseFromOpenAI', function () {
             const response = await getResponseFromOpenAI(parameters, messages);
             console.log(model, 'generated the following response:\n', response);
 
-            expect(ui.notifications.error.called).to.be.false;
             expect(response).to.include('Bob');
             expect(response).to.not.include('assistant');
+            expectNoNotifications();
         });
     });
 });

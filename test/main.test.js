@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
+import { expectNoNotifications, testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -60,6 +60,7 @@ describe('setupHooks', async function () {
 describe('Integration test', function () {
   beforeEach(() => {
     mockReset();
+    setupHooks();
     Hooks.call('init');
     Hooks.call('setup');
   });
@@ -83,11 +84,6 @@ async function postMessageAndCheckReply(model) {
   await import('../src/scripts/main.js');
 
   game.settings.set("unkenny", "model", model);
-  game.settings.set("unkenny", "minNewTokens", 1);
-  game.settings.set("unkenny", "maxNewTokens", 250);
-  game.settings.set("unkenny", "repetitionPenalty", 0.0);
-  game.settings.set("unkenny", "temperature", 1.0);
-  game.settings.set("unkenny", "prefixWithTalk", false);
 
   let actor = new Actor('Robert');
   await actor.setFlag('unkenny', 'alias', 'bob');
@@ -108,6 +104,5 @@ async function postMessageAndCheckReply(model) {
   expect(reply.content).to.not.be.empty;
   expect(reply.speaker.actor).to.equal(actor.id);
 
-  expect(ui.notifications.warning.called).to.be.false;
-  expect(ui.notifications.error.called).to.be.false;
+  expectNoNotifications();
 }

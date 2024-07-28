@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
+import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
+import Hooks from '../__mocks__/hooks.js';
+import { setupHooks } from '../src/scripts/main.js';
 
 describe('replaceAlias', function () {
     beforeEach(() => {
@@ -43,7 +45,8 @@ describe('replaceAlias', function () {
 describe('triggerResponse', function () {
     beforeEach(() => {
         mockReset();
-        overwriteChatMessage();
+        setupHooks();
+        Hooks.call('init');
     });
 
     testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
@@ -89,7 +92,7 @@ describe('respond', function () {
         const actor = new Actor("John Doe");
         const response = "Hello";
         const parameters = {
-            prefixWithTalk: true
+            prefix: "talk"
         };
         await respond(response, parameters, actor);
         expectChatMessageResponse(actor, "/talk Hello");
@@ -99,7 +102,7 @@ describe('respond', function () {
         const actor = new Actor("John Doe");
         const response = "Hello";
         const parameters = {
-            prefixWithTalk: true
+            prefix: "talk"
         };
 
         let responseInHook = "";
@@ -111,6 +114,7 @@ describe('respond', function () {
         if (!responseInHook.startsWith("/talk Hello")) {
             throw new Error(`Expected response to start with "/talk Hello", but got "${responseInHook}"`);
         }
+        expectNoNotifications();
     });
 });
 
@@ -141,6 +145,7 @@ describe('postResponse', function () {
         await postResponse(response, actor);
         const message = findFirstMessageConcerning(actor);
         expect(message).to.not.be.undefined;
+        expectNoNotifications();
     });
 });
 
@@ -154,6 +159,7 @@ function expectChatMessageResponse(actor, response) {
     }
     expect(message.speaker.actor).to.equal(actor.id);
     expect(message.speaker.alias).to.equal(actor.name);
+    expectNoNotifications();
 }
 
 describe('processUnKennyResponse', function () {
@@ -171,7 +177,7 @@ describe('processUnKennyResponse', function () {
 
         expect(message._source.content).to.equal('Hello');
         expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('should handle invalid flagged data', () => {
@@ -197,6 +203,6 @@ describe('processUnKennyResponse', function () {
         processUnKennyResponse(message);
 
         expect(message._source.content).to.equal(unflaggedData);
-        expect(ui.notifications.error.called).to.be.false;
+        expectNoNotifications();
     });
 });

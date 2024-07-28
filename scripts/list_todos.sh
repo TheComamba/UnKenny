@@ -10,6 +10,7 @@ SCRIPT=$(readlink -f "$0")
 if grep -rinI todo * \
     --exclude-dir=node_modules \
     --exclude-dir=coverage \
+    --exclude-dir=venv \
     --exclude=$(basename $SCRIPT) \
     -B 3 -A 3; then
     echo

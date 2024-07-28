@@ -26,7 +26,7 @@ describe('getGenerationParameters', function () {
             maxNewTokens: params.maxNewTokens,
             temperature: params.temperature,
             repetitionPenalty: params.repetitionPenalty,
-            prefixWithTalk: params.prefixWithTalk
+            prefix: params.prefix
         });
     });
 
@@ -40,7 +40,7 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'prefixWithTalk', true);
+        game.settings.set('unkenny', 'prefix', "talk");
 
         await actor.setFlag('unkenny', 'preamble', 'preamble');
 
@@ -54,7 +54,7 @@ describe('getGenerationParameters', function () {
             maxNewTokens: 20,
             temperature: 1.5,
             repetitionPenalty: 0.5,
-            prefixWithTalk: true
+            prefix: "talk"
         });
     });
 
@@ -68,7 +68,7 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'prefixWithTalk', true);
+        game.settings.set('unkenny', 'prefix', "talk");
 
         await actor.setFlag('unkenny', 'preamble', 'preamble');
         await actor.setFlag('unkenny', 'model', 'model2');
@@ -76,7 +76,7 @@ describe('getGenerationParameters', function () {
         await actor.setFlag('unkenny', 'maxNewTokens', 21);
         await actor.setFlag('unkenny', 'temperature', 1.6);
         await actor.setFlag('unkenny', 'repetitionPenalty', 0.6);
-        await actor.setFlag('unkenny', 'prefixWithTalk', false);
+        await actor.setFlag('unkenny', 'prefix', "someOtherPrefix");
 
         const result = await getGenerationParameters(actor);
 
@@ -88,7 +88,7 @@ describe('getGenerationParameters', function () {
             maxNewTokens: 21,
             temperature: 1.6,
             repetitionPenalty: 0.6,
-            prefixWithTalk: false
+            prefix: "someOtherPrefix"
         });
     });
 
@@ -101,7 +101,7 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
         game.settings.set('unkenny', 'repetitionPenalty', 0.5);
-        game.settings.set('unkenny', 'prefixWithTalk', true);
+        game.settings.set('unkenny', 'prefix', 'talk');
 
         const result = await getGenerationParameters(actor);
 

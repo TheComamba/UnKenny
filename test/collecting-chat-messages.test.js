@@ -5,6 +5,7 @@ import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
+import { expectNoNotifications } from "./test-utils.js";
 
 describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
@@ -198,7 +199,7 @@ describe('truncateMessages', function () {
         await truncateMessages(localModel, messages, newTokenLimit);
 
         expect(messages.length).to.equal(4);
-        expect(ui.notifications.warning.called).to.be.false;
+        expectNoNotifications();
     });
 
     it('should truncate messages to local models starting with the first message that is not the preamble', async () => {
@@ -243,7 +244,7 @@ describe('truncateMessages', function () {
         expect(messages.length).to.be.greaterThanOrEqual(4);
         expect(messages.length).to.be.lessThanOrEqual(6);
         expect(messages[0].role).to.equal('system');
-        expect(ui.notifications.warning.called).to.be.true;
+        expect(ui.notifications.warn.called).to.be.true;
     });
 
     it('should truncate messages to local models if the expected output does not fit inside the context limit', async () => {
@@ -297,7 +298,7 @@ describe('truncateMessages', function () {
         await truncateMessages(openaiModel, messages, newTokenLimit);
 
         expect(messages.length).to.equal(4);
-        expect(ui.notifications.warning.called).to.be.true;
+        expect(ui.notifications.warn.called).to.be.true;
     });
 
     it('should display an error and fail if further truncation of local model is not possible', async () => {

@@ -1,4 +1,5 @@
 import { getModelToTextMap } from "./models.js";
+import { PREFIX_OPTIONS } from "./prefix.js";
 
 function llmParametersAndDefaults() {
     return {
@@ -8,7 +9,7 @@ function llmParametersAndDefaults() {
         maxNewTokens: 250,
         repetitionPenalty: 0.0,
         temperature: 1.0,
-        prefixWithTalk: false
+        prefix: ""
     };
 }
 
@@ -90,13 +91,14 @@ function registerGameParameters() {
         default: params.temperature
     });
 
-    game.settings.register("unkenny", "prefixWithTalk", {
-        name: game.i18n.localize("unkenny.settings.prefixWithTalk"),
-        hint: game.i18n.localize("unkenny.settings.prefixWithTalkDescription"),
+    game.settings.register("unkenny", "prefix", {
+        name: game.i18n.localize("unkenny.settings.prefix"),
+        hint: game.i18n.localize("unkenny.settings.prefixDescription"),
         scope: "world",
         config: true,
-        type: Boolean,
-        default: params.prefixWithTalk
+        type: String,
+        choices: PREFIX_OPTIONS,
+        default: params.prefix
     });
 }
 
