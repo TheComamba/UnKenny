@@ -1,5 +1,6 @@
 import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-messages.js";
 import { generateResponse } from "./llm.js";
+import { prefixResponse } from "./prefix.js";
 
 const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
 
@@ -24,6 +25,7 @@ async function triggerResponse(actor, request) {
     request = replaceAlias(request, alias, name);
     let response = await generateResponse(actor, request);
     if (response) {
+        response = await prefixResponse(actor, response);
         await postResponse(response, actor);
     } else {
         const errorMessage = game.i18n.localize("unkenny.chatMessage.noResponse");
