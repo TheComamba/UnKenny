@@ -12,6 +12,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Check version consistency
-      run: ./scripts/check_version_consistency.sh
+      run: ./foundry_scripts/check_version_consistency.sh
     - name: Check localizations consistency
-      run: ./scripts/check_localizations_consistency.sh
+      run: ./foundry_scripts/check_localizations_consistency.sh

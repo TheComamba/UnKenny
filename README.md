@@ -60,7 +60,7 @@ Note that the context size of a large language model is limited. At some point U
 
 Bug reports, feature requests and pull requests are all welcome.
 
-If you want to add a new language, add a file called `src/lang/<new-lang>.json`, where `<new-lang>` is the corresponding [two-letter ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). In `src/module.json`, add a new entry in the `"languages"` array. Running `scripts/check_localizations_consistency.sh` will list all keys that are not translated into your language. It will also discover some typos.
+If you want to add a new language, add a file called `src/lang/<new-lang>.json`, where `<new-lang>` is the corresponding [two-letter ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). In `src/module.json`, add a new entry in the `"languages"` array. Running `foundry_scripts/check_localizations_consistency.sh` will list all keys that are not translated into your language. It will also discover some typos.
 
 If you develop a feature or fix a bug, please make sure that the behaviour is covered by tests. It may be necessary to expand the FoundryVTT mock contained in the `__mocks__` folder. Without thorough test coverage this module quickly becomes unmaintainable.
 

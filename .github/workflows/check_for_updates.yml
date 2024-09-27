@@ -17,7 +17,7 @@ jobs:
         - name: Check for unstaged changes
           run: |
                 if [[ `git status --porcelain` ]]; then
-                    echo "This repository needs to be updated. Please run ./scripts/update.sh and commit the changes."
+                    echo "This repository needs to be updated. Please run ./foundry_scripts/update.sh and commit the changes."
                     git diff
                     exit 1
                 fi
