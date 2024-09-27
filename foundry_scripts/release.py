@@ -37,11 +37,16 @@ def get_manifest():
     with open("src/module.json", 'r') as file:
         return json.load(file)
 
+def get_project_name():
+    return os.path.basename(os.getcwd())
+
 def manifest_url(version):
-    return f"https://raw.githubusercontent.com/TheComamba/UnKenny/v{version}/src/module.json"
+    project_name = get_project_name()
+    return f"https://raw.githubusercontent.com/{project_name}/v{version}/src/module.json"
 
 def release_notes_url(version):
-    return f"https://github.com/TheComamba/UnKenny/blob/v{version}/release_notes/{version}.md"
+    project_name = get_project_name()
+    return f"https://github.com/{project_name}/blob/v{version}/release_notes/{version}.md"
     
 def get_data(manifest):
     version = manifest.get("version")

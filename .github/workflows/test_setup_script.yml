@@ -33,6 +33,6 @@ jobs:
           # Sourcing bashrc did not work, probably because the default bashrc returns if it is run in a non-interactive shell.
         - name: Run setup.sh and check npm installation)
           run: |
-                chmod +x ./scripts/setup.sh
-                . ./scripts/setup.sh
+                chmod +x ./foundry_scripts/setup.sh
+                . ./foundry_scripts/setup.sh
                 command -v npm || exit 1

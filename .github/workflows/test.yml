@@ -32,9 +32,9 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          ./scripts/test.sh --all
+          ./test.sh --all
         else
-          ./scripts/test.sh
+          ./test.sh
         fi
 
     - name: Run tests on Windows
@@ -43,8 +43,8 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         if ("${{ github.event_name }}" -eq "pull_request") { 
-          .\scripts\test.ps1 --all 
+          .\test.ps1 --all 
         } else { 
-          .\scripts\test.ps1 
+          .\test.ps1 
         }
       shell: pwsh
