@@ -51,27 +51,21 @@ async function postResponse(response, actor) {
         speaker: {
             actor: actor.id,
             alias: actor.name
+        },
+        flags: {
+            unkenny: {
+                responseData: response
+            }
         }
     };
-    await ui.chat.processMessage(response + unkennyResponseFlag + JSON.stringify(chatData));
+    await ui.chat.processMessage(response, chatData);
 }
 
 function processUnKennyResponse(message) {
     let source = message._source;
-    if (source.content.includes(unkennyResponseFlag)) {
-        const [content, jsonString] = source.content.split(unkennyResponseFlag);
-        let chatDataJson;
-        try {
-            chatDataJson = JSON.parse(jsonString);
-        } catch (error) {
-            const errorMessage = game.i18n.format("unkenny.chatMessage.jsonParseError", { error: error });
-            ui.notifications.error(errorMessage);
-            return;
-        }
-        source.content = content;
-        for (let key in chatDataJson) {
-            source[key] = chatDataJson[key] ?? source[key];
-        }
+    const responseData = source.flags?.unkenny?.responseData;
+    if (responseData) {
+        source.content = responseData;
         const actorId = source.speaker.actor;
         if (actorId) {
             smuggleConversationWithFlagIntoSource(source, actorId);
