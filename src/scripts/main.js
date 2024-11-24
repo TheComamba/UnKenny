@@ -3,6 +3,7 @@ import { getConversationWithFlagSync, overwriteChatMessage, removeAllMessagesFro
 import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 import { confirmationDialog } from "../apps/confirmation-dialogue.js";
+import './chat-autocomplete.js';
 
 // CONFIG.debug.hooks = true;
 
