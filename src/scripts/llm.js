@@ -31,6 +31,11 @@ async function getGenerationParameters(actor) {
     }
     let params = {};
     params.actorName = actor.name;
+
+    // Fetch biography from the actor's character sheet
+    const biography = actor.system.details.biography?.value || ""; // Adjusted to access the correct property
+    params.biography = biography.slice(0, 1000); // Limit to 1000 characters
+
     for (let key in llmParametersAndDefaults()) {
         const param = await getGenerationParameter(actor, key);
         if (param == null) {
