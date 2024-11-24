@@ -1,11 +1,9 @@
 export default class ChatLog {
-    async processMessage(message) {
+    async processMessage(message, chatData = {}) {
         const chatMessageClass = ChatMessage.implementation;
-        const chatData = {
-            user: game.user.id,
-            speaker: chatMessageClass.getSpeaker(),
-            content: message
-        };
+        chatData.user = game.user.id;
+        chatData.speaker = chatData.speaker || chatMessageClass.getSpeaker();
+        chatData.content = message;
         Hooks.call('chatMessage', this, message, chatData);
         return chatMessageClass.create(chatData); // no await here
     }
