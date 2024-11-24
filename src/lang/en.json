@@ -48,5 +48,6 @@
     "unkenny.sheet.preamble": "Preamble",
     "unkenny.sheet.overwrite": "Overwrite Global Parameters",
     "unkenny.sheet.save": "Save",
-    "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed."
+    "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed.",
+    "unkenny.sheet.includeBiography": "Include Biography Details"
 }
