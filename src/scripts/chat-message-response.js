@@ -22,10 +22,19 @@ async function triggerResponse(actor, request) {
     let alias = await actor.getFlag("unkenny", "alias");
     request = replaceAlias(request, alias, name);
 
+    let preamble = await actor.getFlag("unkenny", "preamble") || "";
     let parameters = await getGenerationParameters(actor);
     if (!parameters) {
         return;
     }
+
+    if (await actor.getFlag("unkenny", "includeBiography") && parameters.biography.trim()) {
+        preamble += `\n\n${parameters.biography}`;
+    }
+
+    console.log("Constructed Preamble:", preamble);
+
+    request = `${preamble}\n\n${request}`;
 
     let response = await generateResponse(actor, request, parameters);
 
