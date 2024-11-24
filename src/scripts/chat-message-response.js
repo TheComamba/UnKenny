@@ -2,8 +2,6 @@ import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-message
 import { generateResponse, getGenerationParameters } from "./llm.js";
 import { prefixResponse } from "./prefix.js";
 
-const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
-
 function replaceAlias(message, alias, actorName) {
     if (!message || !alias || !actorName) {
         return message;
@@ -73,4 +71,4 @@ function processUnKennyResponse(message) {
     }
 }
 
-export { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag };
+export { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse };

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
+import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse } from '../src/scripts/chat-message-response.js';
 import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
 import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
@@ -169,7 +169,15 @@ describe('processUnKennyResponse', function () {
 
     it('should process flagged data correctly', () => {
         const data = {
-            content: unkennyResponseFlag + '{"content":"Hello","speaker":{"actor":"blmXW5O6DAwXf08v"}}'
+            content: "Wrong content",
+            speaker: {
+                actor: "blmXW5O6DAwXf08v"
+            },
+            flags: {
+                unkenny: {
+                    responseData: "Hello"
+                }
+            }
         };
         let message = new ChatMessage(data);
 
@@ -178,19 +186,6 @@ describe('processUnKennyResponse', function () {
         expect(message._source.content).to.equal('Hello');
         expect(message._source.speaker.actor).to.equal('blmXW5O6DAwXf08v');
         expectNoNotifications();
-    });
-
-    it('should handle invalid flagged data', () => {
-        const invalidJson = unkennyResponseFlag + '{"content":';
-        const data = {
-            content: invalidJson
-        };
-        let message = new ChatMessage(data);
-
-        processUnKennyResponse(message);
-
-        expect(message._source.content).to.equal(invalidJson);
-        expect(ui.notifications.error.called).to.be.true;
     });
 
     if ('should not process unflagged data', () => {
