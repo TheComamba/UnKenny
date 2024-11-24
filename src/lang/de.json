@@ -14,7 +14,6 @@
     "unkenny.chatMessage.multipleActors": "Mehrere Akteure mit Alias \"{alias}\" gefunden: {names}",
     "unkenny.chatMessage.triggerWithoutActor": "triggerResponse wurde ohne Akteur aufgerufen.",
     "unkenny.chatMessage.noResponse": "Es wurde keine Antwort generiert.",
-    "unkenny.chatMessage.jsonParseError": "Fehler beim Verarbeiten von JSON: {error}",
     "unkenny.chatMessage.preambleTooLong": "Das Gespräch hat gerade erst begonnen, ist aber bereits zu lang für das Modell. Dies liegt wahrscheinlich daran, dass die Präambel zu lang ist. Bitte kürze die Präambel oder wechsle zu einem anderen Modell mit einer größeren Kontextlänge.",
     "unkenny.chatMessage.truncatingMessage": "Dieses Gespräch, welches {messageCount} Nachrichten umfasst, ist zu lang für das Modell und wird gekürzt. Um dies in Zukunft zu verhindern, kannst du entweder das Modell wechseln oder das Gespräch verkürzen, indem du vorherige Nachrichten aus dem Gespräch entfernts.",
     "unkenny.chatMessage.noPreamble": "Für Akteur {name} wurde keine Präambel hinterlegt.",
