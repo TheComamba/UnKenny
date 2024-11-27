@@ -11,6 +11,24 @@ function roughNumberOfTokensForOpenAi(messages) {
 }
 
 async function getResponseFromOpenAI(parameters, messages) {
+    // Get all parameters from game settings if not in parameters
+    const apiKey = parameters.apiKey || game.settings.get("unkenny", "apiKey");
+    const model = parameters.model || game.settings.get("unkenny", "model");
+    const maxNewTokens = parameters.maxNewTokens || game.settings.get("unkenny", "maxNewTokens");
+    const temperature = parameters.temperature ?? game.settings.get("unkenny", "temperature");
+    const repetitionPenalty = parameters.repetitionPenalty ?? game.settings.get("unkenny", "repetitionPenalty");
+    
+    // Validate required parameters
+    if (!apiKey) {
+        ui.notifications.error(game.i18n.localize("unkenny.chatMessage.noApiKey"));
+        return;
+    }
+
+    if (!model) {
+        ui.notifications.error(game.i18n.localize("unkenny.chatMessage.noModel"));
+        return;
+    }
+
     const OpenAIModule = await loadExternalModule('openai');
     if (!OpenAIModule) {
         return;
@@ -18,23 +36,26 @@ async function getResponseFromOpenAI(parameters, messages) {
     const OpenAi = OpenAIModule.default;
 
     const openai = new OpenAi({
-        apiKey: parameters.apiKey,
+        apiKey: apiKey,
         dangerouslyAllowBrowser: true,
     });
 
     const input_parameters = {
-        model: parameters.model,
+        model: model,
         messages: messages,
-        max_tokens: parameters.maxNewTokens,
-        temperature: parameters.temperature,
-        frequency_penalty: parameters.repetitionPenalty,
+        max_tokens: maxNewTokens,
+        temperature: temperature,
+        frequency_penalty: repetitionPenalty,
     };
+    
     try {
+        console.log("OpenAI input parameters:", { ...input_parameters, apiKey: "[REDACTED]" });
         const chatCompletion = await openai.chat.completions.create(input_parameters);
         return chatCompletion['choices'][0]['message']['content'];
     } catch (error) {
         const errorMessage = game.i18n.format('unkenny.llm.openAiError', { error: error });
         ui.notifications.error(errorMessage);
+        console.error("OpenAI API error:", error);
         return;
     }
 }

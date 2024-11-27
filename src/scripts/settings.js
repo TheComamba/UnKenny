@@ -9,7 +9,8 @@ function llmParametersAndDefaults() {
         maxNewTokens: 250,
         repetitionPenalty: 0.0,
         temperature: 1.0,
-        prefix: ""
+        prefix: "",
+        responsePrompt: "Only respond with a greeting if greeted first. Respond in character, maintaining the established tone and personality. Do not speak in third person unless its part of the character's personality. respond with dialog only and do not describe actions."
     };
 }
 
@@ -35,18 +36,15 @@ function registerGameParameters() {
         default: params.apiKey
     });
 
-    game.settings.register("unkenny", "minNewTokens", {
-        name: game.i18n.localize("unkenny.settings.minNewTokens"),
-        hint: game.i18n.localize("unkenny.settings.minNewTokensDescription"),
+    game.settings.register("unkenny", "responsePrompt", {
+        name: game.i18n.localize("unkenny.settings.responsePrompt"),
+        hint: game.i18n.localize("unkenny.settings.responsePromptDescription"),
         scope: "world",
         config: true,
-        type: Number,
-        range: {
-            min: 1,
-            max: 100,
-            step: 1
-        },
-        default: params.minNewTokens
+        type: String,
+        default: params.responsePrompt,
+        isLarge: true,
+        height: 200
     });
 
     game.settings.register("unkenny", "maxNewTokens", {
@@ -63,6 +61,20 @@ function registerGameParameters() {
         default: params.maxNewTokens
     });
 
+    game.settings.register("unkenny", "temperature", {
+        name: game.i18n.localize("unkenny.settings.temperature"),
+        hint: game.i18n.localize("unkenny.settings.temperatureDescription"),
+        scope: "world",
+        config: true,
+        type: Number,
+        range: {
+            min: 0,
+            max: 2,
+            step: 0.01
+        },
+        default: params.temperature
+    });
+
     game.settings.register("unkenny", "repetitionPenalty", {
         name: game.i18n.localize("unkenny.settings.repetitionPenalty"),
         hint: game.i18n.localize("unkenny.settings.repetitionPenaltyDescription"),
@@ -77,18 +89,18 @@ function registerGameParameters() {
         default: params.repetitionPenalty
     });
 
-    game.settings.register("unkenny", "temperature", {
-        name: game.i18n.localize("unkenny.settings.temperature"),
-        hint: game.i18n.localize("unkenny.settings.temperatureDescription"),
+    game.settings.register("unkenny", "minNewTokens", {
+        name: game.i18n.localize("unkenny.settings.minNewTokens"),
+        hint: game.i18n.localize("unkenny.settings.minNewTokensDescription"),
         scope: "world",
         config: true,
         type: Number,
         range: {
-            min: 0,
-            max: 2,
-            step: 0.01
+            min: 1,
+            max: 100,
+            step: 1
         },
-        default: params.temperature
+        default: params.minNewTokens
     });
 
     game.settings.register("unkenny", "prefix", {
