@@ -48,11 +48,5 @@
     "unkenny.sheet.preamble": "Preamble",
     "unkenny.sheet.overwrite": "Overwrite Global Parameters",
     "unkenny.sheet.save": "Save",
-    "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed.",
-    "unkenny.sheet.includeBiography": "Include Biography Details",
-    "unkenny.chatMessage.noPreambleOrBio": "Either a preamble or biography must be provided for the character.",
-    "unkenny.chatMessage.noApiKey": "OpenAI API key is missing. Please add it in the module settings.",
-    "unkenny.chatMessage.noModel": "No model selected. Please select a model in the module settings.",
-    "unkenny.settings.responsePrompt": "Global Response Instructions & World Context",
-    "unkenny.settings.responsePromptDescription": "Additional instructions that will be appended to each request to guide the AI's response style and provide world context. You can include both character behavior guidelines and brief world/setting information to maintain consistency across all AI responses. For example: 'Respond in character, maintaining established tone and personality. This world is a high-fantasy setting where magic is rare and mysterious, and most people have never seen a wizard.'"
+    "unkenny.sheet.settingAliasFailed": "Actor not found, setting alias failed."
 }

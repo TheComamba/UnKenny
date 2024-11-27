@@ -32,12 +32,10 @@ async function getGenerationParameters(actor) {
     let params = {};
     params.actorName = actor.name;
 
-    // Get includeBiography flag
     params.includeBiography = await actor.getFlag("unkenny", "includeBiography") || false;
 
-    // Fetch biography from the actor's character sheet
     const biography = actor.system.details.biography?.value || "";
-    params.biography = biography.slice(0, 1000); // Limit to 1000 characters
+    params.biography = biography.slice(0, 1000);
 
     for (let key in llmParametersAndDefaults()) {
         const param = await getGenerationParameter(actor, key);
@@ -49,17 +47,19 @@ async function getGenerationParameters(actor) {
     return params;
 }
 
-async function generateResponse(actor, request, parameters) {
-    const model = parameters.model || game.settings.get("unkenny", "model");
-    const maxNewTokens = parameters.maxNewTokens || game.settings.get("unkenny", "maxNewTokens");
-    
-    let messages = await collectChatMessages(actor, request, maxNewTokens, parameters);
-    
-    if (isLocal(model)) {
-        return await generateLocalResponse(model, messages, parameters);
+async function generateResponse(actor, input, parameters) {
+    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens, parameters);
+    let response;
+    if (isLocal(parameters.model)) {
+        response = await getResponseFromLocalLLM(parameters, messages);
     } else {
-        return await getResponseFromOpenAI(parameters, messages);
+        response = await getResponseFromOpenAI(parameters, messages);
     }
+    if (!response) {
+        return;
+    }
+
+    return response;
 }
 
 export { generateResponse, getGenerationParameters };

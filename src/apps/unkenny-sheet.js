@@ -1,3 +1,4 @@
+
 import { findActorWithAlias } from "../scripts/chat-message-request.js";
 import { getModelToTextMap } from "../scripts/models.js";
 import { PREFIX_OPTIONS } from "../scripts/prefix.js";
@@ -21,8 +22,6 @@ class UnKennySheet extends DocumentSheet {
             this.initPrefixes();
             await this.initContextWithActorData();
         }
-
-        this.context.includeBiography = await this.object.getFlag("unkenny", "includeBiography") || false;
 
         return this.context;
     }
@@ -99,8 +98,6 @@ class UnKennySheet extends DocumentSheet {
         } else {
             await this.updateFlag(formData, "prefix");
         }
-
-        await this.object.setFlag("unkenny", "includeBiography", formData.includeBiography);
 
         const actor = await findActorWithAlias(formData.alias);
         if (!actor) {
