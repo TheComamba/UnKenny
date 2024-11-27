@@ -63,7 +63,7 @@ async function messagesOrganisedForTemplate(actor, previousMessages, newMessageC
     
     // Check if we have either preamble or biography
     const hasPreamble = preamble.trim().length > 0;
-    const hasBiography = parameters?.includeBiography && parameters?.biography && parameters.biography.toString().trim().length > 0;
+    const hasBiography = parameters?.biography && parameters.biography.toString().trim().length > 0;
     
     // Only throw error if we have neither
     if (!hasPreamble && !hasBiography) {
