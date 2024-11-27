@@ -31,6 +31,12 @@ async function getGenerationParameters(actor) {
     }
     let params = {};
     params.actorName = actor.name;
+
+    params.includeBiography = await actor.getFlag("unkenny", "includeBiography") || false;
+
+    const biography = actor.system.details.biography?.value || "";
+    params.biography = biography.slice(0, 1000);
+
     for (let key in llmParametersAndDefaults()) {
         const param = await getGenerationParameter(actor, key);
         if (param == null) {
@@ -42,7 +48,7 @@ async function getGenerationParameters(actor) {
 }
 
 async function generateResponse(actor, input, parameters) {
-    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
+    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens, parameters);
     let response;
     if (isLocal(parameters.model)) {
         response = await getResponseFromLocalLLM(parameters, messages);

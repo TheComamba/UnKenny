@@ -57,42 +57,73 @@ async function truncateMessages(model, messages, newTokenLimit) {
     }
 }
 
-async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
-    const preamble = await actor.getFlag('unkenny', 'preamble');
-    if (!preamble) {
-        const errorMessage = game.i18n.format('unkenny.chatMessage.noPreamble', { name: actor.name });
+async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent, parameters) {
+    // Ensure preamble is a string
+    const preamble = await actor.getFlag('unkenny', 'preamble') || '';
+    
+    // Check if we have either preamble or biography
+    const hasPreamble = preamble.trim().length > 0;
+    const hasBiography = parameters?.biography && parameters.biography.toString().trim().length > 0;
+    
+    // Only throw error if we have neither
+    if (!hasPreamble && !hasBiography) {
+        const errorMessage = game.i18n.format('unkenny.chatMessage.noPreambleOrBio', { name: actor.name });
         ui.notifications.error(errorMessage);
         return [];
     }
 
-    let messages = [];
-    messages.push({
-        role: 'system',
-        content: preamble
-    });
-    previousMessages.forEach((message) => {
-        let role = 'user';
-        const speaker = message._source.speaker;
-        if (speaker && speaker.actor === actor.id) {
-            role = 'assistant';
+    let result = [];
+    
+    // Add system message with preamble and/or biography
+    let systemContent = "";
+    if (hasPreamble) {
+        systemContent += preamble.trim();
+    }
+    if (hasBiography) {
+        if (systemContent) {
+            systemContent += "\n\n";
         }
-        messages.push({
-            role: role,
-            content: message.content
+        systemContent += parameters.biography.toString().trim();
+    }
+    
+    if (systemContent) {
+        result.push({
+            role: 'system',
+            content: systemContent
         });
-    });
-    messages.push({
+    }
+
+    // Add previous messages in chronological order
+    if (previousMessages && previousMessages.length > 0) {
+        previousMessages.forEach((message) => {
+            let role = 'user';
+            const speaker = message._source.speaker;
+            if (speaker && speaker.actor === actor.id) {
+                role = 'assistant';
+            }
+            result.push({
+                role: role,
+                content: message.content
+            });
+        });
+    }
+
+    // Add the new message
+    result.push({
         role: 'user',
         content: newMessageContent
     });
-    return messages;
+
+    return result;
 }
 
-async function collectChatMessages(actor, newMessageContent, newTokenLimit) {
+async function collectChatMessages(actor, newMessageContent, newTokenLimit, parameters) {
     let previousMessages = await collectPreviousMessages(actor);
     sortMessages(previousMessages);
-    let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
-    truncateMessages(actor, messages, newTokenLimit);
+    let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent, parameters);
+    if (parameters?.model) {
+        truncateMessages(parameters.model, messages, newTokenLimit);
+    }
     return messages;
 }
 
