@@ -6,6 +6,7 @@ import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 import mockReset from '../__mocks__/main.js';
+import { PREFIX_OPTIONS } from '../src/scripts/prefix.js';
 
 describe('main.js', function () {
   this.beforeEach(() => {
@@ -78,6 +79,17 @@ describe('Integration test', function () {
     const model = localModels[0];
     await postMessageAndCheckReply(model);
   });
+
+
+  testIfOpenAi('should whisper to user', async () => {
+    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "prefix", "whisper");
+    game.user.name = 'Alice';
+    const openaiModels = getOpenAiModels();
+    const model = openaiModels[0];
+    const reply = await postMessageAndCheckReply(model);
+    expect(reply).to.include('/whisper Alice');
+  });
 });
 
 async function postMessageAndCheckReply(model) {
@@ -105,4 +117,6 @@ async function postMessageAndCheckReply(model) {
   expect(reply.speaker.actor).to.equal(actor.id);
 
   expectNoNotifications();
+
+  return reply.content;
 }
