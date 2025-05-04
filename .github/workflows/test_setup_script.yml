@@ -14,15 +14,15 @@ jobs:
         container: ${{ matrix.container }}
 
         steps:
+        - name: Install dependencies
+          run: |
+                apt-get update
+                apt-get install -y git sudo
+
         - name: Checkout code
           uses: actions/checkout@v4
           with:
             submodules: true
-
-        - name: Install sudo
-          run: |
-                apt-get update
-                apt-get install -y sudo
 
         - name: Check that npm is not installed before setup
           run: |
