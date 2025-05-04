@@ -7,6 +7,7 @@ import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 import mockReset from '../__mocks__/main.js';
 import { PREFIX_OPTIONS } from '../src/scripts/prefix.js';
+import { CONVERSATION_FLAG } from '../src/scripts/collecting-chat-messages.js';
 
 describe('main.js', function () {
   this.beforeEach(() => {
@@ -111,10 +112,12 @@ async function postMessageAndCheckReply(model) {
   let request = game.messages.find(m => m.data.content === messageContent);
   expect(request.content).to.equal(messageContent);
   expect(request.user).to.equal(game.user.id);
+  expect(await request.getFlag('unkenny', CONVERSATION_FLAG)).to.not.be.null;
 
   let reply = game.messages.find(m => m.data.content != messageContent);
   expect(reply.content).to.not.be.empty;
   expect(reply.speaker.actor).to.equal(actor.id);
+  expect(await reply.getFlag('unkenny', CONVERSATION_FLAG)).to.not.be.null;
 
   expectNoNotifications();
 
