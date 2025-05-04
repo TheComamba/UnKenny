@@ -1,0 +1,3 @@
+[submodule "foundry_scripts"]
+	path = foundry_scripts
+	url = git@github.com:TheComamba/foundry_scripts.git
