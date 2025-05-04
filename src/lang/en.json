@@ -14,6 +14,7 @@
     "unkenny.chatMessage.multipleActors": "Multiple actors with alias \"{alias}\" found: {names}",
     "unkenny.chatMessage.triggerWithoutActor": "triggerResponse was called with no actor.",
     "unkenny.chatMessage.noResponse": "No response was generated.",
+    "unkenny.chatMessage.jsonParseError": "Error parsing JSON: {error}",
     "unkenny.chatMessage.preambleTooLong": "The conversation has only just begun, but it is already too long for the model. This is likely due to the preamble being too long. Please shorten the preamble or switch to a different model with a larger context size.",
     "unkenny.chatMessage.truncatingMessage": "This conversion spanning {messageCount} messages is too long for the model, and will be truncated. To prevent this in the future, you can either switch the model or shorten the conversation by removing previous messages from the conversation.",
     "unkenny.chatMessage.noPreamble": "No preamble set for actor {name}.",

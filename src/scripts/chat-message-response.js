@@ -2,6 +2,8 @@ import { smuggleConversationWithFlagIntoSource } from "./collecting-chat-message
 import { generateResponse, getGenerationParameters } from "./llm.js";
 import { prefixResponse } from "./prefix.js";
 
+const unkennyResponseFlag = "#UnKennyResponseChatDataInJsonFormat: "
+
 function replaceAlias(message, alias, actorName) {
     if (!message || !alias || !actorName) {
         return message;
@@ -49,21 +51,27 @@ async function postResponse(response, actor) {
         speaker: {
             actor: actor.id,
             alias: actor.name
-        },
-        flags: {
-            unkenny: {
-                responseData: response
-            }
         }
     };
-    await ui.chat.processMessage(response, chatData);
+    await ui.chat.processMessage(response + unkennyResponseFlag + JSON.stringify(chatData));
 }
 
 function processUnKennyResponse(message) {
     let source = message._source;
-    const responseData = source.flags?.unkenny?.responseData;
-    if (responseData) {
-        source.content = responseData;
+    if (source.content.includes(unkennyResponseFlag)) {
+        const [content, jsonString] = source.content.split(unkennyResponseFlag);
+        let chatDataJson;
+        try {
+            chatDataJson = JSON.parse(jsonString);
+        } catch (error) {
+            const errorMessage = game.i18n.format("unkenny.chatMessage.jsonParseError", { error: error });
+            ui.notifications.error(errorMessage);
+            return;
+        }
+        source.content = content;
+        for (let key in chatDataJson) {
+            source[key] = chatDataJson[key] ?? source[key];
+        }
         const actorId = source.speaker.actor;
         if (actorId) {
             smuggleConversationWithFlagIntoSource(source, actorId);
@@ -71,4 +79,4 @@ function processUnKennyResponse(message) {
     }
 }
 
-export { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse };
+export { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag };

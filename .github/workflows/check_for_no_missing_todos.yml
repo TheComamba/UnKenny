@@ -3,12 +3,14 @@ name: Check for TODOs
 on: [pull_request]
 
 jobs:
-    check:
-        runs-on: ubuntu-latest
+  check:
+    runs-on: ubuntu-latest
 
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v4
-
-            -   name: Check for TODOs
-                run: ./foundry_scripts/list_todos.sh
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+  
+      - name: Check for TODOs
+        run: ./foundry_scripts/list_todos.sh

@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        submodules: true
     - name: Check version consistency
       run: ./foundry_scripts/check_version_consistency.sh
     - name: Check localizations consistency
