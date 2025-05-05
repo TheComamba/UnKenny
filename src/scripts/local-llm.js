@@ -99,7 +99,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
     try {
         output_tokens = await model.generate(input_tokens, localParameters);
     } catch (error) {
-        const errorMessage = game.i18n.localize('unkenny.llm.localLlmError', { error: error });
+        const message = error.message ?? error;
+        const errorMessage = game.i18n.localize('unkenny.llm.localLlmError', { error: message });
         ui.notifications.error(errorMessage);
         await info.close();
         return;
