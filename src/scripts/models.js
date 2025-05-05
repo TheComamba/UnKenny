@@ -3,16 +3,11 @@
 // Token limits for OpenAI models can be found here:
 // https://platform.openai.com/docs/models/continuous-model-upgrades
 const MODELS_MAP = new Map([
-    ["Felladrin/onnx-Minueza-32M-Chat", { text: "Local: Felladrin Minueza", limit: 2048 }],
-    ["Felladrin/onnx-TinyMistral-248M-Chat-v2", { text: "Local: Felladrin Tiny Mistral", limit: 2048 }],
-    // ["schmuell/TinyLlama-1.1B-Chat-v1.0-int4", { text: "Local: Schmuell Tiny Llama" }],  // Cannot be loaded.
-    // ["Xenova/gpt2-large-conversational", { text: "Local: Xenova GPT-2 Large Conversational" }], // Outdated.
-    ["Xenova/Qwen1.5-0.5B-Chat", { text: "Local: Xenova Qwen", limit: 32_768 }],
-    // ["Xenova/TinyLlama-1.1B-Chat-v1.0", { text: "Local: Xenova Tiny Llama" }], // Proved to be very repetitive.
-    ["gpt-3.5-turbo", { text: "OpenAI: GPT-3.5 turbo", limit: 16_385 }],
-    ["gpt-4", { text: "OpenAI: GPT-4", limit: 8_192 }],
-    ["gpt-4-turbo", { text: "OpenAI: GPT-4 turbo", limit: 128_000 }],
-    ["gpt-4o-mini", { text: "OpenAI: GPT-4o mini", limit: 128_000 }],
+    ["HuggingFaceTB/SmolLM2-1.7B-Instruct", { text: "Local: SmolLM v2", limit: 2048 }],
+    ["onnx-community/Llama-3.2-1B", { text: "Local: Llama 3.2 1B", limit: 2048 }],
+    ["onnx-community/Llama-3.2-3B", { text: "Local: Llama 3.2 3B", limit: 2048 }],
+    ["gpt-4.1-nano", { text: "OpenAI: GPT-4.1 nano", limit: 1_047_576  }],
+    ["gpt-4.1-mini", { text: "OpenAI: GPT-4.1 mini", limit: 1_047_576 }],
     ["gpt-4o", { text: "OpenAI: GPT-4o", limit: 128_000 }]
 ]);
 
