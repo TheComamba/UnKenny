@@ -66,7 +66,7 @@ describe('getTokenLimit', function () {
 
 
     it('should return the verifiable number for local model', async () => {
-        const transformersModule = await loadExternalModule('@xenova/transformers');
+        const transformersModule = await loadExternalModule('@huggingface/transformers');
         const map = getModelToTextMap();
         for (const [model, _value] of Object.entries(map)) {
             if (!isLocal(model)) {
