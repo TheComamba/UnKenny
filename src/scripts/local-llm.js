@@ -1,6 +1,9 @@
 import { UnKennyInfo } from '../apps/unkenny-info.js';
 import { loadExternalModule } from './shared.js';
 
+// Based on https://huggingface.co/docs/transformers.js/api/models
+// An on https://github.com/huggingface/transformers.js-examples/blob/main/smollm-webgpu/src/worker.js
+
 const modelCache = new Map();
 const tokenizerCache = new Map();
 
@@ -46,7 +49,7 @@ function tokenizedMessages(tokenizer, messages) {
         ui.notifications.error(message);
     };
     // The actual function call
-    let prompt = tokenizer.apply_chat_template(messages, { tokenize: true });
+    let prompt = tokenizer.apply_chat_template(messages, { return_dict: true });
     // Restore the original console.warn
     console.warn = originalConsoleWarn;
 
@@ -54,7 +57,7 @@ function tokenizedMessages(tokenizer, messages) {
 }
 
 async function numberOfTokensForLocalLLM(model, messages) {
-    const transformersModule = await loadExternalModule('@xenova/transformers');
+    const transformersModule = await loadExternalModule('@huggingface/transformers');
     if (!transformersModule) {
         return;
     }
@@ -67,7 +70,7 @@ async function numberOfTokensForLocalLLM(model, messages) {
 }
 
 async function getResponseFromLocalLLM(parameters, messages) {
-    const transformersModule = await loadExternalModule('@xenova/transformers');
+    const transformersModule = await loadExternalModule('@huggingface/transformers');
     if (!transformersModule) {
         return;
     }
@@ -87,7 +90,8 @@ async function getResponseFromLocalLLM(parameters, messages) {
     await info.render(true);
 
     // https://huggingface.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig
-    const localParameters = {
+    const generationInput = {
+        ...input_tokens,
         min_new_tokens: parameters.minNewTokens,
         max_new_tokens: parameters.maxNewTokens,
         repetition_penalty: parameters.repetitionPenalty + 1.0, // 1.0 means no penalty
@@ -97,9 +101,10 @@ async function getResponseFromLocalLLM(parameters, messages) {
 
     let output_tokens
     try {
-        output_tokens = await model.generate(input_tokens, localParameters);
+        output_tokens = await model.generate(generationInput);
     } catch (error) {
-        const errorMessage = game.i18n.localize('unkenny.llm.localLlmError', { error: error });
+        const message = error.message ?? error;
+        const errorMessage = game.i18n.localize('unkenny.llm.localLlmError', { error: message });
         ui.notifications.error(errorMessage);
         await info.close();
         return;
