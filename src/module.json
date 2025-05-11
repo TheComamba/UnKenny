@@ -31,9 +31,9 @@
       "path": "lang/de.json"
     }
   ],
-  "url": "https://github.com/TheComamba/UnKenny",
-  "manifest": "https://raw.githubusercontent.com/TheComamba/UnKenny/v2.0.0/src/module.json",
-  "download": "https://github.com/TheComamba/UnKenny/archive/refs/tags/v2.0.0.zip",
-  "bugs": "https://github.com/TheComamba/UnKenny/issues",
-  "readme": "https://github.com/TheComamba/UnKenny/blob/v2.0.0/README.md"
+  "url": "https://github.com/kmdavis/UnKenny",
+  "manifest": "https://raw.githubusercontent.com/kmdavis/UnKenny/refs/heads/kd/20250611/openai-base-url/src/module.json",
+  "download": "https://github.com/kmdavis/UnKenny/archive/refs/heads/kd/20250611/openai-base-url.zip",
+  "bugs": "https://github.com/Comamba/UnKenny/issues",
+  "readme": "https://github.com/Comamba/UnKenny/blob/v2.0.0/README.md"
 }
