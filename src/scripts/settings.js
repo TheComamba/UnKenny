@@ -4,6 +4,7 @@ import { PREFIX_OPTIONS } from "./prefix.js";
 function llmParametersAndDefaults() {
     return {
         model: null,
+        baseUrl: "",
         apiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
@@ -24,6 +25,15 @@ function registerGameParameters() {
         type: String,
         choices: getModelToTextMap(),
         default: params.model
+    });
+
+    game.settings.register("unkenny", "baseUrl", {
+        name: game.i18n.localize("unkenny.settings.baseUrl"),
+        hint: game.i18n.localize("unkenny.settings.baseUrlDescription"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: params.baseUrl
     });
 
     game.settings.register("unkenny", "apiKey", {

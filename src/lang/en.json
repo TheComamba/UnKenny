@@ -30,6 +30,8 @@
     "unkenny.prefix.invalid": "The prefix \"{prefix}\" is not recognised and will thus be ignored.",
     "unkenny.settings.model": "Large Language Model",
     "unkenny.settings.modelDescription": "The default model used by unkenny actors to generate responses.\nLocal models run in your browser or FoundryVTT instance, while OpenAI models run on a remote server.\nOpenAI models are much faster and mostly yield better results, but they require an API key to work.",
+    "unkenny.settings.baseUrl": "OpenAI Base URL",
+    "unkenny.settings.baseUrlDescription": "The base URL for the OpenAI API. This is only used for OpenAI models.",
     "unkenny.settings.apiKey": "OpenAI API Key",
     "unkenny.settings.apiKeyDescription": "If you want to use OpenAI models, you need to provide your API key here.\nAdditionally, your account must have a positive balance.",
     "unkenny.settings.minNewTokens": "Minimum Number of New Tokens",
