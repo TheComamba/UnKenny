@@ -11,16 +11,11 @@ param(
 cd "$(git rev-parse --show-toplevel)"
 
 if ($all) {
-    $env:RUN_SLOW_TESTS = $true
     $env:RUN_OPENAI_TESTS = $true
 }
 
 if ($openai) {
     $env:RUN_OPENAI_TESTS = $true
-}
-
-if ($slow) {
-    $env:RUN_SLOW_TESTS = $true
 }
 
 Write-Host "Running tests..."

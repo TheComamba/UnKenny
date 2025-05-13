@@ -27,22 +27,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Include slow tests",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run-script",
-                "test"
-            ],
-            "env": {
-                "RUN_SLOW_TESTS": "true"
-            },
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Include OpenAI tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
@@ -66,11 +50,6 @@
                 "run-script",
                 "test"
             ],
-            "env": {
-                "RUN_SLOW_TESTS": "true",
-                "RUN_OPENAI_TESTS": "true",
-                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
-            },
             "skipFiles": [
                 "<node_internals>/**"
             ]
