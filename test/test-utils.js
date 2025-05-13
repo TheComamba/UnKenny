@@ -1,14 +1,5 @@
 const oneMinute = 60 * 1000;
 
-function testIfSlow(name, fn) {
-    const shouldRunSlowTests = process.env.RUN_SLOW_TESTS === 'true';
-    if (shouldRunSlowTests) {
-        return it(name, fn).timeout(oneMinute);
-    } else {
-        return it.skip(name, fn);
-    }
-}
-
 function testIfOpenAi(name, fn) {
     const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
     if (shouldRunOpenAiTests) {
@@ -66,4 +57,4 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow, waitFor, waitForMessagesToBePosted };
+export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, waitFor, waitForMessagesToBePosted };

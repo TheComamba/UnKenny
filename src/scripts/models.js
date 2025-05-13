@@ -18,7 +18,7 @@ function getModelToTextMap() {
 
 function getOpenAiModels() {
     return Array.from(MODELS_MAP)
-        .filter(model => !isLocal(model[0]))
+        .filter(_model => true) // Currently, only OpenAI models are included
         .map(model => model[0]);
 }
 

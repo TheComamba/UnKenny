@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
+import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi } from './test-utils.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';

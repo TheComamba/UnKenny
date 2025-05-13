@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, testIfOpenAi, testIfSlow, waitForMessagesToBePosted } from './test-utils.js';
+import { expectNoNotifications, testIfOpenAi, waitForMessagesToBePosted } from './test-utils.js';
 import { getOpenAiModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
