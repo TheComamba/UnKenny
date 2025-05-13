@@ -41,13 +41,8 @@ async function getGenerationParameters(actor) {
 }
 
 async function generateResponse(actor, input, parameters) {
-    let messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
-    let response;
-    if (isLocal(parameters.model)) {
-        response = await getResponseFromLocalLLM(parameters, messages);
-    } else {
-        response = await getResponseFromOpenAI(parameters, messages);
-    }
+    const messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
+    const response = await getResponseFromOpenAI(parameters, messages);
     if (!response) {
         return;
     }

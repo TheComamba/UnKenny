@@ -18,11 +18,6 @@ function sortMessages(messages) {
     return messages.sort((a, b) => a.timestamp - b.timestamp);
 }
 
-async function isContextTooLongForLocalModel(model, messages, tokenLimit) {
-    let tokenCount = await numberOfTokensForLocalLLM(model, messages);
-    return tokenCount > tokenLimit;
-}
-
 function shortenMessagesByOne(messages) {
     for (let i = 0; i < messages.length - 2; i++) {
         if (messages[i].role != 'system') {
@@ -38,21 +33,10 @@ function shortenMessagesByOne(messages) {
 
 async function truncateMessages(model, messages, newTokenLimit) {
     const warningMessage = game.i18n.format("unkenny.chatMessage.truncatingMessage", { messageCount: messages.length - 1 });
-    let warningHasBeenGiven = false;
     const limit = getTokenLimit(model) - newTokenLimit;
-    if (isLocal(model)) {
-        while (await isContextTooLongForLocalModel(model, messages, limit)) {
-            if (!warningHasBeenGiven) {
-                ui.notifications.warn(warningMessage);
-                warningHasBeenGiven = true;
-            }
-            shortenMessagesByOne(messages);
-        }
-    } else {
-        const messageSize = roughNumberOfTokensForOpenAi(messages);
-        if (messageSize > limit) {
-            ui.notifications.warn(warningMessage);
-        }
+    const messageSize = roughNumberOfTokensForOpenAi(messages);
+    if (messageSize > limit) {
+        ui.notifications.warn(warningMessage);
     }
 }
 

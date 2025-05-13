@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
+import { getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
 import { loadExternalModule } from '../src/scripts/shared.js';
 import mockReset from '../__mocks__/main.js';
 
@@ -15,22 +15,6 @@ describe('getModelToTextMap', function () {
         for (const [key, value] of Object.entries(map)) {
             expect(key).to.be.a('string');
             expect(value).to.be.a('string');
-        }
-    });
-});
-
-describe('getLocalModels', function () {
-    this.beforeEach(() => {
-        mockReset();
-    });
-
-    it('should return an array of local models', () => {
-        const localModels = getLocalModels();
-        expect(localModels).to.be.an('array');
-        expect(localModels.length).to.be.greaterThan(0);
-        for (const model of localModels) {
-            expect(model).to.be.a('string');
-            expect(isLocal(model)).to.be.true;
         }
     });
 });

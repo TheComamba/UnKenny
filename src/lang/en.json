@@ -25,7 +25,6 @@
     "unkenny.llm.preparingModel": "Preparing model \"{model}\"...",
     "unkenny.llm.preparingTokenizer": "Preparing tokenizer for \"{model}\"...",
     "unkenny.llm.generatingResponse": "Generating {actorName}'s response...",
-    "unkenny.llm.localLlmError": "An error occurred during text generation with local LLM: {error}",
     "unkenny.llm.openAiError": "Unable to get response from OpenAI: {error}",
     "unkenny.prefix.invalid": "The prefix \"{prefix}\" is not recognised and will thus be ignored.",
     "unkenny.settings.model": "Large Language Model",

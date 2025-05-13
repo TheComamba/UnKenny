@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, testIfSlow } from './test-utils.js';
-import { getLocalModels, getOpenAiModels } from '../src/scripts/models.js';
+import { getOpenAiModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -53,13 +53,6 @@ describe('triggerResponse', function () {
         game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
         const openaiModels = getOpenAiModels();
         const model = openaiModels[0];
-        await runTriggerResponse(model);
-    });
-
-    testIfSlow('should generate a response from a local model and trigger a chat message', async () => {
-        game.settings.set("unkenny", "apiKey", "");
-        const localModels = getLocalModels();
-        const model = localModels[0];
         await runTriggerResponse(model);
     });
 
