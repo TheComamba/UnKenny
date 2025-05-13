@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
-import { getLocalModels, getOpenAiModels, getTokenLimit, isLocal } from "../src/scripts/models.js";
-import { numberOfTokensForLocalLLM } from "../src/scripts/local-llm.js";
+import { getOpenAiModels, getTokenLimit } from "../src/scripts/models.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
@@ -167,111 +166,11 @@ describe('messagesOrganisedForTemplate', async function () {
 
 describe('truncateMessages', function () {
     this.timeout(10000);
-    const localModel = getLocalModels()[0];
     const openaiModel = getOpenAiModels()[0];
     const newTokenLimit = 100;
 
     beforeEach(() => {
         mockReset();
-    });
-
-    it('should not truncate message to local model below the token limit', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(localModel);
-        let messages = [
-            {
-                role: 'system',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            },
-            {
-                role: 'assistant',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            }
-        ];
-
-        await truncateMessages(localModel, messages, newTokenLimit);
-
-        expect(messages.length).to.equal(4);
-        expectNoNotifications();
-    });
-
-    it('should truncate messages to local models starting with the first message that is not the preamble', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(localModel);
-        let messages = [
-            {
-                role: 'system',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            },
-            {
-                role: 'assistant',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            },
-            {
-                role: 'assistant',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            },
-            {
-                role: 'assistant',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            }
-        ];
-
-        await truncateMessages(localModel, messages, newTokenLimit);
-
-        expect(messages.length).to.be.greaterThanOrEqual(4);
-        expect(messages.length).to.be.lessThanOrEqual(6);
-        expect(messages[0].role).to.equal('system');
-        expect(ui.notifications.warn.called).to.be.true;
-    });
-
-    it('should truncate messages to local models if the expected output does not fit inside the context limit', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(localModel);
-        let messages = [
-            {
-                role: 'system',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            },
-            {
-                role: 'assistant',
-                content: content
-            },
-            {
-                role: 'user',
-                content: content
-            }
-        ];
-        const hugeLimitForNewTokens = getTokenLimit(localModel) / 5 * 1.5;
-
-        await truncateMessages(localModel, messages, hugeLimitForNewTokens);
-
-        expect(messages.length).to.equal(3);
     });
 
     it('should display a warning but not truncate any messages to OpenAI models', async () => {
@@ -300,25 +199,6 @@ describe('truncateMessages', function () {
         expect(messages.length).to.equal(4);
         expect(ui.notifications.warn.called).to.be.true;
     });
-
-    it('should display an error and fail if further truncation of local model is not possible', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(localModel);
-        let messages = [
-            {
-                role: 'system',
-                content: content + content + content
-            },
-            {
-                role: 'user',
-                content: content + content + content
-            }
-        ];
-
-        await truncateMessages(localModel, messages, newTokenLimit);
-
-        expect(messages.length).to.equal(0);
-        expect(ui.notifications.error.called).to.be.true;
-    });
 });
 
 async function getContentWorthOneFifthOfTokenLimit(model) {
@@ -328,12 +208,7 @@ async function getContentWorthOneFifthOfTokenLimit(model) {
         role: 'system',
         content: ''
     };
-    let condition;
-    if (isLocal(model)) {
-        condition = async (m) => await numberOfTokensForLocalLLM(model, [m]) < partialLimit;
-    } else {
-        condition = async (m) => roughNumberOfTokensForOpenAi([m]) < partialLimit;
-    }
+    const condition = async (m) => roughNumberOfTokensForOpenAi([m]) < partialLimit;
     while (await condition(message)) {
         message.content += 'bla ';
     }

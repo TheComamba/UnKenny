@@ -9,17 +9,12 @@ for arg in "$@"
 do
     case $arg in
         -a|--all)
-        export RUN_SLOW_TESTS=true
         export RUN_OPENAI_TESTS=true
         shift # Remove --all or -a from processing
         ;;
         -o|--openai)
         export RUN_OPENAI_TESTS=true
         shift # Remove argument name from processing
-        ;;
-        -s|--slow)
-        export RUN_SLOW_TESTS=true
-        shift # Remove --slow or -s from processing
         ;;
     esac
 done

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getLocalModels, getModelToTextMap, getOpenAiModels, getTokenLimit, isLocal } from '../src/scripts/models.js';
+import { getModelToTextMap, getOpenAiModels, getTokenLimit } from '../src/scripts/models.js';
 import { loadExternalModule } from '../src/scripts/shared.js';
 import mockReset from '../__mocks__/main.js';
 
@@ -19,22 +19,6 @@ describe('getModelToTextMap', function () {
     });
 });
 
-describe('getLocalModels', function () {
-    this.beforeEach(() => {
-        mockReset();
-    });
-
-    it('should return an array of local models', () => {
-        const localModels = getLocalModels();
-        expect(localModels).to.be.an('array');
-        expect(localModels.length).to.be.greaterThan(0);
-        for (const model of localModels) {
-            expect(model).to.be.a('string');
-            expect(isLocal(model)).to.be.true;
-        }
-    });
-});
-
 describe('getOpenAiModels', function () {
     this.beforeEach(() => {
         mockReset();
@@ -46,7 +30,6 @@ describe('getOpenAiModels', function () {
         expect(openAiModels.length).to.be.greaterThan(0);
         for (const model of openAiModels) {
             expect(model).to.be.a('string');
-            expect(isLocal(model)).to.be.false;
         }
     });
 });
@@ -61,22 +44,6 @@ describe('getTokenLimit', function () {
         for (const [model, _value] of Object.entries(map)) {
             let limit = getTokenLimit(model);
             expect(limit).to.be.greaterThan(0);
-        }
-    });
-
-
-    it('should return the verifiable number for local model', async () => {
-        const transformersModule = await loadExternalModule('@huggingface/transformers');
-        const map = getModelToTextMap();
-        for (const [model, _value] of Object.entries(map)) {
-            if (!isLocal(model)) {
-                continue;
-            }
-            const tokenizer = await transformersModule.AutoTokenizer.from_pretrained(model)
-            let expected_limit = tokenizer.model_max_length;
-
-            let limit = getTokenLimit(model);
-            expect(limit).to.be.equal(expected_limit);
         }
     });
 });
