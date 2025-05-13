@@ -1,6 +1,5 @@
 import { findAdressedActor } from "./chat-message-request.js";
 import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
-import { numberOfTokensForLocalLLM } from "./local-llm.js";
 import { getTokenLimit, isLocal } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
