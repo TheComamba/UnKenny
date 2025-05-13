@@ -1,6 +1,6 @@
 import { findAdressedActor } from "./chat-message-request.js";
 import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
-import { getTokenLimit, isLocal } from "./models.js";
+import { getTokenLimit } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
 const CONVERSATION_FLAG = "conversationWith";

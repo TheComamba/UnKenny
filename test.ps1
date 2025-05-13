@@ -2,9 +2,7 @@ param(
     [Alias('a')]
     [switch]$all,
     [Alias('o')]
-    [switch]$openai,
-    [Alias('s')]
-    [switch]$slow
+    [switch]$openai
 )
 
 # Change to git root directory

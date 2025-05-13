@@ -1,6 +1,5 @@
 import { collectChatMessages } from "./collecting-chat-messages.js";
 import { getResponseFromOpenAI } from "../scripts/openai-api.js";
-import { isLocal } from "./models.js";
 import { llmParametersAndDefaults } from "./settings.js";
 
 async function getGenerationParameter(actor, parameterName) {
