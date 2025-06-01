@@ -28,7 +28,7 @@
     "i18next": "^25.0",
     "i18next-fs-backend": "^2.3",
     "jsdom": "^26.0",
-    "mocha": "^11.0",
+    "mocha": "^11.5",
     "sinon": "^20.0"
   },
   "dependencies": {
