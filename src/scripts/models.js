@@ -1,5 +1,3 @@
-// Local models to choose from: 
-// https://huggingface.co/models?pipeline_tag=text-generation&library=transformers.js&sort=trending
 // Token limits for OpenAI models can be found here:
 // https://platform.openai.com/docs/models/continuous-model-upgrades
 const MODELS_MAP = new Map([

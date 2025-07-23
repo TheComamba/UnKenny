@@ -23,18 +23,17 @@
     "c8": "^10.1",
     "chai": "^5.1",
     "cross-env": "^7.0",
-    "dotenv": "^16.4",
+    "dotenv": "^17.0",
     "globals": "^16.0",
     "i18next": "^25.0",
     "i18next-fs-backend": "^2.3",
     "jsdom": "^26.0",
     "mocha": "^11.0",
-    "sinon": "^20.0"
+    "sinon": "^21.0"
   },
   "dependencies": {
-    "@huggingface/transformers": "^3.0",
     "handlebars": "^4.7",
     "jquery": "^3.7",
-    "openai": "^4.45"
+    "openai": "^5.0"
   }
 }
