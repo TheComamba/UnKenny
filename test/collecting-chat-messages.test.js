@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
-import { getOpenAiModels, getTokenLimit } from "../src/scripts/models.js";
+import { getHostedModels, getTokenLimit } from "../src/scripts/models.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
@@ -166,7 +166,7 @@ describe('messagesOrganisedForTemplate', async function () {
 
 describe('truncateMessages', function () {
     this.timeout(10000);
-    const openaiModel = getOpenAiModels()[0];
+    const hostedModels = getHostedModels()[0];
     const newTokenLimit = 100;
 
     beforeEach(() => {
@@ -174,7 +174,7 @@ describe('truncateMessages', function () {
     });
 
     it('should display a warning but not truncate any messages to OpenAI models', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(openaiModel);
+        const content = await getContentWorthOneFifthOfTokenLimit(hostedModels);
         let messages = [
             {
                 role: 'system',
@@ -194,7 +194,7 @@ describe('truncateMessages', function () {
             }
         ];
 
-        await truncateMessages(openaiModel, messages, newTokenLimit);
+        await truncateMessages(hostedModels, messages, newTokenLimit);
 
         expect(messages.length).to.equal(4);
         expect(ui.notifications.warn.called).to.be.true;

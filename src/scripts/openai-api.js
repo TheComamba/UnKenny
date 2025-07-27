@@ -1,4 +1,5 @@
 import { loadExternalModule } from './shared.js';
+import { getModelType } from './models.js';
 
 function roughNumberOfTokensForOpenAi(messages) {
     const charsPerToken = 4;
@@ -10,6 +11,39 @@ function roughNumberOfTokensForOpenAi(messages) {
     return chars / charsPerToken;
 }
 
+function getOpenAiApiParameters(generationParameters) {
+    const model = generationParameters.model;
+    if (!model) {
+        return;
+    }
+    const modelType = getModelType(model);
+    if (!modelType) {
+        return;
+    }
+
+    let baseUrl;
+    let apiKey;
+    if (modelType === 'openai') {
+        baseUrl = 'https://api.openai.com/v1';
+        apiKey = generationParameters.openaiApiKey;
+    } else if (modelType === 'google') {
+        baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
+        apiKey = generationParameters.googleApiKey;
+    } else {
+        return;
+    }
+
+    if (generationParameters.baseUrl) {
+        baseUrl = parameters.baseUrl;
+    }
+
+    return {
+        baseURL: baseUrl,
+        apiKey: apiKey,
+        dangerouslyAllowBrowser: true,
+    };
+}
+
 async function getResponseFromOpenAI(parameters, messages) {
     const OpenAIModule = await loadExternalModule('openai');
     if (!OpenAIModule) {
@@ -17,19 +51,26 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
     const OpenAi = OpenAIModule.default;
 
-    const openai = new OpenAi({
-        baseURL: parameters.baseUrl || "https://api.openai.com/v1",
-        apiKey: parameters.apiKey,
-        dangerouslyAllowBrowser: true,
-    });
+    const apiParameters = getOpenAiApiParameters(parameters);
+    if (!apiParameters) {
+        return;
+    }
+    const openai = new OpenAi(apiParameters);
 
-    const input_parameters = {
+    let input_parameters = {
         model: parameters.model,
         messages: messages,
         max_tokens: parameters.maxNewTokens,
         temperature: parameters.temperature,
-        frequency_penalty: parameters.repetitionPenalty,
     };
+    const modelType = getModelType(parameters.model);
+    if (modelType != 'google') {
+        // Google does not fully support the OpenAI API specification.
+        input_parameters = {
+            ...input_parameters,
+            frequency_penalty: parameters.repetitionPenalty
+        };
+    }
     try {
         const chatCompletion = await openai.chat.completions.create(input_parameters);
         return chatCompletion['choices'][0]['message']['content'];

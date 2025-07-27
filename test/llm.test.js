@@ -21,7 +21,8 @@ describe('getGenerationParameters', function () {
         expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
-            apiKey: params.apiKey,
+            openaiApiKey: params.openaiApiKey,
+            googleApiKey: params.googleApiKey,
             baseUrl: params.baseUrl,
             minNewTokens: params.minNewTokens,
             maxNewTokens: params.maxNewTokens,
@@ -36,7 +37,8 @@ describe('getGenerationParameters', function () {
         actor.name = 'actor1';
 
         game.settings.set('unkenny', 'model', 'model1');
-        game.settings.set('unkenny', 'apiKey', 'apiKey1');
+        game.settings.set('unkenny', 'openaiApiKey', 'openaiApiKey1');
+        game.settings.set('unkenny', 'googleApiKey', 'googleApiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
@@ -51,7 +53,8 @@ describe('getGenerationParameters', function () {
         expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model1',
-            apiKey: 'apiKey1',
+            openaiApiKey: 'openaiApiKey1',
+            googleApiKey: 'googleApiKey1',
             baseUrl: 'baseUrl1',
             minNewTokens: 10,
             maxNewTokens: 20,
@@ -66,7 +69,8 @@ describe('getGenerationParameters', function () {
         actor.name = 'actor1';
 
         game.settings.set('unkenny', 'model', 'model1');
-        game.settings.set('unkenny', 'apiKey', 'apiKey1');
+        game.settings.set('unkenny', 'openaiApiKey', 'openaiApiKey1');
+        game.settings.set('unkenny', 'googleApiKey', 'googleApiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
@@ -88,7 +92,8 @@ describe('getGenerationParameters', function () {
         expect(result).to.deep.equal({
             actorName: 'actor1',
             model: 'model2',
-            apiKey: 'apiKey1',
+            openaiApiKey: 'openaiApiKey1',
+            googleApiKey: 'googleApiKey1',
             baseUrl: 'baseUrl2',
             minNewTokens: 11,
             maxNewTokens: 21,
@@ -102,7 +107,9 @@ describe('getGenerationParameters', function () {
         let actor = new Actor();
         actor.name = 'actor1';
 
-        game.settings.set('unkenny', 'apiKey', 'apiKey1');
+        game.settings.set('unkenny', 'openaiApiKey', 'openaiApiKey1');
+        game.settings.set('unkenny', 'googleApiKey', 'googleApiKey1');
+        game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);

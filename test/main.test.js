@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { expectNoNotifications, testIfOpenAi, waitForMessagesToBePosted } from './test-utils.js';
-import { getOpenAiModels } from '../src/scripts/models.js';
+import { getHostedModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
@@ -68,18 +68,20 @@ describe('Integration test', function () {
   });
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
-    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
-    const openaiModels = getOpenAiModels();
-    const model = openaiModels[0];
+    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "googleApiKey", process.env.GOOGLE_API_KEY);
+    const hostedModels = getHostedModels();
+    const model = hostedModels[0];
     await postMessageAndCheckReply(model);
   });
 
   testIfOpenAi('should whisper to user', async () => {
-    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "googleApiKey", process.env.GOOGLE_API_KEY);
     game.settings.set("unkenny", "prefix", "whisper");
     game.user.name = 'Alice';
-    const openaiModels = getOpenAiModels();
-    const model = openaiModels[0];
+    const hostedModels = getHostedModels();
+    const model = hostedModels[0];
     const reply = await postMessageAndCheckReply(model);
     expect(reply).to.include('/whisper Alice');
   });

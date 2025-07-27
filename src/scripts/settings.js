@@ -5,7 +5,8 @@ function llmParametersAndDefaults() {
     return {
         model: null,
         baseUrl: "",
-        apiKey: "",
+        openaiApiKey: "",
+        googleApiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
         repetitionPenalty: 0.0,
@@ -36,13 +37,22 @@ function registerGameParameters() {
         default: params.baseUrl
     });
 
-    game.settings.register("unkenny", "apiKey", {
-        name: game.i18n.localize("unkenny.settings.apiKey"),
-        hint: game.i18n.localize("unkenny.settings.apiKeyDescription"),
+    game.settings.register("unkenny", "openaiApiKey", {
+        name: game.i18n.localize("unkenny.settings.openaiApiKey"),
+        hint: game.i18n.localize("unkenny.settings.openaiApiKeyDescription"),
         scope: "world",
         config: true,
         type: String,
-        default: params.apiKey
+        default: params.openaiApiKey
+    });
+
+    game.settings.register("unkenny", "googleApiKey", {
+        name: game.i18n.localize("unkenny.settings.googleApiKey"),
+        hint: game.i18n.localize("unkenny.settings.googleApiKeyDescription"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: params.googleApiKey
     });
 
     game.settings.register("unkenny", "minNewTokens", {

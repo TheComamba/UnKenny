@@ -1,19 +1,23 @@
 const oneMinute = 60 * 1000;
 
+function complainIfEnvVariableIsMissing(variableName) {
+    if (!process.env[variableName]) {
+        it(variableName + ' is not set', () => {
+            let errorText = `The ${variableName} environment variable is not set.`;
+            errorText += ` Before running OpenAI API tests, run (in bash):\n`
+            errorText += `export ${variableName}=<your-api-key>\n`;
+            errorText += `Alternatively, you can set add a file called ".env" and add the line \n`;
+            errorText += `${variableName}=<your-api-key>\n`;
+            throw new Error(errorText);
+        });
+    }
+}
+
 function testIfOpenAi(name, fn) {
     const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
     if (shouldRunOpenAiTests) {
-        if (!process.env.OPENAI_API_KEY) {
-            it(name, () => {
-                let errorText = 'The OPENAI_API_KEY environment variable is not set.';
-                errorText += 'Before running OpenAI API tests, run:\n'
-                errorText += 'export OPENAI_API_KEY=<your-api-key>\n';
-                errorText += 'Alternatively, you can set add a file called ".env" and add the line \n';
-                errorText += 'OPENAI_API_KEY=<your-api-key>\n';
-                errorText += 'to it.';
-                throw new Error(errorText);
-            });
-        }
+        complainIfEnvVariableIsMissing('OPENAI_API_KEY');
+        complainIfEnvVariableIsMissing('GOOGLE_API_KEY');
         return it(name, fn).timeout(oneMinute);
     } else {
         return it.skip(name, fn);
