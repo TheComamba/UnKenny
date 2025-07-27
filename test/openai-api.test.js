@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { expectNoNotifications, testIfOpenAi } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
-import { getOpenAiModels } from '../src/scripts/models.js';
+import { getHostedModels } from '../src/scripts/models.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('roughNumberOfTokensForOpenAi', function () {
@@ -31,15 +31,16 @@ describe('getResponseFromOpenAI', function () {
         mockReset();
     });
 
-    const openaiModels = getOpenAiModels();
+    const hostedModels = getHostedModels();
 
-    openaiModels.forEach(model => {
+    hostedModels.forEach(model => {
         testIfOpenAi(model + ' returns a somewhat expected response', async () => {
             const actor = new Actor('Bob');
             await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
             const parameters = {
                 model: model,
                 openaiApiKey: process.env.OPENAI_API_KEY,
+                googleApiKey: process.env.GOOGLE_API_KEY,
                 actorName: actor.name,
                 minNewTokens: 8,
                 maxNewTokens: 128,

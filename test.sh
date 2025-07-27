@@ -20,7 +20,7 @@ do
 done
 
 echo "Running tests..."
-OPENAI_API_KEY=$OPENAI_API_KEY npm run test:coverage
+npm run test:coverage
 
 if grep -r -q 'mocks' src/
 then

@@ -36,6 +36,7 @@
             "env": {
                 "RUN_OPENAI_TESTS": "true",
                 "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
+                "GOOGLE_API_KEY": "${env:GOOGLE_API_KEY}"
             },
             "skipFiles": [
                 "<node_internals>/**"

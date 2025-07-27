@@ -17,7 +17,7 @@ if ($openai) {
 }
 
 Write-Host "Running tests..."
-$env:OPENAI_API_KEY = $env:OPENAI_API_KEY; npm run test:coverage
+npm run test:coverage
 
 $found = Select-String -Path .\src\* -Pattern 'mocks' -Quiet
 if ($found)
