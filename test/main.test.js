@@ -68,14 +68,14 @@ describe('Integration test', function () {
   });
 
   testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
-    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
     const openaiModels = getOpenAiModels();
     const model = openaiModels[0];
     await postMessageAndCheckReply(model);
   });
 
   testIfOpenAi('should whisper to user', async () => {
-    game.settings.set("unkenny", "apiKey", process.env.OPENAI_API_KEY);
+    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
     game.settings.set("unkenny", "prefix", "whisper");
     game.user.name = 'Alice';
     const openaiModels = getOpenAiModels();
