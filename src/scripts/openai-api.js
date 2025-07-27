@@ -57,13 +57,20 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
     const openai = new OpenAi(apiParameters);
 
-    const input_parameters = {
+    let input_parameters = {
         model: parameters.model,
         messages: messages,
         max_tokens: parameters.maxNewTokens,
         temperature: parameters.temperature,
-        frequency_penalty: parameters.repetitionPenalty,
     };
+    const modelType = getModelType(parameters.model);
+    if (modelType != 'google') {
+        // Google does not fully support the OpenAI API specification.
+        input_parameters = {
+            ...input_parameters,
+            frequency_penalty: parameters.repetitionPenalty
+        };
+    }
     try {
         const chatCompletion = await openai.chat.completions.create(input_parameters);
         return chatCompletion['choices'][0]['message']['content'];

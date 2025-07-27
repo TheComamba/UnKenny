@@ -37,7 +37,7 @@
     "unkenny.settings.maxNewTokens": "Maximale Anzahl neuer Token",
     "unkenny.settings.maxNewTokensDescription": "Um übermäßig lange Antworten zu vermeiden, kannst du hier eine maximale Anzahl von Token festlegen.",
     "unkenny.settings.repetitionPenalty": "Wiederholungsstrafe / Häufigkeitsstrafe",
-    "unkenny.settings.repetitionPenaltyDescription": "Die Wiederholungsstrafe ist eine Zahl, welche die Wahrscheinlichkeit anpasst, dass ein Token, welches bereits generiert wurde, erneut generiert wird.\nHöhere Werte verringern die Wahrscheinlichkeit von Wiederholungen, negative Werte erhöhen sie.",
+    "unkenny.settings.repetitionPenaltyDescription": "Die Wiederholungsstrafe ist eine Zahl, welche die Wahrscheinlichkeit anpasst, dass ein Token, welches bereits generiert wurde, erneut generiert wird.\nHöhere Werte verringern die Wahrscheinlichkeit von Wiederholungen, negative Werte erhöhen sie. Wird nicht von Google Gemini-Modellen unterstützt.",
     "unkenny.settings.temperature": "Temperatur",
     "unkenny.settings.temperatureDescription": "Große Sprachmodelle generieren Text, indem sie aus einer Wahrscheinlichkeitsverteilung über den Wortschatz auswählen.\nDie Temperatur beeinflusst diese Verteilung:\nBei einer Temperatur von 0 wählt das Modell immer das wahrscheinlichste Token, während alle Token für sehr hohe Temperaturen fast gleich wahrscheinlich werden.\nNiedrigere Werte machen das Modell konservativer, höhere Werte machen es kreativer.",
     "unkenny.settings.prefix": "Stelle Antworten Folgendes voran",

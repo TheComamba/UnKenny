@@ -37,7 +37,7 @@
     "unkenny.settings.maxNewTokens": "Maximum Number of New Tokens",
     "unkenny.settings.maxNewTokensDescription": "To avoid overly long responses, you can set a maximum number of tokens here.",
     "unkenny.settings.repetitionPenalty": "Repetition Penalty / Frequency Penalty",
-    "unkenny.settings.repetitionPenaltyDescription": "The repetition penalty is a number that adjusts the likelyhood of a token that has already been generated to be generated again.\nHigher values reduce the likelihood of repetition, negative values increase it.",
+    "unkenny.settings.repetitionPenaltyDescription": "The repetition penalty is a number that adjusts the likelyhood of a token that has already been generated to be generated again.\nHigher values reduce the likelihood of repetition, negative values increase it. Not supported by Google Gemini models.",
     "unkenny.settings.temperature": "Temperature",
     "unkenny.settings.temperatureDescription": "Large language models generate text by sampling from a probability distribution over the vocabulary.\nTemperature infuences this distribution:\nWith a temperature of 0, the model always chooses the most likely token, while all token become nearly equally likely for very high temperatures.\nLower values make the model more conservative, higher values make it more creative.",
     "unkenny.settings.prefix": "Prefix responses with",
