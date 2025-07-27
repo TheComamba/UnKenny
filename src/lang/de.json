@@ -28,6 +28,8 @@
     "unkenny.settings.modelDescription": "Das Standardmodell, welches von UnKenny-Akteuren verwendet wird, um Antworten zu generieren.\nLokale Modelle laufen in deinem Browser oder der FoundryVTT-Instanz, während OpenAI-Modelle auf einem anderen Server laufen.\nOpenAI-Modelle sind viel schneller und liefern meist bessere Ergebnisse, erfordern jedoch einen API-Schlüssel, um zu funktionieren.",
     "unkenny.settings.baseUrl": "OpenAI Basis-URL",
     "unkenny.settings.baseUrlDescription": "Die Basis-URL für die OpenAI API. Diese wird nur für OpenAI-Modelle verwendet.",
+    "unkenny.settings.googleApiKey": "Google API-Schlüssel",
+    "unkenny.settings.googleApiKeyDescription": "Falls du Google Gemini-Modelle verwenden möchtest, musst du hier deinen API-Schlüssel angeben.",
     "unkenny.settings.openaiApiKey": "OpenAI API-Schlüssel",
     "unkenny.settings.openaiApiKeyDescription": "Falls du OpenAI-Modelle verwenden möchtest, musst du hier deinen API-Schlüssel angeben.\nZusätzlich muss dein Konto ein positives Guthaben haben.",
     "unkenny.settings.minNewTokens": "Minimale Anzahl neuer Token",

@@ -6,6 +6,7 @@ function llmParametersAndDefaults() {
         model: null,
         baseUrl: "",
         openaiApiKey: "",
+        googleApiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
         repetitionPenalty: 0.0,
@@ -43,6 +44,15 @@ function registerGameParameters() {
         config: true,
         type: String,
         default: params.openaiApiKey
+    });
+
+    game.settings.register("unkenny", "googleApiKey", {
+        name: game.i18n.localize("unkenny.settings.googleApiKey"),
+        hint: game.i18n.localize("unkenny.settings.googleApiKeyDescription"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: params.googleApiKey
     });
 
     game.settings.register("unkenny", "minNewTokens", {
