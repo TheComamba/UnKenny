@@ -10,6 +10,39 @@ function roughNumberOfTokensForOpenAi(messages) {
     return chars / charsPerToken;
 }
 
+function getOpenAiApiParameters(generationParameters) {
+    const model = generationParameters.model;
+    if (!model) {
+        return;
+    }
+    const modelType = getModelType(model);
+    if (!modelType) {
+        return;
+    }
+
+    let baseUrl;
+    let apiKey;
+    if (modelType === 'openai') {
+        baseUrl = 'https://api.openai.com/v1';
+        apiKey = generationParameters.openaiApiKey;
+    } else if (modelType === 'google') {
+        baseUrl = 'https://generativelanguage.googleapis.com/v1beta2';
+        apiKey = generationParameters.googleApiKey;
+    } else {
+        return;
+    }
+
+    if (parameters.baseUrl) {
+        baseUrl = parameters.baseUrl;
+    }
+
+    return {
+        baseURL: baseUrl,
+        apiKey: apiKey,
+        dangerouslyAllowBrowser: true,
+    };
+}
+
 async function getResponseFromOpenAI(parameters, messages) {
     const OpenAIModule = await loadExternalModule('openai');
     if (!OpenAIModule) {
@@ -17,11 +50,11 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
     const OpenAi = OpenAIModule.default;
 
-    const openai = new OpenAi({
-        baseURL: parameters.baseUrl || "https://api.openai.com/v1",
-        apiKey: parameters.openaiApiKey,
-        dangerouslyAllowBrowser: true,
-    });
+    const apiParameters = getOpenAiApiParameters(parameters);
+    if (!apiParameters) {
+        return;
+    }
+    const openai = new OpenAi(apiParameters);
 
     const input_parameters = {
         model: parameters.model,
