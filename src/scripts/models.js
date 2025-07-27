@@ -33,4 +33,4 @@ function getModelType(model) {
     return foundModel ? foundModel.type : undefined;
 }
 
-export { getModelToTextMap, getHostedModels, getTokenLimit };
+export { getModelToTextMap, getModelType, getHostedModels, getTokenLimit };

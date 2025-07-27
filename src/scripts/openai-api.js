@@ -1,4 +1,5 @@
 import { loadExternalModule } from './shared.js';
+import { getModelType } from './models.js';
 
 function roughNumberOfTokensForOpenAi(messages) {
     const charsPerToken = 4;
@@ -32,7 +33,7 @@ function getOpenAiApiParameters(generationParameters) {
         return;
     }
 
-    if (parameters.baseUrl) {
+    if (generationParameters.baseUrl) {
         baseUrl = parameters.baseUrl;
     }
 
