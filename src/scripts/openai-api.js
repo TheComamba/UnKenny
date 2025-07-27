@@ -26,7 +26,7 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = 'https://api.openai.com/v1';
         apiKey = generationParameters.openaiApiKey;
     } else if (modelType === 'google') {
-        baseUrl = 'https://generativelanguage.googleapis.com/v1beta2';
+        baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
         apiKey = generationParameters.googleApiKey;
     } else {
         return;
