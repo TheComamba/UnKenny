@@ -22,13 +22,10 @@ function getOpenAiApiParameters(generationParameters) {
     }
 
     let baseUrl;
-    let apiKey;
     if (modelType === 'openai') {
         baseUrl = 'https://api.openai.com/v1';
-        apiKey = generationParameters.openaiApiKey;
     } else if (modelType === 'google') {
         baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
-        apiKey = generationParameters.googleApiKey;
     } else {
         return;
     }
@@ -39,7 +36,7 @@ function getOpenAiApiParameters(generationParameters) {
 
     return {
         baseURL: baseUrl,
-        apiKey: apiKey,
+        apiKey: generationParameters.apiKey,
         dangerouslyAllowBrowser: true,
     };
 }

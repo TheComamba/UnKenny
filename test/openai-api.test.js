@@ -39,8 +39,7 @@ describe('getResponseFromOpenAI', function () {
             await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
             const parameters = {
                 model: model,
-                openaiApiKey: process.env.OPENAI_API_KEY,
-                googleApiKey: process.env.GOOGLE_API_KEY,
+                apiKey: getApiKey(model),
                 actorName: actor.name,
                 minNewTokens: 8,
                 maxNewTokens: 128,

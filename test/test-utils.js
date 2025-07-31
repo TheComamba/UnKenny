@@ -24,6 +24,15 @@ function testIfOpenAi(name, fn) {
     }
 }
 
+function getApiKey(model) {
+    if (model === "openai") {
+        return process.env.OPENAI_API_KEY;
+    } else if (model === "google") {
+        return process.env.GOOGLE_API_KEY;
+    }
+    throw new Error("Unknown model: " + model);
+}
+
 function waitFor(conditionFunction) {
     const poll = resolve => {
         if (conditionFunction()) resolve();
@@ -61,4 +70,4 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, waitFor, waitForMessagesToBePosted };
+export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, waitFor, waitForMessagesToBePosted, getApiKey };
