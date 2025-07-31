@@ -34,7 +34,7 @@ function getOpenAiApiParameters(generationParameters) {
     }
 
     if (generationParameters.baseUrl) {
-        baseUrl = parameters.baseUrl;
+        baseUrl = generationParameters.baseUrl;
     }
 
     return {
