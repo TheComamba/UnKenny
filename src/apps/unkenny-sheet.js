@@ -44,6 +44,7 @@ class UnKennySheet extends DocumentSheet {
         let currentModel = await this.object.getFlag("unkenny", "model");
         this.setContextModel(currentModel);
 
+        this.context.customModelName = await this.object.getFlag("unkenny", "customModelName") || "";
         this.context.minNewTokens = await this.object.getFlag("unkenny", "minNewTokens");
         this.context.maxNewTokens = await this.object.getFlag("unkenny", "maxNewTokens");
         this.context.repetitionPenalty = await this.object.getFlag("unkenny", "repetitionPenalty");
@@ -89,6 +90,7 @@ class UnKennySheet extends DocumentSheet {
         await this.object.setFlag("unkenny", "alias", formData.alias);
         await this.object.setFlag("unkenny", "preamble", formData.preamble);
         await this.updateFlag(formData, "model");
+        await this.updateFlag(formData, "customModelName");
         await this.updateFlag(formData, "minNewTokens");
         await this.updateFlag(formData, "maxNewTokens");
         await this.updateFlag(formData, "repetitionPenalty");

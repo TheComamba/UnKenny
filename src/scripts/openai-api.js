@@ -29,7 +29,7 @@ function getOpenAiApiParameters(generationParameters) {
     } else if (modelType === 'custom') {
         if (generationParameters.customModelName) {
             generationParameters.model = generationParameters.customModelName;
-            apiKey = "This is a custom model, no API key needed.";
+            generationParameters.apiKey = "This is a custom model, no API key needed.";
         } else {
             const errorMessage = game.i18n.localize('unkenny.llm.noModel');
             ui.notifications.error(errorMessage);
