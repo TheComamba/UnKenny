@@ -7,6 +7,7 @@ const MODELS_MAP = new Map([
     ["gpt-4.1-mini", { text: "OpenAI: GPT-4.1 mini", limit: 1_047_576, type: "openai" }],
     ["gpt-4o", { text: "OpenAI: GPT-4o", limit: 128_000, type: "openai" }],
     ["gemini-2.5-flash-lite", { text: "Google: Gemini 2.5 Flash Lite", limit: 1_048_576, type: "google" }],
+    ["custom", { text: "Custom Model", type: "custom" }],
 ]);
 
 function getModelToTextMap() {
@@ -25,6 +26,10 @@ function getHostedModels() {
 
 function getTokenLimit(model) {
     const foundModel = MODELS_MAP.get(model);
+    if (foundModel && foundModel.type === 'custom') {
+        const customModelContextLength = game.settings.get("unkenny", "customModelContextLength");
+        return customModelContextLength || undefined;
+    }
     return foundModel ? foundModel.limit : undefined;
 }
 

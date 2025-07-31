@@ -26,12 +26,25 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = 'https://api.openai.com/v1';
     } else if (modelType === 'google') {
         baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
+    } else if (modelType === 'custom') {
+        if (generationParameters.customModelName) {
+            generationParameters.model = generationParameters.customModelName;
+            apiKey = "This is a custom model, no API key needed.";
+        } else {
+            const errorMessage = game.i18n.localize('unkenny.llm.noModel');
+            ui.notifications.error(errorMessage);
+            return;
+        }
     } else {
         return;
     }
 
     if (generationParameters.baseUrl) {
         baseUrl = generationParameters.baseUrl;
+    }
+
+    if (generationParameters.customModelName) {
+        generationParameters.model = generationParameters.customModelName;
     }
 
     return {

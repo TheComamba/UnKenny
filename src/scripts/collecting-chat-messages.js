@@ -2,6 +2,7 @@ import { findAdressedActor } from "./chat-message-request.js";
 import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
 import { getTokenLimit } from "./models.js";
 import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
+import { getGenerationParameter } from "./llm.js";
 
 const CONVERSATION_FLAG = "conversationWith";
 
@@ -72,10 +73,11 @@ async function messagesOrganisedForTemplate(actor, previousMessages, newMessageC
 }
 
 async function collectChatMessages(actor, newMessageContent, newTokenLimit) {
-    let previousMessages = await collectPreviousMessages(actor);
+    const previousMessages = await collectPreviousMessages(actor);
     sortMessages(previousMessages);
-    let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
-    truncateMessages(actor, messages, newTokenLimit);
+    const messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
+    const model = await getGenerationParameter(actor, 'model');
+    truncateMessages(model, messages, newTokenLimit);
     return messages;
 }
 

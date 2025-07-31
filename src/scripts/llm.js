@@ -49,4 +49,4 @@ async function generateResponse(actor, input, parameters) {
     return response;
 }
 
-export { generateResponse, getGenerationParameters };
+export { generateResponse, getGenerationParameter, getGenerationParameters };
