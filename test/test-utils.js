@@ -1,3 +1,5 @@
+import { getModelType } from '../src/scripts/models.js';
+
 const oneMinute = 60 * 1000;
 
 function complainIfEnvVariableIsMissing(variableName) {
@@ -25,9 +27,10 @@ function testIfOpenAi(name, fn) {
 }
 
 function getApiKey(model) {
-    if (model === "openai") {
+    const type = getModelType(model);
+    if (type === "openai") {
         return process.env.OPENAI_API_KEY;
-    } else if (model === "google") {
+    } else if (type === "google") {
         return process.env.GOOGLE_API_KEY;
     }
     throw new Error("Unknown model: " + model);

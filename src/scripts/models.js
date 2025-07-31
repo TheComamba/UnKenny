@@ -17,15 +17,9 @@ function getModelToTextMap() {
     return modelToTextMap;
 }
 
-function getOpenAiModels() {
+function getHostedModels() {
     return Array.from(MODELS_MAP)
-        .filter(_model => _model[1].type === "openai")
-        .map(model => model[0]);
-}
-
-function getGoogleModels() {
-    return Array.from(MODELS_MAP)
-        .filter(_model => _model[1].type === "google")
+        .filter(_model => true) // Currently, only hosted models are supported.
         .map(model => model[0]);
 }
 
@@ -39,4 +33,4 @@ function getModelType(model) {
     return foundModel ? foundModel.type : undefined;
 }
 
-export { getModelToTextMap, getModelType, getOpenAiModels, getGoogleModels, getTokenLimit };
+export { getModelToTextMap, getModelType, getHostedModels, getTokenLimit };

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, testIfOpenAi } from './test-utils.js';
+import { expectNoNotifications, getApiKey, testIfOpenAi } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
 import { getHostedModels } from '../src/scripts/models.js';
