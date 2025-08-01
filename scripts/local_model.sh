@@ -5,8 +5,8 @@ set -e
 model_name="llama3.2"
 
 arg="${1:-start}"
-if [[ "$arg" != "start" && "$arg" != "stop" ]]; then
-    echo "Usage: $0 [start|stop]"
+if [[ "$arg" != "start" && "$arg" != "stop" && "$arg" != "check" ]]; then
+    echo "Usage: $0 [start|stop|check]"
     exit 1
 fi
 
@@ -49,4 +49,17 @@ if [[ "$arg" == "start" ]]; then
     ollama pull "$model_name"
 elif [[ "$arg" == "stop" ]]; then
     stop_ollama
+elif [[ "$arg" == "check" ]]; then
+    http_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:11434/api/chat -H "Content-Type: application/json" -d '{
+        "model": "'"$model_name"'",
+        "messages": [{"role": "user", "content": "What is UnKenny?"}],
+        "stream": false
+    }')
+    echo "Received HTTP Code $http_code"
+    if [[ "$http_code" -lt 400 ]]; then
+        echo "Ollama server is running and responding correctly."
+    else
+        echo "Ollama server is not responding correctly. HTTP Code: $http_code"
+        exit 1
+    fi
 fi
