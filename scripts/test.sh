@@ -9,15 +9,24 @@ for arg in "$@"
 do
     case $arg in
         -a|--all)
-        export RUN_OPENAI_TESTS=true
+        export RUN_REMOTE_TESTS=true
+        export RUN_LOCAL_TESTS=true
         shift # Remove --all or -a from processing
         ;;
-        -o|--openai)
-        export RUN_OPENAI_TESTS=true
+        -l|--local)
+        export RUN_LOCAL_TESTS=true
+        shift # Remove argument name from processing
+        ;;
+        -r|--remote)
+        export RUN_REMOTE_TESTS=true
         shift # Remove argument name from processing
         ;;
     esac
 done
+
+if [[ "$RUN_LOCAL_TESTS" == "true" ]]; then
+    ./scripts/local_model.sh start
+fi
 
 echo "Running tests..."
 npm run test:coverage
