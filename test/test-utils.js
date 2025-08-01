@@ -29,7 +29,7 @@ function testIfModelsEnabled(name, fn) {
     }
 }
 
-function getHostedModels() {
+function getAvailableModels() {
     const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
     const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
     let models = [];
@@ -92,4 +92,4 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, getHostedModels, testIfModelsEnabled, waitFor, waitForMessagesToBePosted, getApiKey };
+export { expectNoNotifications, findFirstMessageConcerning, getAvailableModels, testIfModelsEnabled, waitFor, waitForMessagesToBePosted, getApiKey };

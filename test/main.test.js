@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 import { expectNoNotifications, getApiKey, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
-import { getAvailableModels } from '../src/scripts/models.js';
+import { getAvailableModels } from './test-utils.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 import mockReset from '../__mocks__/main.js';
-import { PREFIX_OPTIONS } from '../src/scripts/prefix.js';
 import { CONVERSATION_FLAG } from '../src/scripts/collecting-chat-messages.js';
 
 describe('main.js', function () {

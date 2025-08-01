@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
 import { expectNoNotifications, findFirstMessageConcerning, getApiKey, testIfModelsEnabled } from './test-utils.js';
-import { getAvailableModels } from '../src/scripts/models.js';
+import { getAvailableModels } from './test-utils.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
 import Hooks from '../__mocks__/hooks.js';

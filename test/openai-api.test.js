@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { expectNoNotifications, getApiKey, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
-import { getAvailableModels } from '../src/scripts/models.js';
+import { getAvailableModels } from './test-utils.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('roughNumberOfTokensForOpenAi', function () {

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { UnKennySheet } from "../src/apps/unkenny-sheet.js";
 import fs from 'fs';
 import Handlebars from 'handlebars';
-import { getAvailableModels } from '../src/scripts/models.js';
+import { getAvailableModels } from './test-utils.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('UnKennySheet', function () {

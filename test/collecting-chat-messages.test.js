@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
-import { getAvailableModels, getTokenLimit } from "../src/scripts/models.js";
+import { getTokenLimit } from "../src/scripts/models.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
-import { expectNoNotifications } from "./test-utils.js";
+import { getAvailableModels } from "./test-utils.js";
 
 describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
