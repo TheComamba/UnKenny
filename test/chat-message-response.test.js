@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { expectNoNotifications, findFirstMessageConcerning, getApiKey, testIfOpenAi } from './test-utils.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { expectNoNotifications, findFirstMessageConcerning, getApiKey, testIfModelsEnabled } from './test-utils.js';
+import { getAvailableModels } from '../src/scripts/models.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -50,8 +50,8 @@ describe('triggerResponse', function () {
         Hooks.call('init');
     });
 
-    testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
-        const hostedModels = getHostedModels();
+    testIfModelsEnabled('should generate a response from an OpenAI model and trigger a chat message', async () => {
+        const hostedModels = getAvailableModels();
         const model = hostedModels[0];
         game.settings.set("unkenny", "apiKey", getApiKey(model));
         await runTriggerResponse(model);

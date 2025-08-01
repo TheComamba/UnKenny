@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, testIfOpenAi, waitForMessagesToBePosted } from './test-utils.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { expectNoNotifications, getApiKey, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
+import { getAvailableModels } from '../src/scripts/models.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
@@ -67,17 +67,17 @@ describe('Integration test', function () {
     Hooks.call('setup');
   });
 
-  testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
-    const hostedModels = getHostedModels();
+  testIfModelsEnabled('should be possible to post a message and get a response from an OpenAI model', async () => {
+    const hostedModels = getAvailableModels();
     const model = hostedModels[0];
     game.settings.set("unkenny", "apiKey", getApiKey(model));
     await postMessageAndCheckReply(model);
   });
 
-  testIfOpenAi('should whisper to user', async () => {
+  testIfModelsEnabled('should whisper to user', async () => {
     game.settings.set("unkenny", "prefix", "whisper");
     game.user.name = 'Alice';
-    const hostedModels = getHostedModels();
+    const hostedModels = getAvailableModels();
     const model = hostedModels[0];
     game.settings.set("unkenny", "apiKey", getApiKey(model));
     const reply = await postMessageAndCheckReply(model);

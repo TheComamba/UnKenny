@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getModelToTextMap, getHostedModels, getTokenLimit } from '../src/scripts/models.js';
+import { getModelToTextMap, getAvailableModels, getTokenLimit } from '../src/scripts/models.js';
 import { loadExternalModule } from '../src/scripts/shared.js';
 import mockReset from '../__mocks__/main.js';
 
@@ -19,13 +19,13 @@ describe('getModelToTextMap', function () {
     });
 });
 
-describe('getHostedModels', function () {
+describe('getAvailableModels', function () {
     this.beforeEach(() => {
         mockReset();
     });
 
     it('should return an array of OpenAI models', () => {
-        const hostedModels = getHostedModels();
+        const hostedModels = getAvailableModels();
         expect(hostedModels).to.be.an('array');
         expect(hostedModels.length).to.be.greaterThan(0);
         for (const model of hostedModels) {

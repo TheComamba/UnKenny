@@ -27,15 +27,15 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Include OpenAI tests",
+            "name": "Include Remote Model tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
                 "test"
             ],
             "env": {
-                "RUN_OPENAI_TESTS": "true",
-                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
+                "RUN_REMOTE_TESTS": "true",
+                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
                 "GOOGLE_API_KEY": "${env:GOOGLE_API_KEY}"
             },
             "skipFiles": [

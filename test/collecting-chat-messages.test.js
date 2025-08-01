@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
-import { getHostedModels, getTokenLimit } from "../src/scripts/models.js";
+import { getAvailableModels, getTokenLimit } from "../src/scripts/models.js";
 import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
@@ -166,7 +166,7 @@ describe('messagesOrganisedForTemplate', async function () {
 
 describe('truncateMessages', function () {
     this.timeout(10000);
-    const hostedModels = getHostedModels()[0];
+    const hostedModels = getAvailableModels()[0];
     const newTokenLimit = 100;
 
     beforeEach(() => {

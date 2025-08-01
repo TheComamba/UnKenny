@@ -15,15 +15,34 @@ function complainIfEnvVariableIsMissing(variableName) {
     }
 }
 
-function testIfOpenAi(name, fn) {
-    const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
-    if (shouldRunOpenAiTests) {
+function testIfModelsEnabled(name, fn) {
+    const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
+    const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
+    if (runsRemoteTests) {
         complainIfEnvVariableIsMissing('OPENAI_API_KEY');
         complainIfEnvVariableIsMissing('GOOGLE_API_KEY');
+        return it(name, fn).timeout(oneMinute);
+    } else if (runsLocalTests) {
         return it(name, fn).timeout(oneMinute);
     } else {
         return it.skip(name, fn);
     }
+}
+
+function getHostedModels() {
+    const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
+    const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
+    let models = [];
+    if (runsRemoteTests) {
+        const openaiModels = getModelsByType('openai');
+        const googleModels = getModelsByType('google');
+        models = [...models, ...openaiModels, ...googleModels];
+    }
+    if (runsLocalTests) {
+        const localModels = getModelsByType('custom');
+        models = [...models, ...localModels];
+    }
+    return models;
 }
 
 function getApiKey(model) {
@@ -73,4 +92,4 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, waitFor, waitForMessagesToBePosted, getApiKey };
+export { expectNoNotifications, findFirstMessageConcerning, getHostedModels, testIfModelsEnabled, waitFor, waitForMessagesToBePosted, getApiKey };

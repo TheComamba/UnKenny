@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, testIfOpenAi } from './test-utils.js';
+import { expectNoNotifications, getApiKey, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { getAvailableModels } from '../src/scripts/models.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('roughNumberOfTokensForOpenAi', function () {
@@ -31,10 +31,10 @@ describe('getResponseFromOpenAI', function () {
         mockReset();
     });
 
-    const hostedModels = getHostedModels();
+    const hostedModels = getAvailableModels();
 
     hostedModels.forEach(model => {
-        testIfOpenAi(model + ' returns a somewhat expected response', async () => {
+        testIfModelsEnabled(model + ' returns a somewhat expected response', async () => {
             const actor = new Actor('Bob');
             await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
             const parameters = {
