@@ -31,8 +31,6 @@
     "unkenny.settings.baseUrlDescription": "Here you can override the base URL for models using the OpenAI API.",
     "unkenny.settings.customModelName": "Custom Model Name",
     "unkenny.settings.customModelNameDescription": "If you want to use a custom model, you can specify its name here.\nThis will be used to identify the model in the UI and settings.",
-    "unkenny.settings.customModelContextLength": "Custom Model Context Length",
-    "unkenny.settings.customModelContextLengthDescription": "If you want to use a custom model, you can specify its context length here.\nThis will be used to determine the maximum number of tokens that will be sent as chat history to the model.",
     "unkenny.settings.apiKey": "API Key",
     "unkenny.settings.apiKeyDescription": "The models you use likely require an API key. You can provide it here.\nAdditionally, your account may need to have a positive balance.",
     "unkenny.settings.minNewTokens": "Minimum Number of New Tokens",

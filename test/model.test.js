@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getModelToTextMap, getTokenLimit } from '../src/scripts/models.js';
+import { getModelToTextMap } from '../src/scripts/models.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('getModelToTextMap', function () {
@@ -14,20 +14,6 @@ describe('getModelToTextMap', function () {
         for (const [key, value] of Object.entries(map)) {
             expect(key).to.be.a('string');
             expect(value).to.be.a('string');
-        }
-    });
-});
-
-describe('getTokenLimit', function () {
-    this.beforeEach(() => {
-        mockReset();
-    });
-
-    it('should return a positive number for every model', () => {
-        const map = getModelToTextMap();
-        for (const [model, _value] of Object.entries(map)) {
-            let limit = getTokenLimit(model);
-            expect(limit).to.be.greaterThan(0);
         }
     });
 });

@@ -1,10 +1,7 @@
 import { expect } from "chai";
-import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, truncateMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
-import { getTokenLimit } from "../src/scripts/models.js";
-import { roughNumberOfTokensForOpenAi } from "../src/scripts/openai-api.js";
+import { collectPreviousMessages, sortMessages, messagesOrganisedForTemplate, collectChatMessages, classContainsUnKennyChatMessage, overwriteChatMessage, removeMessageFromUnKennyConversation, CONVERSATION_FLAG } from "../src/scripts/collecting-chat-messages.js";
 import { generateRandomId } from "../__mocks__/utils.js";
 import mockReset from "../__mocks__/main.js";
-import { getAvailableModels } from "./test-utils.js";
 
 describe('collectPreviousMessages', function () {
     const actor1 = new Actor();
@@ -164,57 +161,6 @@ describe('messagesOrganisedForTemplate', async function () {
     });
 });
 
-describe('truncateMessages', function () {
-    this.timeout(10000);
-    const hostedModels = getAvailableModels()[0];
-    const newTokenLimit = 100;
-
-    beforeEach(() => {
-        mockReset();
-    });
-
-    it('should display a warning but not truncate any messages to OpenAI models', async () => {
-        const content = await getContentWorthOneFifthOfTokenLimit(hostedModels);
-        let messages = [
-            {
-                role: 'system',
-                content: content + content
-            },
-            {
-                role: 'user',
-                content: content + content
-            },
-            {
-                role: 'assistant',
-                content: content + content
-            },
-            {
-                role: 'user',
-                content: content + content
-            }
-        ];
-
-        await truncateMessages(hostedModels, messages, newTokenLimit);
-
-        expect(messages.length).to.equal(4);
-        expect(ui.notifications.warn.called).to.be.true;
-    });
-});
-
-async function getContentWorthOneFifthOfTokenLimit(model) {
-    const totalLimit = getTokenLimit(model);
-    const partialLimit = Math.floor(totalLimit / 5);
-    let message = {
-        role: 'system',
-        content: ''
-    };
-    const condition = async (m) => roughNumberOfTokensForOpenAi([m]) < partialLimit;
-    while (await condition(message)) {
-        message.content += 'bla ';
-    }
-    return message.content;
-}
-
 describe('collectChatMessages', function () {
     this.timeout(10000);
     beforeEach(() => {
@@ -222,7 +168,6 @@ describe('collectChatMessages', function () {
     });
 
     it('should return a chat template list including previously posted messages', async () => {
-        const newTokenLimit = 100;
         const actor = new Actor();
         const preamble = 'This is a preamble.';
         await actor.setFlag('unkenny', 'preamble', preamble);
@@ -249,7 +194,7 @@ describe('collectChatMessages', function () {
         game.messages.set(messagePostedByUser.id, messagePostedByUser);
         game.messages.set(messagePostedByActor.id, messagePostedByActor);
 
-        let messages = await collectChatMessages(actor, newContent, newTokenLimit);
+        let messages = await collectChatMessages(actor, newContent);
 
         expect(messages.length).to.equal(4);
         expect(messages[0].role).to.equal('system');

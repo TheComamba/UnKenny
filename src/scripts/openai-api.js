@@ -1,16 +1,6 @@
 import { loadExternalModule } from './shared.js';
 import { getModelType } from './models.js';
 
-function roughNumberOfTokensForOpenAi(messages) {
-    const charsPerToken = 4;
-    let chars = 0;
-    for (const message of messages) {
-        chars += message.role.length;
-        chars += message.content.length;
-    }
-    return chars / charsPerToken;
-}
-
 function getOpenAiApiParameters(generationParameters) {
     const model = generationParameters.model;
     if (!model) {
@@ -91,4 +81,4 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
 }
 
-export { getResponseFromOpenAI, roughNumberOfTokensForOpenAi };
+export { getResponseFromOpenAI };

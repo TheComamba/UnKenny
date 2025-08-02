@@ -33,7 +33,6 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
         game.settings.set('unkenny', 'customModelName', 'customModel1');
-        game.settings.set('unkenny', 'customModelContextLength', 2048);
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
@@ -50,7 +49,6 @@ describe('getGenerationParameters', function () {
             apiKey: 'apiKey1',
             baseUrl: 'baseUrl1',
             customModelName: 'customModel1',
-            customModelContextLength: 2048,
             minNewTokens: 10,
             maxNewTokens: 20,
             temperature: 1.5,
@@ -67,7 +65,6 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
         game.settings.set('unkenny', 'customModelName', 'customModel1');
-        game.settings.set('unkenny', 'customModelContextLength', 2048);
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
@@ -91,7 +88,6 @@ describe('getGenerationParameters', function () {
             apiKey: 'apiKey1',
             baseUrl: 'baseUrl2',
             customModelName: 'customModel1',
-            customModelContextLength: 2048,
             minNewTokens: 11,
             maxNewTokens: 21,
             temperature: 1.6,

@@ -1,30 +1,9 @@
 import { expect } from 'chai';
 import { expectNoNotifications, getApiKey, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
-import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
+import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
 import { getAvailableModels } from './test-utils.js';
 import mockReset from '../__mocks__/main.js';
-
-describe('roughNumberOfTokensForOpenAi', function () {
-    beforeEach(() => {
-        mockReset();
-    });
-
-    it('returns a somewhat expected number', async () => {
-        const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
-        const actor = new Actor('Bob');
-        await actor.setFlag('unkenny', 'preamble', text);
-        const prompt = text;
-        const messages = await messagesOrganisedForTemplate(actor, [], prompt);
-
-        const minExpectedNumber = text.split(' ').length; // One token per word
-        const maxExpectedNumber = text.length; // One token per character
-        const number = roughNumberOfTokensForOpenAi(messages);
-
-        expect(number).to.be.greaterThanOrEqual(minExpectedNumber);
-        expect(number).to.be.lessThanOrEqual(maxExpectedNumber);
-    });
-});
 
 describe('getResponseFromOpenAI', function () {
     beforeEach(() => {

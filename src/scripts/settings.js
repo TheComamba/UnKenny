@@ -6,7 +6,6 @@ function llmParametersAndDefaults() {
         model: null,
         baseUrl: "",
         customModelName: "",
-        customModelContextLength: 128_000, 
         apiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
@@ -54,33 +53,6 @@ function registerGameParameters() {
         config: true,
         type: String,
         default: params.customModelName
-    });
-
-    game.settings.register("unkenny", "customModelContextLength", {
-        name: game.i18n.localize("unkenny.settings.customModelContextLength"),
-        hint: game.i18n.localize("unkenny.settings.customModelContextLengthDescription"),
-        scope: "world",
-        config: true,
-        type: Number,
-        default: params.customModelContextLength
-    });
-
-    game.settings.register("unkenny", "customModelName", {
-        name: game.i18n.localize("unkenny.settings.customModelName"),
-        hint: game.i18n.localize("unkenny.settings.customModelNameDescription"),
-        scope: "world",
-        config: true,
-        type: String,
-        default: params.customModelName
-    });
-
-    game.settings.register("unkenny", "customModelContextLength", {
-        name: game.i18n.localize("unkenny.settings.customModelContextLength"),
-        hint: game.i18n.localize("unkenny.settings.customModelContextLengthDescription"),
-        scope: "world",
-        config: true,
-        type: Number,
-        default: params.customModelContextLength
     });
 
     game.settings.register("unkenny", "minNewTokens", {
