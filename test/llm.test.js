@@ -19,9 +19,9 @@ describe('getGenerationParameters', function () {
 
         const params = llmParametersAndDefaults();
         expect(result).to.deep.equal({
+            ...params,
             actorName: 'actor1',
             model: 'model1',
-            ...params
         });
     });
 
