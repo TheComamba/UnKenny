@@ -3,17 +3,8 @@
     "configurations": [
         {
             "type": "node",
-            "request": "attach",
-            "name": "Attach to process",
-            "processId": "${command:PickProcess}",
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
-        },
-        {
-            "type": "node",
             "request": "launch",
-            "name": "Launch tests via npm",
+            "name": "Run tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
@@ -27,7 +18,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Include Remote Model tests",
+            "name": "Run remote model tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
@@ -45,12 +36,18 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Include all tests",
+            "name": "Run all tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
                 "test"
             ],
+            "env": {
+                "RUN_REMOTE_TESTS": "true",
+                "RUN_LOCAL_TESTS": "true",
+                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
+                "GOOGLE_API_KEY": "${env:GOOGLE_API_KEY}"
+            },
             "skipFiles": [
                 "<node_internals>/**"
             ]

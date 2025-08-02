@@ -1,4 +1,5 @@
-import { getModelType } from '../src/scripts/models.js';
+import game from '../__mocks__/game.js';
+import { getModelsByType, getModelType } from '../src/scripts/models.js';
 
 const oneMinute = 60 * 1000;
 
@@ -39,6 +40,7 @@ function getAvailableModels() {
         models = [...models, ...openaiModels, ...googleModels];
     }
     if (runsLocalTests) {
+        game.settings.set('unkenny', 'customModel', 'llama3.2');
         const localModels = getModelsByType('custom');
         models = [...models, ...localModels];
     }

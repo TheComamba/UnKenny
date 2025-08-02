@@ -20,7 +20,7 @@ function getModelToTextMap() {
 
 function getModelsByType(modelType) {
     return Array.from(MODELS_MAP)
-        .filter(model => model.type === modelType)
+        .filter(model => model[1].type === modelType)
         .map(model => model[0]);
 }
 
