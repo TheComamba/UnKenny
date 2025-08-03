@@ -66,21 +66,20 @@ describe('Integration test', function () {
     Hooks.call('setup');
   });
 
-  testIfModelsEnabled('should be possible to post a message and get a response from an OpenAI model', async () => {
-    const hostedModels = getAvailableModels();
-    const model = hostedModels[0];
-    game.settings.set("unkenny", "apiKey", getApiKey(model));
-    await postMessageAndCheckReply(model);
-  });
+  const hostedModels = getAvailableModels();
+  hostedModels.forEach(model => {
+    testIfModelsEnabled('should be possible to post a message and get a response from model' + model, async () => {
+      game.settings.set("unkenny", "apiKey", getApiKey(model));
+      await postMessageAndCheckReply(model);
+    });
 
-  testIfModelsEnabled('should whisper to user', async () => {
-    game.settings.set("unkenny", "prefix", "whisper");
-    game.user.name = 'Alice';
-    const hostedModels = getAvailableModels();
-    const model = hostedModels[0];
-    game.settings.set("unkenny", "apiKey", getApiKey(model));
-    const reply = await postMessageAndCheckReply(model);
-    expect(reply).to.include('/whisper Alice');
+    testIfModelsEnabled(model + 'should whisper to user', async () => {
+      game.settings.set("unkenny", "prefix", "whisper");
+      game.user.name = 'Alice';
+      game.settings.set("unkenny", "apiKey", getApiKey(model));
+      const reply = await postMessageAndCheckReply(model);
+      expect(reply).to.include('/whisper Alice');
+    });
   });
 });
 

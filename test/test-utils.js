@@ -53,6 +53,8 @@ function getApiKey(model) {
         return process.env.OPENAI_API_KEY;
     } else if (type === "google") {
         return process.env.GOOGLE_API_KEY;
+    } else if (type === "custom") {
+        return "";
     }
     throw new Error("Unknown model: " + model);
 }

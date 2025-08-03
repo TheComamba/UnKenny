@@ -50,11 +50,12 @@ describe('triggerResponse', function () {
         Hooks.call('init');
     });
 
-    testIfModelsEnabled('should generate a response from an OpenAI model and trigger a chat message', async () => {
-        const hostedModels = getAvailableModels();
-        const model = hostedModels[0];
-        game.settings.set("unkenny", "apiKey", getApiKey(model));
-        await runTriggerResponse(model);
+    const hostedModels = getAvailableModels();
+    hostedModels.forEach(model => {
+        testIfModelsEnabled('should generate a response from model ' + model + ' and trigger a chat message', async () => {
+            game.settings.set("unkenny", "apiKey", getApiKey(model));
+            await runTriggerResponse(model);
+        });
     });
 
     it('should generate an error message if no response is generated', async () => {
