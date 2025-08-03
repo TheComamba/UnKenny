@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { expectNoNotifications, findFirstMessageConcerning, getApiKey, testIfModelsEnabled } from './test-utils.js';
+import { expectNoNotifications, findFirstMessageConcerning, getApiKey, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
 import { getAvailableModels } from './test-utils.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
@@ -48,6 +48,7 @@ describe('triggerResponse', function () {
         mockReset();
         setupHooks();
         Hooks.call('init');
+        setupLocalModels();
     });
 
     const hostedModels = getAvailableModels();

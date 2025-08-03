@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, testIfModelsEnabled } from './test-utils.js';
+import { expectNoNotifications, getApiKey, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
 import { getAvailableModels } from './test-utils.js';
@@ -8,6 +8,7 @@ import mockReset from '../__mocks__/main.js';
 describe('getResponseFromOpenAI', function () {
     beforeEach(() => {
         mockReset();
+        setupLocalModels();
     });
 
     const hostedModels = getAvailableModels();

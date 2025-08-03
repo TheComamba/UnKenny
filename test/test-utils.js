@@ -32,6 +32,7 @@ function testIfModelsEnabled(name, fn) {
 
 function setupLocalModels() {
     game.settings.set('unkenny', 'customModel', 'llama3.2');
+    game.settings.set('unkenny', 'baseUrl', 'http://localhost:11434');
 }
 
 function getAvailableModels() {
@@ -100,4 +101,13 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, getAvailableModels, testIfModelsEnabled, waitFor, waitForMessagesToBePosted, getApiKey };
+export {
+    expectNoNotifications,
+    findFirstMessageConcerning,
+    getApiKey,
+    getAvailableModels,
+    setupLocalModels,
+    testIfModelsEnabled,
+    waitFor,
+    waitForMessagesToBePosted
+};

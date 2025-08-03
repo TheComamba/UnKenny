@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { getModelsByType, getModelToTextMap } from '../src/scripts/models.js';
 import mockReset from '../__mocks__/main.js';
+import { setupLocalModels } from './test-utils.js';
 
 describe('getModelToTextMap', function () {
     this.beforeEach(() => {

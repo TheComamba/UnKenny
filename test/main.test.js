@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
+import { expectNoNotifications, getApiKey, setupLocalModels, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
 import { getAvailableModels } from './test-utils.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -64,6 +64,7 @@ describe('Integration test', function () {
     setupHooks();
     Hooks.call('init');
     Hooks.call('setup');
+    setupLocalModels();
   });
 
   const hostedModels = getAvailableModels();
