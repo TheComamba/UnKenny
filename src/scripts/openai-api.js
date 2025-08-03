@@ -28,10 +28,6 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = generationParameters.baseUrl;
     }
 
-    if (generationParameters.customModel) {
-        generationParameters.model = generationParameters.customModel;
-    }
-
     return {
         baseURL: baseUrl,
         apiKey: generationParameters.apiKey,
