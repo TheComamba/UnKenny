@@ -7,7 +7,6 @@ const MODELS_MAP = new Map([
     ["gpt-4.1-mini", { text: "OpenAI: GPT-4.1 mini", type: "openai" }],
     ["gpt-4o", { text: "OpenAI: GPT-4o", type: "openai" }],
     ["gemini-2.5-flash-lite", { text: "Google: Gemini 2.5 Flash Lite", type: "google" }],
-    ["custom", { text: "Custom Model", type: "custom" }],
 ]);
 
 function getModelToTextMap() {
@@ -15,6 +14,12 @@ function getModelToTextMap() {
     for (let [key, value] of MODELS_MAP) {
         modelToTextMap[key] = value.text;
     }
+    const customModelName = game.settings.get("unkenny", "customModelName");
+    if (!customModelName) {
+        return modelToTextMap;
+    }
+    const customModelText = "Custom Model: " + customModelName;
+    modelToTextMap["custom"] = customModelText;
     return modelToTextMap;
 }
 

@@ -16,6 +16,14 @@ describe('getModelToTextMap', function () {
             expect(value).to.be.a('string');
         }
     });
+
+    it('should include a custom model if it is specified in the game settings', () => {
+        const customModelName = "My Custom Model";
+        game.settings.set("unkenny", "customModelName", customModelName);
+        const map = getModelToTextMap();
+        expect(map).to.have.property("custom");
+        expect(map.custom).to.equal("Custom Model: " + customModelName);
+    });
 });
 
 describe('getModelsByType', function () {
