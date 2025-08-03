@@ -68,12 +68,12 @@ describe('Integration test', function () {
 
   const hostedModels = getAvailableModels();
   hostedModels.forEach(model => {
-    testIfModelsEnabled('should be possible to post a message and get a response from model' + model, async () => {
+    testIfModelsEnabled('should be possible to post a message and get a response from model ' + model, async () => {
       game.settings.set("unkenny", "apiKey", getApiKey(model));
       await postMessageAndCheckReply(model);
     });
 
-    testIfModelsEnabled(model + 'should whisper to user', async () => {
+    testIfModelsEnabled(model + ' should whisper to user', async () => {
       game.settings.set("unkenny", "prefix", "whisper");
       game.user.name = 'Alice';
       game.settings.set("unkenny", "apiKey", getApiKey(model));

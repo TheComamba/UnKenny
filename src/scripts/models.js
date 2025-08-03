@@ -2,7 +2,7 @@
 // https://platform.openai.com/docs/models/continuous-model-upgrades
 // Token limits for Google Gemini models can be found here:
 // https://ai.google.dev/gemini-api/docs/models
-const MODELS_MAP = new Map([
+const STATIC_MODELS_MAP = new Map([
     ["gpt-4.1-nano", { text: "OpenAI: GPT-4.1 nano", type: "openai" }],
     ["gpt-4.1-mini", { text: "OpenAI: GPT-4.1 mini", type: "openai" }],
     ["gpt-4o", { text: "OpenAI: GPT-4o", type: "openai" }],
@@ -11,7 +11,7 @@ const MODELS_MAP = new Map([
 
 function getModelToTextMap() {
     let modelToTextMap = {};
-    for (let [key, value] of MODELS_MAP) {
+    for (let [key, value] of STATIC_MODELS_MAP) {
         modelToTextMap[key] = value.text;
     }
     const customModel = game.settings.get("unkenny", "customModel");
@@ -24,14 +24,19 @@ function getModelToTextMap() {
 }
 
 function getModelsByType(modelType) {
-    return Array.from(MODELS_MAP)
-        .filter(model => model[1].type === modelType)
-        .map(model => model[0]);
+    if (modelType === "custom") {
+        const customModel = game.settings.get("unkenny", "customModel");
+        return customModel ? [customModel] : [];
+    } else {
+        return Array.from(STATIC_MODELS_MAP)
+            .filter(model => model[1].type === modelType)
+            .map(model => model[0]);
+    }
 }
 
 function getModelType(model) {
-    const foundModel = MODELS_MAP.get(model);
-    return foundModel ? foundModel.type : undefined;
+    const foundModel = STATIC_MODELS_MAP.get(model);
+    return foundModel ? foundModel.type : 'custom';
 }
 
 export { getModelToTextMap, getModelType, getModelsByType };

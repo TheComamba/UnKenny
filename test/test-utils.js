@@ -30,6 +30,10 @@ function testIfModelsEnabled(name, fn) {
     }
 }
 
+function setupLocalModels() {
+    game.settings.set('unkenny', 'customModel', 'llama3.2');
+}
+
 function getAvailableModels() {
     const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
     const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
@@ -40,7 +44,7 @@ function getAvailableModels() {
         models = [...models, ...openaiModels, ...googleModels];
     }
     if (runsLocalTests) {
-        game.settings.set('unkenny', 'customModel', 'llama3.2');
+        setupLocalModels();
         const localModels = getModelsByType('custom');
         models = [...models, ...localModels];
     }

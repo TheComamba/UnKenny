@@ -32,6 +32,8 @@ describe('getModelsByType', function () {
     });
 
     it('should return models by type', () => {
+        setupLocalModels();
+
         const openaiModels = getModelsByType('openai');
         expect(openaiModels).to.be.an('array');
         expect(openaiModels.length).to.be.greaterThan(0);
