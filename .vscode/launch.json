@@ -36,6 +36,22 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Run local model tests",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "env": {
+                "RUN_LOCAL_TESTS": "true"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run all tests",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
