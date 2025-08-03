@@ -17,8 +17,8 @@ function getOpenAiApiParameters(generationParameters) {
     } else if (modelType === 'google') {
         baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
     } else if (modelType === 'custom') {
-        if (generationParameters.customModelName) {
-            generationParameters.model = generationParameters.customModelName;
+        if (generationParameters.customModel) {
+            generationParameters.model = generationParameters.customModel;
             generationParameters.apiKey = "This is a custom model, no API key needed.";
         } else {
             const errorMessage = game.i18n.localize('unkenny.llm.noModel');
@@ -33,8 +33,8 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = generationParameters.baseUrl;
     }
 
-    if (generationParameters.customModelName) {
-        generationParameters.model = generationParameters.customModelName;
+    if (generationParameters.customModel) {
+        generationParameters.model = generationParameters.customModel;
     }
 
     return {

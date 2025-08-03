@@ -32,7 +32,7 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'model', 'model1');
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
-        game.settings.set('unkenny', 'customModelName', 'customModel1');
+        game.settings.set('unkenny', 'customModel', 'customModel1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
@@ -48,7 +48,7 @@ describe('getGenerationParameters', function () {
             model: 'model1',
             apiKey: 'apiKey1',
             baseUrl: 'baseUrl1',
-            customModelName: 'customModel1',
+            customModel: 'customModel1',
             minNewTokens: 10,
             maxNewTokens: 20,
             temperature: 1.5,
@@ -64,7 +64,7 @@ describe('getGenerationParameters', function () {
         game.settings.set('unkenny', 'model', 'model1');
         game.settings.set('unkenny', 'apiKey', 'apiKey1');
         game.settings.set('unkenny', 'baseUrl', 'baseUrl1');
-        game.settings.set('unkenny', 'customModelName', 'customModel1');
+        game.settings.set('unkenny', 'customModel', 'customModel1');
         game.settings.set('unkenny', 'minNewTokens', 10);
         game.settings.set('unkenny', 'maxNewTokens', 20);
         game.settings.set('unkenny', 'temperature', 1.5);
@@ -87,7 +87,7 @@ describe('getGenerationParameters', function () {
             model: 'model2',
             apiKey: 'apiKey1',
             baseUrl: 'baseUrl2',
-            customModelName: 'customModel1',
+            customModel: 'customModel1',
             minNewTokens: 11,
             maxNewTokens: 21,
             temperature: 1.6,

@@ -14,11 +14,11 @@ function getModelToTextMap() {
     for (let [key, value] of MODELS_MAP) {
         modelToTextMap[key] = value.text;
     }
-    const customModelName = game.settings.get("unkenny", "customModelName");
-    if (!customModelName) {
+    const customModel = game.settings.get("unkenny", "customModel");
+    if (!customModel) {
         return modelToTextMap;
     }
-    const customModelText = "Custom Model: " + customModelName;
+    const customModelText = "Custom Model: " + customModel;
     modelToTextMap["custom"] = customModelText;
     return modelToTextMap;
 }

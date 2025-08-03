@@ -5,7 +5,7 @@ function llmParametersAndDefaults() {
     return {
         model: null,
         baseUrl: "",
-        customModelName: "",
+        customModel: "",
         apiKey: "",
         minNewTokens: 1,
         maxNewTokens: 250,
@@ -18,13 +18,13 @@ function llmParametersAndDefaults() {
 function registerGameParameters() {
     const params = llmParametersAndDefaults();
 
-    game.settings.register("unkenny", "customModelName", {
-        name: game.i18n.localize("unkenny.settings.customModelName"),
-        hint: game.i18n.localize("unkenny.settings.customModelNameDescription"),
+    game.settings.register("unkenny", "customModel", {
+        name: game.i18n.localize("unkenny.settings.customModel"),
+        hint: game.i18n.localize("unkenny.settings.customModelDescription"),
         scope: "world",
         config: true,
         type: String,
-        default: params.customModelName
+        default: params.customModel
     });
 
     game.settings.register("unkenny", "model", {
