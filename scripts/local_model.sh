@@ -50,9 +50,12 @@ if [[ "$arg" == "start" ]]; then
 elif [[ "$arg" == "stop" ]]; then
     stop_ollama
 elif [[ "$arg" == "check" ]]; then
-    http_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:11434/api/chat -H "Content-Type: application/json" -d '{
+    http_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:11434/v1/chat/completions -H "Content-Type: application/json" -d '{
         "model": "'"$model_name"'",
-        "messages": [{"role": "user", "content": "What is UnKenny?"}],
+        "messages": [
+            { "role": "system", "content": "You are a helpful assistant." },
+            { "role": "user", "content": "What is UnKenny?"}
+        ],
         "stream": false
     }')
     echo "Received HTTP Code $http_code"

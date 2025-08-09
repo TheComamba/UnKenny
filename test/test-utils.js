@@ -32,7 +32,7 @@ function testIfModelsEnabled(name, fn) {
 
 function setupLocalModels() {
     game.settings.set('unkenny', 'customModel', 'llama3.2');
-    game.settings.set('unkenny', 'baseUrl', 'http://localhost:11434');
+    game.settings.set('unkenny', 'baseUrl', 'http://localhost:11434/v1');
 }
 
 function getAvailableModels() {
