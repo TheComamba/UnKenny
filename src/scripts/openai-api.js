@@ -28,6 +28,12 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = generationParameters.baseUrl;
     }
 
+    if (!baseUrl) {
+        const errorMessage = game.i18n.localize("unkenny.llm.noUrl");
+        ui.notifications.error(errorMessage);
+        return;
+    }
+
     return {
         baseURL: baseUrl,
         apiKey: generationParameters.apiKey,
