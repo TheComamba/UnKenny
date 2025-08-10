@@ -35,9 +35,9 @@ jobs:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: |
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          ./test.sh --all
+          ./scripts/test.sh --all
         else
-          ./test.sh
+          ./scripts/test.sh
         fi
     
     - name: Run tests on MacOS
@@ -47,9 +47,9 @@ jobs:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: |
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          ./test.sh --remote
+          ./scripts/test.sh --remote
         else
-          ./test.sh
+          ./scripts/test.sh
         fi
 
     - name: Run tests on Windows
@@ -59,8 +59,8 @@ jobs:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: |
         if ("${{ github.event_name }}" -eq "pull_request") { 
-          .\test.ps1 --remote 
+          .\scripts\test.ps1 --remote 
         } else { 
-          .\test.ps1 
+          .\scripts\test.ps1 
         }
       shell: pwsh
