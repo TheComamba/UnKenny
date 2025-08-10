@@ -25,6 +25,7 @@ describe('getResponseFromOpenAI', function () {
                 maxNewTokens: 128,
                 repetitionPenalty: 0.0,
                 temperature: 0.0,
+                baseUrl: game.settings.get('unkenny', 'baseUrl')
             };
             const prompt = 'Repeat after me: "I am Bob."';
             const messages = await messagesOrganisedForTemplate(actor, [], prompt);
