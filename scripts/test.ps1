@@ -4,7 +4,7 @@ param(
     [Alias('l')]
     [switch]$local,
     [Alias('r')]
-    [switch]$remote,
+    [switch]$remote
 )
 
 # Change to git root directory
