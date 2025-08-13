@@ -19,11 +19,11 @@ describe('getModelToTextMap', function () {
     });
 
     it('should include a custom model if it is specified in the game settings', () => {
-        const customModel = "My Custom Model";
+        const customModel = "my_custom_model";
         game.settings.set("unkenny", "customModel", customModel);
         const map = getModelToTextMap();
-        expect(map).to.have.property("custom");
-        expect(map.custom).to.equal("Custom Model: " + customModel);
+        expect(map).to.have.property(customModel);
+        expect(map[customModel]).to.equal("Custom Model: " + customModel);
     });
 });
 

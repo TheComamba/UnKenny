@@ -19,7 +19,7 @@ function getModelToTextMap() {
         return modelToTextMap;
     }
     const customModelText = "Custom Model: " + customModel;
-    modelToTextMap["custom"] = customModelText;
+    modelToTextMap[customModel] = customModelText;
     return modelToTextMap;
 }
 
