@@ -21,7 +21,9 @@ For that reason, monitor your API key usage every now and then. If ever you find
 
 After enabling the module for a world, configure it in the global settings. Selecting a [Large Language Model](https://en.wikipedia.org/wiki/Large_language_model) is required. If you want to use one of OpenAI's models, you will also need to [set up and pay for an API key](https://blog.streamlit.io/beginners-guide-to-openai-api/). You can use Google's Gemini for free, but still need to [set up](https://ai.google.dev/gemini-api/docs/api-key) an API key. Note that different models may have different capabilties and also different usage costs.
 
-UnKenny allows you to 
+UnKenny allows you to contact any other endpoint that implements the OpenAI API. For these, you have to provide a suitable Base URL.
+
+> This ULR can in principle be `localhost`, but remember that the code is executed **locally**. Your players connecting to your Foundry instance via their browser can not contact any models you host on your server that way. You would need to expose your endpoint to the internet, and add an appropriate API key to the settings.
 
 The other parameters are set to reasonable defaults.
 
