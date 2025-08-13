@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { expectNoNotifications, findFirstMessageConcerning, getApiKey, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
+import { expectNoNotifications, findFirstMessageConcerning, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
 import { getAvailableModels } from './test-utils.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
@@ -55,6 +55,7 @@ describe('triggerResponse', function () {
     hostedModels.forEach(model => {
         testIfModelsEnabled('should generate a response from model ' + model + ' and trigger a chat message', async () => {
             game.settings.set("unkenny", "apiKey", getApiKey(model));
+            setBaseUrlIfLocal(model);
             await runTriggerResponse(model);
         });
     });
@@ -70,6 +71,7 @@ describe('triggerResponse', function () {
 async function runTriggerResponse(model) {
     const actor = new Actor("John Doe");
     game.settings.set("unkenny", "model", model);
+    setBaseUrlIfLocal(model);
     await actor.setFlag("unkenny", "alias", "jd");
     await actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";

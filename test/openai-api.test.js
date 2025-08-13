@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
+import { expectNoNotifications, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
 import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
 import { getAvailableModels } from './test-utils.js';
@@ -17,6 +17,7 @@ describe('getResponseFromOpenAI', function () {
         testIfModelsEnabled(model + ' returns a somewhat expected response', async () => {
             const actor = new Actor('Bob');
             await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
+            setBaseUrlIfLocal(model);
             const parameters = {
                 model: model,
                 apiKey: getApiKey(model),

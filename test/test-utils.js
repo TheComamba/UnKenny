@@ -32,7 +32,13 @@ function testIfModelsEnabled(name, fn) {
 
 function setupLocalModels() {
     game.settings.set('unkenny', 'customModel', 'llama3.2');
-    game.settings.set('unkenny', 'baseUrl', 'http://127.0.0.1:11434/v1');
+}
+
+function setBaseUrlIfLocal(model) {
+    let modelType = getModelType(model);
+    if (modelType === 'custom') {
+        game.settings.set('unkenny', 'baseUrl', 'http://127.0.0.1:11434/v1');
+    }
 }
 
 function getAvailableModels() {
@@ -107,6 +113,7 @@ export {
     getApiKey,
     getAvailableModels,
     setupLocalModels,
+    setBaseUrlIfLocal,
     testIfModelsEnabled,
     waitFor,
     waitForMessagesToBePosted

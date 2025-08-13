@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { expectNoNotifications, getApiKey, setupLocalModels, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
+import { expectNoNotifications, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
 import { getAvailableModels } from './test-utils.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -71,6 +71,7 @@ describe('Integration test', function () {
   hostedModels.forEach(model => {
     testIfModelsEnabled('should be possible to post a message and get a response from model ' + model, async () => {
       game.settings.set("unkenny", "apiKey", getApiKey(model));
+      setBaseUrlIfLocal(model);
       await postMessageAndCheckReply(model);
     });
 
@@ -78,6 +79,7 @@ describe('Integration test', function () {
       game.settings.set("unkenny", "prefix", "whisper");
       game.user.name = 'Alice';
       game.settings.set("unkenny", "apiKey", getApiKey(model));
+      setBaseUrlIfLocal(model);
       const reply = await postMessageAndCheckReply(model);
       expect(reply).to.include('/whisper Alice');
     });
