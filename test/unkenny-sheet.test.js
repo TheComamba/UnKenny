@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { UnKennySheet } from "../src/apps/unkenny-sheet.js";
 import fs from 'fs';
 import Handlebars from 'handlebars';
-import { getHostedModels } from '../src/scripts/models.js';
+import { getAvailableModels } from './test-utils.js';
 import mockReset from '../__mocks__/main.js';
 
 describe('UnKennySheet', function () {
@@ -57,7 +57,7 @@ describe('UnKennySheet', function () {
     it('should display data for an existing actor', async () => {
         await actor.setFlag("unkenny", "alias", "test alias");
         await actor.setFlag("unkenny", "preamble", "test preamble");
-        await actor.setFlag("unkenny", "model", getHostedModels()[0]);
+        await actor.setFlag("unkenny", "model", getAvailableModels()[0]);
         await actor.setFlag("unkenny", "minNewTokens", 1);
         await actor.setFlag("unkenny", "maxNewTokens", 10);
         await actor.setFlag("unkenny", "repetitionPenalty", 1.0);
@@ -68,7 +68,7 @@ describe('UnKennySheet', function () {
         expect(context.alias).to.equal("test alias");
         expect(context.preamble).to.equal("test preamble");
         for (const model of context.models) {
-            if (model.model == getHostedModels()[0]) {
+            if (model.model == getAvailableModels()[0]) {
                 expect(model.isSelected).to.be.true;
             } else {
                 expect(model.isSelected).to.be.false;
@@ -88,8 +88,8 @@ describe('UnKennySheet', function () {
     });
 
     it('should set the context model when the model changes', async () => {
-        const oldModel = getHostedModels()[0];
-        const newModel = getHostedModels()[1];
+        const oldModel = getAvailableModels()[0];
+        const newModel = getAvailableModels()[1];
         await actor.setFlag("unkenny", "model", oldModel);
         const context = await sheet.getData();
 
@@ -109,7 +109,7 @@ describe('UnKennySheet', function () {
         const formData = {
             alias: "test alias",
             preamble: "test preamble",
-            model: getHostedModels()[0],
+            model: getAvailableModels()[0],
             minNewTokens: 1,
             maxNewTokens: 10,
             repetitionPenalty: 1.0,
@@ -121,7 +121,7 @@ describe('UnKennySheet', function () {
 
         expect(await actor.getFlag("unkenny", "alias")).to.equal("test alias");
         expect(await actor.getFlag("unkenny", "preamble")).to.equal("test preamble");
-        expect(await actor.getFlag("unkenny", "model")).to.equal(getHostedModels()[0]);
+        expect(await actor.getFlag("unkenny", "model")).to.equal(getAvailableModels()[0]);
         expect(await actor.getFlag("unkenny", "minNewTokens")).to.equal(1);
         expect(await actor.getFlag("unkenny", "maxNewTokens")).to.equal(10);
         expect(await actor.getFlag("unkenny", "repetitionPenalty")).to.equal(1.0);

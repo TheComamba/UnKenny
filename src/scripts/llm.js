@@ -40,7 +40,7 @@ async function getGenerationParameters(actor) {
 }
 
 async function generateResponse(actor, input, parameters) {
-    const messages = await collectChatMessages(actor, input, parameters.maxNewTokens);
+    const messages = await collectChatMessages(actor, input);
     const response = await getResponseFromOpenAI(parameters, messages);
     if (!response) {
         return;
@@ -49,4 +49,4 @@ async function generateResponse(actor, input, parameters) {
     return response;
 }
 
-export { generateResponse, getGenerationParameters };
+export { generateResponse, getGenerationParameter, getGenerationParameters };

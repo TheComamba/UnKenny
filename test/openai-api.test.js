@@ -1,51 +1,32 @@
 import { expect } from 'chai';
-import { expectNoNotifications, testIfOpenAi } from './test-utils.js';
+import { expectNoNotifications, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
 import { messagesOrganisedForTemplate } from '../src/scripts/collecting-chat-messages.js';
-import { getResponseFromOpenAI, roughNumberOfTokensForOpenAi } from '../src/scripts/openai-api.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { getResponseFromOpenAI } from '../src/scripts/openai-api.js';
+import { getAvailableModels } from './test-utils.js';
 import mockReset from '../__mocks__/main.js';
-
-describe('roughNumberOfTokensForOpenAi', function () {
-    beforeEach(() => {
-        mockReset();
-    });
-
-    it('returns a somewhat expected number', async () => {
-        const text = 'Your name is Bob. You are the architect of your own destiny. And scissors. For some reason you construct scissors.';
-        const actor = new Actor('Bob');
-        await actor.setFlag('unkenny', 'preamble', text);
-        const prompt = text;
-        const messages = await messagesOrganisedForTemplate(actor, [], prompt);
-
-        const minExpectedNumber = text.split(' ').length; // One token per word
-        const maxExpectedNumber = text.length; // One token per character
-        const number = roughNumberOfTokensForOpenAi(messages);
-
-        expect(number).to.be.greaterThanOrEqual(minExpectedNumber);
-        expect(number).to.be.lessThanOrEqual(maxExpectedNumber);
-    });
-});
 
 describe('getResponseFromOpenAI', function () {
     beforeEach(() => {
         mockReset();
+        setupLocalModels();
     });
 
-    const hostedModels = getHostedModels();
+    const hostedModels = getAvailableModels();
 
     hostedModels.forEach(model => {
-        testIfOpenAi(model + ' returns a somewhat expected response', async () => {
+        testIfModelsEnabled(model + ' returns a somewhat expected response', async () => {
             const actor = new Actor('Bob');
             await actor.setFlag('unkenny', 'preamble', 'Your name is Bob.');
+            setBaseUrlIfLocal(model);
             const parameters = {
                 model: model,
-                openaiApiKey: process.env.OPENAI_API_KEY,
-                googleApiKey: process.env.GOOGLE_API_KEY,
+                apiKey: getApiKey(model),
                 actorName: actor.name,
                 minNewTokens: 8,
                 maxNewTokens: 128,
                 repetitionPenalty: 0.0,
                 temperature: 0.0,
+                baseUrl: game.settings.get('unkenny', 'baseUrl')
             };
             const prompt = 'Repeat after me: "I am Bob."';
             const messages = await messagesOrganisedForTemplate(actor, [], prompt);

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { postResponse, processUnKennyResponse, replaceAlias, respond, triggerResponse, unkennyResponseFlag } from '../src/scripts/chat-message-response.js';
-import { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi } from './test-utils.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { expectNoNotifications, findFirstMessageConcerning, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled } from './test-utils.js';
+import { getAvailableModels } from './test-utils.js';
 import { overwriteChatMessage } from '../src/scripts/collecting-chat-messages.js';
 import mockReset from '../__mocks__/main.js';
 import Hooks from '../__mocks__/hooks.js';
@@ -48,14 +48,16 @@ describe('triggerResponse', function () {
         mockReset();
         setupHooks();
         Hooks.call('init');
+        setupLocalModels();
     });
 
-    testIfOpenAi('should generate a response from an OpenAI model and trigger a chat message', async () => {
-        game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
-        game.settings.set("unkenny", "googleApiKey", process.env.GOOGLE_API_KEY);
-        const hostedModels = getHostedModels();
-        const model = hostedModels[0];
-        await runTriggerResponse(model);
+    const hostedModels = getAvailableModels();
+    hostedModels.forEach(model => {
+        testIfModelsEnabled('should generate a response from model ' + model + ' and trigger a chat message', async () => {
+            game.settings.set("unkenny", "apiKey", getApiKey(model));
+            setBaseUrlIfLocal(model);
+            await runTriggerResponse(model);
+        });
     });
 
     it('should generate an error message if no response is generated', async () => {
@@ -69,6 +71,7 @@ describe('triggerResponse', function () {
 async function runTriggerResponse(model) {
     const actor = new Actor("John Doe");
     game.settings.set("unkenny", "model", model);
+    setBaseUrlIfLocal(model);
     await actor.setFlag("unkenny", "alias", "jd");
     await actor.setFlag("unkenny", "preamble", "Your name is John Doe.");
     const request = "What is your name, @jd?";

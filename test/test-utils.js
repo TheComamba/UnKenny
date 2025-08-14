@@ -1,3 +1,6 @@
+import game from '../__mocks__/game.js';
+import { getModelsByType, getModelType } from '../src/scripts/models.js';
+
 const oneMinute = 60 * 1000;
 
 function complainIfEnvVariableIsMissing(variableName) {
@@ -13,15 +16,58 @@ function complainIfEnvVariableIsMissing(variableName) {
     }
 }
 
-function testIfOpenAi(name, fn) {
-    const shouldRunOpenAiTests = process.env.RUN_OPENAI_TESTS === 'true';
-    if (shouldRunOpenAiTests) {
+function testIfModelsEnabled(name, fn) {
+    const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
+    const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
+    if (runsRemoteTests) {
         complainIfEnvVariableIsMissing('OPENAI_API_KEY');
         complainIfEnvVariableIsMissing('GOOGLE_API_KEY');
+        return it(name, fn).timeout(oneMinute);
+    } else if (runsLocalTests) {
         return it(name, fn).timeout(oneMinute);
     } else {
         return it.skip(name, fn);
     }
+}
+
+function setupLocalModels() {
+    game.settings.set('unkenny', 'customModel', 'llama3.2');
+}
+
+function setBaseUrlIfLocal(model) {
+    let modelType = getModelType(model);
+    if (modelType === 'custom') {
+        game.settings.set('unkenny', 'baseUrl', 'http://127.0.0.1:11434/v1');
+    }
+}
+
+function getAvailableModels() {
+    const runsRemoteTests = process.env.RUN_REMOTE_TESTS === 'true';
+    const runsLocalTests = process.env.RUN_LOCAL_TESTS === 'true';
+    let models = [];
+    if (runsRemoteTests) {
+        const openaiModels = getModelsByType('openai');
+        const googleModels = getModelsByType('google');
+        models = [...models, ...openaiModels, ...googleModels];
+    }
+    if (runsLocalTests) {
+        setupLocalModels();
+        const localModels = getModelsByType('custom');
+        models = [...models, ...localModels];
+    }
+    return models;
+}
+
+function getApiKey(model) {
+    const type = getModelType(model);
+    if (type === "openai") {
+        return process.env.OPENAI_API_KEY;
+    } else if (type === "google") {
+        return process.env.GOOGLE_API_KEY;
+    } else if (type === "custom") {
+        return "";
+    }
+    throw new Error("Unknown model: " + model);
 }
 
 function waitFor(conditionFunction) {
@@ -61,4 +107,14 @@ function expectNoNotifications() {
     }
 }
 
-export { expectNoNotifications, findFirstMessageConcerning, testIfOpenAi, waitFor, waitForMessagesToBePosted };
+export {
+    expectNoNotifications,
+    findFirstMessageConcerning,
+    getApiKey,
+    getAvailableModels,
+    setupLocalModels,
+    setBaseUrlIfLocal,
+    testIfModelsEnabled,
+    waitFor,
+    waitForMessagesToBePosted
+};

@@ -1,7 +1,5 @@
 import { findAdressedActor } from "./chat-message-request.js";
 import { processUnKennyResponse, triggerResponse } from "./chat-message-response.js";
-import { getTokenLimit } from "./models.js";
-import { roughNumberOfTokensForOpenAi } from "./openai-api.js";
 
 const CONVERSATION_FLAG = "conversationWith";
 
@@ -16,28 +14,6 @@ async function collectPreviousMessages(actor) {
 
 function sortMessages(messages) {
     return messages.sort((a, b) => a.timestamp - b.timestamp);
-}
-
-function shortenMessagesByOne(messages) {
-    for (let i = 0; i < messages.length - 2; i++) {
-        if (messages[i].role != 'system') {
-            messages.splice(i, 1);
-            return;
-        }
-    }
-
-    const errorMessage = game.i18n.localize('unkenny.chatMessage.preambleTooLong');
-    ui.notifications.error(errorMessage);
-    messages.length = 0;
-}
-
-async function truncateMessages(model, messages, newTokenLimit) {
-    const warningMessage = game.i18n.format("unkenny.chatMessage.truncatingMessage", { messageCount: messages.length - 1 });
-    const limit = getTokenLimit(model) - newTokenLimit;
-    const messageSize = roughNumberOfTokensForOpenAi(messages);
-    if (messageSize > limit) {
-        ui.notifications.warn(warningMessage);
-    }
 }
 
 async function messagesOrganisedForTemplate(actor, previousMessages, newMessageContent) {
@@ -71,11 +47,10 @@ async function messagesOrganisedForTemplate(actor, previousMessages, newMessageC
     return messages;
 }
 
-async function collectChatMessages(actor, newMessageContent, newTokenLimit) {
-    let previousMessages = await collectPreviousMessages(actor);
+async function collectChatMessages(actor, newMessageContent) {
+    const previousMessages = await collectPreviousMessages(actor);
     sortMessages(previousMessages);
-    let messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
-    truncateMessages(actor, messages, newTokenLimit);
+    const messages = await messagesOrganisedForTemplate(actor, previousMessages, newMessageContent);
     return messages;
 }
 
@@ -150,6 +125,5 @@ export {
     removeAllMessagesFromUnKennyConversation,
     removeMessageFromUnKennyConversation,
     smuggleConversationWithFlagIntoSource,
-    sortMessages,
-    truncateMessages
+    sortMessages
 };

@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import { expectNoNotifications, testIfOpenAi, waitForMessagesToBePosted } from './test-utils.js';
-import { getHostedModels } from '../src/scripts/models.js';
+import { expectNoNotifications, getApiKey, setBaseUrlIfLocal, setupLocalModels, testIfModelsEnabled, waitForMessagesToBePosted } from './test-utils.js';
+import { getAvailableModels } from './test-utils.js';
 import ChatMessage from '../__mocks__/chat-message.js';
 import Hooks from '../__mocks__/hooks.js';
 import { setupHooks } from '../src/scripts/main.js';
 import { llmParametersAndDefaults } from '../src/scripts/settings.js';
 import mockReset from '../__mocks__/main.js';
-import { PREFIX_OPTIONS } from '../src/scripts/prefix.js';
 import { CONVERSATION_FLAG } from '../src/scripts/collecting-chat-messages.js';
 
 describe('main.js', function () {
@@ -65,25 +64,25 @@ describe('Integration test', function () {
     setupHooks();
     Hooks.call('init');
     Hooks.call('setup');
+    setupLocalModels();
   });
 
-  testIfOpenAi('should be possible to post a message and get a response from an OpenAI model', async () => {
-    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
-    game.settings.set("unkenny", "googleApiKey", process.env.GOOGLE_API_KEY);
-    const hostedModels = getHostedModels();
-    const model = hostedModels[0];
-    await postMessageAndCheckReply(model);
-  });
+  const hostedModels = getAvailableModels();
+  hostedModels.forEach(model => {
+    testIfModelsEnabled('should be possible to post a message and get a response from model ' + model, async () => {
+      game.settings.set("unkenny", "apiKey", getApiKey(model));
+      setBaseUrlIfLocal(model);
+      await postMessageAndCheckReply(model);
+    });
 
-  testIfOpenAi('should whisper to user', async () => {
-    game.settings.set("unkenny", "openaiApiKey", process.env.OPENAI_API_KEY);
-    game.settings.set("unkenny", "googleApiKey", process.env.GOOGLE_API_KEY);
-    game.settings.set("unkenny", "prefix", "whisper");
-    game.user.name = 'Alice';
-    const hostedModels = getHostedModels();
-    const model = hostedModels[0];
-    const reply = await postMessageAndCheckReply(model);
-    expect(reply).to.include('/whisper Alice');
+    testIfModelsEnabled(model + ' should whisper to user', async () => {
+      game.settings.set("unkenny", "prefix", "whisper");
+      game.user.name = 'Alice';
+      game.settings.set("unkenny", "apiKey", getApiKey(model));
+      setBaseUrlIfLocal(model);
+      const reply = await postMessageAndCheckReply(model);
+      expect(reply).to.include('/whisper Alice');
+    });
   });
 });
 

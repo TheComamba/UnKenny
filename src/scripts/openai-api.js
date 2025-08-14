@@ -1,16 +1,6 @@
 import { loadExternalModule } from './shared.js';
 import { getModelType } from './models.js';
 
-function roughNumberOfTokensForOpenAi(messages) {
-    const charsPerToken = 4;
-    let chars = 0;
-    for (const message of messages) {
-        chars += message.role.length;
-        chars += message.content.length;
-    }
-    return chars / charsPerToken;
-}
-
 function getOpenAiApiParameters(generationParameters) {
     const model = generationParameters.model;
     if (!model) {
@@ -22,13 +12,14 @@ function getOpenAiApiParameters(generationParameters) {
     }
 
     let baseUrl;
-    let apiKey;
     if (modelType === 'openai') {
         baseUrl = 'https://api.openai.com/v1';
-        apiKey = generationParameters.openaiApiKey;
     } else if (modelType === 'google') {
         baseUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/';
-        apiKey = generationParameters.googleApiKey;
+    } else if (modelType === 'custom') {
+        if (!generationParameters.apiKey) {
+            generationParameters.apiKey = "Some arbitrary API key needs to be provided.";
+        }
     } else {
         return;
     }
@@ -37,9 +28,15 @@ function getOpenAiApiParameters(generationParameters) {
         baseUrl = generationParameters.baseUrl;
     }
 
+    if (!baseUrl) {
+        const errorMessage = game.i18n.localize("unkenny.llm.noUrl");
+        ui.notifications.error(errorMessage);
+        return;
+    }
+
     return {
         baseURL: baseUrl,
-        apiKey: apiKey,
+        apiKey: generationParameters.apiKey,
         dangerouslyAllowBrowser: true,
     };
 }
@@ -81,4 +78,4 @@ async function getResponseFromOpenAI(parameters, messages) {
     }
 }
 
-export { getResponseFromOpenAI, roughNumberOfTokensForOpenAi };
+export { getResponseFromOpenAI };
