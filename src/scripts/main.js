@@ -4,7 +4,7 @@ import { registerGameParameters } from "./settings.js";
 import { adjustHtml } from "./chat-message-rendering.js";
 import { confirmationDialog } from "../apps/confirmation-dialogue.js";
 
-// CONFIG.debug.hooks = true;
+CONFIG.debug.hooks = true;
 
 const UNKENNY_ICON = "fas fa-microchip";
 const REMOVE_FROM_CONVERSATION = '<i class="fas fa-comment-slash"></i>';
@@ -25,7 +25,7 @@ function setupHooks() {
     overwriteChatMessage();
   });
 
-  Hooks.on("getActorSheetHeaderButtons", function (sheet, buttons) {
+  Hooks.on("getActorSheetHeaderButtons", (sheet, buttons) => {
     const label = game.i18n.localize("unkenny.sheet.title");
     buttons.unshift({
       label: label,
@@ -35,6 +35,37 @@ function setupHooks() {
         new UnKennySheet(sheet.object).render(true);
       }
     })
+  });
+
+  function getActorSheetClass(sheet) {
+    let currentClass = sheet.constructor;
+    while (currentClass) {
+      const className = currentClass.name;
+      if (className === 'ActorSheetV2') {
+        return currentClass;
+      }
+      currentClass = Object.getPrototypeOf(currentClass);
+    }
+  }
+
+  // Special handling for the DnD5e system.
+  Hooks.on("getHeaderControlsCharacterActorSheet", (sheet, buttons) => {
+    let actorSheetClass = getActorSheetClass(sheet);
+
+    const label = game.i18n.localize("unkenny.sheet.title");
+    const actionName = "modifyUnkenniness";
+    actorSheetClass.modifyUnkenniness = () => {
+      new UnKennySheet(sheet.object).render(true);
+    };
+    buttons.unshift({
+      label: label,
+      icon: UNKENNY_ICON,
+      action: actionName
+    })
+
+    let options = actorSheetClass.DEFAULT_OPTIONS;
+    let actions = options.actions;
+    actions[actionName] = actorSheetClass.modifyUnkenniness;
   });
 
   Hooks.on('renderChatLog', (app, html, data) => {
