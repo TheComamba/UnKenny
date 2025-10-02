@@ -21,19 +21,19 @@
   "homepage": "https://github.com/TheComamba/UnKenny#readme",
   "devDependencies": {
     "c8": "^10.1",
-    "chai": "^5.1",
+    "chai": "^6.2",
     "cross-env": "^10.0",
     "dotenv": "^17.0",
     "globals": "^16.0",
     "i18next": "^25.0",
     "i18next-fs-backend": "^2.3",
-    "jsdom": "^26.0",
+    "jsdom": "^27.0",
     "mocha": "^11.0",
     "sinon": "^21.0"
   },
   "dependencies": {
     "handlebars": "^4.7",
     "jquery": "^3.7",
-    "openai": "^5.0"
+    "openai": "^6.0"
   }
 }
