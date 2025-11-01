@@ -34,6 +34,6 @@
   "dependencies": {
     "handlebars": "^4.7",
     "jquery": "^3.7",
-    "openai": "^6.0"
+    "openai": "^6.7"
   }
 }
