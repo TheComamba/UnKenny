@@ -1,5 +1,18 @@
 # UnKenny - NPCs with artificial intelligence
 
+> [!NOTE]
+> **Looking for contributors / maintainers**
+>
+> UnKenny is currently more or less unmaintained. The reason is that while I quite like this module, developing it really frustrates me. I am not a JavaScript developer, and, in all honesty, I don't desire to become one. Then there's the Foundry code, which requires very specific domain knowledge, and which changes faster than I can keep up with in my very limited spare time.
+>
+> I am looking for developers who actually enjoy working on Foundry modules, and who would like to every now and then take a look at UnKenny. I can make you a collaborator, or, if you prefer, I can transfer ownership of the repository to you.
+>
+> If the person I just described sounds like you, please open an issue.
+>
+> I wouldn't be gone entirely: I am very willing to talk you through the module, or to team up for some collaborative programming.
+>
+> All the best, Simon
+
 ## About
 
 UnKenny is a module for [Foundry Virtual Tabletop](https://foundryvtt.com/). It allows you to generate a tiny dialogue with a character, by providing them with a limited AI. The idea arose during our Starfinder game, because we wanted to simulate the interaction with a robotical NPC.
