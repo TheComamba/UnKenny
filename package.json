@@ -27,7 +27,7 @@
     "globals": "^16.0",
     "i18next": "^25.0",
     "i18next-fs-backend": "^2.3",
-    "jsdom": "^27.0",
+    "jsdom": "^27.4",
     "mocha": "^11.0",
     "sinon": "^21.0"
   },
