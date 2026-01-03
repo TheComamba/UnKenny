@@ -24,7 +24,7 @@
     "chai": "^6.2",
     "cross-env": "^10.0",
     "dotenv": "^17.0",
-    "globals": "^16.0",
+    "globals": "^17.0",
     "i18next": "^25.0",
     "i18next-fs-backend": "^2.3",
     "jsdom": "^27.0",
